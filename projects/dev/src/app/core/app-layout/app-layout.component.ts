@@ -38,7 +38,7 @@ import { getAppState, setAppState } from '../app-state';
 export class AppLayoutComponent {
     state = getAppState();
 
-    navItems = [{ name: 'Button', route: '/button' }];
+    navItems = [{ name: 'Button', route: '/components/button' }];
 
     /** List of possible global density scale values. */
     private _densityScales = [0, -1, -2, -3, -4, 'minimum', 'maximum'];

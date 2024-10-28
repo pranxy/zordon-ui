@@ -1,27 +1,53 @@
-# ZordonUi
+<h1 align="center">
+Zordon UI
+</h1>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
+## 📦 Installation
 
-## Development server
+**We recommend using `@angular/cli` to install**. It not only makes development easier, but also allows you to take advantage of the rich ecosystem of angular packages and tooling.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+$ ng new PROJECT_NAME
+$ cd PROJECT_NAME
+$ ng add @pranxy/zordon-ui
+```
 
-## Code scaffolding
+> More information about `@angular/cli` [here](https://github.com/angular/angular-cli).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+You can also install `@pranxy/zordon-ui` with npm or yarn
 
-## Build
+```bash
+$ npm install @pranxy/zordon-ui
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 🔨 Usage
 
-## Running unit tests
+Import the component into your feature component.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ts
+import { ZdButton } from '@pranxy/zordon-ui/button';
 
-## Running end-to-end tests
+@Component({
+    imports: [ZdButton],
+})
+export class AppComponent {}
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+> `@angular/cli` users won't have to worry about the things below but it's good to know.
 
-## Further help
+And import style and SVG icon assets file link in `angular.json`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```diff
+{
+  ],
+  "styles": [
++   "node_modules/@pranxy/zordon-ui/zordon-ui.min.css"
+  ]
+}
+```
+
+<!-- 
+## 🔗 TODO: Links 
+
+-   [Snippet extension for VSCode](https://marketplace.visualstudio.com/items?itemName=) -->
+
