@@ -5,8 +5,8 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
     selector: 'dev-button-demo',
     standalone: true,
     imports: [ZdButton],
-    template: `<p>button-demo works!</p>`,
-    styleUrl: './button-demo.component.scss',
+    templateUrl: 'button-demo.html',
+    styleUrl: './button-demo.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ButtonDemoComponent {}

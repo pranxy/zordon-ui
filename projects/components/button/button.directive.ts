@@ -20,9 +20,9 @@ export const ZD_BUTTON_CONFIG = new InjectionToken<ZdButtonConfig>('ZD_BUTTON_CO
         '[attr.disabled]': 'disabledAttribute()',
         '[attr.aria-disabled]': 'ariaDisabled()',
         '[class.zd-button-disabled]': 'disabled()',
-        '[class.zd-button-disabled-interactive]': 'disabledInteractive',
+        '[class.zd-button-disabled-interactive]': 'disabledInteractive()',
         '[attr.data-size]': 'size()',
-        '[class]': 'color ? "zd-" + color : ""',
+        '[class]': 'color ? "zd-" + color() : ""',
     },
     template: `
         @if (loading()) {
