@@ -1,0 +1,31 @@
+<!-- [attr.aria-checked]="indeterminate ? 'mixed' : null" -->
+<!-- [indeterminate]="indeterminate" -->
+<input
+    #input
+    type="checkbox"
+    class="zd-checkbox-input"
+    [class.zd-checkbox--selected]="checked()"
+    [attr.aria-label]="ariaLabel || null"
+    [attr.aria-labelledby]="ariaLabelledby()"
+    [attr.aria-describedby]="ariaDescribedby()"
+    [attr.aria-controls]="ariaControls()"
+    [attr.aria-disabled]="disabled() ? true : null"
+    [attr.aria-expanded]="ariaExpanded()"
+    [attr.aria-owns]="ariaOwns()"
+    [attr.name]="name()"
+    [attr.value]="value()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [id]="inputId()"
+    [required]="required()"
+    [tabIndex]="disabled() ? -1 : tabIndex()"
+    (blur)="onBlur()"
+    (click)="onInputClick()"
+    (change)="onInteractionEvent($event)"
+/>
+
+<ng-template #zdLabel>
+    <label class="zd-label" #label [for]="inputId()">
+        <ng-content />
+    </label>
+</ng-template>
