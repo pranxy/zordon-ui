@@ -9,4 +9,4 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
     styleUrl: './button-demo.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ButtonDemoComponent {}
+export default class ButtonDemo {}

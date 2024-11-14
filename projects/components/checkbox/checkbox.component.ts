@@ -138,7 +138,14 @@ export class ZdCheckbox implements ControlValueAccessor {
     }
 
     protected onInputClick() {
-        // this._handleInputClick();
+        this.handleInputClick();
+    }
+
+    protected handleInputClick() {
+        if (!this.disabled()) {
+            this.checked.set(!this.checked());
+            this._emitChangeEvent();
+        }
     }
 
     protected onBlur() {
@@ -169,5 +176,16 @@ export class ZdCheckbox implements ControlValueAccessor {
 
     setDisabledState?(isDisabled: boolean): void {
         this.disabled.set(isDisabled);
+    }
+
+    private _emitChangeEvent() {
+        this._controlValueAccessorChangeFn(this.checked());
+        // this.change.emit(this._createChangeEvent(this.checked));
+
+        // Assigning the value again here is redundant, but we have to do it in case it was
+        // changed inside the `change` listener which will cause the input to be out of sync.
+        if (this._inputElement()) {
+            this._inputElement()!.nativeElement.checked = this.checked();
+        }
     }
 }
