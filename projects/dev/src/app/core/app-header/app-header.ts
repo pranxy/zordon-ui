@@ -16,7 +16,7 @@ import { getAppState, setAppState } from '../app-state';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHeader {
-    open = output<FocusOrigin | undefined>();
+    toggleSidenav = output<FocusOrigin | undefined>();
 
     state = getAppState();
 
