@@ -4,8 +4,7 @@ import { AppLayoutComponent } from './core/app-layout/app-layout.component';
 
 @Component({
     selector: 'dev-root',
-    standalone: true,
     imports: [RouterOutlet, AppLayoutComponent],
-    templateUrl: './app.component.html',
+    templateUrl: './app.component.html'
 })
 export class AppComponent {}

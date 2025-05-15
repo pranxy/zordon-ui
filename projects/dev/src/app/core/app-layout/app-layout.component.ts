@@ -18,7 +18,6 @@ import { getAppState } from '../app-state';
 
 @Component({
     selector: 'dev-app-layout',
-    standalone: true,
     imports: [
         NgClass,
         MatButtonModule,
@@ -32,7 +31,7 @@ import { getAppState } from '../app-state';
     templateUrl: './app-layout.component.html',
     styleUrl: './app-layout.component.scss',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppLayoutComponent {
     sidenav = viewChild(MatSidenav);

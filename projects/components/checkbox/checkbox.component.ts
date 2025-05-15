@@ -19,7 +19,6 @@ let nextUniqueId = 0;
 
 @Component({
     selector: 'zd-checkbox',
-    standalone: true,
     imports: [],
     providers: [
         {
@@ -30,7 +29,7 @@ let nextUniqueId = 0;
     ],
     templateUrl: './checkbox.component.html',
     styleUrl: './checkbox.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ZdCheckbox implements ControlValueAccessor {
     private cdr = inject(ChangeDetectorRef);

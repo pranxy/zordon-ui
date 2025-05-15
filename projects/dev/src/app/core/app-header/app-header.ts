@@ -9,11 +9,10 @@ import { getAppState, setAppState } from '../app-state';
 
 @Component({
     selector: 'dev-app-header',
-    standalone: true,
     imports: [MatToolbar, MatTooltip, MatIcon, MatIconButton],
     templateUrl: 'app-header.html',
     styleUrl: './app-header.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppHeader {
     toggleSidenav = output<FocusOrigin | undefined>();

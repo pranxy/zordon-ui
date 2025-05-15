@@ -4,11 +4,10 @@ import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 
 @Component({
     selector: 'dev-checkbox-demo',
-    standalone: true,
     imports: [ZdCheckbox, FormsModule],
     templateUrl: 'checkbox-demo.html',
     styleUrl: './checkbox-demo.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class CheckboxDemo {
     checked = model(true);
