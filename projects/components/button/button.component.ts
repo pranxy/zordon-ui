@@ -15,6 +15,7 @@ export const ZD_BUTTON_CONFIG = new InjectionToken<ZdButtonConfig>('ZD_BUTTON_CO
 
 @Component({
     selector: 'button[zdButton], a[zdButton]',
+    standalone: true,
     exportAs: 'zdButton',
     host: {
         '[attr.disabled]': 'disabledAttribute()',
@@ -35,7 +36,7 @@ export const ZD_BUTTON_CONFIG = new InjectionToken<ZdButtonConfig>('ZD_BUTTON_CO
 
         <ng-content select="zd-icon([zdIconAfter]), [zdButtonIcon][zdIconAfter]" />
     `,
-    standalone: true,
+    styleUrl: './button.component.scss',
 })
 export class ZdButton {
     private config = inject(ZD_BUTTON_CONFIG, { optional: true });
