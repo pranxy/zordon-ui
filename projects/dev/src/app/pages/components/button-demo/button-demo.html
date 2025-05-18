@@ -1,1 +1,205 @@
-<button zdButton>hello</button>
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-8">Daisy UI Button Directive Demo</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Configuration Panel -->
+        <div class="bg-base-100 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Button Configuration</h2>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Color</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="color">
+                    @for (color of colors; track color) {
+                    <option [value]="color">{{ color }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Size</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="size">
+                    @for (size of sizes; track size) {
+                    <option [value]="size">{{ size }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Style</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="style">
+                    @for (style of styles; track style) {
+                    <option [value]="style">{{ style }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Shape</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="shape">
+                    <option value="">None</option>
+                    <option value="square">Square</option>
+                    <option value="circle">Circle</option>
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Width</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="width">
+                    <option value="">Default</option>
+                    <option value="wide">Wide</option>
+                    <option value="block">Block</option>
+                </select>
+            </div>
+
+            <div class="form-control mb-4">
+                <label class="label">
+                    <span class="label-text">Animation</span>
+                </label>
+                <select class="select select-bordered w-full" [(ngModel)]="animation">
+                    @for (animation of animations; track animation) {
+                    <option [value]="animation">{{ animation }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="flex flex-wrap gap-3 mb-4">
+                <div class="form-control">
+                    <label class="cursor-pointer label">
+                        <span class="label-text mr-2">Loading</span>
+                        <input
+                            type="checkbox"
+                            class="toggle toggle-primary"
+                            [(ngModel)]="loading"
+                        />
+                    </label>
+                </div>
+
+                <div class="form-control">
+                    <label class="cursor-pointer label">
+                        <span class="label-text mr-2">Disabled</span>
+                        <input
+                            type="checkbox"
+                            class="toggle toggle-primary"
+                            [(ngModel)]="disabled"
+                        />
+                    </label>
+                </div>
+
+                <div class="form-control">
+                    <label class="cursor-pointer label">
+                        <span class="label-text mr-2">Glass</span>
+                        <input type="checkbox" class="toggle toggle-primary" [(ngModel)]="glass" />
+                    </label>
+                </div>
+
+                <div class="form-control">
+                    <label class="cursor-pointer label">
+                        <span class="label-text mr-2">No Animation</span>
+                        <input
+                            type="checkbox"
+                            class="toggle toggle-primary"
+                            [(ngModel)]="noAnimation"
+                        />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Panel -->
+        <div class="bg-base-100 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Preview</h2>
+
+            <div
+                class="flex flex-col items-center justify-center p-8 bg-base-200 rounded-lg min-h-[250px]"
+            >
+                <button
+                    zButton
+                    [color]="color()"
+                    [size]="size()"
+                    [style]="style()"
+                    [shape]="shape()"
+                    [width]="width()"
+                    [animation]="animation()"
+                    [loading]="loading()"
+                    [disabled]="disabled()"
+                    [glass]="glass()"
+                    [noAnimation]="noAnimation()"
+                    class="mb-4"
+                >
+                    {{ buttonText() }}
+                </button>
+
+                <div class="form-control w-full max-w-xs mt-4">
+                    <label class="label">
+                        <span class="label-text">Button Text</span>
+                    </label>
+                    <input
+                        type="text"
+                        class="input input-bordered w-full max-w-xs"
+                        [ngModel]="buttonText()"
+                        (ngModelChange)="buttonText.set($event)"
+                    />
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-base-300 rounded-lg">
+                <h3 class="text-lg font-semibold mb-2">Usage Code:</h3>
+                <pre class="bg-base-100 p-4 rounded text-sm overflow-x-auto"><code>&lt;button
+zButton
+color="color()"
+size="{{ size() }}"
+style="{{ style() }}"
+{{ shape() ? 'shape="' + shape + '"' : '' }}
+{{ width() ? 'width="' + width + '"' : '' }}
+animation="{{ animation() }}"
+{{ loading() ? '[loading]="true"' : '' }}
+{{ disabled() ? '[disabled]="true"' : '' }}
+{{ glass() ? '[glass]="true"' : '' }}
+{{ noAnimation() ? '[noAnimation]="true"' : '' }}
+&gt;
+{{ buttonText() }}
+&lt;/button&gt;</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Showcase -->
+    <div class="mt-12 bg-base-100 p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Color Showcase</h2>
+        <div class="flex flex-wrap gap-2">
+            @for (color of colors; track color) {
+            <button zButton [color]="color">{{ color }}</button>
+            }
+        </div>
+    </div>
+
+    <!-- Size Showcase -->
+    <div class="mt-6 bg-base-100 p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Size Showcase</h2>
+        <div class="flex flex-wrap items-center gap-2">
+            @for (size of sizes; track size) {
+            <button zButton [size]="size">{{ size }}</button>
+            }
+        </div>
+    </div>
+
+    <!-- Style Showcase -->
+    <!-- <div class="mt-6 bg-base-100 p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Style Showcase</h2>
+        <div class="flex flex-wrap gap-2">
+            @for (style of styles; track style) {
+            <button zButton [style]="style">{{ style }}</button>
+            }
+        </div>
+    </div> -->
+</div>

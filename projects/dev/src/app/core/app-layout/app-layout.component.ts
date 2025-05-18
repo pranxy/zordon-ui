@@ -31,7 +31,7 @@ import { getAppState } from '../app-state';
     templateUrl: './app-layout.component.html',
     styleUrl: './app-layout.component.scss',
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppLayoutComponent {
     sidenav = viewChild(MatSidenav);
