@@ -1,29 +1,69 @@
 import {
-    booleanAttribute,
     Component,
-    computed,
+    ElementRef,
+    Renderer2,
+    ViewEncapsulation,
+    effect,
     inject,
-    InjectionToken,
     input,
-    InputSignalWithTransform,
-    Signal,
 } from '@angular/core';
-import { ZdButtonColor, ZdButtonConfig, ZdButtonSize, ZdButtonVariant } from './button.model';
 
-/** Injection token that can be used to provide the default options the button component. */
-export const ZD_BUTTON_CONFIG = new InjectionToken<ZdButtonConfig>('ZD_BUTTON_CONFIG');
+// Define types for better type checking
+export type ButtonColor =
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'neutral';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonStyle = 'default' | 'outline' | 'ghost' | 'link';
+export type ButtonShape = 'square' | 'circle';
+export type ButtonWidth = 'wide' | 'block';
+export type ButtonAnimation = 'none' | 'pulse';
+
+const BUTTON_COLOR: Record<ButtonColor, string> = {
+    primary: 'btn-primary',
+    secondary: 'btn-secondary',
+    accent: 'btn-accent',
+    info: 'btn-info',
+    success: 'btn-success',
+    warning: 'btn-warning',
+    error: 'btn-error',
+    neutral: 'btn-neutral',
+};
+
+const BUTTON_SIZE: Record<ButtonSize, string> = {
+    xs: 'btn-xs',
+    sm: 'btn-sm',
+    md: 'btn-md',
+    lg: 'btn-lg',
+};
+
+const BUTTON_SHAPE: Record<ButtonShape, string> = {
+    square: 'btn-square',
+    circle: 'btn-circle',
+};
+
+const BUTTON_WIDTH: Record<ButtonWidth, string> = {
+    wide: 'btn-wide',
+    block: 'btn-block',
+};
+
+// You might also consider a constant for animation if you plan to
+// manage animation classes similarly.
+const BUTTON_ANIMATION: Record<ButtonAnimation, string> = {
+    none: '', // Or a class to explicitly remove animation if needed
+    pulse: 'btn-pulse', // Replace with the actual class name
+};
 
 @Component({
-    selector: 'button[zdButton], a[zdButton]',
+    selector: '[zButton]',
     standalone: true,
-    exportAs: 'zdButton',
     host: {
-        '[attr.disabled]': 'disabledAttribute()',
-        '[attr.aria-disabled]': 'ariaDisabled()',
-        '[class.zd-button-disabled]': 'disabled()',
-        '[class.zd-button-disabled-interactive]': 'disabledInteractive()',
-        '[attr.data-size]': 'size()',
-        '[class]': 'color ? "zd-" + color() : ""',
+        class: 'btn',
     },
     template: `
         @if (loading()) {
@@ -36,40 +76,99 @@ export const ZD_BUTTON_CONFIG = new InjectionToken<ZdButtonConfig>('ZD_BUTTON_CO
 
         <ng-content select="zd-icon([zdIconAfter]), [zdButtonIcon][zdIconAfter]" />
     `,
-    styleUrl: './button.component.scss',
+    encapsulation: ViewEncapsulation.None,
 })
-export class ZdButton {
-    private config = inject(ZD_BUTTON_CONFIG, { optional: true });
+export class ButtonDirective {
+    private renderer = inject(Renderer2);
+    private el = inject(ElementRef);
 
-    color = input<ZdButtonColor>(this?.config?.color ?? 'default');
+    color = input<ButtonColor>('primary');
 
-    variant = input<ZdButtonVariant>(this?.config?.variant ?? 'text');
+    size = input<ButtonSize>('md');
 
-    size = input<ZdButtonSize>();
+    style = input<ButtonStyle>('default');
 
-    loading: InputSignalWithTransform<boolean, unknown> = input(false, {
-        transform: booleanAttribute,
+    shape = input<ButtonShape | null>(null);
+
+    width = input<ButtonWidth | null>(null);
+
+    animation = input<ButtonAnimation>('none');
+
+    loading = input<boolean>(false);
+
+    disabled = input<boolean>(false);
+
+    glass = input<boolean>(false);
+
+    noAnimation = input<boolean>(false);
+
+    appliedClasses = new Map();
+
+    private colorEft = effect(() => {
+        const color = this.color();
+        this.#updateItemClass('color', BUTTON_COLOR[color]);
     });
 
-    disabled: InputSignalWithTransform<boolean, unknown> = input(false, {
-        transform: booleanAttribute,
+    private sizeEft = effect(() => {
+        const size = this.size();
+        this.#updateItemClass('size', BUTTON_SIZE[size]);
     });
 
-    disabledInteractive: InputSignalWithTransform<boolean, unknown> = input(false, {
-        transform: booleanAttribute,
+    private shapeEft = effect(() => {
+        const shape = this.shape();
+        // Handle null case: remove the class if shape is null
+        if (!shape) {
+            this.#removeItemClass('shape');
+        } else {
+            this.#updateItemClass('shape', BUTTON_SHAPE[shape]);
+        }
     });
 
-    disabledAttribute: Signal<true | null> = computed(() =>
-        this.disabledInteractive() || !this.disabled() ? null : true
-    );
-
-    ariaDisabled: Signal<true | null> = computed(() => {
-        // if (this.ariaDisabled != null) {
-        //     return this.ariaDisabled;
-        // }
-
-        return this.disabled() && this.disabledInteractive() ? true : null;
+    private widthEft = effect(() => {
+        const width = this.width();
+        // Handle null case: remove the class if width is null
+        if (!width) {
+            this.#removeItemClass('width');
+        } else {
+            this.#updateItemClass('width', BUTTON_WIDTH[width]);
+        }
     });
 
-    constructor() {}
+    private animationEft = effect(() => {
+        const animation = this.animation();
+        // Handle 'none' case or if you have other animation types
+        if (animation === 'none') {
+            this.#removeItemClass('animation');
+        } else {
+            // Ensure you have a class for your pulse animation
+            this.#updateItemClass('animation', BUTTON_ANIMATION[animation]);
+        }
+    });
+
+    #updateItemClass(key: string, newValue: string) {
+        const currentClass = this.#getFromKey(key);
+
+        if (currentClass) {
+            this.renderer.removeClass(this.el.nativeElement, currentClass);
+        }
+
+        this.#setValue(key, newValue);
+        this.renderer.addClass(this.el.nativeElement, newValue);
+    }
+
+    #removeItemClass(key: string) {
+        const currentClass = this.#getFromKey(key);
+        if (currentClass) {
+            this.renderer.removeClass(this.el.nativeElement, currentClass);
+            this.appliedClasses.delete(key); // Remove the key from the map
+        }
+    }
+
+    #getFromKey(key: string): string | undefined {
+        return this.appliedClasses.get(key);
+    }
+
+    #setValue(key: string, value: string) {
+        this.appliedClasses.set(key, value);
+    }
 }

@@ -8,7 +8,7 @@ import {
     ButtonSize,
     ButtonStyle,
     ButtonWidth,
-} from '@pranxy/zordon-ui/button/btn';
+} from '@pranxy/zordon-ui/button';
 
 @Component({
     selector: 'dev-button-demo',

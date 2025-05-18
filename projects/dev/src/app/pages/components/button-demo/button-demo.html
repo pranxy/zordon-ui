@@ -27,7 +27,6 @@
                     }
                 </select>
             </div>
-
             <div class="form-control mb-4">
                 <label class="label">
                     <span class="label-text">Style</span>
@@ -155,25 +154,24 @@
             <div class="mt-8 p-4 bg-base-300 rounded-lg">
                 <h3 class="text-lg font-semibold mb-2">Usage Code:</h3>
                 <pre class="bg-base-100 p-4 rounded text-sm overflow-x-auto"><code>&lt;button
-zButton
-color="color()"
-size="{{ size() }}"
-style="{{ style() }}"
-{{ shape() ? 'shape="' + shape + '"' : '' }}
-{{ width() ? 'width="' + width + '"' : '' }}
-animation="{{ animation() }}"
-{{ loading() ? '[loading]="true"' : '' }}
-{{ disabled() ? '[disabled]="true"' : '' }}
-{{ glass() ? '[glass]="true"' : '' }}
-{{ noAnimation() ? '[noAnimation]="true"' : '' }}
-&gt;
-{{ buttonText() }}
-&lt;/button&gt;</code></pre>
+    zButton
+    color="color()"
+    size="{{ size() }}"
+    style="{{ style() }}"
+    {{ shape() ? 'shape="' + shape() + '"' : '' }}
+    {{ width() ? 'width="' + width() + '"' : '' }}
+    animation="{{ animation() }}"
+    {{ loading() ? '[loading]="true"' : '' }}
+    {{ disabled() ? '[disabled]="true"' : '' }}
+    {{ glass() ? '[glass]="true"' : '' }}
+    {{ noAnimation() ? '[noAnimation]="true"' : '' }}
+    &gt;
+    {{ buttonText() }}
+    &lt;/button&gt;</code></pre>
             </div>
         </div>
     </div>
 
-    <!-- Color Showcase -->
     <div class="mt-12 bg-base-100 p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Color Showcase</h2>
         <div class="flex flex-wrap gap-2">
@@ -183,7 +181,6 @@ animation="{{ animation() }}"
         </div>
     </div>
 
-    <!-- Size Showcase -->
     <div class="mt-6 bg-base-100 p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Size Showcase</h2>
         <div class="flex flex-wrap items-center gap-2">
@@ -193,13 +190,12 @@ animation="{{ animation() }}"
         </div>
     </div>
 
-    <!-- Style Showcase -->
-    <!-- <div class="mt-6 bg-base-100 p-6 rounded-lg shadow-md">
+    <div class="mt-6 bg-base-100 p-6 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4">Style Showcase</h2>
         <div class="flex flex-wrap gap-2">
             @for (style of styles; track style) {
             <button zButton [style]="style">{{ style }}</button>
             }
         </div>
-    </div> -->
+    </div>
 </div>
