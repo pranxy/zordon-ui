@@ -6,6 +6,10 @@ const COMPONENTS_ROUTES: Routes = [
         loadComponent: () => import('./button-demo/button-demo'),
     },
     {
+        path: 'modal',
+        loadComponent: () => import('./modal-demo/modal-demo.component'),
+    },
+    {
         path: 'checkbox',
         loadComponent: () => import('./checkbox-demo/checkbox-demo'),
     },

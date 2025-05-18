@@ -40,8 +40,9 @@ export class AppLayoutComponent {
 
     navItems = [
         { name: 'Button', route: '/components/button' },
-        { name: 'Checkbox', route: '/components/checkbox' },
-        { name: 'Radio', route: '/components/radio' },
+        { name: 'Modal', route: '/components/modal' },
+        // { name: 'Checkbox', route: '/components/checkbox' },
+        // { name: 'Radio', route: '/components/radio' },
     ];
 
     opened = signal<boolean>(true);
