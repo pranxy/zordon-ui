@@ -61,7 +61,10 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/dev",
+            "outputPath": {
+                "base": "dist/dev",
+                "browser": ""
+            },
             "index": "projects/dev/src/index.html",
             "browser": "projects/dev/src/main.ts",
             "polyfills": [
