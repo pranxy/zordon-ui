@@ -3,7 +3,7 @@ import {
     ZdButtonColor,
     ZdButtonShape,
     ZdButtonSize,
-    ZdButtonStyle,
+    ZdButtonType,
     ZdButtonWidth,
 } from './button.model';
 
@@ -35,7 +35,7 @@ export const BUTTON_WIDTH: Record<ZdButtonWidth, string> = {
     block: 'btn-block',
 };
 
-export const BUTTON_STYLE: Record<Exclude<ZdButtonStyle, 'default'>, string> = {
+export const BUTTON_STYLE: Record<Exclude<ZdButtonType, 'default'>, string> = {
     outline: 'btn-outline',
     dash: 'btn-dash',
     soft: 'btn-soft',

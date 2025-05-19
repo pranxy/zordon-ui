@@ -5,7 +5,7 @@ import {
     ZdButtonColor,
     ZdButtonShape,
     ZdButtonSize,
-    ZdButtonStyle,
+    ZdButtonType,
     ZdButtonWidth,
 } from './button.model';
 import {
@@ -41,7 +41,7 @@ export class ButtonDirective extends ZdBaseClassHander {
 
     size = input<ZdButtonSize>('md');
 
-    style = input<ZdButtonStyle>('default');
+    type = input<ZdButtonType>('default');
 
     shape = input<ZdButtonShape | null>(null);
 
@@ -87,13 +87,13 @@ export class ButtonDirective extends ZdBaseClassHander {
         }
     });
 
-    private styleEft = effect(() => {
-        const style = this.style();
+    private typeEft = effect(() => {
+        const type = this.type();
         // Handle null case: remove the class if width is null
-        if (!style || style === 'default') {
-            this.removeItemClass('style');
+        if (!type || type === 'default') {
+            this.removeItemClass('type');
         } else {
-            this.updateItemClass('style', BUTTON_STYLE[style]);
+            this.updateItemClass('type', BUTTON_STYLE[type]);
         }
     });
 

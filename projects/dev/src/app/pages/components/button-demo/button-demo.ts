@@ -6,7 +6,7 @@ import {
     ZdButtonColor,
     ZdButtonShape,
     ZdButtonSize,
-    ZdButtonStyle,
+    ZdButtonType,
     ZdButtonWidth,
 } from '@pranxy/zordon-ui/button';
 
@@ -36,7 +36,7 @@ export default class ButtonDemo {
     sizes: ZdButtonSize[] = ['xs', 'sm', 'md', 'lg'];
 
     // Style options
-    styles: ZdButtonStyle[] = ['default', 'outline', 'ghost', 'link'];
+    styles: ZdButtonType[] = ['default', 'outline', 'ghost', 'link'];
 
     // Animation options
     animations: ZdButtonAnimation[] = ['none', 'pulse'];
@@ -44,7 +44,7 @@ export default class ButtonDemo {
     // Button configuration signal
     color = model<ZdButtonColor>('primary');
     size = model<ZdButtonSize>('md');
-    style = model<ZdButtonStyle>('default');
+    style = model<ZdButtonType>('default');
     shape = model<ZdButtonShape | null>(null);
     width = model<ZdButtonWidth | null>(null);
     animation = model<ZdButtonAnimation>('none');

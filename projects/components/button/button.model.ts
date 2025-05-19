@@ -10,7 +10,7 @@ export type ZdButtonColor =
 
 export type ZdButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
-export type ZdButtonStyle = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
+export type ZdButtonType = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 
 export type ZdButtonShape = 'square' | 'circle';
 
