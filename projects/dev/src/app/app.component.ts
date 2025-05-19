@@ -1,10 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AppLayoutComponent } from './core/app-layout/app-layout.component';
+import { ThemeService } from './services';
+import { FooterComponent, NavbarComponent, SidebarComponent } from './ui';
 
 @Component({
     selector: 'dev-root',
-    imports: [RouterOutlet, AppLayoutComponent],
-    templateUrl: './app.component.html'
+    imports: [RouterOutlet, NavbarComponent, FooterComponent, SidebarComponent],
+    templateUrl: './app.component.html',
 })
-export class AppComponent {}
+export class AppComponent {
+    themeService = inject(ThemeService);
+
+    constructor() {
+        effect(() => {
+            document.documentElement.setAttribute('data-theme', this.themeService.currentTheme());
+        });
+    }
+}

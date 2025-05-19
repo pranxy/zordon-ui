@@ -1,0 +1,16 @@
+<div class="component-card mb-8">
+    <div class="component-card-body">
+        <h3 class="text-lg font-bold mb-2">{{ title() }}</h3>
+        @if (description()) {
+        <p class="mb-4">{{ description() }}</p>
+        }
+
+        <div class="component-example">
+            <ng-content></ng-content>
+        </div>
+
+        @if (codeSnippet()) {
+        <dev-code-snippet [code]="codeSnippet()" [language]="language()" />
+        }
+    </div>
+</div>

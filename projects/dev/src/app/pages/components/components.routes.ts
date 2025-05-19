@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 const COMPONENTS_ROUTES: Routes = [
     {
+        path: '',
+        redirectTo: 'button',
+        pathMatch: 'full',
+    },
+    {
         path: 'button',
         loadComponent: () => import('./button-demo/button-demo'),
     },
@@ -14,8 +19,8 @@ const COMPONENTS_ROUTES: Routes = [
         loadComponent: () => import('./modal-demo/modal-demo.component'),
     },
     {
-        path: 'checkbox',
-        loadComponent: () => import('./checkbox-demo/checkbox-demo'),
+        path: 'alert',
+        loadComponent: () => import('./alert-demo/alert-demo.component'),
     },
     {
         path: 'radio',

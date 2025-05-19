@@ -1,0 +1,46 @@
+<div class="hero min-h-[70vh] bg-base-200 rounded-box animate-fade-in">
+    <div class="hero-content text-center">
+        <div class="max-w-md">
+            <h1 class="text-5xl font-bold">Zordon UI</h1>
+            <p class="py-6">
+                A powerful component library built on Angular CDK, daisyUI, and TailwindCSS. Crafted
+                for developers who demand both beauty and functionality.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a routerLink="/components/button" class="btn btn-primary">View Components</a>
+                <a
+                    href="https://github.com/pranxy/zordon-ui"
+                    target="_blank"
+                    class="btn btn-outline"
+                >
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-12">
+    @for (feature of features; track feature.title) {
+    <div class="card bg-base-200 shadow-sm hover:shadow-md transition-all">
+        <div class="card-body">
+            <h2 class="card-title">{{ feature.title }}</h2>
+            <p>{{ feature.description }}</p>
+            <div class="card-actions justify-end">
+                <a [routerLink]="feature.link" class="btn btn-sm btn-ghost">Learn More</a>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<div class="my-12 text-center">
+    <h2 class="text-2xl font-bold mb-4">Power Up Your Angular Apps</h2>
+    <p class="max-w-2xl mx-auto mb-6">
+        Zordon UI combines the power of Angular CDK's accessibility and functionality with the
+        beauty of daisyUI and the flexibility of TailwindCSS v4.
+    </p>
+    <div class="mockup-code max-w-2xl mx-auto">
+        <pre><code>npm install &#64;pranxy/zordon-ui</code></pre>
+    </div>
+</div>

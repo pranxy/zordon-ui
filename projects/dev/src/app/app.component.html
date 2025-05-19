@@ -1,3 +1,20 @@
-<dev-app-layout>
-    <router-outlet />
-</dev-app-layout>
+<div class="drawer lg:drawer-open" [attr.data-theme]="themeService.currentTheme()">
+    <input id="main-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col min-h-screen">
+        <dev-navbar />
+
+        <main class="flex-grow">
+            <div class="showcase-container">
+                <router-outlet></router-outlet>
+            </div>
+        </main>
+
+        <dev-footer />
+    </div>
+
+    <div class="drawer-side z-10">
+        <label for="main-drawer" class="drawer-overlay"></label>
+        <dev-sidebar />
+    </div>
+</div>

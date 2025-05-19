@@ -3,12 +3,14 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'components',
+        loadComponent: () => import('./pages/home/home.component'),
     },
     {
         path: 'components',
-        loadComponent: () => import('./pages/components/components.component'),
         loadChildren: () => import('./pages/components/components.routes'),
+    },
+    {
+        path: '**',
+        redirectTo: '',
     },
 ];
