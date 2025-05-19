@@ -24,4 +24,4 @@ jobs:
       - name: Deploy to gh pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run ng -- deploy --base-href=/zordon-ui/
+        run: npm run ng -- deploy --base-href=/zordon-ui/ --name="${{github.repository_owner}}" --email="${{github.actor}}@github.com"
