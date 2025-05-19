@@ -20,7 +20,6 @@ steps:
       run: npm run build
     - name: Deploy to gh pages
       run: |
-          npx angular-cli-ghpages --dir=dist/your-angular-app
-      env:
+          npx angular-cli-ghpages --dir=dist/dev/browser
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
