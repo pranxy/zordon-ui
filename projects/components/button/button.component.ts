@@ -1,70 +1,21 @@
+import { Component, ViewEncapsulation, effect, input } from '@angular/core';
+import { ZdBaseClassHander } from '../core';
 import {
-    Component,
-    ElementRef,
-    Renderer2,
-    ViewEncapsulation,
-    effect,
-    inject,
-    input,
-} from '@angular/core';
-
-// Define types for better type checking
-export type ButtonColor =
-    | 'primary'
-    | 'secondary'
-    | 'accent'
-    | 'info'
-    | 'success'
-    | 'warning'
-    | 'error'
-    | 'neutral';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-export type ButtonStyle = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
-export type ButtonShape = 'square' | 'circle';
-export type ButtonWidth = 'wide' | 'block';
-export type ButtonAnimation = 'none' | 'pulse';
-
-const BUTTON_COLOR: Record<ButtonColor, string> = {
-    primary: 'btn-primary',
-    secondary: 'btn-secondary',
-    accent: 'btn-accent',
-    info: 'btn-info',
-    success: 'btn-success',
-    warning: 'btn-warning',
-    error: 'btn-error',
-    neutral: 'btn-neutral',
-};
-
-const BUTTON_SIZE: Record<ButtonSize, string> = {
-    xs: 'btn-xs',
-    sm: 'btn-sm',
-    md: 'btn-md',
-    lg: 'btn-lg',
-};
-
-const BUTTON_SHAPE: Record<ButtonShape, string> = {
-    square: 'btn-square',
-    circle: 'btn-circle',
-};
-
-const BUTTON_WIDTH: Record<ButtonWidth, string> = {
-    wide: 'btn-wide',
-    block: 'btn-block',
-};
-
-const BUTTON_STYLE: Record<Exclude<ButtonStyle, 'default'>, string> = {
-    outline: 'btn-outline',
-    dash: 'btn-dash',
-    soft: 'btn-soft',
-    ghost: 'btn-ghost',
-    link: 'btn-link',
-};
-// You might also consider a constant for animation if you plan to
-// manage animation classes similarly.
-const BUTTON_ANIMATION: Record<ButtonAnimation, string> = {
-    none: '', // Or a class to explicitly remove animation if needed
-    pulse: 'btn-pulse', // Replace with the actual class name
-};
+    ZdButtonAnimation,
+    ZdButtonColor,
+    ZdButtonShape,
+    ZdButtonSize,
+    ZdButtonStyle,
+    ZdButtonWidth,
+} from './button.model';
+import {
+    BUTTON_ANIMATION,
+    BUTTON_COLOR,
+    BUTTON_SHAPE,
+    BUTTON_SIZE,
+    BUTTON_STYLE,
+    BUTTON_WIDTH,
+} from './button.tokens';
 
 @Component({
     selector: '[zButton]',
@@ -85,21 +36,18 @@ const BUTTON_ANIMATION: Record<ButtonAnimation, string> = {
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class ButtonDirective {
-    private renderer = inject(Renderer2);
-    private el = inject(ElementRef);
+export class ButtonDirective extends ZdBaseClassHander {
+    color = input<ZdButtonColor>('primary');
 
-    color = input<ButtonColor>('primary');
+    size = input<ZdButtonSize>('md');
 
-    size = input<ButtonSize>('md');
+    style = input<ZdButtonStyle>('default');
 
-    style = input<ButtonStyle>('default');
+    shape = input<ZdButtonShape | null>(null);
 
-    shape = input<ButtonShape | null>(null);
+    width = input<ZdButtonWidth | null>(null);
 
-    width = input<ButtonWidth | null>(null);
-
-    animation = input<ButtonAnimation>('none');
+    animation = input<ZdButtonAnimation>('none');
 
     loading = input<boolean>(false);
 
@@ -109,25 +57,23 @@ export class ButtonDirective {
 
     noAnimation = input<boolean>(false);
 
-    appliedClasses = new Map();
-
     private colorEft = effect(() => {
         const color = this.color();
-        this.#updateItemClass('color', BUTTON_COLOR[color]);
+        this.updateItemClass('color', BUTTON_COLOR[color]);
     });
 
     private sizeEft = effect(() => {
         const size = this.size();
-        this.#updateItemClass('size', BUTTON_SIZE[size]);
+        this.updateItemClass('size', BUTTON_SIZE[size]);
     });
 
     private shapeEft = effect(() => {
         const shape = this.shape();
         // Handle null case: remove the class if shape is null
         if (!shape) {
-            this.#removeItemClass('shape');
+            this.removeItemClass('shape');
         } else {
-            this.#updateItemClass('shape', BUTTON_SHAPE[shape]);
+            this.updateItemClass('shape', BUTTON_SHAPE[shape]);
         }
     });
 
@@ -135,9 +81,9 @@ export class ButtonDirective {
         const width = this.width();
         // Handle null case: remove the class if width is null
         if (!width) {
-            this.#removeItemClass('width');
+            this.removeItemClass('width');
         } else {
-            this.#updateItemClass('width', BUTTON_WIDTH[width]);
+            this.updateItemClass('width', BUTTON_WIDTH[width]);
         }
     });
 
@@ -145,9 +91,9 @@ export class ButtonDirective {
         const style = this.style();
         // Handle null case: remove the class if width is null
         if (!style || style === 'default') {
-            this.#removeItemClass('style');
+            this.removeItemClass('style');
         } else {
-            this.#updateItemClass('style', BUTTON_STYLE[style]);
+            this.updateItemClass('style', BUTTON_STYLE[style]);
         }
     });
 
@@ -155,37 +101,10 @@ export class ButtonDirective {
         const animation = this.animation();
         // Handle 'none' case or if you have other animation types
         if (animation === 'none') {
-            this.#removeItemClass('animation');
+            this.removeItemClass('animation');
         } else {
             // Ensure you have a class for your pulse animation
-            this.#updateItemClass('animation', BUTTON_ANIMATION[animation]);
+            this.updateItemClass('animation', BUTTON_ANIMATION[animation]);
         }
     });
-
-    #updateItemClass(key: string, newValue: string) {
-        const currentClass = this.#getFromKey(key);
-
-        if (currentClass) {
-            this.renderer.removeClass(this.el.nativeElement, currentClass);
-        }
-
-        this.#setValue(key, newValue);
-        this.renderer.addClass(this.el.nativeElement, newValue);
-    }
-
-    #removeItemClass(key: string) {
-        const currentClass = this.#getFromKey(key);
-        if (currentClass) {
-            this.renderer.removeClass(this.el.nativeElement, currentClass);
-            this.appliedClasses.delete(key); // Remove the key from the map
-        }
-    }
-
-    #getFromKey(key: string): string | undefined {
-        return this.appliedClasses.get(key);
-    }
-
-    #setValue(key: string, value: string) {
-        this.appliedClasses.set(key, value);
-    }
 }

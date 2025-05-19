@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    ButtonAnimation,
-    ButtonColor,
     ButtonDirective,
-    ButtonShape,
-    ButtonSize,
-    ButtonStyle,
-    ButtonWidth,
+    ZdButtonAnimation,
+    ZdButtonColor,
+    ZdButtonShape,
+    ZdButtonSize,
+    ZdButtonStyle,
+    ZdButtonWidth,
 } from '@pranxy/zordon-ui/button';
 
 @Component({
@@ -21,7 +21,7 @@ export default class ButtonDemo {
     buttonText = signal('Click me');
 
     // Color options
-    colors: ButtonColor[] = [
+    colors: ZdButtonColor[] = [
         'primary',
         'secondary',
         'accent',
@@ -33,21 +33,21 @@ export default class ButtonDemo {
     ];
 
     // Size options
-    sizes: ButtonSize[] = ['xs', 'sm', 'md', 'lg'];
+    sizes: ZdButtonSize[] = ['xs', 'sm', 'md', 'lg'];
 
     // Style options
-    styles: ButtonStyle[] = ['default', 'outline', 'ghost', 'link'];
+    styles: ZdButtonStyle[] = ['default', 'outline', 'ghost', 'link'];
 
     // Animation options
-    animations: ButtonAnimation[] = ['none', 'pulse'];
+    animations: ZdButtonAnimation[] = ['none', 'pulse'];
 
     // Button configuration signal
-    color = model<ButtonColor>('primary');
-    size = model<ButtonSize>('md');
-    style = model<ButtonStyle>('default');
-    shape = model<ButtonShape | null>(null);
-    width = model<ButtonWidth | null>(null);
-    animation = model<ButtonAnimation>('none');
+    color = model<ZdButtonColor>('primary');
+    size = model<ZdButtonSize>('md');
+    style = model<ZdButtonStyle>('default');
+    shape = model<ZdButtonShape | null>(null);
+    width = model<ZdButtonWidth | null>(null);
+    animation = model<ZdButtonAnimation>('none');
     loading = model(false);
     disabled = model(false);
     glass = model(false);

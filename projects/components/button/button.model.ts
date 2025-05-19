@@ -1,14 +1,19 @@
-export type ZdButtonColor = 'default' | 'primary' | 'secondary' | 'danger';
+export type ZdButtonColor =
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'neutral';
 
-export type ZdButtonVariant = 'outline' | 'text' | 'fill';
+export type ZdButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
-export type ZdButtonSize = 'sm' | 'md' | 'lg';
+export type ZdButtonStyle = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 
-export type ZdButtonLoadingPosition = 'before' | 'over' | 'after';
+export type ZdButtonShape = 'square' | 'circle';
 
-export interface ZdButtonConfig {
-    variant?: ZdButtonVariant;
-    color?: ZdButtonColor;
-    size?: ZdButtonSize;
-    loadingPosition?: ZdButtonLoadingPosition;
-}
+export type ZdButtonWidth = 'wide' | 'block';
+
+export type ZdButtonAnimation = 'none' | 'pulse';
