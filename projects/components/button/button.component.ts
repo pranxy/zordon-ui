@@ -19,7 +19,7 @@ export type ButtonColor =
     | 'error'
     | 'neutral';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
-export type ButtonStyle = 'default' | 'outline' | 'ghost' | 'link';
+export type ButtonStyle = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 export type ButtonShape = 'square' | 'circle';
 export type ButtonWidth = 'wide' | 'block';
 export type ButtonAnimation = 'none' | 'pulse';
@@ -52,6 +52,13 @@ const BUTTON_WIDTH: Record<ButtonWidth, string> = {
     block: 'btn-block',
 };
 
+const BUTTON_STYLE: Record<Exclude<ButtonStyle, 'default'>, string> = {
+    outline: 'btn-outline',
+    dash: 'btn-dash',
+    soft: 'btn-soft',
+    ghost: 'btn-ghost',
+    link: 'btn-link',
+};
 // You might also consider a constant for animation if you plan to
 // manage animation classes similarly.
 const BUTTON_ANIMATION: Record<ButtonAnimation, string> = {
@@ -131,6 +138,16 @@ export class ButtonDirective {
             this.#removeItemClass('width');
         } else {
             this.#updateItemClass('width', BUTTON_WIDTH[width]);
+        }
+    });
+
+    private styleEft = effect(() => {
+        const style = this.style();
+        // Handle null case: remove the class if width is null
+        if (!style || style === 'default') {
+            this.#removeItemClass('style');
+        } else {
+            this.#updateItemClass('style', BUTTON_STYLE[style]);
         }
     });
 
