@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-6">Badge Component Showcase</h2>
+
+    <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Badge Colors</h3>
+        <div class="flex flex-wrap gap-2">
+            @for (color of colors; track $index) {
+            <zd-badge [color]="color">{{ color | titlecase }}</zd-badge>
+            }
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Badge Sizes</h3>
+        <div class="flex flex-wrap gap-2 items-end">
+            @for (sizes of sizes; track $index) {
+            <zd-badge [size]="sizes" color="primary">{{ sizes }}</zd-badge>
+            }
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Badge Styles</h3>
+        <div class="flex flex-wrap gap-2">
+            <zd-badge color="primary">Default</zd-badge>
+            @for (type of types; track $index) {
+            <zd-badge [type]="type" color="primary">{{ type | titlecase }}</zd-badge>
+            }
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Animation Example</h3>
+        <div class="flex flex-wrap gap-2">
+            <zd-badge color="error" [animatePulse]="true">New!</zd-badge>
+            <zd-badge color="success" [animatePulse]="true">Updated</zd-badge>
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Usage Examples</h3>
+        <div class="grid gap-4 md:grid-cols-2">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div class="flex justify-between items-start">
+                        <h4 class="card-title">Product Item</h4>
+                        <zd-badge color="success">In Stock</zd-badge>
+                    </div>
+                    <p>This example shows how the badge can be used within a card component.</p>
+                </div>
+            </div>
+
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <div class="flex justify-between items-start">
+                        <h4 class="card-title">Notification</h4>
+                        <zd-badge color="error" type="outline" [animatePulse]="true">3</zd-badge>
+                    </div>
+                    <p>This example shows a notification count with animation and outline style.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- <section class="mb-8">
+        <h3 class="text-xl font-medium mb-4">Theme Toggle</h3>
+        <div class="flex justify-end mb-4">
+            <label class="swap swap-rotate">
+                <input type="checkbox" (change)="toggleTheme()" [checked]="isDarkTheme" />
+                <div class="swap-on">🌙</div>
+                <div class="swap-off">☀️</div>
+            </label>
+        </div>
+        <p class="text-sm text-base-content/70">
+            Try switching themes to see how badges adapt to light and dark modes.
+        </p>
+    </section> -->
+</div>

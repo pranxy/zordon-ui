@@ -1,0 +1,6 @@
+{
+  "lib": {
+    "flatModuleFile": "zdBadge",
+    "entryFile": "public-api.ts"
+  }
+}
