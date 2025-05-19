@@ -1,24 +1,27 @@
 name: Build and Deploy Script
-on:
-  push:
-    branches:
-      - master
+
+on: [push]
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
       - name: Adding Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-            node-version: 22
+            node-version: 22.x
+            cache: "npm"
+
       - name: Install Dependencies
         run: npm install
+
       - name: Build Angular App
         run: npm run build
+
       - name: Deploy to gh pages
-        run: |
-            npx angular-cli-ghpages --dir=dist/dev
-            CI: true
-            GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run ng -- deploy --base-href=/zordon-ui/
