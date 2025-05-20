@@ -36,7 +36,7 @@ body {
 }
 
 pre {
-    @apply rounded-lg p-4 bg-base-300 text-base-content overflow-x-auto my-4;
+    @apply rounded-lg p-4 bg-base-300 text-base-content overflow-x-auto my-4 whitespace-break-spaces;
 }
 
 code {

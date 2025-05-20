@@ -27,14 +27,15 @@ export class SidebarComponent {
         {
             title: 'Components',
             items: [
-                { label: 'Button', route: '/components/button' },
-                { label: 'Card', route: '/components/card' },
-                { label: 'Form', route: '/components/form' },
-                { label: 'Typography', route: '/components/typography' },
-                { label: 'Modal', route: '/components/modal' },
                 { label: 'Alert', route: '/components/alert' },
-                { label: 'Table', route: '/components/table' },
-                { label: 'Navigation', route: '/components/navigation' },
+                { label: 'Button', route: '/components/button' },
+                { label: 'Badge', route: '/components/badge' },
+                // { label: 'Card', route: '/components/card' },
+                // { label: 'Form', route: '/components/form' },
+                // { label: 'Typography', route: '/components/typography' },
+                // { label: 'Modal', route: '/components/modal' },
+                // { label: 'Table', route: '/components/table' },
+                // { label: 'Navigation', route: '/components/navigation' },
             ],
         },
         // {
