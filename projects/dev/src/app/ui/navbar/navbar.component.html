@@ -1,6 +1,6 @@
-<div class="navbar bg-base-200 sticky top-0 z-10 shadow-sm">
-    <div class="navbar-start">
-        <label for="main-drawer" class="btn btn-ghost drawer-button lg:hidden">
+<div class="navbar bg-base-100 border-b border-base-200 sticky top-0 z-30">
+    <div class="flex-none lg:hidden">
+        <label for="main-drawer" class="btn btn-square btn-ghost drawer-button">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -15,20 +15,45 @@
                 ></path>
             </svg>
         </label>
-        <a routerLink="/" class="btn btn-ghost normal-case text-xl"> daisyUI Showcase </a>
     </div>
 
-    <div class="navbar-center hidden lg:flex">
-        <div class="form-control">
+    <div class="flex-1 gap-2">
+        <a routerLink="/" class="btn btn-ghost normal-case text-xl">Zordon UI</a>
+    </div>
+
+    <div class="flex items-center gap-2">
+        <div class="hidden lg:flex gap-2">
+            <a routerLink="/docs" routerLinkActive="text-primary" class="btn btn-ghost normal-case"
+                >Docs</a
+            >
+            <a
+                routerLink="/components"
+                routerLinkActive="text-primary"
+                class="btn btn-ghost normal-case"
+                >Components</a
+            >
+            <a
+                routerLink="/examples"
+                routerLinkActive="text-primary"
+                class="btn btn-ghost normal-case"
+                >Examples</a
+            >
+            <a
+                routerLink="/resources"
+                routerLinkActive="text-primary"
+                class="btn btn-ghost normal-case"
+                >Resources</a
+            >
+        </div>
+
+        <!-- <div class="form-control hidden lg:flex">
             <input
                 type="text"
                 placeholder="Search components..."
                 class="input input-bordered w-64"
             />
-        </div>
-    </div>
+        </div> -->
 
-    <div class="navbar-end">
         <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost gap-2">
                 <svg
@@ -80,6 +105,7 @@
                 }
             </ul>
         </div>
+
         <a
             href="https://github.com/saadeghi/daisyui"
             target="_blank"

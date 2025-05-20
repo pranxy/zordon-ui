@@ -6,7 +6,9 @@ export type Theme = 'light' | 'dark' | 'cupcake' | 'corporate' | 'luxury' | 'dra
     providedIn: 'root',
 })
 export class ThemeService {
-    private themes: Theme[] = ['light', 'dark', 'cupcake', 'corporate', 'luxury', 'dracula'];
+    private themes: Theme[] = ['light', 'dark'];
+    // private themes: Theme[] = ['light', 'dark', 'cupcake', 'corporate', 'luxury', 'dracula'];
+
     currentTheme = signal<Theme>(this.getSavedTheme());
 
     constructor() {

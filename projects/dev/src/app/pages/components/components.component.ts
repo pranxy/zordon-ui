@@ -5,7 +5,6 @@ import { RouterOutlet } from '@angular/router';
     selector: 'dev-components',
     imports: [RouterOutlet],
     template: ` <router-outlet /> `,
-    styleUrl: './components.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ComponentsComponent {}

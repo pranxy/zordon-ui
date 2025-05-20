@@ -1,28 +1,19 @@
-<div class="bg-base-200 w-80 h-full">
-    <div class="p-4">
-        <a routerLink="/" class="flex items-center gap-3 mb-8">
-            <!-- <div class="avatar online">
-                <div class="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img
-                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                        alt="Avatar"
-                    />
-                </div>
-            </div> -->
-            <div>
-                <h2 class="text-xl font-bold">ZordonUI</h2>
-                <p class="text-sm opacity-70">Component Showcase</p>
+<div class="h-full bg-base-100 border-r border-base-200">
+    <div class="sticky top-5">
+        <div class="p-4 lg:hidden">
+            <div class="form-control">
+                <input
+                    type="text"
+                    placeholder="Search components..."
+                    class="input input-bordered"
+                />
             </div>
-        </a>
-
-        <div class="form-control mb-4 lg:hidden">
-            <input type="text" placeholder="Search components..." class="input input-bordered" />
         </div>
 
         @for (section of sections; track section.title) {
-        <div class="mb-6">
+        <div class="my-6">
             <h3 class="text-xs uppercase font-bold opacity-60 mb-2 px-4">{{ section.title }}</h3>
-            <ul class="menu menu-sm gap-y-1">
+            <ul class="menu gap-y-1">
                 @for (item of section.items; track item.label) {
                 <li>
                     <a [routerLink]="item.route" routerLinkActive="active" class="transition-all">

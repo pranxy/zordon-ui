@@ -1,20 +1,15 @@
-<div class="drawer lg:drawer-open" [attr.data-theme]="themeService.currentTheme()">
-    <input id="main-drawer" type="checkbox" class="drawer-toggle" />
+<div [attr.data-theme]="themeService.currentTheme()">
+    <dev-navbar />
 
-    <div class="drawer-content flex flex-col min-h-screen">
-        <dev-navbar />
+    <div class="flex">
+        <dev-sidebar class="w-80 shrink-0 hidden lg:block" />
 
-        <main class="flex-grow">
+        <main class="flex-1 min-h-screen">
             <div class="showcase-container">
-                <router-outlet></router-outlet>
+                <router-outlet />
             </div>
         </main>
-
-        <dev-footer />
     </div>
 
-    <div class="drawer-side z-10">
-        <label for="main-drawer" class="drawer-overlay"></label>
-        <dev-sidebar />
-    </div>
+    <dev-footer />
 </div>

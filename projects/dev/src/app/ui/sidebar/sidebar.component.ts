@@ -20,10 +20,10 @@ interface NavItem {
 })
 export class SidebarComponent {
     sections: NavSection[] = [
-        {
-            title: 'Getting Started',
-            items: [{ label: 'Introduction', route: '/', icon: 'home' }],
-        },
+        // {
+        //     title: 'Getting Started',
+        //     items: [{ label: 'Introduction', route: '/', icon: 'home' }],
+        // },
         {
             title: 'Components',
             items: [
@@ -37,12 +37,12 @@ export class SidebarComponent {
                 { label: 'Navigation', route: '/components/navigation' },
             ],
         },
-        {
-            title: 'Resources',
-            items: [
-                { label: 'daisyUI Website', route: 'https://daisyui.com' },
-                { label: 'Angular Website', route: 'https://angular.dev' },
-            ],
-        },
+        // {
+        //     title: 'Resources',
+        //     items: [
+        //         { label: 'daisyUI Website', route: 'https://daisyui.com' },
+        //         { label: 'Angular Website', route: 'https://angular.dev' },
+        //     ],
+        // },
     ];
 }
