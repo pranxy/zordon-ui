@@ -1,4 +1,4 @@
-import{b as c}from"./chunk-JBE3XO7N.js";import"./chunk-HO6UQR6R.js";import"./chunk-W2O67AHQ.js";import{Aa as r,Ma as p,Xa as o,aa as s,ba as a,eb as e,fb as t,gb as i,qb as n}from"./chunk-26CHXJ7I.js";import"./chunk-7CGTOI24.js";var w=(()=>{class l{constructor(){this.basicAlertsCode=`<div class="alert">
+import{b as c}from"./chunk-3DEZNK2Y.js";import"./chunk-HO6UQR6R.js";import"./chunk-W2O67AHQ.js";import{Aa as r,Ma as p,Xa as o,aa as s,ba as a,eb as e,fb as t,gb as i,qb as n}from"./chunk-26CHXJ7I.js";import"./chunk-7CGTOI24.js";var w=(()=>{class l{constructor(){this.basicAlertsCode=`<div class="alert">
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
   <span>Default alert message.</span>
 </div>
