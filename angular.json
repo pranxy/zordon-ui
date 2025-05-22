@@ -56,7 +56,7 @@
       },
       "root": "projects/dev",
       "sourceRoot": "projects/dev/src",
-      "prefix": "dev",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular/build:application",

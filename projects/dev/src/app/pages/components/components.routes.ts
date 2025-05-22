@@ -3,8 +3,7 @@ import { Routes } from '@angular/router';
 const COMPONENTS_ROUTES: Routes = [
     {
         path: '',
-        redirectTo: 'button',
-        pathMatch: 'full',
+        loadComponent: () => import('./components-overview.component'),
     },
     {
         path: 'button',
@@ -25,6 +24,10 @@ const COMPONENTS_ROUTES: Routes = [
     {
         path: 'radio',
         loadComponent: () => import('./radio-demo/radio-demo'),
+    },
+    {
+        path: 'skeleton',
+        loadComponent: () => import('./skeleton-demo/skeleton-demo.component'),
     },
 ];
 

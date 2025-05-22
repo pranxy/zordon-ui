@@ -13,7 +13,7 @@ export default class HomeComponent {
             title: 'Angular CDK Integration',
             description:
                 'Built on top of Angular CDK for robust accessibility, keyboard navigation, and advanced functionalities.',
-            link: '/components/buttons',
+            link: '/components',
         },
         {
             title: 'Modern Design System',

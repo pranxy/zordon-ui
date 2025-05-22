@@ -1,0 +1,144 @@
+<div class="component-section">
+    <h1 class="text-3xl font-bold mb-6">Avatars</h1>
+    <p class="mb-8">
+        Avatars are used to represent people or entities. They can display images, initials, or
+        placeholders.
+    </p>
+
+    <app-component-card
+        title="Basic Avatars"
+        description="Different styles of avatars."
+        [codeSnippet]="basicAvatarsCode"
+    >
+        <div class="flex flex-wrap gap-4">
+            <div class="avatar">
+                <div class="w-24 rounded">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-24 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Avatar Sizes"
+        description="Avatars in different sizes."
+        [codeSnippet]="avatarSizesCode"
+    >
+        <div class="flex flex-wrap gap-4 items-center">
+            <div class="avatar">
+                <div class="w-32 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-24 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-16 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-8 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Avatar Group"
+        description="Group of overlapping avatars."
+        [codeSnippet]="avatarGroupCode"
+    >
+        <div class="avatar-group -space-x-6">
+            <div class="avatar">
+                <div class="w-12">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-12">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar">
+                <div class="w-12">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar placeholder">
+                <div class="w-12 bg-neutral-focus text-neutral-content">
+                    <span>+99</span>
+                </div>
+            </div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Avatar with Status"
+        description="Avatars with online/offline status indicator."
+        [codeSnippet]="avatarStatusCode"
+    >
+        <div class="flex flex-wrap gap-4">
+            <div class="avatar online">
+                <div class="w-24 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+            <div class="avatar offline">
+                <div class="w-24 rounded-full">
+                    <img
+                        src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                </div>
+            </div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Placeholder Avatars"
+        description="Avatars with placeholder content when no image is available."
+        [codeSnippet]="placeholderAvatarsCode"
+    >
+        <div class="flex flex-wrap gap-4">
+            <div class="avatar placeholder">
+                <div class="bg-neutral-focus text-neutral-content rounded-full w-24">
+                    <span class="text-3xl">JO</span>
+                </div>
+            </div>
+            <div class="avatar placeholder">
+                <div class="bg-primary text-primary-content rounded-full w-24">
+                    <span>Pro</span>
+                </div>
+            </div>
+        </div>
+    </app-component-card>
+</div>

@@ -1,78 +1,101 @@
-<div class="max-w-4xl mx-auto">
-    <h2 class="text-2xl font-semibold mb-6">Badge Component Showcase</h2>
+<div class="component-section">
+    <h1 class="text-3xl font-bold mb-6">Badges</h1>
+    <p class="mb-8">
+        Badges are small status descriptors for UI elements. Use them to highlight status, show
+        counts, or display small pieces of information.
+    </p>
 
-    <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Badge Colors</h3>
+    <app-component-card
+        title="Basic Badges"
+        description="Different styles of badges for various contexts."
+        [codeSnippet]="basicBadgesCode"
+    >
         <div class="flex flex-wrap gap-2">
-            @for (color of colors; track $index) {
-            <zd-badge [color]="color">{{ color | titlecase }}</zd-badge>
-            }
+            <div class="badge">neutral</div>
+            <div class="badge badge-primary">primary</div>
+            <div class="badge badge-secondary">secondary</div>
+            <div class="badge badge-accent">accent</div>
+            <div class="badge badge-ghost">ghost</div>
         </div>
-    </section>
+    </app-component-card>
 
-    <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Badge Sizes</h3>
-        <div class="flex flex-wrap gap-2 items-end">
-            @for (sizes of sizes; track $index) {
-            <zd-badge [size]="sizes" color="primary">{{ sizes }}</zd-badge>
-            }
+    <app-component-card
+        title="Badge Sizes"
+        description="Badges in different sizes."
+        [codeSnippet]="badgeSizesCode"
+    >
+        <div class="flex flex-wrap gap-2 items-center">
+            <div class="badge badge-sm">small</div>
+            <div class="badge">normal</div>
+            <div class="badge badge-lg">large</div>
         </div>
-    </section>
+    </app-component-card>
 
-    <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Badge Styles</h3>
+    <app-component-card
+        title="Badge Variants"
+        description="Different variants of badges including outline style."
+        [codeSnippet]="badgeVariantsCode"
+    >
         <div class="flex flex-wrap gap-2">
-            <zd-badge color="primary">Default</zd-badge>
-            @for (type of types; track $index) {
-            <zd-badge [type]="type" color="primary">{{ type | titlecase }}</zd-badge>
-            }
+            <div class="badge badge-outline">outline</div>
+            <div class="badge badge-primary badge-outline">primary</div>
+            <div class="badge badge-secondary badge-outline">secondary</div>
+            <div class="badge badge-accent badge-outline">accent</div>
         </div>
-    </section>
+    </app-component-card>
 
-    <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Animation Example</h3>
+    <app-component-card
+        title="Status Badges"
+        description="Badges for showing different states."
+        [codeSnippet]="statusBadgesCode"
+    >
         <div class="flex flex-wrap gap-2">
-            <zd-badge color="error" [animatePulse]="true">New!</zd-badge>
-            <zd-badge color="success" [animatePulse]="true">Updated</zd-badge>
+            <div class="badge badge-info gap-2">
+                <div class="w-2 h-2 rounded-full bg-current"></div>
+                info
+            </div>
+            <div class="badge badge-success gap-2">
+                <div class="w-2 h-2 rounded-full bg-current"></div>
+                success
+            </div>
+            <div class="badge badge-warning gap-2">
+                <div class="w-2 h-2 rounded-full bg-current"></div>
+                warning
+            </div>
+            <div class="badge badge-error gap-2">
+                <div class="w-2 h-2 rounded-full bg-current"></div>
+                error
+            </div>
         </div>
-    </section>
+    </app-component-card>
 
-    <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Usage Examples</h3>
-        <div class="grid gap-4 md:grid-cols-2">
-            <div class="card bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <div class="flex justify-between items-start">
-                        <h4 class="card-title">Product Item</h4>
-                        <zd-badge color="success">In Stock</zd-badge>
-                    </div>
-                    <p>This example shows how the badge can be used within a card component.</p>
-                </div>
+    <app-component-card
+        title="Badge in Components"
+        description="Using badges within other components."
+        [codeSnippet]="badgeComponentsCode"
+    >
+        <div class="flex flex-col gap-4">
+            <button class="btn">
+                Inbox
+                <div class="badge badge-secondary">+99</div>
+            </button>
+
+            <div class="flex gap-2">
+                <button class="btn">
+                    Notifications
+                    <div class="badge badge-primary badge-sm">3</div>
+                </button>
             </div>
 
-            <div class="card bg-base-100 shadow-xl">
+            <div class="card w-96 bg-base-100 shadow-xl">
                 <div class="card-body">
-                    <div class="flex justify-between items-start">
-                        <h4 class="card-title">Notification</h4>
-                        <zd-badge color="error" type="outline" [animatePulse]="true">3</zd-badge>
-                    </div>
-                    <p>This example shows a notification count with animation and outline style.</p>
+                    <h2 class="card-title">
+                        New feature!
+                        <div class="badge badge-secondary">NEW</div>
+                    </h2>
+                    <p>This card has a badge in its title</p>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- <section class="mb-8">
-        <h3 class="text-xl font-medium mb-4">Theme Toggle</h3>
-        <div class="flex justify-end mb-4">
-            <label class="swap swap-rotate">
-                <input type="checkbox" (change)="toggleTheme()" [checked]="isDarkTheme" />
-                <div class="swap-on">🌙</div>
-                <div class="swap-off">☀️</div>
-            </label>
-        </div>
-        <p class="text-sm text-base-content/70">
-            Try switching themes to see how badges adapt to light and dark modes.
-        </p>
-    </section> -->
+    </app-component-card>
 </div>

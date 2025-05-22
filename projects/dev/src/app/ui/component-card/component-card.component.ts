@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
 
 @Component({
-    selector: 'dev-component-card',
+    selector: 'app-component-card',
     imports: [CodeSnippetComponent],
     templateUrl: './component-card.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,

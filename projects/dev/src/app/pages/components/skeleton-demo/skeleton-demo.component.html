@@ -1,0 +1,107 @@
+<div class="component-section">
+    <h1 class="text-3xl font-bold mb-6">Skeletons</h1>
+    <p class="mb-8">
+        Skeleton loaders provide a low-fidelity representation of content before it's loaded to
+        reduce load-time frustration.
+    </p>
+
+    <app-component-card
+        title="Basic Skeleton"
+        description="Simple skeleton loader shapes."
+        [codeSnippet]="basicSkeletonCode"
+    >
+        <div class="flex flex-col gap-4 w-52">
+            <div class="skeleton h-32 w-full"></div>
+            <div class="skeleton h-4 w-28"></div>
+            <div class="skeleton h-4 w-full"></div>
+            <div class="skeleton h-4 w-full"></div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Card Skeleton"
+        description="Skeleton loader for a card layout."
+        [codeSnippet]="cardSkeletonCode"
+    >
+        <div class="card w-96 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex gap-4 items-center">
+                    <div class="skeleton w-16 h-16 rounded-full"></div>
+                    <div class="flex flex-col gap-4">
+                        <div class="skeleton h-4 w-20"></div>
+                        <div class="skeleton h-4 w-28"></div>
+                    </div>
+                </div>
+                <div class="skeleton h-32 w-full"></div>
+                <div class="skeleton h-4 w-full"></div>
+                <div class="skeleton h-4 w-48"></div>
+            </div>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="Table Skeleton"
+        description="Skeleton loader for table content."
+        [codeSnippet]="tableSkeletonCode"
+    >
+        <div class="overflow-x-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="skeleton h-4 w-16"></div>
+                        </th>
+                        <th>
+                            <div class="skeleton h-4 w-24"></div>
+                        </th>
+                        <th>
+                            <div class="skeleton h-4 w-24"></div>
+                        </th>
+                        <th>
+                            <div class="skeleton h-4 w-16"></div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of [1,2,3]; track item) {
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="skeleton w-12 h-12 rounded-full"></div>
+                                <div class="skeleton h-4 w-20"></div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="skeleton h-4 w-28"></div>
+                        </td>
+                        <td>
+                            <div class="skeleton h-4 w-24"></div>
+                        </td>
+                        <th>
+                            <div class="skeleton h-4 w-16"></div>
+                        </th>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </app-component-card>
+
+    <app-component-card
+        title="List Skeleton"
+        description="Skeleton loader for a list of items."
+        [codeSnippet]="listSkeletonCode"
+    >
+        <div class="flex flex-col gap-4 w-full">
+            @for (item of [1,2,3]; track item) {
+            <div class="flex gap-4 items-center">
+                <div class="skeleton w-16 h-16 rounded-full"></div>
+                <div class="flex flex-col gap-4">
+                    <div class="skeleton h-4 w-48"></div>
+                    <div class="skeleton h-4 w-64"></div>
+                </div>
+            </div>
+            }
+        </div>
+    </app-component-card>
+</div>
