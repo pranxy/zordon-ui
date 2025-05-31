@@ -8,6 +8,7 @@ import {
 } from './button.model';
 
 export const BUTTON_COLOR: Record<ZdButtonColor, string> = {
+    default: '',
     primary: 'btn-primary',
     secondary: 'btn-secondary',
     accent: 'btn-accent',
@@ -16,6 +17,8 @@ export const BUTTON_COLOR: Record<ZdButtonColor, string> = {
     warning: 'btn-warning',
     error: 'btn-error',
     neutral: 'btn-neutral',
+    ghost: 'btn-ghost',
+    link: 'btn-link',
 };
 
 export const BUTTON_SIZE: Record<ZdButtonSize, string> = {
@@ -23,6 +26,7 @@ export const BUTTON_SIZE: Record<ZdButtonSize, string> = {
     sm: 'btn-sm',
     md: 'btn-md',
     lg: 'btn-lg',
+    xl: 'btn-xl',
 };
 
 export const BUTTON_SHAPE: Record<ZdButtonShape, string> = {

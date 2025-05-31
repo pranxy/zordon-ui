@@ -11,11 +11,9 @@
         [codeSnippet]="basicBadgesCode"
     >
         <div class="flex flex-wrap gap-2">
-            <div class="badge">neutral</div>
-            <div class="badge badge-primary">primary</div>
-            <div class="badge badge-secondary">secondary</div>
-            <div class="badge badge-accent">accent</div>
-            <div class="badge badge-ghost">ghost</div>
+            @for (color of colors; track color) {
+            <zd-badge [color]="color">{{ color | titlecase }}</zd-badge>
+            }
         </div>
     </app-component-card>
 

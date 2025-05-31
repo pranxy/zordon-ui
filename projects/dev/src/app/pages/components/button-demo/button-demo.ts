@@ -1,7 +1,8 @@
+import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-    ButtonDirective,
+    ZdButton,
     ZdButtonAnimation,
     ZdButtonColor,
     ZdButtonShape,
@@ -13,7 +14,7 @@ import { ComponentCard } from '../../../ui';
 
 @Component({
     selector: 'dev-button-demo',
-    imports: [ButtonDirective, FormsModule, ComponentCard],
+    imports: [ZdButton, FormsModule, ComponentCard, TitleCasePipe],
     templateUrl: 'button-demo.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,7 +34,7 @@ export default class ButtonDemo {
     ];
 
     // Size options
-    sizes: ZdButtonSize[] = ['xs', 'sm', 'md', 'lg'];
+    sizes: ZdButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
     // Style options
     styles: ZdButtonType[] = ['default', 'outline', 'ghost', 'link'];
@@ -53,22 +54,24 @@ export default class ButtonDemo {
     glass = model(false);
     noAnimation = model(false);
 
-    buttonStylesCode = `<button class="btn">Default</button>
-<button class="btn btn-primary">Primary</button>
-<button class="btn btn-secondary">Secondary</button>
-<button class="btn btn-accent">Accent</button>
-<button class="btn btn-info">Info</button>
-<button class="btn btn-success">Success</button>
-<button class="btn btn-warning">Warning</button>
-<button class="btn btn-error">Error</button>
-<button class="btn btn-neutral">Neutral</button>
-<button class="btn btn-ghost">Ghost</button>
-<button class="btn btn-link">Link</button>`;
+    buttonStylesCode = `<button zdButton>Default</button>
+<button zdButton color="primary">Primary</button>
+<button zdButton color="secondary">Secondary</button>
+<button zdButton color="accent">Accent</button>
+<button zdButton color="info">Info</button>
+<button zdButton color="success">Success</button>
+<button zdButton color="warning">Warning</button>
+<button zdButton color="error">Error</button>
+<button zdButton color="neutral">Neutral</button>`;
 
-    buttonSizesCode = `<button class="btn btn-xs">Tiny</button>
-<button class="btn btn-sm">Small</button>
-<button class="btn">Normal</button>
-<button class="btn btn-lg">Large</button>`;
+    // <button zdButton color="ghost">Ghost</button>
+    // <button zdButton color="link">Link</button>
+
+    buttonSizesCode = `<button zdButton size="xs">Xsmall</button>
+<button zdButton size="sm">Small</button>
+<button zdButton size="md">Normal</button>
+<button zdButton size="lg">Large</button>
+<button zdButton size="xl">XLarge</button>`;
 
     buttonVariantsCode = `<button class="btn btn-outline">Outline</button>
 <button class="btn btn-primary btn-outline">Primary</button>

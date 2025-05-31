@@ -18,7 +18,7 @@ import {
 } from './button.tokens';
 
 @Component({
-    selector: '[zButton]',
+    selector: '[zdButton]',
     standalone: true,
     host: {
         class: 'btn',
@@ -36,8 +36,8 @@ import {
     `,
     encapsulation: ViewEncapsulation.None,
 })
-export class ButtonDirective extends ZdBaseClassHander {
-    color = input<ZdButtonColor>('primary');
+export class ZdButton extends ZdBaseClassHander {
+    color = input<ZdButtonColor>();
 
     size = input<ZdButtonSize>('md');
 
@@ -58,7 +58,7 @@ export class ButtonDirective extends ZdBaseClassHander {
     noAnimation = input<boolean>(false);
 
     private colorEft = effect(() => {
-        const color = this.color();
+        const color = this.color() ?? 'default';
         this.updateItemClass('color', BUTTON_COLOR[color]);
     });
 

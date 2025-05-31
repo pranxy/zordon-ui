@@ -1,4 +1,5 @@
 export type ZdButtonColor =
+    | 'default'
     | 'primary'
     | 'secondary'
     | 'accent'
@@ -6,9 +7,11 @@ export type ZdButtonColor =
     | 'success'
     | 'warning'
     | 'error'
-    | 'neutral';
+    | 'neutral'
+    | 'ghost'
+    | 'link';
 
-export type ZdButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ZdButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type ZdButtonType = 'default' | 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 

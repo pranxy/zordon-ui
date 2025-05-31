@@ -13,8 +13,10 @@ export class ZdBaseClassHander {
             this.renderer.removeClass(this.el.nativeElement, currentClass);
         }
 
-        this.setValue(key, newValue);
-        this.renderer.addClass(this.el.nativeElement, newValue);
+        if (newValue) {
+            this.setValue(key, newValue);
+            this.renderer.addClass(this.el.nativeElement, newValue);
+        }
     }
 
     protected removeItemClass(key: string) {
