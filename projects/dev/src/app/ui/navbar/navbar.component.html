@@ -23,27 +23,15 @@
 
     <div class="flex items-center gap-2">
         <div class="hidden lg:flex gap-2">
-            <a routerLink="/docs" routerLinkActive="text-primary" class="btn btn-ghost normal-case"
-                >Docs</a
-            >
+            @for (section of sections; track $index) {
             <a
-                routerLink="/components"
+                [routerLink]="section.path"
                 routerLinkActive="text-primary"
                 class="btn btn-ghost normal-case"
-                >Components</a
             >
-            <a
-                routerLink="/examples"
-                routerLinkActive="text-primary"
-                class="btn btn-ghost normal-case"
-                >Examples</a
-            >
-            <a
-                routerLink="/resources"
-                routerLinkActive="text-primary"
-                class="btn btn-ghost normal-case"
-                >Resources</a
-            >
+                {{ section.label }}
+            </a>
+            }
         </div>
 
         <!-- <div class="form-control hidden lg:flex">
