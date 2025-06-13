@@ -7,11 +7,6 @@
       "style": "scss"
     }
   },
-  "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
-  },
   "projects": {
     "components": {
       "projectType": "library",
