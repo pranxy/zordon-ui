@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 border-b border-base-200 sticky top-0 z-30">
+<div class="navbar border-b border-gray-200 sticky top-0 z-30">
     <div class="flex-none lg:hidden">
         <label for="main-drawer" class="btn btn-square btn-ghost drawer-button">
             <svg
@@ -24,13 +24,13 @@
     <div class="flex items-center gap-2">
         <div class="hidden lg:flex gap-2">
             @for (section of sections; track $index) {
-            <a
-                [routerLink]="section.path"
-                routerLinkActive="text-primary"
-                class="btn btn-ghost normal-case"
-            >
-                {{ section.label }}
-            </a>
+                <a
+                    [routerLink]="section.path"
+                    routerLinkActive="text-primary"
+                    class="btn btn-ghost normal-case"
+                >
+                    {{ section.label }}
+                </a>
             }
         </div>
 
@@ -65,31 +65,31 @@
                 class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52"
             >
                 @for (theme of themeService.getThemes(); track theme) {
-                <li>
-                    <button
-                        class="flex justify-between"
-                        [class.active]="theme === themeService.currentTheme()"
-                        (click)="themeService.setTheme(theme)"
-                    >
-                        {{ theme | titlecase }}
-                        @if (theme === themeService.currentTheme()) {
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-5 h-5"
+                    <li>
+                        <button
+                            class="flex justify-between"
+                            [class.active]="theme === themeService.currentTheme()"
+                            (click)="themeService.setTheme(theme)"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M4.5 12.75l6 6 9-13.5"
-                            />
-                        </svg>
-                        }
-                    </button>
-                </li>
+                            {{ theme | titlecase }}
+                            @if (theme === themeService.currentTheme()) {
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-5 h-5"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M4.5 12.75l6 6 9-13.5"
+                                    />
+                                </svg>
+                            }
+                        </button>
+                    </li>
                 }
             </ul>
         </div>

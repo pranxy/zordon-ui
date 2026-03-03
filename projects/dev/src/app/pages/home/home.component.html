@@ -22,15 +22,15 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-12">
     @for (feature of features; track feature.title) {
-    <div class="card bg-base-200 shadow-sm hover:shadow-md transition-all">
-        <div class="card-body">
-            <h2 class="card-title">{{ feature.title }}</h2>
-            <p>{{ feature.description }}</p>
-            <div class="card-actions justify-end">
-                <a [routerLink]="feature.link" class="btn btn-sm btn-ghost">Learn More</a>
+        <div class="card bg-base-200 shadow-sm hover:shadow-md transition-all">
+            <div class="card-body">
+                <h2 class="card-title">{{ feature.title }}</h2>
+                <p>{{ feature.description }}</p>
+                <div class="card-actions justify-end">
+                    <a [routerLink]="feature.link" class="btn btn-sm btn-ghost">Learn More</a>
+                </div>
             </div>
         </div>
-    </div>
     }
 </div>
 
