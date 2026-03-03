@@ -22,7 +22,7 @@ export class ZdDialogConfig<
     C extends DialogContainer = BasePortalOutlet,
 > extends DialogConfig<D, R, C> {
     /** Function used to determine whether the dialog is allowed to close. */
-    closePredicate?: <Result = any, Component = any, Config extends DialogConfig = ZdDialogConfig>(
+   override closePredicate?: <Result = any, Component = any, Config extends DialogConfig = ZdDialogConfig>(
         result: Result | undefined,
         config: Config,
         componentInstance: Component | null

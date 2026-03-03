@@ -69,9 +69,8 @@ export class DialogContainerComponent implements OnInit {
         });
     }
 
-    @HostListener('document:keydown.escape', ['$event'])
-    onEscape(event: KeyboardEvent) {
-        event.stopPropagation();
+    @HostListener('document:keydown.escape')
+    onEscape(): void {
         this.dialogRef.close();
     }
 }
