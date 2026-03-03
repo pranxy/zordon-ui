@@ -6,16 +6,17 @@ import {
     ViewportRuler,
 } from '@angular/cdk/overlay';
 import { ComponentType } from '@angular/cdk/portal';
-import { DOCUMENT } from '@angular/common';
+
 import {
-    ComponentRef,
-    inject,
-    Injectable,
-    InjectionToken,
-    Injector,
-    OnDestroy,
-    TemplateRef,
-    Type,
+  ComponentRef,
+  inject,
+  Injectable,
+  InjectionToken,
+  Injector,
+  OnDestroy,
+  TemplateRef,
+  Type,
+  DOCUMENT
 } from '@angular/core';
 import { defer, Observable, startWith, Subject } from 'rxjs';
 import { ZdDialogConfig } from './dialog-config';
