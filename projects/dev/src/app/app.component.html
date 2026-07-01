@@ -1,15 +1,13 @@
-<div [attr.data-theme]="themeService.currentTheme()">
-    <dev-navbar />
+<dev-navbar />
 
-    <div class="flex">
-        <dev-sidebar class="w-80 shrink-0 hidden lg:block" />
+<div class="flex">
+    <dev-sidebar class="w-80 shrink-0 hidden lg:block" />
 
-        <main class="flex-1 min-h-screen">
-            <div class="showcase-container">
-                <router-outlet />
-            </div>
-        </main>
-    </div>
-
-    <dev-footer />
+    <main class="flex-1 min-h-screen">
+        <div class="showcase-container">
+            <router-outlet />
+        </div>
+    </main>
 </div>
+
+<dev-footer />

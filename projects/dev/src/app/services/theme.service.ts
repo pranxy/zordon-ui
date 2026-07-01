@@ -18,6 +18,7 @@ export class ThemeService {
 
     setTheme(theme: Theme): void {
         this.currentTheme.set(theme);
+        document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
     }
 

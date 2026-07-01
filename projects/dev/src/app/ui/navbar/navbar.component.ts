@@ -12,4 +12,23 @@ import { ThemeService } from '../../services';
 })
 export class NavbarComponent {
     themeService = inject(ThemeService);
+
+    sections: { path: string; label: string }[] = [
+        {
+            path: '/docs',
+            label: 'Docs',
+        },
+        {
+            path: '/components',
+            label: 'Components',
+        },
+        // {
+        //     path: '/examples',
+        //     label: 'Examples',
+        // },
+        // {
+        //     path: '/resources',
+        //     label: 'Resources',
+        // },
+    ];
 }

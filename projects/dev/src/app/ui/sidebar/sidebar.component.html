@@ -1,4 +1,4 @@
-<div class="h-full bg-base-100 border-r border-base-200">
+<div class="h-full border-r border-gray-200">
     <div class="sticky top-5">
         <div class="p-4 lg:hidden">
             <div class="form-control">
@@ -11,21 +11,27 @@
         </div>
 
         @for (section of sections; track section.title) {
-        <div class="my-6">
-            <h3 class="text-xs uppercase font-bold opacity-60 mb-2 px-4">{{ section.title }}</h3>
-            <ul class="menu gap-y-1">
-                @for (item of section.items; track item.label) {
-                <li>
-                    <a [routerLink]="item.route" routerLinkActive="active" class="transition-all">
-                        @if (item.icon) {
-                        <span class="material-icons text-lg">{{ item.icon }}</span>
-                        }
-                        {{ item.label }}
-                    </a>
-                </li>
-                }
-            </ul>
-        </div>
+            <div class="my-6">
+                <h3 class="text-xs uppercase font-bold opacity-60 mb-2 px-4">
+                    {{ section.title }}
+                </h3>
+                <ul class="menu gap-y-1">
+                    @for (item of section.items; track item.label) {
+                        <li>
+                            <a
+                                [routerLink]="item.route"
+                                routerLinkActive="active"
+                                class="transition-all"
+                            >
+                                @if (item.icon) {
+                                    <span class="material-icons text-lg">{{ item.icon }}</span>
+                                }
+                                {{ item.label }}
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
         }
     </div>
 </div>
