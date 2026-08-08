@@ -14,10 +14,6 @@ const COMPONENTS_ROUTES: Routes = [
         loadComponent: () => import('./badge-demo/badge-demo.component'),
     },
     {
-        path: 'modal',
-        loadComponent: () => import('./modal-demo/modal-demo.component'),
-    },
-    {
         path: 'alert',
         loadComponent: () => import('./alert-demo/alert-demo.component'),
     },

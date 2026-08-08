@@ -1,6 +1,0 @@
-{
-  "lib": {
-    "flatModuleFile": "zdButton",
-    "entryFile": "public-api.ts"
-  }
-}

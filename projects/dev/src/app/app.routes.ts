@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
+        path: '__zordon-tests__/browser',
+        loadComponent: () => import('./testing/browser-test-fixture.component'),
+    },
+    {
         path: '',
         loadComponent: () => import('./pages/home/home.component'),
     },

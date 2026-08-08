@@ -1,53 +1,44 @@
-<h1 align="center">
-Zordon UI
-</h1>
+# Zordon UI
 
-## 📦 Installation
+Zordon UI is a modern Angular component library that uses daisyUI as its visual foundation and adds Angular-native state, forms, accessibility, overlays, SSR support, localization, and complete customization.
 
-**We recommend using `@angular/cli` to install**. It not only makes development easier, but also allows you to take advantage of the rich ecosystem of angular packages and tooling.
+The v1 API is under active development. The existing legacy component source is not the contract for the new API and remains unexported until each component is rebuilt through the tracked workflow.
 
-```bash
-$ ng new PROJECT_NAME
-$ cd PROJECT_NAME
-$ ng add @pranxy/zordon-ui
+## Current baseline
+
+- Angular 21 build baseline with Angular 21–22 consumer support planned
+- Tailwind CSS 4
+- daisyUI 5.7.16
+- Package: `@pranxy/zordon-ui`
+- Selector prefix: `zd`
+- License: MIT
+- 68 components planned for v1
+
+## Project tracking
+
+- [Build plan and 68-component matrix](DAISYUI_ANGULAR_BUILD_PLAN.md)
+- [Architecture decisions](docs/architecture/README.md)
+- [Package entry-point map](docs/architecture/entry-points.md)
+- [Styling and theming contract](docs/guides/styling-and-theming.md)
+
+## Development
+
+Build the library:
+
+```sh
+ng build components --configuration production
 ```
 
-> More information about `@angular/cli` [here](https://github.com/angular/angular-cli).
+Build the documentation application:
 
-You can also install `@pranxy/zordon-ui` with npm or yarn
-
-```bash
-$ npm install @pranxy/zordon-ui
+```sh
+ng build dev --configuration development
 ```
 
-## 🔨 Usage
+Run the documentation application locally:
 
-Import the component into your feature component.
-
-```ts
-import { ZdButton } from '@pranxy/zordon-ui/button';
-
-@Component({
-    imports: [ZdButton],
-})
-export class AppComponent {}
+```sh
+ng serve dev
 ```
 
-> `@angular/cli` users won't have to worry about the things below but it's good to know.
-
-And import style and SVG icon assets file link in `angular.json`.
-
-```diff
-{
-  ],
-  "styles": [
-+   "node_modules/@pranxy/zordon-ui/zordon-ui.min.css"
-  ]
-}
-```
-
-<!-- 
-## 🔗 TODO: Links 
-
--   [Snippet extension for VSCode](https://marketplace.visualstudio.com/items?itemName=) -->
-
+The installation and public usage documentation will be finalized after the provider, theming, and first component APIs are stable. `ng add` support is planned before v1.0 and is not currently available.

@@ -1,24 +1,14 @@
-# Components
+# @pranxy/zordon-ui
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+Angular components and directives using daisyUI as their visual foundation.
 
-## Code scaffolding
+The v1 API is being rebuilt from approved architecture decisions. Existing component source under this project is legacy reference material until it is replaced through the tracked component workflow.
 
-Run `ng generate component component-name --project components` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project components`.
-> Note: Don't forget to add `--project components` or else it will be added to the default project in your `angular.json` file. 
+## Development
 
-## Build
+- Build: `ng build components --configuration production`
+- Test: `ng test components`
+- Architecture decisions: [`../../docs/architecture/README.md`](../../docs/architecture/README.md)
+- Delivery tracker: [`../../DAISYUI_ANGULAR_BUILD_PLAN.md`](../../DAISYUI_ANGULAR_BUILD_PLAN.md)
 
-Run `ng build components` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build components`, go to the dist folder `cd dist/components` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test components` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The package targets Angular 21–22, Tailwind CSS 4, and daisyUI 5. Every public component must satisfy the shared Definition of Done before it is exported as stable.

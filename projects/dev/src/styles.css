@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+
+/* daisyUI defaults: empty class prefix, light default theme, dark prefers-color-scheme theme. */
 @plugin "daisyui";
 
 :root {
