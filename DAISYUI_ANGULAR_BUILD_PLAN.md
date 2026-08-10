@@ -123,7 +123,7 @@ Overall component progress: **0 / 68 Done**.
 ### Styling and customization
 
 - [x] Define typed color, size, style, shape, placement, orientation, and density vocabularies. Nine public `Zd*` aliases cover recurring daisyUI modifiers and logical layout concepts without runtime payload; component-specific values remain local, exact compile-time tests reject widening, and the customization boundary is documented.
-- [ ] Define host class composition without blocking consumer classes.
+- [x] Define host class composition without blocking consumer classes. A private token composer and Angular host class-map convention preserve static and dynamic consumer sources, replace stale library modifiers, and honor explicit consumer per-token precedence without DOM class mutation.
 - [ ] Define per-instance CSS variable and style overrides.
 - [ ] Define named part/slot conventions for compound components.
 - [ ] Support daisyUI class prefixes and Tailwind prefixes.
@@ -460,6 +460,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                    | Components/phases    | Owner or link              |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------- |
+| 2026-08-10 | Added the private host-class token composer and Angular integration contract for additive static/dynamic consumer classes, reactive modifier updates, and explicit per-token precedence.  | Phase 2 host classes | `docs/foundations/`        |
 | 2026-08-10 | Added public type-only color, size, style, shape, placement, orientation, and density vocabularies with exact compile-time contracts and customization guidance.                          | Phase 2 vocabularies | `docs/foundations/`        |
 | 2026-08-10 | Added force-included implementation coverage, 100% per-file thresholds, a tested empty/missing/uncovered-report guard, contributor guidance, and a controlled failure proof.              | Phase 1 coverage     | `docs/testing/`            |
 | 2026-08-10 | Added the contributor workflow plus public API review, deprecation/breaking-change, and component maturity policies tied to the plan, ADRs, Changesets, and actual validation commands.   | Phase 1 governance   | `docs/contributing/`       |

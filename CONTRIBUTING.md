@@ -52,6 +52,8 @@ Library changes must preserve the accepted contracts:
   value;
 - additive consumer classes/styles, documented CSS variables or parts, and configurable daisyUI
   class prefixes;
+- Angular host class-map bindings for library-owned tokens; never replace or reconstruct a
+  consumer's complete class attribute;
 - WCAG 2.2 AA-oriented behavior, keyboard and focus support, RTL, reduced motion, localization,
   SSR, and hydration safety;
 - intentional public exports only, partial-Ivy packaging, tree shaking, cleanup, and no accidental

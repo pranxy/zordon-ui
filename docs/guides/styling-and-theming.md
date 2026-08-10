@@ -4,6 +4,8 @@ Zordon UI uses daisyUI as its visual source of truth. The Angular package suppli
 
 Shared component input literals follow the
 [typed foundation vocabulary contract](../foundations/typed-vocabularies.md).
+Library and consumer host classes follow the
+[host class composition contract](../foundations/host-class-composition.md).
 
 ## Supported versions
 
@@ -97,6 +99,13 @@ The library will:
 - treat documented daisyUI theme variables as consumer-owned styling hooks;
 - document any library-owned CSS variables and public part directives;
 - avoid promising compatibility for undocumented daisyUI internals.
+
+Components implement that guarantee with Angular host class-map bindings. Static `class`, dynamic
+`[class]`, per-token `[class.name]`, and non-overlapping `ngClass` tokens remain consumer-owned
+sources; the library never reads or rewrites the complete class attribute. An explicit consumer
+per-token binding may suppress a library token according to Angular's normal styling precedence.
+Use `[class.name]`, not `ngClass`, when overriding a token also owned by the library because
+`NgClass` removal does not participate in host class-map ownership restoration.
 
 The library does not ship a precompiled daisyUI theme stylesheet. This avoids duplicate CSS and allows each application to control generation, pruning, themes, and prefixes.
 
