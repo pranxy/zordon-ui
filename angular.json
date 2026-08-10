@@ -55,7 +55,23 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "buildTarget": "components:build:development",
-            "include": ["**/*.spec.ts"],
+            "coverageExclude": [
+              "projects/components/**/src/**/*.d.ts",
+              "projects/components/**/src/**/*.spec.ts"
+            ],
+            "coverageInclude": [
+              "projects/components/src/**/*.ts",
+              "projects/components/*/src/**/*.ts"
+            ],
+            "coverageReporters": ["text", "html", "json"],
+            "coverageThresholds": {
+              "perFile": true,
+              "statements": 100,
+              "branches": 100,
+              "functions": 100,
+              "lines": 100
+            },
+            "include": ["**/*.spec.ts", "../*/src/**/*.spec.ts"],
             "runner": "vitest",
             "tsConfig": "projects/components/tsconfig.spec.json"
           }
@@ -65,7 +81,9 @@
           "options": {
             "lintFilePatterns": [
               "projects/components/src/**/*.ts",
-              "projects/components/src/**/*.html"
+              "projects/components/src/**/*.html",
+              "projects/components/*/src/**/*.ts",
+              "projects/components/*/src/**/*.html"
             ]
           }
         }

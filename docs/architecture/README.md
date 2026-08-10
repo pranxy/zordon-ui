@@ -16,6 +16,9 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 
 - [Package entry-point map](entry-points.md)
 - [Styling and theming contract](../guides/styling-and-theming.md)
+- [Public API review](../contributing/api-review.md)
+- [Deprecation and breaking changes](../contributing/deprecation-policy.md)
+- [Component maturity](../contributing/component-maturity.md)
 
 ## Decision process
 

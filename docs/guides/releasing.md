@@ -108,9 +108,9 @@ known-good version with `npm dist-tag add`, then mark the bad version with `npm 
 clear upgrade instruction. These npm mutations are manual maintainer actions protected by 2FA;
 verify the exact package, version, and tag before running them.
 
-For a breaking change, deprecate the old API in a minor release, document its replacement and
-migration path, and remove it only in the next major release unless an active security issue demands
-a separately approved exception.
+Public API deprecation and removal follow the canonical
+[deprecation and breaking-change policy](../contributing/deprecation-policy.md). This guide owns
+package correction and publishing mechanics, not API maturity decisions.
 
 ## Primary references
 

@@ -16,6 +16,8 @@ The v1 API is under active development. The existing legacy component source is 
 
 ## Project tracking
 
+- [Contributor workflow](CONTRIBUTING.md)
+- [Contribution and compatibility policies](docs/contributing/README.md)
 - [Build plan and 68-component matrix](DAISYUI_ANGULAR_BUILD_PLAN.md)
 - [Architecture decisions](docs/architecture/README.md)
 - [Package entry-point map](docs/architecture/entry-points.md)

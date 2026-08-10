@@ -1,6 +1,6 @@
 # daisyUI Angular Library Build Plan
 
-Last updated: 2026-08-07  
+Last updated: 2026-08-10
 Planning baseline: daisyUI 5.7.16 documentation, 68 components  
 Implementation status at plan creation: not started  
 Scope note: this plan is intentionally independent of the repository's existing component implementation.
@@ -34,7 +34,7 @@ Component matrix columns:
 | Phase | Outcome                                                            | Status | Exit condition                                                |
 | ----- | ------------------------------------------------------------------ | -----: | ------------------------------------------------------------- |
 | 0     | Product and architecture decisions                                 |    [x] | All blocking ADRs approved                                    |
-| 1     | Workspace, packaging, docs, and CI foundation                      |    [~] | A publishable empty library and documentation app build in CI |
+| 1     | Workspace, packaging, docs, and CI foundation                      |    [x] | A publishable empty library and documentation app build in CI |
 | 2     | Styling, configuration, composition, and accessibility foundations |    [ ] | Shared contracts are tested and documented                    |
 | 3     | Native primitives and layout components                            |    [ ] | Stage 3 component rows are Done                               |
 | 4     | Angular form controls                                              |    [ ] | Every value control works with typed Reactive Forms           |
@@ -109,14 +109,14 @@ Overall component progress: **0 / 68 Done**.
 - [x] Define secondary entry points only where they materially improve tree shaking or optional dependencies. The accepted component and optional integration map is documented in `docs/architecture/entry-points.md`.
 - [x] Configure Tailwind and daisyUI with a documented version and class-prefix policy. The docs app uses the agreed empty-prefix light/dark defaults, and the consumer contract is documented in `docs/guides/styling-and-theming.md`.
 - [x] Configure production builds, package exports, typings, source maps, and side-effect metadata for the primary entry point.
-- [~] Add linting, formatting, type checking, unit tests, coverage, and build verification. Linting, formatting, Vitest, coverage, and CI build gates are configured; meaningful coverage thresholds remain.
+- [x] Add linting, formatting, type checking, unit tests, coverage, and build verification. Angular/Vitest force-includes every implementation source and applies 100% per-file statement, branch, function, and line thresholds; a tested structural check distinguishes the empty bootstrap package from missing or uncovered runtime code, and CI runs the combined gate.
 - [x] Add browser integration tests for focus, keyboard, overlays, forms, SSR, and hydration. The client fixture has seven passing boot/focus/dialog/form/accessibility scenarios, while the isolated production SSR fixture has three passing server-HTML, JavaScript-disabled, hydration/interaction, and accessibility scenarios; the three-engine project matrix and Chromium CI gates are configured.
 - [x] Add automated accessibility checks and a manual accessibility test template. The axe Playwright fixture, passing light/dark and dialog-state scans, JSON report attachments, and manual WCAG/keyboard/screen-reader review template are implemented and verified.
 - [x] Add visual regression testing across representative daisyUI themes and breakpoints. Eight reviewed Chromium baselines cover light/dark desktop and mobile layouts, low/high-radius themes, a consumer-defined theme, and an open-dialog state; comparison mode passes locally and has a dedicated Windows CI gate.
 - [x] Add bundle-size budgets for the primary and optional entry points. The generated-export gate enforces raw and gzip FESM ceilings for the primary entry point, every future component entry point, and optional testing/Signal Forms integrations; tooling tests, the production build-and-check command, and the CI gate pass. The current primary artifact is 233 B raw and 193 B gzip.
 - [x] Add an SSR example and hydration smoke test. The clean Angular application uses `AngularNodeAppEngine`, server render mode, client hydration with event replay, deterministic signal state, and browser-safe render hooks. Its production build and three Playwright server/hydration/accessibility scenarios pass with zero production audit findings.
 - [x] Add a release pipeline with changelog generation, prerelease channels, provenance, and dry-run publishing. Changesets prepares reviewable version/changelog PRs; stable and `next`/`alpha`/`beta`/`rc` releases have tested tag/lineage guards, package dry runs, protected OIDC publishing, and maintainer recovery/bootstrap documentation.
-- [ ] Add contribution, API review, deprecation, and component maturity documentation.
+- [x] Add contribution, API review, deprecation, and component maturity documentation. The contributor workflow and focused governance policies define actual validation commands, manual public API review until extraction tooling exists, pre-1.0/stable deprecation rules, and maturity promotion gates tied to the component matrix.
 
 ## Phase 2 — Shared foundations
 
@@ -451,7 +451,7 @@ These are release-level checks in addition to component-level tests.
 | Signal Forms API stability may change                                                                                                                | Keep stable CVA/Reactive Forms core; isolate optional adapter                                                              |    [ ] |
 | Visual completeness can hide accessibility gaps                                                                                                      | A11y is an independent completion column and release gate                                                                  |    [ ] |
 | “Implemented” can be confused with “production ready”                                                                                                | Mark Done only after tests, a11y, docs, and visual verification pass                                                       |    [ ] |
-| The current documentation app exceeds its initial bundle warning budget by 89.60 kB                                                                  | Replace legacy demo dependencies and set evidence-based budgets before beta                                                |    [ ] |
+| The current documentation app exceeds its initial bundle warning budget by 91.97 kB                                                                  | Replace legacy demo dependencies and set evidence-based budgets before beta                                                |    [ ] |
 | Production npm audit is clean; the full workspace has 5 development-only findings (1 high, 4 moderate) upstream in Angular 21 CLI/build dependencies | Monitor Angular 21 patches; do not accept npm's Angular 22 upgrade or invalid CLI downgrade while v1 targets Angular 21–22 |    [~] |
 
 ## Progress log
@@ -460,6 +460,8 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                    | Components/phases    | Owner or link              |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------- |
+| 2026-08-10 | Added force-included implementation coverage, 100% per-file thresholds, a tested empty/missing/uncovered-report guard, contributor guidance, and a controlled failure proof.              | Phase 1 coverage     | `docs/testing/`            |
+| 2026-08-10 | Added the contributor workflow plus public API review, deprecation/breaking-change, and component maturity policies tied to the plan, ADRs, Changesets, and actual validation commands.   | Phase 1 governance   | `docs/contributing/`       |
 | 2026-08-10 | Added Changesets version/changelog preparation, stable and four prerelease channels, tested package/tag/lineage guards, npm dry runs, and protected OIDC provenance publishing.           | Phase 1 release      | `.github/workflows/`       |
 | 2026-08-09 | Added a clean Angular SSR application and production hydration gate covering server HTML, JavaScript-disabled rendering, post-hydration interaction, browser errors, and accessibility.   | Phase 1 SSR          | `projects/ssr-example/`    |
 | 2026-08-09 | Added automatic raw/gzip package budgets for primary, component, testing, and Signal Forms entry points; checker tests and the production build-and-check command pass.                   | Phase 1 bundle size  | `bundle-size-budgets.json` |
