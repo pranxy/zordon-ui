@@ -55,6 +55,9 @@ jobs:
       - name: Run library tests with coverage
         run: npm run test:lib:coverage
 
+      - name: Check library public type contracts
+        run: npm run test:lib:types
+
       - name: Check browser test types
         run: npm run typecheck:browser
 

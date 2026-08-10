@@ -74,6 +74,7 @@ From a clean checkout of the prepared version, run:
 npm ci
 npm run format:check
 npm run lint:lib
+npm run test:lib:types
 npm run test:lib:coverage
 npm run test:tooling
 npm run release:dry-run

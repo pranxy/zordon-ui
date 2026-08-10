@@ -35,7 +35,7 @@ Component matrix columns:
 | ----- | ------------------------------------------------------------------ | -----: | ------------------------------------------------------------- |
 | 0     | Product and architecture decisions                                 |    [x] | All blocking ADRs approved                                    |
 | 1     | Workspace, packaging, docs, and CI foundation                      |    [x] | A publishable empty library and documentation app build in CI |
-| 2     | Styling, configuration, composition, and accessibility foundations |    [ ] | Shared contracts are tested and documented                    |
+| 2     | Styling, configuration, composition, and accessibility foundations |    [~] | Shared contracts are tested and documented                    |
 | 3     | Native primitives and layout components                            |    [ ] | Stage 3 component rows are Done                               |
 | 4     | Angular form controls                                              |    [ ] | Every value control works with typed Reactive Forms           |
 | 5     | Actions, disclosure, overlays, and feedback                        |    [ ] | Overlay/focus infrastructure and Stage 5 rows are Done        |
@@ -122,7 +122,7 @@ Overall component progress: **0 / 68 Done**.
 
 ### Styling and customization
 
-- [ ] Define typed color, size, style, shape, placement, orientation, and density vocabularies.
+- [x] Define typed color, size, style, shape, placement, orientation, and density vocabularies. Nine public `Zd*` aliases cover recurring daisyUI modifiers and logical layout concepts without runtime payload; component-specific values remain local, exact compile-time tests reject widening, and the customization boundary is documented.
 - [ ] Define host class composition without blocking consumer classes.
 - [ ] Define per-instance CSS variable and style overrides.
 - [ ] Define named part/slot conventions for compound components.
@@ -460,6 +460,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                    | Components/phases    | Owner or link              |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------- |
+| 2026-08-10 | Added public type-only color, size, style, shape, placement, orientation, and density vocabularies with exact compile-time contracts and customization guidance.                          | Phase 2 vocabularies | `docs/foundations/`        |
 | 2026-08-10 | Added force-included implementation coverage, 100% per-file thresholds, a tested empty/missing/uncovered-report guard, contributor guidance, and a controlled failure proof.              | Phase 1 coverage     | `docs/testing/`            |
 | 2026-08-10 | Added the contributor workflow plus public API review, deprecation/breaking-change, and component maturity policies tied to the plan, ADRs, Changesets, and actual validation commands.   | Phase 1 governance   | `docs/contributing/`       |
 | 2026-08-10 | Added Changesets version/changelog preparation, stable and four prerelease channels, tested package/tag/lineage guards, npm dry runs, and protected OIDC provenance publishing.           | Phase 1 release      | `.github/workflows/`       |

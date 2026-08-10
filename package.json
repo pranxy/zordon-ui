@@ -20,6 +20,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:lib": "ng test components --watch=false",
+    "test:lib:types": "tsc --project projects/components/tsconfig.type-tests.json",
     "test:lib:coverage": "ng test components --watch=false --coverage && node tools/check-library-coverage.mjs",
     "test:bundle-size": "npm run build:lib && npm run check:bundle-size",
     "test:tooling": "node --test tools/*.test.mjs",

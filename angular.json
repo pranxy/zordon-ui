@@ -83,7 +83,8 @@
               "projects/components/src/**/*.ts",
               "projects/components/src/**/*.html",
               "projects/components/*/src/**/*.ts",
-              "projects/components/*/src/**/*.html"
+              "projects/components/*/src/**/*.html",
+              "projects/components/type-tests/**/*.ts"
             ]
           }
         }

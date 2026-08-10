@@ -20,6 +20,7 @@ Useful baseline commands are:
 
 ```shell
 npm run build:lib
+npm run test:lib:types
 npm run test:lib:coverage
 npm run lint:lib
 npm run format:check
@@ -64,15 +65,15 @@ Any new or changed public surface requires the
 
 Run the smallest applicable set locally; pull-request CI remains authoritative and may run more.
 
-| Change                                         | Required local checks                                                                                      |
-| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Any tracked file                               | `npm run format:check`                                                                                     |
-| Library source or public API                   | `npm run lint:lib`, `npm run test:lib:coverage`, `npm run build:lib`, `npm run check:bundle-size`          |
-| Repository/release tooling                     | `npm run test:tooling`; add `npm run release:dry-run` when package contents or publishing behavior changes |
-| Browser interaction, forms, focus, or overlays | `npm run typecheck:browser`, `npm run lint:browser`, `npm run test:browser`                                |
-| SSR or hydration behavior                      | `npm run test:ssr`                                                                                         |
-| Intentional visual output                      | `npm run test:visual`; use `npm run test:visual:update` only to regenerate reviewed baselines              |
-| Documentation application                      | `npm run build:docs`                                                                                       |
+| Change                                         | Required local checks                                                                                                       |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Any tracked file                               | `npm run format:check`                                                                                                      |
+| Library source or public API                   | `npm run lint:lib`, `npm run test:lib:types`, `npm run test:lib:coverage`, `npm run build:lib`, `npm run check:bundle-size` |
+| Repository/release tooling                     | `npm run test:tooling`; add `npm run release:dry-run` when package contents or publishing behavior changes                  |
+| Browser interaction, forms, focus, or overlays | `npm run typecheck:browser`, `npm run lint:browser`, `npm run test:browser`                                                 |
+| SSR or hydration behavior                      | `npm run test:ssr`                                                                                                          |
+| Intentional visual output                      | `npm run test:visual`; use `npm run test:visual:update` only to regenerate reviewed baselines                               |
+| Documentation application                      | `npm run build:docs`                                                                                                        |
 
 When a visual baseline changes, inspect the image rather than approving it from a passing command
 alone. Commit approved files under `e2e/__screenshots__/`; generated Playwright reports and failure

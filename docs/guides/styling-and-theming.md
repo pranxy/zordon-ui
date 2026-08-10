@@ -2,6 +2,9 @@
 
 Zordon UI uses daisyUI as its visual source of truth. The Angular package supplies behavior and typed APIs; the consuming application compiles Tailwind CSS and daisyUI into its own stylesheet.
 
+Shared component input literals follow the
+[typed foundation vocabulary contract](../foundations/typed-vocabularies.md).
+
 ## Supported versions
 
 - Tailwind CSS `>=4.1.0 <5.0.0`
