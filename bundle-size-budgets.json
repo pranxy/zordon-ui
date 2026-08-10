@@ -1,0 +1,21 @@
+{
+  "outputDirectory": "dist/components",
+  "primary": {
+    "maximumRawBytes": 51200,
+    "maximumGzipBytes": 15360
+  },
+  "secondary": {
+    "maximumRawBytes": 40960,
+    "maximumGzipBytes": 12288
+  },
+  "overrides": {
+    "./testing": {
+      "maximumRawBytes": 81920,
+      "maximumGzipBytes": 24576
+    },
+    "./signal-forms": {
+      "maximumRawBytes": 40960,
+      "maximumGzipBytes": 12288
+    }
+  }
+}

@@ -1,0 +1,84 @@
+name: Publish npm package
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Set up Node.js for npm
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.15.0
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint library
+        run: npm run lint:lib
+
+      - name: Test library
+        run: npm run test:lib
+
+      - name: Build package
+        run: npm run build:lib
+
+      - name: Test repository tooling
+        run: npm run test:tooling
+
+      - name: Check package bundle budgets
+        run: npm run check:bundle-size
+
+      - name: Verify release tag and channel
+        id: release
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+        run: >-
+          node tools/release-contract.mjs
+          --package dist/components/package.json
+          --tag "$RELEASE_TAG"
+          --prerelease "$RELEASE_PRERELEASE"
+          >> "$GITHUB_OUTPUT"
+
+      - name: Verify packed contents and publish command
+        run: npm run release:package-dry-run
+
+      - name: Require an approved release lineage
+        env:
+          NPM_DIST_TAG: ${{ steps.release.outputs.dist-tag }}
+        run: |
+          if [ "$NPM_DIST_TAG" = "latest" ]; then
+            git merge-base --is-ancestor HEAD origin/master
+          else
+            git merge-base --is-ancestor HEAD "origin/release/$NPM_DIST_TAG"
+          fi
+
+      - name: Publish with provenance
+        env:
+          NPM_DIST_TAG: ${{ steps.release.outputs.dist-tag }}
+        run: npm publish ./dist/components --access public --tag "$NPM_DIST_TAG" --provenance

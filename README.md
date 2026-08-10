@@ -20,6 +20,9 @@ The v1 API is under active development. The existing legacy component source is 
 - [Architecture decisions](docs/architecture/README.md)
 - [Package entry-point map](docs/architecture/entry-points.md)
 - [Styling and theming contract](docs/guides/styling-and-theming.md)
+- [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
+- [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
+- [Maintainer release workflow](docs/guides/releasing.md)
 
 ## Development
 

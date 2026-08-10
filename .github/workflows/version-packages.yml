@@ -1,0 +1,53 @@
+name: Version packages
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: version-packages
+  cancel-in-progress: false
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.15.0
+          package-manager-cache: false
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Detect stable version mode
+        id: version-mode
+        run: >-
+          node -e "const version = require('./projects/components/package.json').version;
+          console.log('enabled=' + !version.includes('-'))"
+          >> "$GITHUB_OUTPUT"
+
+      - name: Create or update the version PR
+        if: steps.version-mode.outputs.enabled == 'true'
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d
+        with:
+          version: npm run version:packages
+          commit: 'chore: version packages'
+          title: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Explain prerelease versioning
+        if: steps.version-mode.outputs.enabled != 'true'
+        run: echo "Stable version PR automation is paused; version prereleases on a dedicated release branch."

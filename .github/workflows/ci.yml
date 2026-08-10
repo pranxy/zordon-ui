@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
@@ -37,8 +37,20 @@ jobs:
       - name: Lint library
         run: npm run lint:lib
 
+      - name: Lint SSR example
+        run: npm run lint:ssr
+
       - name: Build library package
         run: npm run build:lib
+
+      - name: Test repository tooling
+        run: npm run test:tooling
+
+      - name: Check package bundle budgets
+        run: npm run check:bundle-size
+
+      - name: Verify package publish dry run
+        run: npm run release:package-dry-run
 
       - name: Run library tests with coverage
         run: npm run test:lib:coverage
@@ -55,6 +67,9 @@ jobs:
       - name: Run browser integration tests
         run: npm run test:browser
 
+      - name: Build SSR example and run hydration smoke tests
+        run: npm run test:ssr
+
       - name: Build documentation application
         run: npm run build:docs
 
@@ -63,6 +78,40 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
+          path: |
+            playwright-report/
+            playwright-ssr-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  visual-regression:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium
+
+      - name: Compare visual baselines
+        run: npm run test:visual
+
+      - name: Upload visual Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-playwright-report
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 14

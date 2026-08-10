@@ -99,7 +99,7 @@ The library does not ship a precompiled daisyUI theme stylesheet. This avoids du
 
 ## Playground policy
 
-The documentation application uses daisyUI's default empty class prefix, light default theme, and dark preferred-color-scheme theme. Prefix, nested-theme, low-radius, high-radius, and consumer-theme variants will be exercised by dedicated test fixtures instead of compiling every theme into the documentation application.
+The documentation application uses daisyUI's default empty class prefix, light default theme, and dark preferred-color-scheme theme. Its stable visual-test fixture additionally compiles `corporate`, `cupcake`, and a consumer-defined theme to exercise low-radius, high-radius, and consumer-token boundaries without compiling daisyUI's full theme catalog. Prefix and nested-theme variants remain dedicated compatibility-fixture work.
 
 ## Upstream references
 

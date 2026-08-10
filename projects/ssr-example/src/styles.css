@@ -1,0 +1,15 @@
+:root {
+  color-scheme: light dark;
+  font-family: Arial, sans-serif;
+  background: Canvas;
+  color: CanvasText;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+output {
+  font: inherit;
+}

@@ -170,6 +170,77 @@
           }
         }
       }
+    },
+    "ssr-example": {
+      "projectType": "application",
+      "root": "projects/ssr-example",
+      "sourceRoot": "projects/ssr-example/src",
+      "prefix": "ssr",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/ssr-example",
+            "index": "projects/ssr-example/src/index.html",
+            "browser": "projects/ssr-example/src/main.ts",
+            "server": "projects/ssr-example/src/main.server.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/ssr-example/tsconfig.app.json",
+            "styles": ["projects/ssr-example/src/styles.css"],
+            "outputMode": "server",
+            "ssr": {
+              "entry": "projects/ssr-example/src/server.ts"
+            },
+            "security": {
+              "allowedHosts": ["127.0.0.1", "localhost"]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "300kb",
+                  "maximumError": "400kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ssr-example:build:production"
+            },
+            "development": {
+              "buildTarget": "ssr-example:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ssr-example/src/**/*.ts",
+              "projects/ssr-example/src/**/*.html"
+            ]
+          }
+        }
+      }
     }
   }
 }

@@ -1,7 +1,45 @@
 @import 'tailwindcss';
 
-/* daisyUI defaults: empty class prefix, light default theme, dark prefers-color-scheme theme. */
-@plugin "daisyui";
+/* Production defaults plus the low/high-radius themes used by the visual test fixture. */
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, corporate, cupcake;
+}
+
+/* Consumer-owned theme contract exercised by visual regression tests. */
+@plugin "daisyui/theme" {
+    name: "zordon-visual";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(98% 0.015 255);
+    --color-base-200: oklch(94% 0.025 255);
+    --color-base-300: oklch(88% 0.035 255);
+    --color-base-content: oklch(22% 0.04 255);
+    --color-primary: oklch(55% 0.22 275);
+    --color-primary-content: oklch(98% 0.01 275);
+    --color-secondary: oklch(68% 0.18 195);
+    --color-secondary-content: oklch(18% 0.04 195);
+    --color-accent: oklch(72% 0.18 75);
+    --color-accent-content: oklch(20% 0.04 75);
+    --color-neutral: oklch(30% 0.04 255);
+    --color-neutral-content: oklch(96% 0.015 255);
+    --color-info: oklch(68% 0.16 235);
+    --color-info-content: oklch(20% 0.04 235);
+    --color-success: oklch(66% 0.17 150);
+    --color-success-content: oklch(19% 0.04 150);
+    --color-warning: oklch(76% 0.17 80);
+    --color-warning-content: oklch(22% 0.04 80);
+    --color-error: oklch(62% 0.22 25);
+    --color-error-content: oklch(98% 0.01 25);
+    --radius-selector: 0.75rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1.25rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
 
 :root {
     --transition-speed: 0.3s;
