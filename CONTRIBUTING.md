@@ -60,6 +60,9 @@ Library changes must preserve the accepted contracts:
   consumer's complete class attribute;
 - native Angular style bindings for per-instance values; never shadow `style`, accept arbitrary raw
   CSS, use library-owned `!important`, or reconstruct a consumer's complete style attribute;
+- component-specific named part selectors and functional directives for projected anatomy;
+  document cardinality and ownership, keep markers static, and follow the
+  [named parts and slots convention](docs/foundations/named-parts-and-slots.md);
 - WCAG 2.2 AA-oriented behavior, keyboard and focus support, RTL, reduced motion, localization,
   SSR, and hydration safety;
 - intentional public exports only, partial-Ivy packaging, tree shaking, cleanup, and no accidental

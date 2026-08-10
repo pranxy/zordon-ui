@@ -18,6 +18,10 @@ A wrapper component for every daisyUI class would obscure native HTML behavior a
 - Name two-way state as the state noun plus `Change`, following Angular conventions.
 - Preserve native events and semantics. Library outputs describe higher-level state transitions and do not replace native events without a specific reason.
 - Project arbitrary consumer content by default. Named parts use directives or explicit selectors; template inputs are reserved for repeated or data-driven content.
+- Apply the component-specific
+  [named-part contract](../foundations/named-parts-and-slots.md): `[zd<Component><Part>]` selectors
+  are optionally backed by directives from the root's component entry point, projection is static,
+  and no generic string slot or runtime registry is introduced.
 - Generate IDs only when consumers do not supply them, and use the shared hydration-safe ID facility.
 - Do not require an icon library. Accept projected icons and templates, and provide only minimal internal icons where behavior would otherwise be unclear.
 - Expose global defaults through a tree-shakeable `provideZordonUi(...)` function and lightweight injection tokens. Local inputs always take precedence.

@@ -53,6 +53,9 @@ specification.
 - [ ] Defaults, nullability, coercion, invalid inputs, error behavior, and method timing are defined.
 - [ ] Projected content, template context types, child registration, and declarative/programmatic
       parity are documented.
+- [ ] Named parts follow the component-specific selector, declaration, cardinality, ordering,
+      fallback, ownership, and static-projection rules in the
+      [named parts guide](../foundations/named-parts-and-slots.md).
 - [ ] Only APIs supported by the minimum Angular version appear in core public types/runtime code.
 
 ### Packaging and dependency boundaries

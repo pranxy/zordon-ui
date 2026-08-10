@@ -130,7 +130,10 @@ Overall component progress: **0 / 68 Done**.
 - [x] Define typed color, size, style, shape, placement, orientation, and density vocabularies. Nine public `Zd*` aliases cover recurring daisyUI modifiers and logical layout concepts without runtime payload; component-specific values remain local, exact compile-time tests reject widening, and the customization boundary is documented.
 - [x] Define host class composition without blocking consumer classes. A private token composer and Angular host class-map convention preserve static and dynamic consumer sources, replace stale library modifiers, and honor explicit consumer per-token precedence without DOM class mutation.
 - [x] Define per-instance CSS variable and style overrides. Native Angular style bindings remain the public API; tested host-source composition covers static/map/per-property styles, custom properties, units, updates, fallback and clearing semantics, plus the documented overlapping `NgStyle` boundary without a duplicate generic input.
-- [ ] Define named part/slot conventions for compound components.
+- [x] Define named part/slot conventions for compound components. Component-scoped static selectors
+      use optional functional directives only when styling or behavior requires them; Angular's
+      projection, ordering, fallback, forwarding, customization, and SSR boundaries are tested and
+      documented without a generic runtime abstraction.
 - [ ] Support daisyUI class prefixes and Tailwind prefixes.
 - [ ] Support global, nested, and per-component themes.
 - [ ] Support global component defaults and local overrides.
@@ -468,6 +471,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                       | Components/phases    | Owner or link                               |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ------------------------------------------- |
+| 2026-08-10 | Defined component-scoped named part selectors, optional functional directives, anatomy/cardinality rules, static projection and forwarding boundaries, plus focused Angular integration coverage.            | Phase 2 composition  | `docs/foundations/named-parts-and-slots.md` |
 | 2026-08-10 | Adopted Angular Aria as the native-first headless interaction foundation, mapped its eight directive families and four composed patterns to the catalog, and contained preview APIs behind Zordon contracts. | Phase 2 interaction  | `docs/foundations/angular-aria-adoption.md` |
 | 2026-08-10 | Defined native Angular per-instance style and CSS-variable ownership with tested updates, fallbacks, explicit clearing, units, security, SSR, and `NgStyle` boundaries.                                      | Phase 2 styles       | `docs/foundations/`                         |
 | 2026-08-10 | Added the private host-class token composer and Angular integration contract for additive static/dynamic consumer classes, reactive modifier updates, and explicit per-token precedence.                     | Phase 2 host classes | `docs/foundations/`                         |
