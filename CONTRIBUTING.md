@@ -54,6 +54,8 @@ Library changes must preserve the accepted contracts:
   class prefixes;
 - Angular host class-map bindings for library-owned tokens; never replace or reconstruct a
   consumer's complete class attribute;
+- native Angular style bindings for per-instance values; never shadow `style`, accept arbitrary raw
+  CSS, use library-owned `!important`, or reconstruct a consumer's complete style attribute;
 - WCAG 2.2 AA-oriented behavior, keyboard and focus support, RTL, reduced motion, localization,
   SSR, and hydration safety;
 - intentional public exports only, partial-Ivy packaging, tree shaking, cleanup, and no accidental

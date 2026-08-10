@@ -124,7 +124,7 @@ Overall component progress: **0 / 68 Done**.
 
 - [x] Define typed color, size, style, shape, placement, orientation, and density vocabularies. Nine public `Zd*` aliases cover recurring daisyUI modifiers and logical layout concepts without runtime payload; component-specific values remain local, exact compile-time tests reject widening, and the customization boundary is documented.
 - [x] Define host class composition without blocking consumer classes. A private token composer and Angular host class-map convention preserve static and dynamic consumer sources, replace stale library modifiers, and honor explicit consumer per-token precedence without DOM class mutation.
-- [ ] Define per-instance CSS variable and style overrides.
+- [x] Define per-instance CSS variable and style overrides. Native Angular style bindings remain the public API; tested host-source composition covers static/map/per-property styles, custom properties, units, updates, fallback and clearing semantics, plus the documented overlapping `NgStyle` boundary without a duplicate generic input.
 - [ ] Define named part/slot conventions for compound components.
 - [ ] Support daisyUI class prefixes and Tailwind prefixes.
 - [ ] Support global, nested, and per-component themes.
@@ -460,6 +460,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                    | Components/phases    | Owner or link              |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------- |
+| 2026-08-10 | Defined native Angular per-instance style and CSS-variable ownership with tested updates, fallbacks, explicit clearing, units, security, SSR, and `NgStyle` boundaries.                   | Phase 2 styles       | `docs/foundations/`        |
 | 2026-08-10 | Added the private host-class token composer and Angular integration contract for additive static/dynamic consumer classes, reactive modifier updates, and explicit per-token precedence.  | Phase 2 host classes | `docs/foundations/`        |
 | 2026-08-10 | Added public type-only color, size, style, shape, placement, orientation, and density vocabularies with exact compile-time contracts and customization guidance.                          | Phase 2 vocabularies | `docs/foundations/`        |
 | 2026-08-10 | Added force-included implementation coverage, 100% per-file thresholds, a tested empty/missing/uncovered-report guard, contributor guidance, and a controlled failure proof.              | Phase 1 coverage     | `docs/testing/`            |

@@ -6,6 +6,8 @@ Shared component input literals follow the
 [typed foundation vocabulary contract](../foundations/typed-vocabularies.md).
 Library and consumer host classes follow the
 [host class composition contract](../foundations/host-class-composition.md).
+Per-instance ordinary styles and CSS custom properties follow the
+[instance style override contract](../foundations/instance-style-overrides.md).
 
 ## Supported versions
 
@@ -106,6 +108,12 @@ sources; the library never reads or rewrites the complete class attribute. An ex
 per-token binding may suppress a library token according to Angular's normal styling precedence.
 Use `[class.name]`, not `ngClass`, when overriding a token also owned by the library because
 `NgClass` removal does not participate in host class-map ownership restoration.
+
+Use Angular's native `style`, `[style]`, and `[style.property]` bindings for per-instance style and
+CSS-variable customization. Components do not expose a duplicate generic style input. An explicit
+`[style.property]` binding is the supported way to override a library-owned host property;
+overlapping `NgStyle` values are not a reliable ownership source. Style values remain trusted
+application configuration and must not be populated from unvalidated user or remote content.
 
 The library does not ship a precompiled daisyUI theme stylesheet. This avoids duplicate CSS and allows each application to control generation, pruning, themes, and prefixes.
 
