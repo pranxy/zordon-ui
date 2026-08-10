@@ -11,6 +11,8 @@ Accessibility and platform compatibility cannot be added reliably after 68 compo
 
 - WCAG 2.2 AA is the target for library-owned behavior and default styling, subject to consumer-provided content and colors.
 - Follow native semantics first and the relevant WAI-ARIA Authoring Practices pattern for custom widgets.
+- For a matching compound widget, follow ADR 0008 and compose `@angular/aria` before authoring
+  custom keyboard, focus, selection, expansion, or typeahead behavior.
 - Every interactive component documents its keyboard model, focus behavior, labeling requirements, and announcement behavior.
 - Automated accessibility checks are necessary but do not replace manual keyboard and screen-reader verification.
 - Support logical directions and Angular CDK Directionality. Public placements use `start` and `end` where physical direction is not intrinsic.

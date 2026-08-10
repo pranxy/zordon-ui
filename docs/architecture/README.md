@@ -11,11 +11,13 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0005](0005-forms.md)                              | Angular Forms integration                            | Accepted |
 | [0006](0006-packaging-and-public-api.md)           | Packaging, entry points, and public API              | Accepted |
 | [0007](0007-accessibility-ssr-and-localization.md) | Accessibility, SSR, localization, and directionality | Accepted |
+| [0008](0008-angular-aria.md)                       | Angular Aria headless interaction foundation         | Accepted |
 
 ## Applied architecture maps
 
 - [Package entry-point map](entry-points.md)
 - [Styling and theming contract](../guides/styling-and-theming.md)
+- [Angular Aria adoption and component map](../foundations/angular-aria-adoption.md)
 - [Public API review](../contributing/api-review.md)
 - [Deprecation and breaking changes](../contributing/deprecation-policy.md)
 - [Component maturity](../contributing/component-maturity.md)

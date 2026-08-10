@@ -31,6 +31,11 @@ For example, Button is imported from `@pranxy/zordon-ui/button`. Styled/native a
 
 No separate `core`, `theming`, `overlay`, or `forms` entry point is planned. Those shared public contracts belong at the package root; their implementation details remain private.
 
+No `aria` entry point is planned. Components may privately compose `@angular/aria` under ADR 0008,
+but must not re-export its developer-preview declarations or make consumers use Angular Aria deep
+imports. Only component entry points that import a pattern retain its runtime code after tree
+shaking; the package-level peer requirement is added with the first consuming component.
+
 ## Entry-point acceptance rules
 
 Before an entry point is published, it must:

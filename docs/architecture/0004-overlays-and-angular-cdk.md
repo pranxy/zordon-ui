@@ -10,6 +10,8 @@ Dropdowns, tooltips, dialogs, toasts, drawers, select popups, and megamenus shar
 ## Decision
 
 - Use Angular CDK as a required peer dependency for v1 overlay and accessibility infrastructure.
+- Apply ADR 0008 first for matching headless WAI-ARIA widget patterns; use CDK A11y primitives for
+  complementary behavior and documented gaps rather than rebuilding an Angular Aria pattern.
 - Build one internal overlay abstraction on CDK Overlay, Portal, A11y, Bidi, and Layout primitives where appropriate.
 - Keep the internal abstraction private so CDK details do not leak into public component APIs.
 - Prefer native `<dialog>` and Popover behavior when it materially improves semantics, while retaining the shared abstraction for fallback, focus restoration, scroll strategy, and consistent events.

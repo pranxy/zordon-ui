@@ -25,6 +25,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Typed foundation vocabularies](docs/foundations/typed-vocabularies.md)
 - [Host class composition](docs/foundations/host-class-composition.md)
 - [Per-instance style overrides](docs/foundations/instance-style-overrides.md)
+- [Angular Aria adoption and component map](docs/foundations/angular-aria-adoption.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
 - [Maintainer release workflow](docs/guides/releasing.md)

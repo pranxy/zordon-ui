@@ -68,6 +68,10 @@ specification.
 
 - [ ] Native element roles, names, descriptions, states, relationships, and form participation are
       preserved or the relevant WAI-ARIA pattern is implemented.
+- [ ] Native HTML, `@angular/aria`, and Angular CDK were evaluated in that order; any custom
+      keyboard, focus, selection, expansion, or typeahead implementation has a documented gap.
+- [ ] Developer-preview Angular Aria declarations and types remain private, and the tested
+      dependency range, SSR/hydration behavior, and bundle effect are recorded when used.
 - [ ] Keyboard, focus entry/movement/restoration, pointer/touch, dismissal, and announcement
       behavior are specified.
 - [ ] Disabled, read-only, loading, invalid, high-zoom, forced-colors, and reduced-motion behavior is

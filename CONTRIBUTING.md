@@ -48,6 +48,10 @@ Library changes must preserve the accepted contracts:
 - standalone Angular declarations, OnPush change detection, signal-based public state, and native
   template control flow;
 - native HTML semantics and events before custom widget behavior;
+- `@angular/aria` directives before custom keyboard, focus, selection, expansion, tree, grid,
+  listbox, menu, tabs, toolbar, or typeahead code when a documented pattern fits; keep the preview
+  dependency behind Zordon public APIs and follow the
+  [Angular Aria adoption guide](docs/foundations/angular-aria-adoption.md);
 - controlled state for stateful APIs and Angular Forms behavior where the component represents a
   value;
 - additive consumer classes/styles, documented CSS variables or parts, and configurable daisyUI
