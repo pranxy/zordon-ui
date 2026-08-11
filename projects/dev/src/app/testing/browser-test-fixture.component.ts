@@ -1,7 +1,16 @@
 import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
+import { ZdTheme } from '@pranxy/zordon-ui';
+
+@Component({
+  selector: 'app-theme-host-fixture',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `Theme host fixture`,
+})
+class ThemeHostFixtureComponent {}
 
 @Component({
   selector: 'app-browser-test-fixture',
+  imports: [ThemeHostFixtureComponent, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'browser-test-fixture',
@@ -54,6 +63,24 @@ import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } fro
         </form>
         <output data-testid="submitted-name">{{ submittedName() }}</output>
       </section>
+
+      <section hidden data-testid="theme-contract" zdTheme="corporate">
+        <div data-testid="nested-theme" [zdTheme]="nestedTheme()"></div>
+        <app-theme-host-fixture data-testid="component-theme" zdTheme="zordon-visual" />
+        <button data-testid="clear-nested-theme" type="button" (click)="nestedTheme.set(null)">
+          Clear nested theme
+        </button>
+      </section>
+
+      <div hidden>
+        <div data-testid="system-theme" [zdTheme]="systemTheme()"></div>
+        <button data-testid="set-system-light" type="button" (click)="systemTheme.set('light')">
+          Set system scope to light
+        </button>
+        <button data-testid="clear-system-theme" type="button" (click)="systemTheme.set(null)">
+          Clear system scope
+        </button>
+      </div>
     </article>
   `,
 })
@@ -63,6 +90,8 @@ export default class BrowserTestFixtureComponent {
     viewChild.required<ElementRef<HTMLButtonElement>>('dialogTrigger');
 
   protected readonly submittedName = signal('');
+  protected readonly nestedTheme = signal<string | null>('cupcake');
+  protected readonly systemTheme = signal<string | null>(null);
 
   protected openDialog(): void {
     this.dialog().nativeElement.showModal();

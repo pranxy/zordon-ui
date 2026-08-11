@@ -10,6 +10,8 @@ Per-instance ordinary styles and CSS custom properties follow the
 [instance style override contract](../foundations/instance-style-overrides.md).
 Build-time and runtime class spelling follows the
 [daisyUI and Tailwind class-prefix contract](../foundations/class-prefixes.md).
+Global, nested, and component-host theme boundaries follow the
+[theme-scope contract](../foundations/theme-scopes.md).
 
 ## Supported versions
 
@@ -96,7 +98,8 @@ Applications choose the themes compiled into their CSS:
 }
 ```
 
-Apply a theme globally or to any nested scope with `data-theme`:
+With daisyUI's default `root: ":root"`, apply a theme globally on `<html>` or to any nested scope
+with `data-theme`:
 
 ```html
 <html data-theme="dark">
@@ -106,7 +109,23 @@ Apply a theme globally or to any nested scope with `data-theme`:
 </html>
 ```
 
-Components must inherit the nearest theme scope. A component may expose an additive per-instance theme boundary, but it must not rewrite an ancestor's theme.
+Omit the configured root's attribute to use daisyUI's default and preferred-dark themes. With a
+custom root such as `root: "#app"`, that matched element owns the global boundary; a body-level
+overlay container is outside it. `system` is not a special theme name.
+
+For an Angular-managed nested or per-component boundary, import `ZdTheme` and bind `[zdTheme]`:
+
+```html
+<section zdTheme="corporate">
+  <app-preview [zdTheme]="previewTheme()" />
+</section>
+```
+
+Exact non-empty names are preserved. `null`, `undefined`, or `''` remove the boundary and restore
+inheritance. Treat `[zdTheme]` as the only intended owner of `data-theme` on its host. Combining it
+with `[attr.data-theme]` is unsupported because updates have no stable precedence; use the native
+binding alone when direct consumer ownership is preferred.
+Components must not rewrite an ancestor's theme.
 
 Custom themes remain ordinary daisyUI v5 themes declared with `@plugin "daisyui/theme"`. Consumers retain ownership of semantic colors, radii, sizes, border width, depth, and noise.
 
@@ -138,7 +157,7 @@ The library does not ship a precompiled daisyUI theme stylesheet. This avoids du
 
 ## Playground policy
 
-The documentation application uses daisyUI's default empty class prefix, light default theme, and dark preferred-color-scheme theme. Its stable visual-test fixture additionally compiles `corporate`, `cupcake`, and a consumer-defined theme to exercise low-radius, high-radius, and consumer-token boundaries without compiling daisyUI's full theme catalog. Prefix and nested-theme variants remain dedicated compatibility-fixture work.
+The documentation application uses daisyUI's default empty class prefix, light default theme, and dark preferred-color-scheme theme. Its stable visual-test fixture additionally compiles `corporate`, `cupcake`, and a consumer-defined theme to exercise low-radius, high-radius, consumer-token, nested-scope, component-host, clearing/inheritance, and system-preference boundaries without compiling daisyUI's full theme catalog. Prefix variants remain dedicated compatibility-fixture work.
 
 ## Upstream references
 

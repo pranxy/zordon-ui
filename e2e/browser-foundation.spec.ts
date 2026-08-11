@@ -52,3 +52,62 @@ test('honors native form validation and submits a value', async ({ page }) => {
   await submit.click();
   await expect(page.getByTestId('submitted-name')).toHaveText('Zordon');
 });
+
+test('applies compiled daisyUI variables to nested and per-element theme scopes', async ({
+  page,
+}) => {
+  const outer = page.getByTestId('theme-contract');
+  const nested = page.getByTestId('nested-theme');
+  const component = page.getByTestId('component-theme');
+
+  await expect(outer).toHaveAttribute('data-theme', 'corporate');
+  await expect(nested).toHaveAttribute('data-theme', 'cupcake');
+  await expect(component).toHaveAttribute('data-theme', 'zordon-visual');
+
+  const radii = await Promise.all(
+    [outer, nested, component].map(locator =>
+      locator.evaluate(element =>
+        getComputedStyle(element).getPropertyValue('--radius-box').trim(),
+      ),
+    ),
+  );
+  const [outerRadius, nestedRadius, customRadius] = radii;
+  expect(nestedRadius).not.toBe(outerRadius);
+  expect(customRadius).toBe('1.25rem');
+
+  await page
+    .getByTestId('clear-nested-theme')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(nested).not.toHaveAttribute('data-theme');
+  await expect
+    .poll(() =>
+      nested.evaluate(element => getComputedStyle(element).getPropertyValue('--radius-box').trim()),
+    )
+    .toBe(outerRadius);
+});
+
+test('uses preferred dark only when an explicit theme boundary is absent', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.evaluate(() => document.documentElement.removeAttribute('data-theme'));
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme');
+  const systemScope = page.getByTestId('system-theme');
+
+  const readBaseColor = () =>
+    systemScope.evaluate(element =>
+      getComputedStyle(element).getPropertyValue('--color-base-100').trim(),
+    );
+  const preferredDarkColor = await readBaseColor();
+
+  await page
+    .getByTestId('set-system-light')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(systemScope).toHaveAttribute('data-theme', 'light');
+  const explicitLightColor = await readBaseColor();
+  expect(explicitLightColor).not.toBe(preferredDarkColor);
+
+  await page
+    .getByTestId('clear-system-theme')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(systemScope).not.toHaveAttribute('data-theme');
+  await expect.poll(readBaseColor).toBe(preferredDarkColor);
+});

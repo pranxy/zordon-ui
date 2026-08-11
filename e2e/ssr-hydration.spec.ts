@@ -7,6 +7,10 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(response.ok()).toBe(true);
   expect(html).toContain('Zordon UI SSR and hydration example');
   expect(html).toContain('Hydration status: server-rendered');
+  expect(html).toContain('data-testid="server-theme-scope"');
+  expect(html).toContain('data-theme="dark"');
+  expect(html).toContain('data-testid="server-nested-theme"');
+  expect(html).toContain('data-theme="light"');
   expect(html).toMatch(/ngh="\d+"/);
 
   const context = await browser.newContext({ javaScriptEnabled: false });
@@ -30,10 +34,18 @@ test('hydrates without errors and enables interaction', async ({ page }) => {
 
   await page.goto('/');
   await expect(page.getByTestId('hydration-state')).toHaveText('Hydration status: ready');
+  await expect(page.getByTestId('server-theme-scope')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByTestId('server-nested-theme')).toHaveAttribute('data-theme', 'light');
   await expect(page.getByTestId('counter')).toHaveText('Hydrated count: 0');
 
   await page.getByTestId('increment').click();
   await expect(page.getByTestId('counter')).toHaveText('Hydrated count: 1');
+
+  await page
+    .getByTestId('clear-server-theme')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(page.getByTestId('server-theme-scope')).not.toHaveAttribute('data-theme');
+  await expect(page.getByTestId('server-nested-theme')).toHaveAttribute('data-theme', 'light');
   expect(errors).toEqual([]);
 });
 

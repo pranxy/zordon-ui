@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@angular/core';
+import { ZdTheme } from '@pranxy/zordon-ui';
 
 @Component({
   selector: 'ssr-example-root',
+  imports: [ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -34,6 +36,13 @@ import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@an
       <p data-testid="hydration-state">
         Hydration status: {{ hydrationReady() ? 'ready' : 'server-rendered' }}
       </p>
+
+      <div hidden data-testid="server-theme-scope" [zdTheme]="serverTheme()">
+        <span data-testid="server-nested-theme" zdTheme="light"></span>
+        <button data-testid="clear-server-theme" type="button" (click)="serverTheme.set(null)">
+          Clear server theme
+        </button>
+      </div>
     </main>
   `,
   styles: `
@@ -92,6 +101,7 @@ import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@an
 export class SsrExampleAppComponent {
   protected readonly count = signal(0);
   protected readonly hydrationReady = signal(false);
+  protected readonly serverTheme = signal<string | null>('dark');
 
   constructor() {
     afterNextRender(() => this.hydrationReady.set(true));

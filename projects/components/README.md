@@ -16,5 +16,7 @@ The public type-only foundation is documented in the
 [typed vocabulary guide](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md).
 Application prefix setup and required Tailwind candidates are documented in the
 [class-prefix contract](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/class-prefixes.md).
+Global, nested, and per-component daisyUI boundaries are documented in the
+[theme-scope contract](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/theme-scopes.md).
 
 The package targets Angular 21–22, Tailwind CSS 4, and daisyUI 5. Every public component must satisfy the shared Definition of Done before it is exported as stable.

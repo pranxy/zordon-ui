@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@pranxy/zordon-ui": ["projects/components"],
+      "@pranxy/zordon-ui": ["projects/components/src/public-api.ts"],
       "@pranxy/zordon-ui/*": ["projects/components/*"]
     },
     "outDir": "./dist/out-tsc",

@@ -11,6 +11,8 @@ export {
   type ZdConfig,
 } from './config/zordon-ui-config';
 
+export { ZdTheme } from './theme/theme';
+
 export type {
   ZdBlockPlacement,
   ZdColor,
