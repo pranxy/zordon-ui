@@ -143,7 +143,10 @@ Overall component progress: **0 / 68 Done**.
       boundaries on native or Angular component hosts. Built-in/custom scopes, default and custom
       roots, preferred dark, clearing, SSR/hydration, and portaled-overlay ownership are tested and
       documented without adding browser-global state or duplicating the future Theme Controller.
-- [ ] Support global component defaults and local overrides.
+- [~] Support global component defaults and local overrides. The precedence, eligible-input,
+  omission/null, application-only DI, immutability, SSR, entry-point, and first-component proof
+  contracts are documented. The typed provider feature remains intentionally pending until the
+  first real component can validate it without an untyped registry or premature catalog schema.
 - [ ] Document safe customization versus reliance on non-semver internal daisyUI variables.
 
 ### Interaction primitives
@@ -478,6 +481,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases    | Owner or link                               |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | ------------------------------------------- |
+| 2026-08-10 | Defined intrinsic/application/local component-default precedence, eligible inputs, DI scope, immutable merge rules, and the evidence required before the first typed defaults provider is exported.           | Phase 2 defaults     | `docs/foundations/component-defaults.md`    |
 | 2026-08-10 | Added native global theme-root guidance and the public `ZdTheme` directive for exact nested/component-host scopes, with real CSS inheritance, preferred-dark, custom-root, SSR/hydration, and package tests.  | Phase 2 themes       | `docs/foundations/theme-scopes.md`          |
 | 2026-08-10 | Added immutable application-level daisyUI/Tailwind prefix configuration, centralized class generation, exact candidate-source guidance, installed/floor compiler gates, and public integration documentation. | Phase 2 prefixes     | `docs/foundations/class-prefixes.md`        |
 | 2026-08-10 | Defined component-scoped named part selectors, optional functional directives, anatomy/cardinality rules, static projection and forwarding boundaries, plus focused Angular integration coverage.             | Phase 2 composition  | `docs/foundations/named-parts-and-slots.md` |

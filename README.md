@@ -28,6 +28,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Named parts and slots](docs/foundations/named-parts-and-slots.md)
 - [daisyUI and Tailwind class prefixes](docs/foundations/class-prefixes.md)
 - [Global, nested, and component theme scopes](docs/foundations/theme-scopes.md)
+- [Global component defaults and local precedence](docs/foundations/component-defaults.md)
 - [Angular Aria adoption and component map](docs/foundations/angular-aria-adoption.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)

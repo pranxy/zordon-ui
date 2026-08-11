@@ -67,6 +67,9 @@ Library changes must preserve the accepted contracts:
   component-host boundaries; never add a component-specific theme input, theme-name registry, or
   browser-global theme behavior, and follow the
   [theme-scope contract](docs/foundations/theme-scopes.md);
+- component-specific application defaults only for explicitly approved optional inputs; preserve
+  `undefined` as local inheritance, keep required/controlled/Forms-owned state out, and follow the
+  [component-defaults contract](docs/foundations/component-defaults.md);
 - component-specific named part selectors and functional directives for projected anatomy;
   document cardinality and ownership, keep markers static, and follow the
   [named parts and slots convention](docs/foundations/named-parts-and-slots.md);

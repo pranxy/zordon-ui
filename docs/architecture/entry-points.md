@@ -31,6 +31,11 @@ For example, Button is imported from `@pranxy/zordon-ui/button`. Styled/native a
 
 No separate `core`, `theming`, `overlay`, or `forms` entry point is planned. Those shared public contracts belong at the package root; their implementation details remain private.
 
+Component-specific defaults types and typed configuration helpers belong to that component's entry
+point. The root provider may compose their opaque features, but it must not import catalog component
+types or runtime. The shared feature protocol is introduced with the first real defaults-aware
+component, not as an untyped registry ahead of component APIs.
+
 No `aria` entry point is planned. Components may privately compose `@angular/aria` under ADR 0008,
 but must not re-export its developer-preview declarations or make consumers use Angular Aria deep
 imports. Only component entry points that import a pattern retain its runtime code after tree

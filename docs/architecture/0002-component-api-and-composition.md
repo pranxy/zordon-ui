@@ -24,7 +24,10 @@ A wrapper component for every daisyUI class would obscure native HTML behavior a
   and no generic string slot or runtime registry is introduced.
 - Generate IDs only when consumers do not supply them, and use the shared hydration-safe ID facility.
 - Do not require an icon library. Accept projected icons and templates, and provide only minimal internal icons where behavior would otherwise be unclear.
-- Expose global defaults through a tree-shakeable `provideZordonUi(...)` function and lightweight injection tokens. Local inputs always take precedence.
+- Expose global defaults through a tree-shakeable `provideZordonUi(...)` function and lightweight
+  injection tokens. Local inputs always take precedence. Apply the staged
+  [component-defaults contract](../foundations/component-defaults.md); its runtime provider feature
+  is added only with the first concrete component that can prove it.
 
 ## Consequences
 
