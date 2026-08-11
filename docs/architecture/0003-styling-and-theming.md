@@ -13,6 +13,7 @@ daisyUI supplies the visual system through semantic class names, theme variables
 - Require consumers to configure Tailwind CSS 4 and daisyUI 5. Provide an installation schematic and documented manual setup.
 - Keep daisyUI and Tailwind as peer dependencies of the published library and development dependencies of this workspace.
 - Support a configurable daisyUI class prefix. Centralize class generation so components never hard-code an unchangeable prefix.
+- Require complete build-time Tailwind candidates for library classes because runtime prefix generation is not source-detectable.
 - Map documented daisyUI variants to typed Angular inputs while still allowing consumer classes, styles, data attributes, and CSS variables.
 - Apply consumer host classes additively. Never replace the consumer's class attribute.
 - Define public part directives and stable library-owned CSS variables only where daisyUI has no appropriate public hook.

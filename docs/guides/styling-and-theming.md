@@ -8,6 +8,8 @@ Library and consumer host classes follow the
 [host class composition contract](../foundations/host-class-composition.md).
 Per-instance ordinary styles and CSS custom properties follow the
 [instance style override contract](../foundations/instance-style-overrides.md).
+Build-time and runtime class spelling follows the
+[daisyUI and Tailwind class-prefix contract](../foundations/class-prefixes.md).
 
 ## Supported versions
 
@@ -42,7 +44,7 @@ Then load Tailwind and daisyUI in the application's global stylesheet:
 
 The default Zordon UI contract uses daisyUI's empty class prefix. Angular selectors still use the unrelated `zd` prefix, such as `zd-button`.
 
-## daisyUI class prefixes
+## daisyUI and Tailwind class prefixes
 
 Consumers may configure a daisyUI prefix to avoid class-name collisions:
 
@@ -57,11 +59,28 @@ Consumers may configure a daisyUI prefix to avoid class-name collisions:
 }
 ```
 
-With that configuration, daisyUI's `btn` class becomes `d-btn`. Zordon UI's global configuration must be given the same daisyUI prefix so generated host classes match the compiled CSS. The typed Angular configuration for this synchronization is a Phase 2 deliverable and is not public yet.
+With that configuration, daisyUI's `btn` class becomes `d-btn`. Register the matching immutable
+application configuration:
 
-The daisyUI class prefix and Tailwind utility prefix are independent. If both are enabled, Tailwind's prefix syntax also applies to generated daisyUI classes. This combination will be covered by compatibility fixtures, but the library default remains no prefix for either system.
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideZordonUi } from '@pranxy/zordon-ui';
 
-Prefixes are build-time contracts. Changing one at runtime does not generate a second set of CSS classes.
+export const appConfig: ApplicationConfig = {
+  providers: [provideZordonUi({ classPrefixes: { daisyUi: 'd-' } })],
+};
+```
+
+The daisyUI class prefix and Tailwind utility prefix are independent. With Tailwind
+`@import 'tailwindcss' prefix(tw)` plus daisyUI `prefix: 'd-'`, configure
+`{ daisyUi: 'd-', tailwind: 'tw' }`; Zordon emits `tw:d-btn`. The daisyUI
+`theme-controller` exception remains `d-theme-controller`.
+
+Prefixes are build-time contracts. Changing one at runtime does not generate another CSS class set.
+Because Tailwind cannot detect runtime-generated tokens, applications must also register every
+complete token with `@source inline(...)`. For example, combined button candidates are
+`@source inline("tw:d-btn tw:d-btn-primary")`. The focused prefix contract documents all four
+modes, accepted values, source-detection requirements, SSR behavior, and contributor rules.
 
 ## Themes and scopes
 
@@ -126,3 +145,4 @@ The documentation application uses daisyUI's default empty class prefix, light d
 - [daisyUI Angular installation](https://daisyui.com/docs/install/angular/)
 - [daisyUI configuration](https://daisyui.com/docs/config/)
 - [daisyUI themes](https://daisyui.com/docs/themes/)
+- [Tailwind source detection](https://tailwindcss.com/docs/detecting-classes-in-source-files)

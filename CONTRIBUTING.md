@@ -56,6 +56,9 @@ Library changes must preserve the accepted contracts:
   value;
 - additive consumer classes/styles, documented CSS variables or parts, and configurable daisyUI
   class prefixes;
+- `ZdClassNames` for every library-owned daisyUI token; never hard-code or concatenate configured
+  prefixes, and publish the complete build-time candidate inventory required by the
+  [class-prefix contract](docs/foundations/class-prefixes.md);
 - Angular host class-map bindings for library-owned tokens; never replace or reconstruct a
   consumer's complete class attribute;
 - native Angular style bindings for per-instance values; never shadow `style`, accept arbitrary raw

@@ -4,6 +4,13 @@
  * Stable exports are added only after they satisfy the tracked Definition of Done.
  */
 
+export {
+  provideZordonUi,
+  ZdClassNames,
+  type ZdClassPrefixConfig,
+  type ZdConfig,
+} from './config/zordon-ui-config';
+
 export type {
   ZdBlockPlacement,
   ZdColor,

@@ -14,6 +14,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prefix-floor-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.15.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install supported Tailwind floor
+        run: npm install --no-save --package-lock=false --ignore-scripts tailwindcss@4.1.0 @tailwindcss/postcss@4.1.0
+
+      - name: Verify class-prefix compatibility at the Tailwind floor
+        run: node --test tools/class-prefix-compatibility.test.mjs
+
   build-and-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
