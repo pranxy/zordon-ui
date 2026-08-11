@@ -11,7 +11,9 @@ The dedicated Playwright suite verifies that:
 - the server-rendered page remains readable when JavaScript is disabled;
 - `afterNextRender` runs only in the browser and updates the hydration status after reconciliation;
 - a signal-based interaction works after hydration;
-- no browser console errors, page errors, or hydration mismatch errors occur.
+- consecutive server requests produce the same generated accessible relationships;
+- hydration preserves generated IDs and their `aria-*` references;
+- no browser console errors, page errors, or hydration mismatch errors occur;
 - the hydrated fixture has no detectable WCAG A or AA violations.
 
 The initial fixture uses deterministic server/client state and contains no browser-global access during rendering. Each component with server-visible output or interactive hydration behavior must extend this application and its smoke coverage before being marked SSR-ready.
@@ -31,7 +33,8 @@ The production server output is `dist/ssr-example/server/server.mjs` and listens
 ## Authoring rules
 
 - Keep initial server and client templates structurally identical.
-- Generate stable IDs and initial state deterministically.
+- Generate IDs through `ZdIdGenerator`, follow the
+  [stable ID contract](../foundations/stable-ids.md), and keep initial allocation order deterministic.
 - Run DOM, storage, media-query, observer, and layout APIs only from browser-safe render hooks or guarded services.
 - Do not use `ngSkipHydration` to conceal a mismatch unless a documented third-party integration cannot support hydration.
 - Test both server HTML and post-hydration public behavior.

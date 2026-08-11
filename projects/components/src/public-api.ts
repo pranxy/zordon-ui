@@ -13,6 +13,8 @@ export {
 
 export { ZdTheme } from './theme/theme';
 
+export { ZdIdGenerator } from './id/id-generator';
+
 export type {
   ZdBlockPlacement,
   ZdColor,

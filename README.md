@@ -31,6 +31,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Global component defaults and local precedence](docs/foundations/component-defaults.md)
 - [Safe customization and daisyUI internal-variable policy](docs/foundations/safe-customization.md)
 - [Angular Aria adoption and component map](docs/foundations/angular-aria-adoption.md)
+- [Stable generated IDs](docs/foundations/stable-ids.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
 - [Maintainer release workflow](docs/guides/releasing.md)

@@ -20,5 +20,7 @@ Global, nested, and per-component daisyUI boundaries are documented in the
 [theme-scope contract](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/theme-scopes.md).
 The staged application-default and local-input precedence rules are documented in the
 [component-defaults contract](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/component-defaults.md).
+Stable generated relationships and their SSR/hydration boundaries are documented in the
+[stable ID contract](https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/stable-ids.md).
 
 The package targets Angular 21–22, Tailwind CSS 4, and daisyUI 5. Every public component must satisfy the shared Definition of Done before it is exported as stable.

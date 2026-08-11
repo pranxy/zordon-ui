@@ -214,6 +214,10 @@ attributes, generated ID text, and upstream implementation selectors are not aut
 Zordon customization contracts. Expose stable Zordon part directives, classes, and CSS variables
 instead of documenting those internals.
 
+When Zordon owns a relationship, use the [stable ID foundation](stable-ids.md). Do not allocate a
+second relationship when Angular Aria already owns it, and do not parse or expose an upstream
+generated ID as a Zordon customization contract.
+
 Visible focus remains Zordon's responsibility. Never remove an outline without supplying a tested
 replacement that works in forced-colors mode.
 

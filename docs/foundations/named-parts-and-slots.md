@@ -142,7 +142,7 @@ keyboard sequence.
 
 Static projection and deterministic host bindings are SSR-safe. A root or part must not inspect
 layout, query document order, or relocate projected nodes during construction or hydration. Any
-generated relationship ID uses the shared hydration-stable ID foundation once available. Components
+generated relationship ID uses the shared [stable ID foundation](stable-ids.md). Components
 with fallbacks, conditional consumer content, registered children, or generated relationships add
 focused SSR/hydration tests when implemented.
 

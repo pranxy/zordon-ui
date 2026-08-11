@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@angular/core';
-import { ZdTheme } from '@pranxy/zordon-ui';
+import { ChangeDetectionStrategy, Component, afterNextRender, inject, signal } from '@angular/core';
+import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 
 @Component({
   selector: 'ssr-example-root',
@@ -16,14 +16,22 @@ import { ZdTheme } from '@pranxy/zordon-ui';
         This content is rendered on the server before the browser application starts.
       </p>
 
-      <section aria-labelledby="hydrated-interaction-heading">
-        <h2 id="hydrated-interaction-heading">Hydrated interaction</h2>
-        <p id="counter-description">
+      <section [attr.aria-labelledby]="interactionHeadingId">
+        <h2 data-testid="interaction-heading" [id]="interactionHeadingId">Hydrated interaction</h2>
+        <p data-testid="counter-description" [id]="counterDescriptionId">
           The initial value is identical on the server and client. The button becomes interactive
           after hydration.
         </p>
+        <label [attr.for]="renderStateId">Initial render state</label>
+        <input
+          [attr.aria-describedby]="counterDescriptionId"
+          data-testid="render-state"
+          readonly
+          value="Server and client agree"
+          [id]="renderStateId"
+        />
         <button
-          aria-describedby="counter-description"
+          [attr.aria-describedby]="counterDescriptionId"
           data-testid="increment"
           type="button"
           (click)="increment()"
@@ -99,6 +107,11 @@ import { ZdTheme } from '@pranxy/zordon-ui';
   `,
 })
 export class SsrExampleAppComponent {
+  private readonly ids = inject(ZdIdGenerator);
+
+  protected readonly interactionHeadingId = this.ids.next('ssr-example-heading');
+  protected readonly counterDescriptionId = this.ids.next('ssr-example-description');
+  protected readonly renderStateId = this.ids.next('ssr-example-state');
   protected readonly count = signal(0);
   protected readonly hydrationReady = signal(false);
   protected readonly serverTheme = signal<string | null>('dark');
