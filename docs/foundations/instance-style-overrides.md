@@ -87,6 +87,8 @@ Use `[style.property]` for intentional collisions with library-owned values.
 Applications may set documented daisyUI theme variables on a component instance, including
 semantic colors and shared radius or size tokens. This foundation does not turn every variable
 found in generated daisyUI component CSS into a Zordon UI compatibility promise.
+Use the [safe customization contract](safe-customization.md) to distinguish documented theme
+tokens, non-semver daisyUI component internals, and stable Zordon-owned `--zd-*` hooks.
 
 If daisyUI has no appropriate public hook, a component may define a documented
 `--zd-<component>-<purpose>` variable. Once documented, that variable is part of the component's

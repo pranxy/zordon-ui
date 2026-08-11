@@ -12,6 +12,8 @@ Build-time and runtime class spelling follows the
 [daisyUI and Tailwind class-prefix contract](../foundations/class-prefixes.md).
 Global, nested, and component-host theme boundaries follow the
 [theme-scope contract](../foundations/theme-scopes.md).
+Supported hooks and the boundary around daisyUI's non-semver component internals follow the
+[safe customization contract](../foundations/safe-customization.md).
 
 ## Supported versions
 
@@ -139,6 +141,13 @@ The library will:
 - treat documented daisyUI theme variables as consumer-owned styling hooks;
 - document any library-owned CSS variables and public part directives;
 - avoid promising compatibility for undocumented daisyUI internals.
+
+Customization has an explicit stability order: prefer Zordon inputs and documented parts,
+documented daisyUI classes and theme tokens, additive consumer CSS, native style bindings, and
+documented Zordon `--zd-*` variables. daisyUI's component-specific variables are an advanced
+escape hatch even when listed in its utilities page: daisyUI labels them internal and excludes
+them from semantic versioning. Appearance that depends on one must pin the exact daisyUI version
+and carry visual coverage. Variables or selectors found only in generated source are unsupported.
 
 Components implement that guarantee with Angular host class-map bindings. Static `class`, dynamic
 `[class]`, per-token `[class.name]`, and non-overlapping `ngClass` tokens remain consumer-owned

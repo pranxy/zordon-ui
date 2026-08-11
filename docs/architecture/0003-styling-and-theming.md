@@ -18,6 +18,10 @@ daisyUI supplies the visual system through semantic class names, theme variables
 - Apply consumer host classes additively. Never replace the consumer's class attribute.
 - Define public part directives and stable library-owned CSS variables only where daisyUI has no appropriate public hook.
 - Do not promise semantic versioning for daisyUI's internal component variables. Pin tested daisyUI versions in CI and document any internal-variable usage.
+- Apply the stability and authoring rules in the
+  [safe customization contract](../foundations/safe-customization.md). A documented daisyUI
+  component variable remains an upstream internal; a documented `--zd-*` variable is Zordon-owned
+  public API.
 - Support global themes, nested `data-theme` scopes, system preference, and per-component theme boundaries.
 - Keep view encapsulation from blocking customization. Prefer host classes, projected native elements, and CSS variables over deep selectors.
 - Ensure every visual regression suite covers default light, default dark, one low-radius theme, one high-radius theme, and one consumer-defined theme.

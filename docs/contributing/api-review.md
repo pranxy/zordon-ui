@@ -98,6 +98,10 @@ specification.
       additively.
 - [ ] Prefix, theme, CSS variable, and named-part behavior is explicit without promising daisyUI
       internals as Zordon UI API.
+- [ ] The styling inventory labels Zordon-stable, daisyUI-documented, daisyUI-internal, and
+      consumer-owned hooks according to the
+      [safe customization contract](../foundations/safe-customization.md); every internal-variable
+      dependency has a justification, exact-version evidence, prefix coverage, and visual tests.
 - [ ] Basic/advanced examples, anti-patterns, accessibility, forms, customization, SSR, and migration
       notes exist as applicable.
 - [ ] Unit/integration/browser/accessibility/visual coverage proves the promised states and failure

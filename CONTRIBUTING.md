@@ -63,6 +63,9 @@ Library changes must preserve the accepted contracts:
   consumer's complete class attribute;
 - native Angular style bindings for per-instance values; never shadow `style`, accept arbitrary raw
   CSS, use library-owned `!important`, or reconstruct a consumer's complete style attribute;
+- documented customization layers before daisyUI component-specific variables; treat those
+  variables as exact-version internals, keep observed-only selectors and variables unsupported,
+  and follow the [safe customization contract](docs/foundations/safe-customization.md);
 - native `data-theme` on `<html>` for global selection and `ZdTheme` for opt-in nested or
   component-host boundaries; never add a component-specific theme input, theme-name registry, or
   browser-global theme behavior, and follow the
