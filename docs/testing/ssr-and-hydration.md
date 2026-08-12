@@ -39,6 +39,11 @@ The production server output is `dist/ssr-example/server/server.mjs` and listens
 - Do not use `ngSkipHydration` to conceal a mismatch unless a documented third-party integration cannot support hydration.
 - Test both server HTML and post-hydration public behavior.
 
+Focus management follows the same boundary. Server output must not claim a focused state or depend
+on CDK focus-trap anchors. A component that traps focus must prove post-hydration activation,
+documented initial focus, cleanup, and restoration in a real browser; source inspection and jsdom do
+not establish tabbability. See the [focus management foundation](../foundations/focus-management.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

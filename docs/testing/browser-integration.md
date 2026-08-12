@@ -44,6 +44,11 @@ Every interactive component must add scenarios to the applicable layer:
 
 The documentation fixture covers Angular boot, deterministic focus movement, native dialog Escape/focus restoration, and native form validation/submission. The separate SSR example verifies meaningful server HTML, a JavaScript-disabled render, hydration without browser errors, post-hydration interaction, and an axe scan. Component-specific scenarios extend these foundations as implementations are added.
 
+The focus-management compatibility fixture additionally verifies native `:focus-visible`, CDK
+initial focus, bidirectional Tab wrapping, focus-origin classes, destruction cleanup, and trigger
+restoration. Its [foundation contract](../foundations/focus-management.md) explains why real-browser
+evidence is required and which modal, overlay, SSR, and nesting behavior remains component-owned.
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

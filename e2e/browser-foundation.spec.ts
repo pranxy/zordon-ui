@@ -18,11 +18,57 @@ test('moves focus in deterministic keyboard order', async ({ page }) => {
   const first = page.getByTestId('focus-first');
   const second = page.getByTestId('focus-second');
 
-  await first.focus();
+  await first.click();
   await expect(first).toBeFocused();
 
   await page.keyboard.press('Tab');
   await expect(second).toBeFocused();
+  expect(await second.evaluate(element => element.matches(':focus-visible'))).toBe(true);
+});
+
+test('captures, wraps, monitors, and restores focus with supported CDK primitives', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Open focus region' });
+  const region = page.getByTestId('focus-trap-region');
+  const first = page.getByTestId('focus-trap-first');
+  const initial = page.getByTestId('focus-trap-initial');
+  const add = page.getByTestId('focus-trap-add');
+  const dynamic = page.getByTestId('focus-trap-dynamic');
+  const disable = page.getByTestId('focus-trap-disable');
+  const close = page.getByTestId('focus-trap-close');
+
+  await trigger.click();
+  await expect(region).toBeVisible();
+  await expect(initial).toBeFocused();
+  await expect(initial).toHaveClass(/cdk-program-focused/);
+
+  await page.keyboard.press('Shift+Tab');
+  await expect(first).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(close).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(first).toBeFocused();
+
+  await initial.click();
+  await expect(initial).toHaveClass(/cdk-mouse-focused/);
+
+  await add.click();
+  await expect(dynamic).toBeVisible();
+  await page.keyboard.press('Tab');
+  await expect(dynamic).toBeFocused();
+
+  await disable.click();
+  await expect(dynamic).toBeDisabled();
+  await add.focus();
+  await page.keyboard.press('Tab');
+  await expect(disable).toBeFocused();
+
+  await close.click();
+  await expect(region).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(page.getByLabel('Test name')).toBeFocused();
 });
 
 test('closes an overlay with Escape and restores trigger focus', async ({ page }) => {

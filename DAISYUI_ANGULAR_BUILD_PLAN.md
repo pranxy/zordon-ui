@@ -163,7 +163,10 @@ Overall component progress: **0 / 68 Done**.
       require explicit stable IDs until a concrete component proves that path.
 - [ ] Integrate and version-align `@angular/aria` with Angular/CDK when the first consuming component is built; validate minimum/latest Angular, SSR/hydration, public API isolation, bundle impact, and published peer ranges.
 - [ ] Use Angular Aria roving tabindex, active-descendant, and typeahead behavior where available; add a private utility only for a documented unsupported pattern.
-- [ ] Focus trap, initial focus, focus restoration, and focus-visible utilities.
+- [x] Standardize focus trapping, initial focus, restoration, and focus-visible behavior. Simple
+      structurally created regions compose public `CdkTrapFocus`; future animated, portaled, or
+      nested overlays privately coordinate `FocusTrapFactory` with the Zordon overlay stack. Native
+      `:focus-visible` is the styling default, while FocusMonitor remains an opt-in behavior tool.
 - [ ] Outside interaction and Escape-key dispatching.
 - [ ] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies.
 - [ ] Body scroll lock and scrollbar-gutter handling.
@@ -489,6 +492,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                               |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------- |
+| 2026-08-11 | Defined native/CDK focus composition, restoration, `:focus-visible`, SSR boundaries, and real-browser behavior without adding a public wrapper.                                                               | Phase 2 interaction   | `docs/foundations/focus-management.md`      |
 | 2026-08-11 | Added application/request-scoped deterministic IDs with unit and SSR/hydration relationship coverage plus an explicit incremental-hydration boundary.                                                         | Phase 2 interaction   | `docs/foundations/stable-ids.md`            |
 | 2026-08-11 | Defined stable Zordon, documented upstream, consumer-owned, exact-version internal, and unsupported customization layers, with component inventory, prefix, compatibility, and visual-test gates.             | Phase 2 customization | `docs/foundations/safe-customization.md`    |
 | 2026-08-10 | Defined intrinsic/application/local component-default precedence, eligible inputs, DI scope, immutable merge rules, and the evidence required before the first typed defaults provider is exported.           | Phase 2 defaults      | `docs/foundations/component-defaults.md`    |

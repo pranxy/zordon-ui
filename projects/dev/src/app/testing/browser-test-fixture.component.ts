@@ -1,3 +1,4 @@
+import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
 
@@ -10,7 +11,7 @@ class ThemeHostFixtureComponent {}
 
 @Component({
   selector: 'app-browser-test-fixture',
-  imports: [ThemeHostFixtureComponent, ZdTheme],
+  imports: [CdkMonitorFocus, CdkTrapFocus, ThemeHostFixtureComponent, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'browser-test-fixture',
@@ -54,6 +55,72 @@ class ThemeHostFixtureComponent {}
         </dialog>
       </section>
 
+      <section aria-labelledby="focus-trap-heading" class="grid gap-3">
+        <h2 id="focus-trap-heading" class="text-xl font-semibold">CDK focus management</h2>
+        <button
+          #focusTrapTrigger
+          class="btn btn-secondary w-fit"
+          type="button"
+          (click)="openFocusRegion()"
+        >
+          Open focus region
+        </button>
+
+        @if (focusTrapOpen()) {
+          <div
+            cdkTrapFocus
+            cdkTrapFocusAutoCapture
+            class="flex gap-2 rounded-box border p-4"
+            data-testid="focus-trap-region"
+          >
+            <button class="btn" data-testid="focus-trap-first" type="button">First action</button>
+            <button
+              cdkFocusInitial
+              cdkMonitorElementFocus
+              class="btn"
+              data-testid="focus-trap-initial"
+              type="button"
+            >
+              Preferred action
+            </button>
+            <button
+              class="btn"
+              data-testid="focus-trap-add"
+              type="button"
+              (click)="extraFocusTarget.set(true)"
+            >
+              Add dynamic action
+            </button>
+            @if (extraFocusTarget()) {
+              <button
+                class="btn"
+                data-testid="focus-trap-dynamic"
+                type="button"
+                [disabled]="extraFocusDisabled()"
+              >
+                Dynamic action
+              </button>
+            }
+            <button
+              class="btn"
+              data-testid="focus-trap-disable"
+              type="button"
+              (click)="extraFocusDisabled.set(true)"
+            >
+              Disable dynamic action
+            </button>
+            <button
+              class="btn"
+              data-testid="focus-trap-close"
+              type="button"
+              (click)="focusTrapOpen.set(false)"
+            >
+              Close focus region
+            </button>
+          </div>
+        }
+      </section>
+
       <section aria-labelledby="form-heading" class="grid gap-3">
         <h2 id="form-heading" class="text-xl font-semibold">Form behavior</h2>
         <form class="grid gap-3" (submit)="submitForm($event)">
@@ -90,11 +157,20 @@ export default class BrowserTestFixtureComponent {
     viewChild.required<ElementRef<HTMLButtonElement>>('dialogTrigger');
 
   protected readonly submittedName = signal('');
+  protected readonly focusTrapOpen = signal(false);
+  protected readonly extraFocusTarget = signal(false);
+  protected readonly extraFocusDisabled = signal(false);
   protected readonly nestedTheme = signal<string | null>('cupcake');
   protected readonly systemTheme = signal<string | null>(null);
 
   protected openDialog(): void {
     this.dialog().nativeElement.showModal();
+  }
+
+  protected openFocusRegion(): void {
+    this.extraFocusTarget.set(false);
+    this.extraFocusDisabled.set(false);
+    this.focusTrapOpen.set(true);
   }
 
   protected closeDialog(): void {
