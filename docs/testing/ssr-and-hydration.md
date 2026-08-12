@@ -44,6 +44,12 @@ on CDK focus-trap anchors. A component that traps focus must prove post-hydratio
 documented initial focus, cleanup, and restoration in a real browser; source inspection and jsdom do
 not establish tabbability. See the [focus management foundation](../foundations/focus-management.md).
 
+Dismissal dispatch is also browser-owned. Server rendering must not attach an `OverlayRef` or add
+global dispatch listeners. The first dismissible overlay must prove that hydration/event replay
+attaches once, does not reinterpret the opening event as outside, routes one Escape/outside/backdrop
+reason, and removes every subscription on close. See the
+[dismissal foundation](../foundations/dismissal-and-outside-interaction.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

@@ -167,7 +167,12 @@ Overall component progress: **0 / 68 Done**.
       structurally created regions compose public `CdkTrapFocus`; future animated, portaled, or
       nested overlays privately coordinate `FocusTrapFactory` with the Zordon overlay stack. Native
       `:focus-visible` is the styling default, while FocusMonitor remains an opt-in behavior tool.
-- [ ] Outside interaction and Escape-key dispatching.
+- [x] Standardize outside interaction and Escape-key dispatch policy. Native dialog and popover
+      behavior stays native-first, while future portaled surfaces consume public CDK `OverlayRef`
+      event streams without global listeners or leaked CDK APIs. Installed-CDK and real-browser
+      fixtures lock down cancellation, Escape classification, outside boundaries, drag behavior,
+      cleanup, and SSR limits. Atomic top-only arbitration remains with the next private overlay
+      stack because it requires real overlay references, parents, and lifecycles.
 - [ ] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies.
 - [ ] Body scroll lock and scrollbar-gutter handling.
 - [ ] Directionality and logical placement mapping.
@@ -492,6 +497,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                               |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------- |
+| 2026-08-11 | Standardized native/CDK Escape and outside-interaction ownership, cancellation, boundaries, cleanup, and SSR limits while assigning atomic top-only arbitration to the pending private overlay stack.         | Phase 2 interaction   | `docs/foundations/`                         |
 | 2026-08-11 | Defined native/CDK focus composition, restoration, `:focus-visible`, SSR boundaries, and real-browser behavior without adding a public wrapper.                                                               | Phase 2 interaction   | `docs/foundations/focus-management.md`      |
 | 2026-08-11 | Added application/request-scoped deterministic IDs with unit and SSR/hydration relationship coverage plus an explicit incremental-hydration boundary.                                                         | Phase 2 interaction   | `docs/foundations/stable-ids.md`            |
 | 2026-08-11 | Defined stable Zordon, documented upstream, consumer-owned, exact-version internal, and unsupported customization layers, with component inventory, prefix, compatibility, and visual-test gates.             | Phase 2 customization | `docs/foundations/safe-customization.md`    |

@@ -1,4 +1,5 @@
 import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
+import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
 
@@ -11,7 +12,14 @@ class ThemeHostFixtureComponent {}
 
 @Component({
   selector: 'app-browser-test-fixture',
-  imports: [CdkMonitorFocus, CdkTrapFocus, ThemeHostFixtureComponent, ZdTheme],
+  imports: [
+    CdkConnectedOverlay,
+    CdkMonitorFocus,
+    CdkOverlayOrigin,
+    CdkTrapFocus,
+    ThemeHostFixtureComponent,
+    ZdTheme,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'browser-test-fixture',
@@ -41,18 +49,61 @@ class ThemeHostFixtureComponent {}
           #dialog
           class="modal"
           aria-labelledby="test-dialog-title"
+          (cancel)="handleDialogCancel($event)"
           (close)="restoreDialogFocus()"
         >
           <div class="modal-box">
             <h2 id="test-dialog-title" class="text-xl font-semibold">Test dialog</h2>
             <p>Used to verify Escape handling and focus restoration.</p>
             <div class="modal-action">
+              <button class="btn" type="button" (click)="blockNextDialogCancel.set(true)">
+                Block next Escape
+              </button>
               <button autofocus class="btn" type="button" (click)="closeDialog()">
                 Close test dialog
               </button>
             </div>
           </div>
         </dialog>
+      </section>
+
+      <section aria-labelledby="dismissal-heading" class="grid gap-3">
+        <h2 id="dismissal-heading" class="text-xl font-semibold">Dismissal dispatch</h2>
+        <div class="flex gap-2">
+          <button
+            cdkOverlayOrigin
+            #dismissalOrigin="cdkOverlayOrigin"
+            class="btn btn-accent"
+            type="button"
+            (click)="dismissalOpen.set(true)"
+          >
+            Open dismissal fixture
+          </button>
+          <button class="btn" type="button" (click)="outsideActions.update(count => count + 1)">
+            Outside action
+          </button>
+        </div>
+        <output data-testid="outside-action-count">{{ outsideActions() }}</output>
+        <output data-testid="outside-dismissal-count">{{ outsideDismissals() }}</output>
+
+        <ng-template
+          cdkConnectedOverlay
+          [cdkConnectedOverlayDisableClose]="true"
+          [cdkConnectedOverlayOpen]="dismissalOpen()"
+          [cdkConnectedOverlayOrigin]="dismissalOrigin"
+          (overlayKeydown)="handleOverlayKeydown($event)"
+          (overlayOutsideClick)="handleOverlayOutside()"
+        >
+          <div class="rounded-box border bg-base-100 p-4 shadow" data-testid="dismissal-overlay">
+            <button class="btn" data-testid="dismissal-inside" type="button">Inside action</button>
+            <input
+              class="input"
+              data-testid="dismissal-veto"
+              value="Inner widget owns Escape"
+              (keydown.escape)="$event.preventDefault()"
+            />
+          </div>
+        </ng-template>
       </section>
 
       <section aria-labelledby="focus-trap-heading" class="grid gap-3">
@@ -157,6 +208,10 @@ export default class BrowserTestFixtureComponent {
     viewChild.required<ElementRef<HTMLButtonElement>>('dialogTrigger');
 
   protected readonly submittedName = signal('');
+  protected readonly blockNextDialogCancel = signal(false);
+  protected readonly dismissalOpen = signal(false);
+  protected readonly outsideActions = signal(0);
+  protected readonly outsideDismissals = signal(0);
   protected readonly focusTrapOpen = signal(false);
   protected readonly extraFocusTarget = signal(false);
   protected readonly extraFocusDisabled = signal(false);
@@ -164,7 +219,38 @@ export default class BrowserTestFixtureComponent {
   protected readonly systemTheme = signal<string | null>(null);
 
   protected openDialog(): void {
+    this.blockNextDialogCancel.set(false);
     this.dialog().nativeElement.showModal();
+  }
+
+  protected handleDialogCancel(event: Event): void {
+    if (this.blockNextDialogCancel()) {
+      event.preventDefault();
+      this.blockNextDialogCancel.set(false);
+    }
+  }
+
+  protected handleOverlayKeydown(event: KeyboardEvent): void {
+    if (
+      event.key !== 'Escape' ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      event.defaultPrevented ||
+      event.isComposing ||
+      event.repeat
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    this.dismissalOpen.set(false);
+  }
+
+  protected handleOverlayOutside(): void {
+    this.outsideDismissals.update(count => count + 1);
+    this.dismissalOpen.set(false);
   }
 
   protected openFocusRegion(): void {

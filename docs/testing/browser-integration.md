@@ -49,6 +49,13 @@ initial focus, bidirectional Tab wrapping, focus-origin classes, destruction cle
 restoration. Its [foundation contract](../foundations/focus-management.md) explains why real-browser
 evidence is required and which modal, overlay, SSR, and nesting behavior remains component-owned.
 
+The dismissal compatibility fixture verifies controlled native-dialog cancellation plus public CDK
+outside and keyboard streams: inside/origin exclusion, descendant Escape veto, modifier,
+composition and repeat filtering, drag-across-boundary behavior, uninterrupted outside actions, and
+detach cleanup. Nested one-event/one-surface arbitration remains an explicit requirement of the
+pending overlay stack; see the
+[dismissal foundation](../foundations/dismissal-and-outside-interaction.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

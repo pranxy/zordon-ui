@@ -84,6 +84,74 @@ test('closes an overlay with Escape and restores trigger focus', async ({ page }
   await expect(trigger).toBeFocused();
 });
 
+test('lets a native dialog cancel request be prevented before controlled close', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Open test dialog' });
+  const dialog = page.getByRole('dialog', { name: 'Test dialog' });
+
+  await trigger.click();
+  await page.getByRole('button', { name: 'Block next Escape' }).click();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeVisible();
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test('classifies CDK outside and Escape events without suppressing the outside action', async ({
+  page,
+}) => {
+  const trigger = page.getByRole('button', { name: 'Open dismissal fixture' });
+  const outside = page.getByRole('button', { name: 'Outside action' });
+  const overlay = page.getByTestId('dismissal-overlay');
+  const inside = page.getByTestId('dismissal-inside');
+  const veto = page.getByTestId('dismissal-veto');
+
+  await trigger.click();
+  await expect(overlay).toBeVisible();
+  await inside.click();
+  await expect(overlay).toBeVisible();
+
+  await trigger.click();
+  await expect(overlay).toBeVisible();
+  await veto.focus();
+  await page.keyboard.press('Escape');
+  await expect(overlay).toBeVisible();
+  await page.keyboard.press('Shift+Escape');
+  await expect(overlay).toBeVisible();
+  await veto.evaluate(element => {
+    element.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, key: 'Escape', repeat: true }),
+    );
+    element.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, isComposing: true, key: 'Escape' }),
+    );
+  });
+  await expect(overlay).toBeVisible();
+
+  await inside.focus();
+  await page.keyboard.press('Escape');
+  await expect(overlay).not.toBeVisible();
+
+  await trigger.click();
+  await inside.dispatchEvent('pointerdown');
+  await outside.dispatchEvent('click');
+  await expect(overlay).toBeVisible();
+  await expect(page.getByTestId('outside-action-count')).toHaveText('1');
+  await expect(page.getByTestId('outside-dismissal-count')).toHaveText('0');
+
+  await outside.click();
+  await expect(overlay).not.toBeVisible();
+  await expect(page.getByTestId('outside-action-count')).toHaveText('2');
+  await expect(page.getByTestId('outside-dismissal-count')).toHaveText('1');
+
+  await outside.click();
+  await expect(page.getByTestId('outside-action-count')).toHaveText('3');
+  await expect(page.getByTestId('outside-dismissal-count')).toHaveText('1');
+});
+
 test('honors native form validation and submits a value', async ({ page }) => {
   const input = page.getByLabel('Test name');
   const submit = page.getByRole('button', { name: 'Submit test form' });
