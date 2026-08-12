@@ -173,7 +173,11 @@ Overall component progress: **0 / 68 Done**.
       fixtures lock down cancellation, Escape classification, outside boundaries, drag behavior,
       cleanup, and SSR limits. Atomic top-only arbitration remains with the next private overlay
       stack because it requires real overlay references, parents, and lifecycles.
-- [ ] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies.
+- [~] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies. A
+  private CDK-backed coordinator, handle, semantic stack, positioning mapper, scroll-policy
+  boundary, and real-browser fixture are implemented. Completion waits for two actual overlay
+  component secondary entry points to prove one shared package-level stack identity plus the
+  first consumer's SSR/hydration path.
 - [ ] Body scroll lock and scrollbar-gutter handling.
 - [ ] Directionality and logical placement mapping.
 - [ ] Reduced-motion policy and animation state utilities.
@@ -480,7 +484,7 @@ These are release-level checks in addition to component-level tests.
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -----: |
 | daisyUI minor releases can change internal component CSS variables                                                                                   | Use the documented customization hierarchy; pin exact versions for internals; add per-component compatibility tests        |    [~] |
 | Wrapping native controls can damage semantics or form behavior                                                                                       | Prefer directives on native elements and keep advanced composites separate                                                 |    [ ] |
-| Overlay components can diverge in focus, stacking, and dismissal behavior                                                                            | Build and test one shared overlay foundation before composites                                                             |    [ ] |
+| Overlay components can diverge in focus, stacking, and dismissal behavior                                                                            | Build and test one shared overlay foundation before composites; prove shared package identity with two real entries        |    [~] |
 | Advanced components can make the core package heavy                                                                                                  | Use optional entry points and explicit dependency budgets                                                                  |    [ ] |
 | SSR-generated IDs can mismatch during hydration                                                                                                      | Use the shared generator; require explicit IDs for independent incremental hydration                                       |    [~] |
 | Theme customization can be blocked by view encapsulation                                                                                             | Establish host/part/CSS variable conventions before component work                                                         |    [ ] |

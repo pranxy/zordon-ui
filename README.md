@@ -34,6 +34,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Stable generated IDs](docs/foundations/stable-ids.md)
 - [Focus management foundation](docs/foundations/focus-management.md)
 - [Dismissal and outside-interaction foundation](docs/foundations/dismissal-and-outside-interaction.md)
+- [Overlay host, stack, positioning, and scroll policy](docs/foundations/overlay-host-and-positioning.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
 - [Maintainer release workflow](docs/guides/releasing.md)

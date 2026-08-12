@@ -152,6 +152,48 @@ test('classifies CDK outside and Escape events without suppressing the outside a
   await expect(page.getByTestId('outside-dismissal-count')).toHaveText('1');
 });
 
+test('positions, repositions, themes, hosts, and cleans up the private overlay foundation', async ({
+  page,
+}) => {
+  const origin = page.getByTestId('positioned-overlay-origin');
+  const panel = page.getByTestId('positioned-overlay-panel');
+
+  await origin.click();
+  await expect(panel).toBeVisible();
+  const pane = page.locator('.cdk-overlay-pane').filter({ has: panel });
+  await expect(pane).toHaveClass(/zd-test-above/);
+  await expect(pane).toHaveAttribute('data-theme', 'cupcake');
+  const initial = await pane.boundingBox();
+  const originBox = await origin.boundingBox();
+  expect(initial).not.toBeNull();
+  expect(originBox).not.toBeNull();
+  expect(initial!.y + initial!.height).toBeLessThanOrEqual(originBox!.y + 1);
+  expect(initial!.y).toBeGreaterThanOrEqual(8);
+  await expect(page.locator('.cdk-overlay-backdrop')).toHaveCount(1);
+
+  await origin.evaluate(element => {
+    element.style.bottom = '180px';
+    document.dispatchEvent(new Event('scroll', { bubbles: true }));
+  });
+  await expect.poll(async () => (await pane.boundingBox())?.y).toBeLessThan(initial!.y - 40);
+  await expect(pane).toHaveClass(/zd-test-below/);
+  const movedPane = await pane.boundingBox();
+  const movedOrigin = await origin.boundingBox();
+  expect(movedPane!.y).toBeGreaterThanOrEqual(movedOrigin!.y + movedOrigin!.height - 1);
+
+  await page.keyboard.press('Escape');
+  await expect(panel).not.toBeVisible();
+  await expect(page.getByTestId('positioned-close-reason')).toHaveText('escape');
+  await expect(page.locator('.cdk-overlay-pane').filter({ has: panel })).toHaveCount(0);
+
+  await origin.click();
+  await expect(panel).toBeVisible();
+  await page.locator('.cdk-overlay-backdrop').click({ position: { x: 1, y: 1 } });
+  await expect(panel).not.toBeVisible();
+  await expect(page.getByTestId('positioned-close-reason')).toHaveText('backdrop');
+  await expect(page.locator('.cdk-overlay-container > *')).toHaveCount(0);
+});
+
 test('honors native form validation and submits a value', async ({ page }) => {
   const input = page.getByLabel('Test name');
   const submit = page.getByRole('button', { name: 'Submit test form' });

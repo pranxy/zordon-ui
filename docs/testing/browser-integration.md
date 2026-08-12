@@ -56,6 +56,13 @@ detach cleanup. Nested one-event/one-surface arbitration remains an explicit req
 pending overlay stack; see the
 [dismissal foundation](../foundations/dismissal-and-outside-interaction.md).
 
+The private overlay fixture uses real CDK portals and layout. It verifies connected-position
+fallback at a viewport edge, viewport margin, scroll-driven repositioning, pane theme forwarding,
+Escape/backdrop routing, pane/backdrop attachment, and final container cleanup. This is source-level foundation
+evidence, not proof that independently packaged component entry points share one registry or that a
+real component satisfies its hydration, focus, directionality, and accessibility policy. See the
+[overlay foundation](../foundations/overlay-host-and-positioning.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

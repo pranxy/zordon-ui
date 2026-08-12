@@ -1,7 +1,19 @@
 import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { ChangeDetectionStrategy, Component, ElementRef, signal, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  signal,
+  ViewContainerRef,
+  viewChild,
+} from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
+
+import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
+import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
 
 @Component({
   selector: 'app-theme-host-fixture',
@@ -9,6 +21,15 @@ import { ZdTheme } from '@pranxy/zordon-ui';
   template: `Theme host fixture`,
 })
 class ThemeHostFixtureComponent {}
+
+@Component({
+  host: {
+    'data-testid': 'positioned-overlay-panel',
+    'class': 'block h-20 w-32 rounded-box border bg-base-100 p-3 shadow',
+  },
+  template: `Positioned overlay`,
+})
+class PositionedOverlayPanelComponent {}
 
 @Component({
   selector: 'app-browser-test-fixture',
@@ -104,6 +125,20 @@ class ThemeHostFixtureComponent {}
             />
           </div>
         </ng-template>
+      </section>
+
+      <section data-theme="cupcake" aria-labelledby="positioning-heading" class="grid gap-3">
+        <h2 id="positioning-heading" class="text-xl font-semibold">Private overlay foundation</h2>
+        <button
+          #positionedOrigin
+          class="btn btn-info fixed bottom-1 left-8 z-10"
+          data-testid="positioned-overlay-origin"
+          type="button"
+          (click)="openPositionedOverlay()"
+        >
+          Open positioned overlay
+        </button>
+        <output data-testid="positioned-close-reason">{{ positionedCloseReason() }}</output>
       </section>
 
       <section aria-labelledby="focus-trap-heading" class="grid gap-3">
@@ -202,16 +237,22 @@ class ThemeHostFixtureComponent {}
     </article>
   `,
 })
-export default class BrowserTestFixtureComponent {
+export default class BrowserTestFixtureComponent implements OnDestroy {
+  private readonly overlayCoordinator = inject(ZdOverlayCoordinator);
+  private readonly viewContainerRef = inject(ViewContainerRef);
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
   private readonly dialogTrigger =
     viewChild.required<ElementRef<HTMLButtonElement>>('dialogTrigger');
+  private readonly positionedOrigin =
+    viewChild.required<ElementRef<HTMLButtonElement>>('positionedOrigin');
+  private positionedOverlay: ZdOverlayHandle | null = null;
 
   protected readonly submittedName = signal('');
   protected readonly blockNextDialogCancel = signal(false);
   protected readonly dismissalOpen = signal(false);
   protected readonly outsideActions = signal(0);
   protected readonly outsideDismissals = signal(0);
+  protected readonly positionedCloseReason = signal('');
   protected readonly focusTrapOpen = signal(false);
   protected readonly extraFocusTarget = signal(false);
   protected readonly extraFocusDisabled = signal(false);
@@ -253,6 +294,49 @@ export default class BrowserTestFixtureComponent {
     this.dismissalOpen.set(false);
   }
 
+  protected openPositionedOverlay(): void {
+    this.positionedOverlay?.destroy();
+    this.positionedCloseReason.set('');
+    const origin = this.positionedOrigin().nativeElement;
+    let handle: ZdOverlayHandle | null = null;
+    handle = this.overlayCoordinator.open({
+      content: {
+        component: PositionedOverlayPanelComponent,
+        kind: 'component',
+        viewContainerRef: this.viewContainerRef,
+      },
+      hasBackdrop: true,
+      onCloseRequest: reason => {
+        this.positionedCloseReason.set(reason);
+        handle?.finalizeClose();
+        if (this.positionedOverlay === handle) this.positionedOverlay = null;
+      },
+      origin,
+      placement: {
+        kind: 'connected',
+        origin,
+        positions: [
+          {
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'start',
+            overlayY: 'top',
+            panelClass: 'zd-test-below',
+          },
+          {
+            originX: 'start',
+            originY: 'top',
+            overlayX: 'start',
+            overlayY: 'bottom',
+            panelClass: 'zd-test-above',
+          },
+        ],
+        viewportMargin: 8,
+      },
+    });
+    this.positionedOverlay = handle;
+  }
+
   protected openFocusRegion(): void {
     this.extraFocusTarget.set(false);
     this.extraFocusDisabled.set(false);
@@ -271,5 +355,9 @@ export default class BrowserTestFixtureComponent {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     this.submittedName.set(String(new FormData(form).get('name') ?? ''));
+  }
+
+  ngOnDestroy(): void {
+    this.positionedOverlay?.destroy();
   }
 }

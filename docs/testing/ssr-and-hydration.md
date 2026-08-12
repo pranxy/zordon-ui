@@ -50,6 +50,13 @@ attaches once, does not reinterpret the opening event as outside, routes one Esc
 reason, and removes every subscription on close. See the
 [dismissal foundation](../foundations/dismissal-and-outside-interaction.md).
 
+The private overlay coordinator is browser-gated before CDK creates a ref or container. Its server
+unit test proves that path is a no-op. That is not a substitute for a consuming component's real
+SSR/hydration fixture: the first portaled component must render meaningful server content and prove
+one post-hydration attachment, stable relationships, event-replay safety, positioning, dismissal,
+and cleanup. See the
+[overlay foundation](../foundations/overlay-host-and-positioning.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)
