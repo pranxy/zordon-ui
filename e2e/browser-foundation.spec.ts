@@ -194,6 +194,57 @@ test('positions, repositions, themes, hosts, and cleans up the private overlay f
   await expect(page.locator('.cdk-overlay-container > *')).toHaveCount(0);
 });
 
+test('keeps body scroll locked until the final blocking overlay closes and restores page state', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    document.documentElement.classList.add('consumer-root-class');
+    document.documentElement.style.scrollBehavior = 'smooth';
+    document.body.style.scrollBehavior = 'smooth';
+    window.scrollTo(0, 300);
+  });
+  const initialScroll = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
+  const fixedBefore = await page.getByTestId('scroll-lock-fixed-reference').boundingBox();
+  const centeredBefore = await page.getByTestId('scroll-lock-centered-reference').boundingBox();
+
+  await page
+    .getByTestId('open-scroll-lock-first')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
+  await page
+    .getByTestId('open-scroll-lock-second')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(page.getByTestId('scroll-lock-panel')).toHaveCount(2);
+  await page.mouse.wheel(0, 500);
+  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+
+  await page
+    .getByTestId('close-scroll-lock-first')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
+  await expect(page.getByTestId('scroll-lock-panel')).toHaveCount(1);
+  await page.getByTestId('scroll-lock-panel').hover();
+  await page.mouse.wheel(0, 300);
+  await expect
+    .poll(() => page.getByTestId('scroll-lock-panel').evaluate(element => element.scrollTop))
+    .toBeGreaterThan(0);
+  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+
+  await page
+    .getByTestId('close-scroll-lock-last')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(page.locator('html')).not.toHaveClass(/cdk-global-scrollblock/);
+  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+  await expect(page.locator('html')).toHaveClass(/consumer-root-class/);
+  expect(await page.evaluate(() => document.documentElement.style.scrollBehavior)).toBe('smooth');
+  expect(await page.evaluate(() => document.body.style.scrollBehavior)).toBe('smooth');
+  const fixedAfter = await page.getByTestId('scroll-lock-fixed-reference').boundingBox();
+  const centeredAfter = await page.getByTestId('scroll-lock-centered-reference').boundingBox();
+  expect(Math.abs(fixedAfter!.x - fixedBefore!.x)).toBeLessThanOrEqual(1);
+  expect(Math.abs(centeredAfter!.x - centeredBefore!.x)).toBeLessThanOrEqual(1);
+  await expect(page.locator('.cdk-overlay-container > *')).toHaveCount(0);
+});
+
 test('honors native form validation and submits a value', async ({ page }) => {
   const input = page.getByLabel('Test name');
   const submit = page.getByRole('button', { name: 'Submit test form' });

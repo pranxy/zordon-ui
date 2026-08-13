@@ -162,8 +162,20 @@ describe('ZdOverlayCoordinator', () => {
       expect(document.querySelector('.cdk-overlay-pane')?.getAttribute('data-theme')).toBe(
         'forest',
       );
-      origin.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+      const descendant = document.createElement('span');
+      descendant.addEventListener('pointerdown', event => event.stopPropagation());
+      origin.appendChild(descendant);
+      descendant.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      document.body.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      expect(closeRequest).not.toHaveBeenCalled();
+      document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
       origin.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      origin.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      origin.dispatchEvent(new PointerEvent('pointercancel', { bubbles: true }));
+      origin.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+      document
+        .querySelector('.cdk-overlay-pane')!
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
       expect(closeRequest).not.toHaveBeenCalled();
       handle.finalizeClose();
     }
@@ -399,13 +411,16 @@ describe('ZdOverlayCoordinator on the server', () => {
     });
     const overlay = TestBed.inject(Overlay);
     const create = vi.spyOn(overlay, 'create');
+    const block = vi.spyOn(overlay.scrollStrategies, 'block');
     const config = {
       content: { component: TestPortalComponent, kind: 'component' as const },
       onCloseRequest: vi.fn(),
       placement: { kind: 'global' as const },
+      scrollPolicy: 'block' as const,
     };
     expect(TestBed.inject(ZdOverlayCoordinator).open(config)).toBeNull();
     expect(create).not.toHaveBeenCalled();
+    expect(block).not.toHaveBeenCalled();
     expect(document.querySelector('.cdk-overlay-container')).toBeNull();
   });
 });

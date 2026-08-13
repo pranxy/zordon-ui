@@ -32,15 +32,16 @@ Parent = sole tracker writer under concurrency.
 
 ## Reviews
 
-| Checkpoint      | Reviewer   | Findings                            | Disposition                                                | Closure |
-| --------------- | ---------- | ----------------------------------- | ---------------------------------------------------------- | ------- |
-| Read-only audit | Dewey      | None                                | Implement private source foundation; retain packaging gate | Clear   |
-| Final review    | Archimedes | Two S2/C3 lifecycle/origin findings | Fixed with focused regressions                             | Clear   |
+| Checkpoint           | Reviewer   | Findings                                          | Disposition                                                                     | Closure |
+| -------------------- | ---------- | ------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
+| Read-only audit      | Dewey      | None                                              | Implement private source foundation; retain packaging gate                      | Clear   |
+| Final review         | Archimedes | Two S2/C3 lifecycle/origin findings               | Fixed with focused regressions                                                  | Clear   |
+| Late boundary review | Archimedes | Logical-boundary pointer starts were bubble-phase | Moved handle-owned listeners to capture and added a stop-propagation regression | Clear   |
 
 ## Decisions / deviations
 
-| Item                 | Need / change                                                                                       | Evidence                           | Status   |
-| -------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------- | -------- |
-| Public API boundary  | Keep CDK and the foundation private; defer a shared published identity decision to two real entries | ADR 0004, ADR 0006, package audit  | Accepted |
-| Scroll-lock boundary | Support only noop/reposition; leave document locking to the next row                                | CDK detach behavior and plan order | Accepted |
-| Completion status    | Record source behavior as Partial until package identity and consumer hydration are proven          | Honest completion gate             | Accepted |
+| Item                 | Need / change                                                                                       | Evidence                                   | Status   |
+| -------------------- | --------------------------------------------------------------------------------------------------- | ------------------------------------------ | -------- |
+| Public API boundary  | Keep CDK and the foundation private; defer a shared published identity decision to two real entries | ADR 0004, ADR 0006, package audit          | Accepted |
+| Scroll-lock boundary | Support noop/reposition directly and the next row's private ref-counted block lease                 | CDK detach behavior and body-lock contract | Accepted |
+| Completion status    | Record source behavior as Partial until package identity and consumer hydration are proven          | Honest completion gate                     | Accepted |

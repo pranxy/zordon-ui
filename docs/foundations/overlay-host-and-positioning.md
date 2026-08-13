@@ -58,8 +58,8 @@ Only these policies are supported by the private foundation:
 - `noop`, for surfaces whose component policy intentionally ignores scrolling.
 
 CDK `close` and reposition `autoClose` directly detach the ref, bypassing Zordon close reasons,
-guards, animations, focus restoration, and stack cleanup. CDK `block` mutates page scroll state and
-belongs to the next body-scroll-lock foundation. A future close-on-scroll behavior must issue a
+guards, animations, focus restoration, and stack cleanup. The `block` policy composes the private
+[body scroll-lock foundation](body-scroll-lock.md). A future close-on-scroll behavior must issue a
 normal Zordon close request.
 
 ## Themes, SSR, and hydration

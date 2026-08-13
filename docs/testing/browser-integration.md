@@ -63,6 +63,12 @@ evidence, not proof that independently packaged component entry points share one
 real component satisfies its hydration, focus, directionality, and accessibility policy. See the
 [overlay foundation](../foundations/overlay-host-and-positioning.md).
 
+The body-lock scenario covers two sibling blockers, arbitrary release order, background-wheel
+suppression, inner overlay scrolling, exact page-position restoration, representative layout
+stability, consumer state preservation, and cleanup. Desktop execution does not establish physical
+iOS/Android keyboard, rubber-band, toolbar, safe-area, or visual-viewport behavior; see the
+[body scroll-lock foundation](../foundations/body-scroll-lock.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

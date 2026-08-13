@@ -12,7 +12,7 @@ export type ZdOverlayCloseReason =
   | 'navigation'
   | 'destroy';
 
-export type ZdOverlayScrollPolicy = 'noop' | 'reposition';
+export type ZdOverlayScrollPolicy = 'block' | 'noop' | 'reposition';
 
 export interface ZdOverlayConnectedPosition {
   readonly originX: 'start' | 'center' | 'end';

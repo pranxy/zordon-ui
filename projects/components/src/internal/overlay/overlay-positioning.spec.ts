@@ -1,5 +1,6 @@
 import type { Overlay } from '@angular/cdk/overlay';
 
+import type { ZdBodyScrollLock } from './body-scroll-lock';
 import { createZdPositionStrategy, createZdScrollStrategy } from './overlay-positioning';
 
 describe('overlay positioning policy', () => {
@@ -120,7 +121,8 @@ describe('overlay positioning policy', () => {
     },
   );
 
-  it('creates only noop or non-auto-closing reposition scroll strategies', () => {
+  it('maps block, noop, and non-auto-closing reposition scroll strategies', () => {
+    const block = {};
     const noop = {};
     const reposition = {};
     const overlay = {
@@ -129,9 +131,12 @@ describe('overlay positioning policy', () => {
         reposition: vi.fn(() => reposition),
       },
     } as unknown as Overlay;
+    const bodyScrollLock = { createLease: vi.fn(() => block) } as unknown as ZdBodyScrollLock;
 
-    expect(createZdScrollStrategy(overlay, 'noop')).toBe(noop);
-    expect(createZdScrollStrategy(overlay)).toBe(reposition);
+    expect(createZdScrollStrategy(overlay, bodyScrollLock, 'block')).toBe(block);
+    expect(createZdScrollStrategy(overlay, bodyScrollLock, 'noop')).toBe(noop);
+    expect(createZdScrollStrategy(overlay, bodyScrollLock)).toBe(reposition);
+    expect(bodyScrollLock.createLease).toHaveBeenCalledOnce();
     expect(overlay.scrollStrategies.reposition).toHaveBeenCalledWith({
       autoClose: false,
       scrollThrottle: 0,

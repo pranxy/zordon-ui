@@ -11,6 +11,7 @@ import type {
   ZdOverlayPlacement,
   ZdOverlayScrollPolicy,
 } from './overlay-contracts';
+import type { ZdBodyScrollLock } from './body-scroll-lock';
 
 const DEFAULT_VIEWPORT_MARGIN = 8;
 
@@ -36,11 +37,17 @@ export function createZdPositionStrategy(
 
 export function createZdScrollStrategy(
   overlay: Overlay,
+  bodyScrollLock: ZdBodyScrollLock,
   policy: ZdOverlayScrollPolicy = 'reposition',
 ): ScrollStrategy {
-  return policy === 'noop'
-    ? overlay.scrollStrategies.noop()
-    : overlay.scrollStrategies.reposition({ autoClose: false, scrollThrottle: 0 });
+  switch (policy) {
+    case 'block':
+      return bodyScrollLock.createLease();
+    case 'noop':
+      return overlay.scrollStrategies.noop();
+    default:
+      return overlay.scrollStrategies.reposition({ autoClose: false, scrollThrottle: 0 });
+  }
 }
 
 function toCdkPosition(position: ZdOverlayConnectedPosition): ConnectedPosition {

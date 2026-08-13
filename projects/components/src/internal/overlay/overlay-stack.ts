@@ -19,6 +19,7 @@ interface ZdEventClaim {
 export class ZdOverlayStackRegistration {
   lifecycle: ZdOverlayLifecycle = 'opening';
   readonly boundaries = new Set<HTMLElement>();
+  boundaryPointerDown = false;
 
   constructor(
     readonly pane: HTMLElement,
@@ -77,6 +78,8 @@ export class ZdOverlayStack {
   }
 
   handleOutside(registration: ZdOverlayStackRegistration, event: MouseEvent): boolean {
+    const startedInsideBoundary = registration.boundaryPointerDown;
+    registration.boundaryPointerDown = false;
     const owner = this.top();
     if (!owner || owner !== registration) return false;
     const path = event.composedPath();
@@ -85,10 +88,18 @@ export class ZdOverlayStack {
       this.claim(event, owner, 'backdrop', false);
       return false;
     }
-    if (this.isInside(owner, path)) return false;
+    if (startedInsideBoundary || this.isInside(owner, path)) return false;
     if (!this.claim(event, owner, 'outside-pointer')) return false;
     owner.requestClose('outside-pointer', event);
     return true;
+  }
+
+  markBoundaryPointerDown(registration: ZdOverlayStackRegistration): void {
+    registration.boundaryPointerDown = true;
+  }
+
+  clearBoundaryPointerDown(registration: ZdOverlayStackRegistration): void {
+    registration.boundaryPointerDown = false;
   }
 
   handleBackdrop(registration: ZdOverlayStackRegistration, event: MouseEvent): boolean {

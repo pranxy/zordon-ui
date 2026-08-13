@@ -32,6 +32,16 @@ class ThemeHostFixtureComponent {}
 class PositionedOverlayPanelComponent {}
 
 @Component({
+  host: {
+    'data-testid': 'scroll-lock-panel',
+    'class':
+      'fixed right-4 top-20 h-64 w-64 overflow-auto rounded-box border bg-base-100 p-4 shadow',
+  },
+  template: `<div class="h-[120vh]">Blocking overlay with an independently scrollable panel</div>`,
+})
+class ScrollLockPanelComponent {}
+
+@Component({
   selector: 'app-browser-test-fixture',
   imports: [
     CdkConnectedOverlay,
@@ -141,6 +151,46 @@ class PositionedOverlayPanelComponent {}
         <output data-testid="positioned-close-reason">{{ positionedCloseReason() }}</output>
       </section>
 
+      <section aria-labelledby="scroll-lock-heading" class="grid gap-3">
+        <h2 id="scroll-lock-heading" class="text-xl font-semibold">Body scroll lock</h2>
+        <div class="flex gap-2">
+          <button
+            class="btn"
+            data-testid="open-scroll-lock-first"
+            type="button"
+            (click)="openScrollLock()"
+          >
+            Open first blocker
+          </button>
+          <button
+            class="btn"
+            data-testid="open-scroll-lock-second"
+            type="button"
+            (click)="openScrollLock()"
+          >
+            Open second blocker
+          </button>
+          <button
+            class="btn"
+            data-testid="close-scroll-lock-first"
+            type="button"
+            (click)="closeScrollLock(0)"
+          >
+            Close first blocker
+          </button>
+          <button
+            class="btn"
+            data-testid="close-scroll-lock-last"
+            type="button"
+            (click)="closeLastScrollLock()"
+          >
+            Close last blocker
+          </button>
+        </div>
+        <div class="fixed right-2 top-2" data-testid="scroll-lock-fixed-reference">Fixed</div>
+        <div class="mx-auto w-48" data-testid="scroll-lock-centered-reference">Centered</div>
+      </section>
+
       <section aria-labelledby="focus-trap-heading" class="grid gap-3">
         <h2 id="focus-trap-heading" class="text-xl font-semibold">CDK focus management</h2>
         <button
@@ -246,6 +296,7 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   private readonly positionedOrigin =
     viewChild.required<ElementRef<HTMLButtonElement>>('positionedOrigin');
   private positionedOverlay: ZdOverlayHandle | null = null;
+  private readonly scrollLocks: ZdOverlayHandle[] = [];
 
   protected readonly submittedName = signal('');
   protected readonly blockNextDialogCancel = signal(false);
@@ -337,6 +388,29 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
     this.positionedOverlay = handle;
   }
 
+  protected openScrollLock(): void {
+    const handle = this.overlayCoordinator.open({
+      content: {
+        component: ScrollLockPanelComponent,
+        kind: 'component',
+        viewContainerRef: this.viewContainerRef,
+      },
+      onCloseRequest: () => {},
+      placement: { kind: 'global' },
+      scrollPolicy: 'block',
+    });
+    if (handle) this.scrollLocks.push(handle);
+  }
+
+  protected closeScrollLock(index: number): void {
+    const [handle] = this.scrollLocks.splice(index, 1);
+    handle?.finalizeClose();
+  }
+
+  protected closeLastScrollLock(): void {
+    this.closeScrollLock(this.scrollLocks.length - 1);
+  }
+
   protected openFocusRegion(): void {
     this.extraFocusTarget.set(false);
     this.extraFocusDisabled.set(false);
@@ -359,5 +433,6 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.positionedOverlay?.destroy();
+    for (const handle of this.scrollLocks.splice(0)) handle.destroy();
   }
 }

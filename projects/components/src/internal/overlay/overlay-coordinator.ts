@@ -2,9 +2,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import type { Subscription } from 'rxjs';
+import { fromEvent, type Subscription } from 'rxjs';
 
 import type { ZdOverlayHandle, ZdOverlayOpenConfig } from './overlay-contracts';
+import { ZdBodyScrollLock } from './body-scroll-lock';
 import { ZdInternalOverlayHandle } from './overlay-handle';
 import { createZdPositionStrategy, createZdScrollStrategy } from './overlay-positioning';
 import { ZdOverlayStack } from './overlay-stack';
@@ -12,6 +13,7 @@ import { ZdOverlayStack } from './overlay-stack';
 @Injectable({ providedIn: 'root' })
 export class ZdOverlayCoordinator {
   private readonly overlay = inject(Overlay);
+  private readonly bodyScrollLock = inject(ZdBodyScrollLock);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly stack = inject(ZdOverlayStack);
 
@@ -25,7 +27,11 @@ export class ZdOverlayCoordinator {
       hasBackdrop: config.hasBackdrop ?? false,
       panelClass: config.panelClass ? [...asArray(config.panelClass)] : undefined,
       positionStrategy: createZdPositionStrategy(this.overlay, config.placement),
-      scrollStrategy: createZdScrollStrategy(this.overlay, config.scrollPolicy),
+      scrollStrategy: createZdScrollStrategy(
+        this.overlay,
+        this.bodyScrollLock,
+        config.scrollPolicy,
+      ),
     });
     const handle = new ZdInternalOverlayHandle(overlayRef, this.stack, config.onCloseRequest);
     const origin =
@@ -63,15 +69,34 @@ export class ZdOverlayCoordinator {
         requestClose: (reason, event) => handle.requestClose(reason, event),
       });
       this.rememberRegistration(handle, registration);
-      handle.bind(registration, (): Subscription[] => [
-        overlayRef.keydownEvents().subscribe(event => this.stack.handleEscape(registration, event)),
-        overlayRef
-          .outsidePointerEvents()
-          .subscribe(event => this.stack.handleOutside(registration, event)),
-        overlayRef
-          .backdropClick()
-          .subscribe(event => this.stack.handleBackdrop(registration, event)),
-      ]);
+      handle.bind(registration, (): Subscription[] => {
+        const boundarySubscriptions = [...registration.boundaries].flatMap(boundary => [
+          fromEvent(boundary, 'pointerdown', { capture: true }).subscribe(() =>
+            this.stack.markBoundaryPointerDown(registration),
+          ),
+          fromEvent(boundary, 'click', { capture: true }).subscribe(() =>
+            this.stack.clearBoundaryPointerDown(registration),
+          ),
+          fromEvent(boundary, 'pointercancel', { capture: true }).subscribe(() =>
+            this.stack.clearBoundaryPointerDown(registration),
+          ),
+        ]);
+        return [
+          overlayRef
+            .keydownEvents()
+            .subscribe(event => this.stack.handleEscape(registration, event)),
+          overlayRef
+            .outsidePointerEvents()
+            .subscribe(event => this.stack.handleOutside(registration, event)),
+          overlayRef
+            .backdropClick()
+            .subscribe(event => this.stack.handleBackdrop(registration, event)),
+          fromEvent(overlayRef.overlayElement, 'click').subscribe(() =>
+            this.stack.clearBoundaryPointerDown(registration),
+          ),
+          ...boundarySubscriptions,
+        ];
+      });
       return handle;
     } catch (error) {
       handle.finalizeClose();

@@ -57,6 +57,11 @@ one post-hydration attachment, stable relationships, event-replay safety, positi
 and cleanup. See the
 [overlay foundation](../foundations/overlay-host-and-positioning.md).
 
+Body-lock construction is DOM-idle and the overlay browser guard runs before a CDK strategy or
+lease is created. The first Modal/Drawer still owns the hydration/event-replay gate for acquiring
+once and restoring final document state; see the
+[body scroll-lock foundation](../foundations/body-scroll-lock.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

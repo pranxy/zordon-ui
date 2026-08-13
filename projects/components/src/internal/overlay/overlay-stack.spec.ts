@@ -145,6 +145,33 @@ describe('ZdOverlayStack', () => {
     expect(lowerRequest).not.toHaveBeenCalled();
   });
 
+  it('treats a pointer-down on a logical boundary as inside until the matching click', () => {
+    const stack = new ZdOverlayStack();
+    const request = vi.fn();
+    const registration = stack.register({
+      backdrop: () => null,
+      pane: document.createElement('div'),
+      requestClose: request,
+    });
+    stack.markBoundaryPointerDown(registration);
+
+    expect(stack.handleOutside(registration, pathEvent('click', [document.body]))).toBe(false);
+    expect(request).not.toHaveBeenCalled();
+    expect(stack.handleOutside(registration, pathEvent('click', [document.body]))).toBe(true);
+  });
+
+  it('clears a logical-boundary pointer origin after cancellation or an inside click', () => {
+    const stack = new ZdOverlayStack();
+    const registration = stack.register({
+      backdrop: () => null,
+      pane: document.createElement('div'),
+      requestClose: vi.fn(),
+    });
+    stack.markBoundaryPointerDown(registration);
+    stack.clearBoundaryPointerDown(registration);
+    expect(stack.handleOutside(registration, pathEvent('click', [document.body]))).toBe(true);
+  });
+
   it('returns false when no top surface exists and when an outside event is already claimed', () => {
     const stack = new ZdOverlayStack();
     const registration = stack.register({
