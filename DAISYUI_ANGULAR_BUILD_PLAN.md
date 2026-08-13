@@ -183,7 +183,10 @@ Overall component progress: **0 / 68 Done**.
   scroll-position and classic-gutter fallback, and documents consumer-owned `scrollbar-gutter`.
   Completion waits for a real blocking component's hydration and physical mobile proof plus the
   overlay foundation's two-entry shared-identity gate.
-- [ ] Directionality and logical placement mapping.
+- [~] Directionality and logical placement mapping. CDK `Directionality` is the sole horizontal
+  LTR/RTL source; private overlays resolve the content scope, propagate it into portals, and update
+  plus reposition on live changes without pre-flipping logical start/end. Completion waits for the
+  first published component's browser and SSR/hydration proof.
 - [ ] Reduced-motion policy and animation state utilities.
 - [ ] Live announcer and accessible description/error association.
 - [ ] Form control base behavior, touched state, disabled state, validation, and error IDs.
@@ -505,6 +508,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-13 | Defined horizontal LTR/RTL ownership through CDK Directionality and added private overlay source propagation, live logical repositioning, cleanup, SSR, and writing-mode boundaries.                          | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-11 | Added a private ref-counted CDK body-scroll-lock lease, arbitrary-release tests, consumer-owned gutter guidance, and explicit hydration/mobile/shared-identity completion gates.                              | Phase 2 interaction   | `docs/foundations/body-scroll-lock.md`             |
 | 2026-08-11 | Added a private CDK overlay host, semantic stack, two-phase lifecycle, portal ownership, atomic dismissal, positioning and scroll-policy foundation with package/hydration gates.                             | Phase 2 interaction   | `docs/foundations/overlay-host-and-positioning.md` |
 | 2026-08-11 | Standardized native/CDK Escape and outside-interaction ownership, cancellation, boundaries, cleanup, and SSR limits while assigning atomic top-only arbitration to the pending private overlay stack.         | Phase 2 interaction   | `docs/foundations/`                                |

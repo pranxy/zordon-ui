@@ -62,6 +62,12 @@ lease is created. The first Modal/Drawer still owns the hydration/event-replay g
 once and restoring final document state; see the
 [body scroll-lock foundation](../foundations/body-scroll-lock.md).
 
+Direction must be explicit and stable across server and client. The private direction/overlay source
+does not run on the server; the first published consumer must prove server-rendered `dir`, a clean
+hydration, one post-hydration open in the nearest direction scope, and live repositioning without a
+second overlay. See the
+[directionality foundation](../foundations/directionality-and-logical-placement.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

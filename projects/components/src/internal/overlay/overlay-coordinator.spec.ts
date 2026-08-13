@@ -1,8 +1,12 @@
 import { Overlay, OverlayContainer, OverlayModule } from '@angular/cdk/overlay';
+import { type Direction, Directionality } from '@angular/cdk/bidi';
 import {
   Component,
   ElementRef,
+  EventEmitter,
   inject,
+  InjectionToken,
+  Injector,
   OnDestroy,
   PLATFORM_ID,
   TemplateRef,
@@ -11,13 +15,26 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { ZdOverlayCoordinator } from './overlay-coordinator';
+import {
+  NonOwningDirectionalityInjector,
+  resolveZdDirectionality,
+  ZdOverlayCoordinator,
+} from './overlay-coordinator';
 import type { ZdOverlayOpenConfig } from './overlay-contracts';
 import { ZdOverlayStack } from './overlay-stack';
 
 @Component({ template: `<span data-testid="component-portal">Component portal</span>` })
 class TestPortalComponent implements OnDestroy {
   static destroyed = 0;
+  static directionality?: Directionality;
+  static injector?: Injector;
+  readonly directionality = inject(Directionality);
+  readonly injector = inject(Injector);
+
+  constructor() {
+    TestPortalComponent.directionality = this.directionality;
+    TestPortalComponent.injector = this.injector;
+  }
   ngOnDestroy(): void {
     TestPortalComponent.destroyed++;
   }
@@ -54,6 +71,8 @@ function globalConfig(
 describe('ZdOverlayCoordinator', () => {
   beforeEach(() => {
     TestPortalComponent.destroyed = 0;
+    TestPortalComponent.directionality = undefined;
+    TestPortalComponent.injector = undefined;
     TestBed.configureTestingModule({
       imports: [OverlayModule, TestPortalHost, TestPortalComponent],
     });
@@ -125,6 +144,100 @@ describe('ZdOverlayCoordinator', () => {
     expect(document.querySelector('.cdk-overlay-pane')?.hasAttribute('data-theme')).toBe(false);
     handle.destroy();
     expect(TestPortalComponent.destroyed).toBe(1);
+  });
+
+  it('falls back to the coordinator injector when component content has no injector context', () => {
+    const handle = TestBed.inject(ZdOverlayCoordinator).open(
+      globalConfig({ component: TestPortalComponent, kind: 'component' }),
+    )!;
+    expect(TestPortalComponent.directionality).toBe(TestBed.inject(Directionality));
+    handle.finalizeClose();
+  });
+
+  it('uses the portal direction source, repositions on live changes, and cleans up', () => {
+    const fixture = TestBed.createComponent(TestPortalHost);
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+    const change = new EventEmitter<Direction>();
+    let value: Direction = 'rtl';
+    const directionality = {
+      change,
+      get value(): Direction {
+        return value;
+      },
+    } as Directionality;
+    const injector = Injector.create({
+      parent: host.viewContainerRef.injector,
+      providers: [{ provide: Directionality, useValue: directionality }],
+    });
+    const overlay = TestBed.inject(Overlay);
+    const create = overlay.create.bind(overlay);
+    let updatePosition = vi.fn();
+    vi.spyOn(overlay, 'create').mockImplementation(config => {
+      const ref = create(config);
+      updatePosition = vi.spyOn(ref, 'updatePosition');
+      return ref;
+    });
+    const handle = TestBed.inject(ZdOverlayCoordinator).open(
+      globalConfig({
+        component: TestPortalComponent,
+        injector,
+        kind: 'component',
+        viewContainerRef: host.viewContainerRef,
+      }),
+    )!;
+    const overlayHost = document.querySelector('.cdk-overlay-pane')!.parentElement!;
+    expect(overlayHost.getAttribute('dir')).toBe('rtl');
+    expect(TestPortalComponent.directionality).toBe(directionality);
+
+    value = 'ltr';
+    change.emit('ltr');
+    change.emit('ltr');
+    expect(overlayHost.getAttribute('dir')).toBe('ltr');
+    expect(updatePosition).toHaveBeenCalledOnce();
+
+    handle.finalizeClose();
+    change.emit('rtl');
+    expect(updatePosition).toHaveBeenCalledOnce();
+  });
+
+  it('lets an explicit direction source override the content injector and provides it to content', () => {
+    const fixture = TestBed.createComponent(TestPortalHost);
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+    const contentDirection = {
+      change: new EventEmitter<Direction>(),
+      value: 'ltr',
+    } as Directionality;
+    const explicitDirection = {
+      change: new EventEmitter<Direction>(),
+      ngOnDestroy: vi.fn(),
+      value: 'rtl',
+    } as unknown as Directionality;
+    const injector = Injector.create({
+      parent: host.viewContainerRef.injector,
+      providers: [{ provide: Directionality, useValue: contentDirection }],
+    });
+
+    const handle = TestBed.inject(ZdOverlayCoordinator).open(
+      globalConfig(
+        {
+          component: TestPortalComponent,
+          injector,
+          kind: 'component',
+          viewContainerRef: host.viewContainerRef,
+        },
+        { directionality: explicitDirection },
+      ),
+    )!;
+
+    expect(document.querySelector('.cdk-overlay-pane')!.parentElement!.getAttribute('dir')).toBe(
+      'rtl',
+    );
+    expect(TestPortalComponent.directionality).toBe(explicitDirection);
+    expect(TestPortalComponent.injector?.get(Directionality)).toBe(explicitDirection);
+    handle.finalizeClose();
+    expect(explicitDirection.ngOnDestroy).not.toHaveBeenCalled();
   });
 
   it('uses the connected placement origin for theme and outside-boundary ownership', () => {
@@ -315,18 +428,28 @@ describe('ZdOverlayCoordinator', () => {
       });
       return ref;
     });
+    const failedDestroy = vi.fn();
+    const failedDirection = {
+      change: new EventEmitter<Direction>(),
+      ngOnDestroy: failedDestroy,
+      value: 'rtl',
+    } as unknown as Directionality;
 
     expect(() =>
       TestBed.inject(ZdOverlayCoordinator).open(
-        globalConfig({
-          context: { label: 'Failure' },
-          kind: 'template',
-          template: fixture.componentInstance.content,
-          viewContainerRef: fixture.componentInstance.viewContainerRef,
-        }),
+        globalConfig(
+          {
+            context: { label: 'Failure' },
+            kind: 'template',
+            template: fixture.componentInstance.content,
+            viewContainerRef: fixture.componentInstance.viewContainerRef,
+          },
+          { directionality: failedDirection },
+        ),
       ),
     ).toThrowError('attach failed');
     expect(dispose).toHaveBeenCalledOnce();
+    expect(failedDestroy).not.toHaveBeenCalled();
   });
 
   it('refuses an unknown parent handle and unwinds the child ref', () => {
@@ -403,6 +526,75 @@ describe('ZdOverlayCoordinator', () => {
   });
 });
 
+describe('resolveZdDirectionality', () => {
+  it('uses explicit, local content, view-container, then root direction sources', () => {
+    const root = { value: 'ltr' } as Directionality;
+    const view = { value: 'rtl' } as Directionality;
+    const content = { value: 'ltr' } as Directionality;
+    const explicit = { value: 'rtl' } as Directionality;
+    const rootInjector = Injector.create({
+      providers: [{ provide: Directionality, useValue: root }],
+    });
+    const viewInjector = Injector.create({
+      parent: rootInjector,
+      providers: [{ provide: Directionality, useValue: view }],
+    });
+    const emptyContentInjector = Injector.create({ parent: rootInjector, providers: [] });
+    const contentInjector = Injector.create({
+      parent: rootInjector,
+      providers: [{ provide: Directionality, useValue: content }],
+    });
+    const viewContainerRef = { injector: viewInjector } as unknown as ViewContainerRef;
+    const component = TestPortalComponent;
+
+    expect(
+      resolveZdDirectionality(
+        {
+          content: { component, injector: contentInjector, kind: 'component', viewContainerRef },
+          directionality: explicit,
+        },
+        root,
+      ),
+    ).toBe(explicit);
+    expect(
+      resolveZdDirectionality(
+        { content: { component, injector: contentInjector, kind: 'component', viewContainerRef } },
+        root,
+      ),
+    ).toBe(content);
+    expect(
+      resolveZdDirectionality(
+        {
+          content: {
+            component,
+            injector: emptyContentInjector,
+            kind: 'component',
+            viewContainerRef,
+          },
+        },
+        root,
+      ),
+    ).toBe(view);
+    expect(resolveZdDirectionality({ content: { component, kind: 'component' } }, root)).toBe(root);
+  });
+});
+
+describe('NonOwningDirectionalityInjector', () => {
+  it('provides itself and the borrowed direction source while delegating other tokens', () => {
+    const delegated = new InjectionToken<string>('delegated');
+    const parent = Injector.create({ providers: [{ provide: delegated, useValue: 'parent' }] });
+    const directionality = {
+      change: new EventEmitter<Direction>(),
+      value: 'rtl',
+    } as Directionality;
+    const injector = new NonOwningDirectionalityInjector(parent, directionality);
+
+    expect(injector.get(Directionality)).toBe(directionality);
+    expect(injector.get(Injector)).toBe(injector);
+    expect(injector.get(delegated)).toBe('parent');
+  });
+});
+
 describe('ZdOverlayCoordinator on the server', () => {
   it('returns null before creating any CDK overlay DOM', () => {
     TestBed.configureTestingModule({
@@ -414,6 +606,9 @@ describe('ZdOverlayCoordinator on the server', () => {
     const block = vi.spyOn(overlay.scrollStrategies, 'block');
     const config = {
       content: { component: TestPortalComponent, kind: 'component' as const },
+      get directionality(): Directionality {
+        throw new Error('server direction source must remain unread');
+      },
       onCloseRequest: vi.fn(),
       placement: { kind: 'global' as const },
       scrollPolicy: 'block' as const,

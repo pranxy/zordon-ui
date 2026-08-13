@@ -1,5 +1,6 @@
 import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
+import { type Direction, Dir, Directionality } from '@angular/cdk/bidi';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,9 +28,12 @@ class ThemeHostFixtureComponent {}
     'data-testid': 'positioned-overlay-panel',
     'class': 'block h-20 w-32 rounded-box border bg-base-100 p-3 shadow',
   },
-  template: `Positioned overlay`,
+  template: `Positioned overlay
+    <output data-testid="positioned-overlay-direction">{{ directionality.valueSignal() }}</output>`,
 })
-class PositionedOverlayPanelComponent {}
+class PositionedOverlayPanelComponent {
+  protected readonly directionality = inject(Directionality);
+}
 
 @Component({
   host: {
@@ -48,6 +52,7 @@ class ScrollLockPanelComponent {}
     CdkMonitorFocus,
     CdkOverlayOrigin,
     CdkTrapFocus,
+    Dir,
     ThemeHostFixtureComponent,
     ZdTheme,
   ],
@@ -137,7 +142,13 @@ class ScrollLockPanelComponent {}
         </ng-template>
       </section>
 
-      <section data-theme="cupcake" aria-labelledby="positioning-heading" class="grid gap-3">
+      <section
+        #positionedDir="dir"
+        data-theme="cupcake"
+        aria-labelledby="positioning-heading"
+        class="grid gap-3"
+        [dir]="positionedDirection()"
+      >
         <h2 id="positioning-heading" class="text-xl font-semibold">Private overlay foundation</h2>
         <button
           #positionedOrigin
@@ -149,6 +160,15 @@ class ScrollLockPanelComponent {}
           Open positioned overlay
         </button>
         <output data-testid="positioned-close-reason">{{ positionedCloseReason() }}</output>
+        <button
+          #positionedDirectionToggle
+          class="btn w-fit"
+          data-testid="toggle-positioned-direction"
+          type="button"
+          (click)="togglePositionedDirection()"
+        >
+          Toggle positioned direction
+        </button>
       </section>
 
       <section aria-labelledby="scroll-lock-heading" class="grid gap-3">
@@ -295,6 +315,10 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
     viewChild.required<ElementRef<HTMLButtonElement>>('dialogTrigger');
   private readonly positionedOrigin =
     viewChild.required<ElementRef<HTMLButtonElement>>('positionedOrigin');
+  private readonly positionedDir = viewChild.required<Dir>('positionedDir');
+  private readonly positionedDirectionToggle = viewChild.required<ElementRef<HTMLButtonElement>>(
+    'positionedDirectionToggle',
+  );
   private positionedOverlay: ZdOverlayHandle | null = null;
   private readonly scrollLocks: ZdOverlayHandle[] = [];
 
@@ -304,6 +328,7 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected readonly outsideActions = signal(0);
   protected readonly outsideDismissals = signal(0);
   protected readonly positionedCloseReason = signal('');
+  protected readonly positionedDirection = signal<Direction>('ltr');
   protected readonly focusTrapOpen = signal(false);
   protected readonly extraFocusTarget = signal(false);
   protected readonly extraFocusDisabled = signal(false);
@@ -357,12 +382,14 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
         viewContainerRef: this.viewContainerRef,
       },
       hasBackdrop: true,
+      directionality: this.positionedDir(),
       onCloseRequest: reason => {
         this.positionedCloseReason.set(reason);
         handle?.finalizeClose();
         if (this.positionedOverlay === handle) this.positionedOverlay = null;
       },
       origin,
+      safeElements: [this.positionedDirectionToggle().nativeElement],
       placement: {
         kind: 'connected',
         origin,
@@ -386,6 +413,10 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
       },
     });
     this.positionedOverlay = handle;
+  }
+
+  protected togglePositionedDirection(): void {
+    this.positionedDirection.update(direction => (direction === 'ltr' ? 'rtl' : 'ltr'));
   }
 
   protected openScrollLock(): void {

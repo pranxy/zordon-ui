@@ -19,7 +19,7 @@ const orientation: ZdOrientation = 'horizontal';
 | `ZdSize`            | `xs`, `sm`, `md`, `lg`, `xl`                                                       | recurring daisyUI component sizes                                                            |
 | `ZdStyle`           | `outline`, `dash`, `soft`, `ghost`, `border`                                       | reusable treatments; every component exposes only its supported subset                       |
 | `ZdShape`           | `square`, `circle`                                                                 | basic cross-component shapes                                                                 |
-| `ZdInlinePlacement` | `start`, `center`, `end`                                                           | logical inline alignment that follows LTR or RTL direction                                   |
+| `ZdInlinePlacement` | `start`, `center`, `end`                                                           | horizontal inline alignment that follows LTR or RTL direction                                |
 | `ZdBlockPlacement`  | `top`, `middle`, `bottom`                                                          | block-axis placement                                                                         |
 | `ZdPlacement`       | all inline and block placement values                                              | shared single-axis vocabulary; compound placement uses the axis-specific types               |
 | `ZdOrientation`     | `horizontal`, `vertical`                                                           | linear layout orientation                                                                    |
@@ -42,7 +42,8 @@ type AlertStyle = Extract<ZdStyle, 'outline' | 'dash' | 'soft'>;
 Button's `link`, Tabs' `box` and `lift`, Mask's rich shapes, Loading's animation names, and similar
 specialized values remain in their component entry points. Physical `left` and `right` placements
 remain local to behavior where a physical side is intrinsic; shared directional APIs use logical
-`start` and `end`.
+`start` and `end`. The v1 placement vocabulary assumes horizontal writing mode; see the
+[directionality foundation](directionality-and-logical-placement.md).
 
 ## Customization boundary
 

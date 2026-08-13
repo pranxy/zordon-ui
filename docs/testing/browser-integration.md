@@ -69,6 +69,12 @@ stability, consumer state preservation, and cleanup. Desktop execution does not 
 iOS/Android keyboard, rubber-band, toolbar, safe-area, or visual-viewport behavior; see the
 [body scroll-lock foundation](../foundations/body-scroll-lock.md).
 
+The private overlay scenario also opens a logical-start panel in an Angular CDK `Dir` scope. It
+asserts initial LTR host/content direction, changes the same scope to RTL while the overlay remains
+open, and verifies right-edge alignment and portaled injected direction. The first published
+consumer must repeat the direction scenario with its own API and supported-browser matrix; see the
+[directionality foundation](../foundations/directionality-and-logical-placement.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

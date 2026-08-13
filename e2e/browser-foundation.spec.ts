@@ -163,13 +163,29 @@ test('positions, repositions, themes, hosts, and cleans up the private overlay f
   const pane = page.locator('.cdk-overlay-pane').filter({ has: panel });
   await expect(pane).toHaveClass(/zd-test-above/);
   await expect(pane).toHaveAttribute('data-theme', 'cupcake');
+  await expect(pane.locator('xpath=..')).toHaveAttribute('dir', 'ltr');
+  await expect(page.getByTestId('positioned-overlay-direction')).toHaveText('ltr');
   const initial = await pane.boundingBox();
   const originBox = await origin.boundingBox();
   expect(initial).not.toBeNull();
   expect(originBox).not.toBeNull();
   expect(initial!.y + initial!.height).toBeLessThanOrEqual(originBox!.y + 1);
   expect(initial!.y).toBeGreaterThanOrEqual(8);
+  expect(Math.abs(initial!.x - originBox!.x)).toBeLessThanOrEqual(1);
   await expect(page.locator('.cdk-overlay-backdrop')).toHaveCount(1);
+
+  await page
+    .getByTestId('toggle-positioned-direction')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(pane.locator('xpath=..')).toHaveAttribute('dir', 'rtl');
+  await expect(page.getByTestId('positioned-overlay-direction')).toHaveText('rtl');
+  await expect
+    .poll(async () => {
+      const paneBox = await pane.boundingBox();
+      const triggerBox = await origin.boundingBox();
+      return Math.abs(paneBox!.x + paneBox!.width - (triggerBox!.x + triggerBox!.width));
+    })
+    .toBeLessThanOrEqual(1);
 
   await origin.evaluate(element => {
     element.style.bottom = '180px';
@@ -188,6 +204,12 @@ test('positions, repositions, themes, hosts, and cleans up the private overlay f
 
   await origin.click();
   await expect(panel).toBeVisible();
+  await expect(pane.locator('xpath=..')).toHaveAttribute('dir', 'rtl');
+  await page
+    .getByTestId('toggle-positioned-direction')
+    .evaluate((element: HTMLElement) => element.click());
+  await expect(pane.locator('xpath=..')).toHaveAttribute('dir', 'ltr');
+  await expect(page.getByTestId('positioned-overlay-direction')).toHaveText('ltr');
   await page.locator('.cdk-overlay-backdrop').click({ position: { x: 1, y: 1 } });
   await expect(panel).not.toBeVisible();
   await expect(page.getByTestId('positioned-close-reason')).toHaveText('backdrop');
@@ -199,9 +221,9 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
 }) => {
   await page.evaluate(() => {
     document.documentElement.classList.add('consumer-root-class');
+    window.scrollTo(0, 300);
     document.documentElement.style.scrollBehavior = 'smooth';
     document.body.style.scrollBehavior = 'smooth';
-    window.scrollTo(0, 300);
   });
   const initialScroll = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
   const fixedBefore = await page.getByTestId('scroll-lock-fixed-reference').boundingBox();
@@ -211,12 +233,13 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
     .getByTestId('open-scroll-lock-first')
     .evaluate((element: HTMLElement) => element.click());
   await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
+  const lockedScroll = await page.evaluate(() => ({ x: scrollX, y: scrollY }));
   await page
     .getByTestId('open-scroll-lock-second')
     .evaluate((element: HTMLElement) => element.click());
   await expect(page.getByTestId('scroll-lock-panel')).toHaveCount(2);
   await page.mouse.wheel(0, 500);
-  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(lockedScroll);
 
   await page
     .getByTestId('close-scroll-lock-first')
@@ -228,7 +251,7 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
   await expect
     .poll(() => page.getByTestId('scroll-lock-panel').evaluate(element => element.scrollTop))
     .toBeGreaterThan(0);
-  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(lockedScroll);
 
   await page
     .getByTestId('close-scroll-lock-last')

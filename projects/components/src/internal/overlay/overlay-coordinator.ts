@@ -1,8 +1,17 @@
 import { isPlatformBrowser } from '@angular/common';
+import { Directionality } from '@angular/cdk/bidi';
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  inject,
+  type InjectOptions,
+  Injectable,
+  Injector,
+  PLATFORM_ID,
+  type ProviderToken,
+} from '@angular/core';
 import { fromEvent, type Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import type { ZdOverlayHandle, ZdOverlayOpenConfig } from './overlay-contracts';
 import { ZdBodyScrollLock } from './body-scroll-lock';
@@ -14,6 +23,8 @@ import { ZdOverlayStack } from './overlay-stack';
 export class ZdOverlayCoordinator {
   private readonly overlay = inject(Overlay);
   private readonly bodyScrollLock = inject(ZdBodyScrollLock);
+  private readonly directionality = inject(Directionality);
+  private readonly injector = inject(Injector);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly stack = inject(ZdOverlayStack);
 
@@ -22,10 +33,18 @@ export class ZdOverlayCoordinator {
   ): ZdOverlayHandle | null {
     if (!isPlatformBrowser(this.platformId)) return null;
 
+    const portalParent =
+      config.content.injector ?? config.content.viewContainerRef?.injector ?? this.injector;
+    const directionality = resolveZdDirectionality(config, this.directionality);
+    const needsDirectionProvider = portalParent.get(Directionality, null) !== directionality;
+    const portalInjector = needsDirectionProvider
+      ? new NonOwningDirectionalityInjector(portalParent, directionality)
+      : portalParent;
     const overlayRef = this.overlay.create({
       backdropClass: config.backdropClass ? [...asArray(config.backdropClass)] : undefined,
       hasBackdrop: config.hasBackdrop ?? false,
       panelClass: config.panelClass ? [...asArray(config.panelClass)] : undefined,
+      direction: directionality.value,
       positionStrategy: createZdPositionStrategy(this.overlay, config.placement),
       scrollStrategy: createZdScrollStrategy(
         this.overlay,
@@ -34,6 +53,12 @@ export class ZdOverlayCoordinator {
       ),
     });
     const handle = new ZdInternalOverlayHandle(overlayRef, this.stack, config.onCloseRequest);
+    const directionSubscription = directionality.change
+      .pipe(distinctUntilChanged())
+      .subscribe(direction => {
+        overlayRef.setDirection(direction);
+        overlayRef.updatePosition();
+      });
     const origin =
       config.origin ??
       (config.placement.kind === 'connected' ? unwrapOrigin(config.placement.origin) : undefined);
@@ -45,12 +70,12 @@ export class ZdOverlayCoordinator {
               config.content.template,
               config.content.viewContainerRef,
               config.content.context,
-              config.content.injector,
+              portalInjector,
             )
           : new ComponentPortal(
               config.content.component,
               config.content.viewContainerRef,
-              config.content.injector,
+              portalInjector,
             );
       overlayRef.attach(portal);
       handle.updateTheme(config.theme === undefined ? resolveTheme(origin) : config.theme);
@@ -82,6 +107,7 @@ export class ZdOverlayCoordinator {
           ),
         ]);
         return [
+          directionSubscription,
           overlayRef
             .keydownEvents()
             .subscribe(event => this.stack.handleEscape(registration, event)),
@@ -99,6 +125,7 @@ export class ZdOverlayCoordinator {
       });
       return handle;
     } catch (error) {
+      directionSubscription.unsubscribe();
       handle.finalizeClose();
       throw error;
     }
@@ -118,6 +145,35 @@ export class ZdOverlayCoordinator {
 
   private findRegistration(handle: ZdInternalOverlayHandle) {
     return this.registrations.get(handle);
+  }
+}
+
+export function resolveZdDirectionality(
+  config: Pick<ZdOverlayOpenConfig, 'content' | 'directionality'>,
+  fallback: Directionality,
+): Directionality {
+  return (
+    config.directionality ??
+    config.content.injector?.get(Directionality, null, { self: true }) ??
+    config.content.viewContainerRef?.injector.get(Directionality, fallback) ??
+    fallback
+  );
+}
+
+export class NonOwningDirectionalityInjector extends Injector {
+  constructor(
+    private readonly parent: Injector,
+    private readonly directionality: Directionality,
+  ) {
+    super();
+  }
+
+  override get<T>(token: ProviderToken<T>, notFoundValue?: T, options?: InjectOptions): T {
+    if (token === (Directionality as unknown as ProviderToken<T>)) {
+      return this.directionality as unknown as T;
+    }
+    if (token === (Injector as unknown as ProviderToken<T>)) return this as unknown as T;
+    return this.parent.get(token, notFoundValue, options);
   }
 }
 

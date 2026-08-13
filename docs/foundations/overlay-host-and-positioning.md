@@ -47,7 +47,7 @@ or visible-area fallback, and can push the result inside the viewport.
 
 Each component owns its meaningful fallback order; a tooltip, menu, select, and date picker do not
 share one universal sequence. Global positioning supports logical start/end and centered placement.
-The following directionality foundation will own the public placement vocabulary and live direction
+The [directionality foundation](directionality-and-logical-placement.md) owns the public placement vocabulary and live direction
 changes. Consumers never receive CDK position objects.
 
 ## Scroll policy

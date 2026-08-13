@@ -1,4 +1,5 @@
 import type { ElementRef, Injector, TemplateRef, Type, ViewContainerRef } from '@angular/core';
+import type { Directionality } from '@angular/cdk/bidi';
 
 export type ZdOverlayLifecycle = 'opening' | 'open' | 'closing' | 'closed';
 
@@ -72,6 +73,8 @@ export interface ZdOverlayOpenConfig<TComponent = unknown, TContext extends obje
   readonly hasBackdrop?: boolean;
   readonly panelClass?: string | readonly string[];
   readonly backdropClass?: string | readonly string[];
+  /** Internal direction source. Defaults to the portal content's nearest CDK Directionality. */
+  readonly directionality?: Directionality;
   readonly theme?: string | null;
   readonly onCloseRequest: (reason: ZdOverlayCloseReason, event?: Event) => void;
 }
