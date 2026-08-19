@@ -338,6 +338,120 @@ test('honors native form validation and submits a value', async ({ page }) => {
   await expect(page.getByTestId('submitted-name')).toHaveText('Zordon');
 });
 
+test('accepts one async action while pending and keeps retry, failure, and disabled ownership distinct', async ({
+  page,
+}) => {
+  const start = page.getByTestId('async-action-start');
+  const starts = page.getByTestId('async-action-starts');
+  const status = page.getByTestId('async-action-status');
+
+  await start.focus();
+  await page
+    .getByTestId('async-action-start-twice')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(start).toBeFocused();
+  await expect(start).toHaveAttribute('aria-disabled', 'true');
+  await expect(starts).toHaveText('Accepted actions: 1');
+  await expect(status).toHaveText('Saving request 1');
+
+  await start.dispatchEvent('click');
+  await page.keyboard.press('Enter');
+  await expect(starts).toHaveText('Accepted actions: 1');
+
+  await page.getByTestId('async-action-complete-oldest').click();
+  await expect(status).toHaveText('Completed request 1');
+  await expect(start).not.toHaveAttribute('aria-disabled');
+
+  await start.click();
+  await expect(starts).toHaveText('Accepted actions: 2');
+  await page.getByTestId('async-action-fail').click();
+  await expect(status).toHaveText('Request 2 failed');
+  await expect(start).not.toHaveAttribute('aria-disabled');
+
+  await start.click();
+  await page.getByTestId('async-action-disable').click();
+  await expect(start).toBeDisabled();
+  await page.getByTestId('async-action-complete-oldest').click();
+  await expect(status).toHaveText('Completed request 3');
+  await expect(start).toBeDisabled();
+});
+
+test('separates cooperative cancellation from stale completion and stale finally handling', async ({
+  page,
+}) => {
+  const start = page.getByTestId('async-action-start');
+  const replace = page.getByTestId('async-action-replace');
+  const status = page.getByTestId('async-action-status');
+  const starts = page.getByTestId('async-action-starts');
+  const aborts = page.getByTestId('async-action-aborts');
+
+  await start.click();
+  await page.getByTestId('async-action-cancel').click();
+  await expect(status).toHaveText('Cancelled request 1');
+  await expect(aborts).toHaveText('Abort requests: 1');
+  await expect(start).not.toHaveAttribute('aria-disabled');
+
+  await start.click();
+  await replace.click();
+  await expect(starts).toHaveText('Accepted actions: 3');
+  await expect(aborts).toHaveText('Abort requests: 2');
+  await expect(status).toHaveText('Saving request 3');
+
+  await page.getByTestId('async-action-complete-oldest').click();
+  await expect(status).toHaveText('Saving request 3');
+  await expect(start).toHaveAttribute('aria-disabled', 'true');
+
+  await page.getByTestId('async-action-complete-oldest').click();
+  await expect(status).toHaveText('Completed request 3');
+  await expect(start).not.toHaveAttribute('aria-disabled');
+});
+
+test('aborts owned async work and releases the probe on destruction', async ({ page }) => {
+  const pageErrors: Error[] = [];
+  page.on('pageerror', error => pageErrors.push(error));
+  await page.getByTestId('async-action-start').click();
+  await expect(page.getByTestId('async-action-status')).toHaveText('Saving request 1');
+  await page.getByTestId('async-action-replace').click();
+  await expect(page.getByTestId('async-action-aborts')).toHaveText('Abort requests: 1');
+  await expect(page.getByTestId('async-action-status')).toHaveText('Saving request 2');
+
+  await page.getByTestId('remove-async-action-probe').click();
+  await expect(page.getByTestId('async-action-start')).toHaveCount(0);
+  await expect(page.getByTestId('async-action-cleanup-aborts')).toHaveText('Cleanup aborts: 1');
+
+  await page.getByTestId('restore-async-action-probe').click();
+  await expect(page.getByTestId('async-action-status')).toHaveText('Action idle');
+  await expect(page.getByTestId('async-action-starts')).toHaveText('Accepted actions: 0');
+  expect(pageErrors).toEqual([]);
+});
+
+test('guards async work at the form submit boundary while preserving submitted data', async ({
+  page,
+}) => {
+  const input = page.getByLabel('Async form value');
+  const submit = page.getByTestId('async-form-submit');
+  const starts = page.getByTestId('async-form-starts');
+
+  await input.fill('consumer-value');
+  await page
+    .getByTestId('async-form-submit-twice')
+    .evaluate((element: HTMLButtonElement) => element.click());
+  await expect(submit).toHaveAttribute('aria-disabled', 'true');
+  await expect(starts).toHaveText('Accepted form submits: 1');
+  await expect(page.getByTestId('async-form-data')).toHaveText('Submitted value: consumer-value');
+  await expect(page.getByTestId('async-form-intent')).toHaveText('Submitted intent: save');
+  await expect(page.getByTestId('async-form-submitter')).toHaveText('Submitter: async-form-submit');
+
+  await input.press('Enter');
+  await submit.dispatchEvent('click');
+  await expect(starts).toHaveText('Accepted form submits: 1');
+
+  await page.getByTestId('async-form-complete').click();
+  await expect(submit).not.toHaveAttribute('aria-disabled');
+  await submit.click();
+  await expect(starts).toHaveText('Accepted form submits: 2');
+});
+
 test('applies compiled daisyUI variables to nested and per-element theme scopes', async ({
   page,
 }) => {

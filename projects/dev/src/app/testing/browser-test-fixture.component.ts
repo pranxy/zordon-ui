@@ -15,6 +15,7 @@ import { ZdTheme } from '@pranxy/zordon-ui';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
 import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
+import { AsyncActionProbeComponent } from './async-action-probe.component';
 
 @Component({
   selector: 'app-theme-host-fixture',
@@ -48,6 +49,7 @@ class ScrollLockPanelComponent {}
 @Component({
   selector: 'app-browser-test-fixture',
   imports: [
+    AsyncActionProbeComponent,
     CdkConnectedOverlay,
     CdkMonitorFocus,
     CdkOverlayOrigin,
@@ -315,6 +317,29 @@ class ScrollLockPanelComponent {}
         <output data-testid="submitted-name">{{ submittedName() }}</output>
       </section>
 
+      <div data-testid="async-action-contract">
+        <button
+          data-testid="remove-async-action-probe"
+          type="button"
+          (click)="asyncProbeVisible.set(false)"
+        >
+          Remove async action probe
+        </button>
+        <button
+          data-testid="restore-async-action-probe"
+          type="button"
+          (click)="asyncProbeVisible.set(true)"
+        >
+          Restore async action probe
+        </button>
+        <output data-testid="async-action-cleanup-aborts"
+          >Cleanup aborts: {{ asyncCleanupAborts() }}</output
+        >
+        @if (asyncProbeVisible()) {
+          <app-async-action-probe (cleanup)="asyncCleanupAborts.set($event)" />
+        }
+      </div>
+
       <section aria-labelledby="motion-heading" class="grid gap-3" data-testid="motion-contract">
         <h2 id="motion-heading" class="text-xl font-semibold">Reduced motion</h2>
         <button
@@ -382,6 +407,8 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected readonly nestedTheme = signal<string | null>('cupcake');
   protected readonly systemTheme = signal<string | null>(null);
   protected readonly motionProbeActive = signal(false);
+  protected readonly asyncProbeVisible = signal(true);
+  protected readonly asyncCleanupAborts = signal(0);
 
   protected openDialog(): void {
     this.blockNextDialogCancel.set(false);

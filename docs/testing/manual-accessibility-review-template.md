@@ -84,6 +84,9 @@ For each applicable combination, verify browse/read mode, focus mode, announceme
 | Loading, success, warning, and failure messages use appropriate live-region priority.        |        |                   |
 | Instructions do not rely only on color, position, shape, sound, or motion.                   |        |                   |
 
+For an async action, also record whether pending retains an understandable name/state and whether
+duplicate, cancel, failure, and retry behavior is announced once without unexpected focus movement.
+
 ## Visual, responsive, and motion review
 
 | Check                                                                                                     | Result | Evidence or issue |

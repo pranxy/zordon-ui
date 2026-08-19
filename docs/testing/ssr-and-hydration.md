@@ -16,6 +16,8 @@ The dedicated Playwright suite verifies that:
 - native status, hint, and error semantics remain deterministic and update once after hydration;
 - a native Reactive Forms control preserves initial value/state and deterministic error
   relationships, then follows submitted, touched, disabled, valid, and reset transitions;
+- an async-action compatibility region renders idle without starting work, then accepts one
+  post-hydration operation and ignores a duplicate until controlled completion;
 - server HTML contains no eagerly created CDK live-announcer or description container;
 - no browser console errors, page errors, or hydration mismatch errors occur;
 - the hydrated fixture has no detectable WCAG A or AA violations.
@@ -95,6 +97,13 @@ Angular validators generally mirror native constraints. This remains a native co
 the first composite value accessor must prove its own deterministic value normalization, logical
 focus boundary, event replay, serialization, and cleanup. See the
 [form-control foundation](../foundations/form-control-behavior.md).
+
+Async actions remain browser/user initiated. The server fixture renders deterministic idle text,
+an operable native button, stable status relationship, and `aria-busy="false"` without creating a
+task. After hydration it establishes pending synchronously, rejects a duplicate activation, and
+settles once through a controllable completion. This does not prove a pre-hydration replay race,
+server idempotency, cancellation, or the future Button package path; the first action component
+owns those gates under the [async-action foundation](../foundations/async-actions.md).
 
 ## Upstream references
 

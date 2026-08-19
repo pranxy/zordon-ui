@@ -40,6 +40,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Reduced motion and animation state](docs/foundations/reduced-motion.md)
 - [Live announcements and accessible descriptions](docs/foundations/live-announcements-and-descriptions.md)
 - [Angular form-control behavior](docs/foundations/form-control-behavior.md)
+- [Async action state and cancellation](docs/foundations/async-actions.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
 - [Maintainer release workflow](docs/guides/releasing.md)

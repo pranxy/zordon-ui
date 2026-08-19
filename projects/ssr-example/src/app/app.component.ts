@@ -86,6 +86,33 @@ import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
         <output aria-atomic="true" data-testid="counter" role="status">
           Hydrated count: {{ count() }}
         </output>
+
+        <div
+          data-testid="async-action-region"
+          [attr.aria-busy]="actionPending() ? 'true' : 'false'"
+        >
+          <button
+            data-testid="async-action-start"
+            type="button"
+            [attr.aria-describedby]="asyncActionStatusId"
+            [attr.aria-disabled]="actionPending() ? 'true' : null"
+            (click)="startAsyncAction()"
+          >
+            Save hydrated settings
+          </button>
+          <button data-testid="async-action-complete" type="button" (click)="completeAsyncAction()">
+            Complete hydrated save
+          </button>
+          <output
+            aria-atomic="true"
+            data-testid="async-action-status"
+            [id]="asyncActionStatusId"
+            role="status"
+          >
+            {{ actionStatus() }}
+          </output>
+          <output data-testid="async-action-starts">Accepted actions: {{ actionStarts() }}</output>
+        </div>
       </section>
 
       <p data-testid="hydration-state">
@@ -162,8 +189,12 @@ export class SsrExampleAppComponent {
   protected readonly validationControlId = this.ids.next('ssr-example-validation-control');
   protected readonly validationHintId = this.ids.next('ssr-example-validation-hint');
   protected readonly validationErrorId = this.ids.next('ssr-example-validation-error');
+  protected readonly asyncActionStatusId = this.ids.next('ssr-example-async-action-status');
   protected readonly validationDescriptionIds = `ssr-consumer-description ${this.validationHintId}`;
   protected readonly count = signal(0);
+  protected readonly actionPending = signal(false);
+  protected readonly actionStarts = signal(0);
+  protected readonly actionStatus = signal('Action idle');
   protected readonly validationControl = new FormControl('', {
     nonNullable: true,
     validators: [Validators.required],
@@ -173,6 +204,7 @@ export class SsrExampleAppComponent {
   });
   protected readonly hydrationReady = signal(false);
   protected readonly serverTheme = signal<string | null>('dark');
+  private actionCompletion: (() => void) | null = null;
 
   constructor() {
     afterNextRender(() => this.hydrationReady.set(true));
@@ -180,6 +212,25 @@ export class SsrExampleAppComponent {
 
   protected increment(): void {
     this.count.update(value => value + 1);
+  }
+
+  protected startAsyncAction(): void {
+    if (this.actionPending()) return;
+    this.actionPending.set(true);
+    this.actionStarts.update(count => count + 1);
+    this.actionStatus.set('Saving hydrated settings');
+    const promise = new Promise<void>(resolve => {
+      this.actionCompletion = resolve;
+    });
+    void promise.then(() => {
+      this.actionStatus.set('Hydrated settings saved');
+      this.actionPending.set(false);
+      this.actionCompletion = null;
+    });
+  }
+
+  protected completeAsyncAction(): void {
+    this.actionCompletion?.();
   }
 
   protected validationErrorVisible(submitted: boolean): boolean {

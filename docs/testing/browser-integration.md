@@ -98,6 +98,14 @@ proves submitted/touched error eligibility, Forms-owned disabling, reset, stable
 clean hydration. The first native directive and composite control must repeat the component-specific
 matrix in the [form-control foundation](../foundations/form-control-behavior.md).
 
+The async-action fixture is deliberately consumer-owned rather than a library task runner. It uses
+controllable deferred work to prove synchronous single-flight activation, retry after success and
+failure, cooperative cancellation, replacement with stale completion/finally suppression,
+focusable pending semantics, explicit-disabled preservation, and form-level duplicate guards. The
+first published action component must repeat those races through its real public API and add
+pre-hydration event replay, package, and manual assistive-technology evidence; see the
+[async-action foundation](../foundations/async-actions.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

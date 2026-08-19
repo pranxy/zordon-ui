@@ -43,6 +43,7 @@ async function prepareFixture(page: Page, theme: string): Promise<void> {
       ${fixtureSelector} section:has(#positioning-heading),
       ${fixtureSelector} section:has(#scroll-lock-heading),
       ${fixtureSelector} section:has(#focus-trap-heading),
+      ${fixtureSelector} [data-testid='async-action-contract'],
       ${fixtureSelector} [data-testid='motion-contract'],
       ${fixtureSelector} [data-testid='block-dialog-cancel'] {
         display: none !important;

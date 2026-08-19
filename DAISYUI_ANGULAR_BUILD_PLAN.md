@@ -200,7 +200,11 @@ Overall component progress: **0 / 68 Done**.
   controls retain Angular's built-in accessors; composite CVA ownership, Forms state, validation,
   error relationships, and SSR rules are documented and compatibility-tested without a premature
   generic base. Completion waits for one real native directive and one real composite control.
-- [ ] Async action state and cancellation conventions.
+- [~] Async action state and cancellation conventions. Native events and form submission remain
+  consumer-owned; pending, single-flight activation, cancellation versus stale-result rejection,
+  errors, accessible feedback, cleanup, and SSR/hydration rules are documented and characterized
+  without a generic task runner. Completion waits for ACT-01 Button's public API, package path,
+  pre-hydration event replay, and manual assistive-technology proof.
 
 ### Testing and documentation foundations
 
@@ -518,6 +522,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Defined async action ownership, concurrency, cancellation, stale-result, accessibility, and SSR contracts with browser/SSR characterization and no task framework.                                            | Phase 2 interaction   | `docs/foundations/async-actions.md`                |
 | 2026-08-19 | Defined native-versus-composite Angular Forms ownership, CVA callback/state/validation/error-ID rules, and added test-only pipeline plus native SSR/hydration evidence without a generic base.                | Phase 2 interaction   | `docs/foundations/form-control-behavior.md`        |
 | 2026-08-19 | Defined native live-region and description/error ownership, bounded future CDK reuse, and added deterministic SSR/hydration relationship and status-update evidence without a premature runtime wrapper.      | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-19 | Defined static-first reduced-motion ownership, Angular/daisyUI animation boundaries, lifecycle and SSR rules, and a live real-browser preference fixture without a premature runtime service.                 | Phase 2 interaction   | `docs/foundations/reduced-motion.md`               |

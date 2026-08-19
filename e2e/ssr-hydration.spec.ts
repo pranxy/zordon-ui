@@ -9,6 +9,7 @@ function generatedRelationshipIds(html: string): Record<string, string> {
       'validation-control',
       'validation-hint',
       'validation-error',
+      'async-action-status',
     ].map(testId => {
       const element = html.match(new RegExp(`<[^>]*data-testid="${testId}"[^>]*>`))?.[0];
       const id = element?.match(/\sid="([^"]+)"/)?.[1];
@@ -37,6 +38,10 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-theme="light"');
   expect(html).not.toContain('cdk-live-announcer-element');
   expect(html).not.toContain('cdk-describedby-message-container');
+  expect(html).toContain('Action idle');
+  expect(html).toContain('Accepted actions: 0');
+  const asyncActionRegion = html.match(/<div[^>]*data-testid="async-action-region"[^>]*>/)?.[0];
+  expect(asyncActionRegion).toContain('aria-busy="false"');
   expect(html).toMatch(/ngh="\d+"/);
   expect(repeatedResponse.ok()).toBe(true);
   expect(generatedRelationshipIds(repeatedHtml)).toEqual(generatedRelationshipIds(html));
@@ -75,12 +80,14 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const validationControlId = await page.getByTestId('validation-control').getAttribute('id');
   const validationHintId = await page.getByTestId('validation-hint').getAttribute('id');
   const validationErrorId = await page.getByTestId('validation-error').getAttribute('id');
+  const asyncActionStatusId = await page.getByTestId('async-action-status').getAttribute('id');
   expect(headingId).toBe(serverIds['interaction-heading']);
   expect(descriptionId).toBe(serverIds['counter-description']);
   expect(renderStateId).toBe(serverIds['render-state']);
   expect(validationControlId).toBe(serverIds['validation-control']);
   expect(validationHintId).toBe(serverIds['validation-hint']);
   expect(validationErrorId).toBe(serverIds['validation-error']);
+  expect(asyncActionStatusId).toBe(serverIds['async-action-status']);
   await expect(page.locator('section')).toHaveAttribute('aria-labelledby', headingId!);
   await expect(page.getByTestId('increment')).toHaveAttribute('aria-describedby', descriptionId!);
   await expect(page.getByText('Initial render state')).toHaveAttribute('for', renderStateId!);
@@ -166,6 +173,30 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   ).toEqual(['Hydrated count: 1']);
   await expect(page.locator('.cdk-live-announcer-element')).toHaveCount(0);
   await expect(page.locator('.cdk-describedby-message-container')).toHaveCount(0);
+
+  const asyncActionStart = page.getByTestId('async-action-start');
+  const asyncActionStatus = page.getByTestId('async-action-status');
+  const asyncActionStarts = page.getByTestId('async-action-starts');
+  await expect(asyncActionStart).toHaveAttribute('aria-describedby', asyncActionStatusId!);
+  await expect(asyncActionStart).not.toHaveAttribute('aria-disabled');
+  await expect(asyncActionStatus).toHaveText('Action idle');
+  await expect(asyncActionStarts).toHaveText('Accepted actions: 0');
+  await expect(page.getByTestId('async-action-region')).toHaveAttribute('aria-busy', 'false');
+
+  await asyncActionStart.focus();
+  await asyncActionStart.evaluate((element: HTMLButtonElement) => {
+    element.click();
+    element.click();
+  });
+  await expect(asyncActionStart).toBeFocused();
+  await expect(asyncActionStart).toHaveAttribute('aria-disabled', 'true');
+  await expect(page.getByTestId('async-action-region')).toHaveAttribute('aria-busy', 'true');
+  await expect(asyncActionStatus).toHaveText('Saving hydrated settings');
+  await expect(asyncActionStarts).toHaveText('Accepted actions: 1');
+  await page.getByTestId('async-action-complete').click();
+  await expect(asyncActionStatus).toHaveText('Hydrated settings saved');
+  await expect(asyncActionStart).not.toHaveAttribute('aria-disabled');
+  await expect(page.getByTestId('async-action-region')).toHaveAttribute('aria-busy', 'false');
 
   await page
     .getByTestId('clear-server-theme')
