@@ -11,6 +11,8 @@ review decisions.
   removal lifecycle.
 - [Component maturity](component-maturity.md): delivery-independent maturity labels and promotion
   gates.
+- [Component documentation template](../templates/component-documentation-template.md): the
+  component-local specification, examples, and evidence record used with the policies above.
 
 The [build plan](../../DAISYUI_ANGULAR_BUILD_PLAN.md) remains the delivery source of truth. The
 [architecture records](../architecture/README.md) remain authoritative for shared technical

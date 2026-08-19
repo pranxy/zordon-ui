@@ -31,7 +31,9 @@ npm run format:check
 1. Select an item from `DAISYUI_ANGULAR_BUILD_PLAN.md` and check its dependencies and phase.
 2. For a component, satisfy the plan's Definition of Ready before implementation. Record the
    daisyUI surface, Angular API shape, accessibility pattern, state/forms behavior, customization
-   hooks, SSR implications, examples, and test scenarios.
+   hooks, SSR implications, examples, and test scenarios. Start from the
+   [component documentation template](docs/templates/component-documentation-template.md) so the
+   specification, public API review, and published guide use the same record.
 3. Use the accepted ADRs for shared conventions. Propose a new or superseding ADR when a change
    alters the public API model, supported platforms, dependencies, accessibility behavior,
    packaging, or another cross-component rule.

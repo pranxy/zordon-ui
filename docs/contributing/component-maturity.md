@@ -36,7 +36,8 @@ without a label are Planned. A Removed label includes the removed version/surfac
 replacement link. Because all 68 catalog components remain required for v1, removing a rejected
 preview API does not remove its catalog obligation; the row must also identify the replacement work
 and its current maturity. Once component documentation exists, display the same label and link its
-evidence; the matrix remains the delivery tracker.
+evidence; the matrix remains the delivery tracker. Start that record with the
+[component documentation template](../templates/component-documentation-template.md).
 
 Any maturity change updates the matrix/component docs, changelog intent, and relevant release notes
 together. A label is never inferred from an npm tag, merged pull request, exported symbol, or passing
