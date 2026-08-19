@@ -13,6 +13,8 @@ The dedicated Playwright suite verifies that:
 - a signal-based interaction works after hydration;
 - consecutive server requests produce the same generated accessible relationships;
 - hydration preserves generated IDs and their `aria-*` references;
+- native status, hint, and error semantics remain deterministic and update once after hydration;
+- server HTML contains no eagerly created CDK live-announcer or description container;
 - no browser console errors, page errors, or hydration mismatch errors occur;
 - the hydrated fixture has no detectable WCAG A or AA violations.
 
@@ -74,6 +76,13 @@ select motion after delivery. Browser-only `matchMedia` or animation work starts
 boundary and must not duplicate replayed interactions. The first JavaScript-driven or
 lifecycle-delaying animation owns a real hydration, live-preference, interruption, and cleanup gate;
 see the [reduced-motion foundation](../foundations/reduced-motion.md).
+
+Live feedback follows the same static-first boundary. Server HTML contains meaningful labels,
+visible hints, deterministic relationships, and any empty dormant live region required by the
+component, but initial server content is not treated as an announcement. Imperative CDK
+announcements begin only after hydration. The first Status, validation, Toast, or similar consumer
+must prove its exact priority, duplicate/coalescing, cleanup, and manual screen-reader behavior; see
+the [live-accessibility foundation](../foundations/live-announcements-and-descriptions.md).
 
 ## Upstream references
 

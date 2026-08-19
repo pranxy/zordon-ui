@@ -192,7 +192,10 @@ Overall component progress: **0 / 68 Done**.
   motion is inventoried per component, and a real-browser fixture proves live preference changes do
   not reset state. A reusable JavaScript/lifecycle utility remains pending until the first concrete
   consumer can define and verify its cancellation, SSR/hydration, and package boundary.
-- [ ] Live announcer and accessible description/error association.
+- [~] Live announcer and accessible description/error association. Native status/alert semantics,
+  deterministic consumer-first description/error relationships, CDK reuse boundaries, SSR rules,
+  and a real hydration fixture are documented and tested. A reusable imperative wrapper and manual
+  assistive-technology proof remain pending until the first concrete Status, form, or Toast consumer.
 - [ ] Form control base behavior, touched state, disabled state, validation, and error IDs.
 - [ ] Async action state and cancellation conventions.
 
@@ -512,6 +515,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Defined native live-region and description/error ownership, bounded future CDK reuse, and added deterministic SSR/hydration relationship and status-update evidence without a premature runtime wrapper.      | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-19 | Defined static-first reduced-motion ownership, Angular/daisyUI animation boundaries, lifecycle and SSR rules, and a live real-browser preference fixture without a premature runtime service.                 | Phase 2 interaction   | `docs/foundations/reduced-motion.md`               |
 | 2026-08-13 | Defined horizontal LTR/RTL ownership through CDK Directionality and added private overlay source propagation, live logical repositioning, cleanup, SSR, and writing-mode boundaries.                          | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-11 | Added a private ref-counted CDK body-scroll-lock lease, arbitrary-release tests, consumer-owned gutter guidance, and explicit hydration/mobile/shared-identity completion gates.                              | Phase 2 interaction   | `docs/foundations/body-scroll-lock.md`             |

@@ -82,6 +82,13 @@ text, or component state. Every animated component still owns its interruption, 
 lifecycle, and SSR/hydration scenarios; see the
 [reduced-motion foundation](../foundations/reduced-motion.md).
 
+The production SSR fixture also provides the real-browser live-accessibility baseline. It verifies
+a pre-existing native status region, one coherent post-hydration update without moving focus,
+deterministic consumer-first hint/error relationships, valid/invalid transitions, and absence of
+CDK global announcer/describer containers during server rendering. DOM and axe checks cannot prove
+spoken output; each consuming component retains the manual screen-reader matrix in the
+[live-accessibility foundation](../foundations/live-announcements-and-descriptions.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

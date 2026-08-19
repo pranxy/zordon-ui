@@ -2,7 +2,14 @@ import { expect, test } from './fixtures/accessibility';
 
 function generatedRelationshipIds(html: string): Record<string, string> {
   return Object.fromEntries(
-    ['interaction-heading', 'counter-description', 'render-state'].map(testId => {
+    [
+      'interaction-heading',
+      'counter-description',
+      'render-state',
+      'validation-control',
+      'validation-hint',
+      'validation-error',
+    ].map(testId => {
       const element = html.match(new RegExp(`<[^>]*data-testid="${testId}"[^>]*>`))?.[0];
       const id = element?.match(/\sid="([^"]+)"/)?.[1];
 
@@ -28,6 +35,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-theme="dark"');
   expect(html).toContain('data-testid="server-nested-theme"');
   expect(html).toContain('data-theme="light"');
+  expect(html).not.toContain('cdk-live-announcer-element');
+  expect(html).not.toContain('cdk-describedby-message-container');
   expect(html).toMatch(/ngh="\d+"/);
   expect(repeatedResponse.ok()).toBe(true);
   expect(generatedRelationshipIds(repeatedHtml)).toEqual(generatedRelationshipIds(html));
@@ -63,15 +72,70 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const headingId = await page.getByTestId('interaction-heading').getAttribute('id');
   const descriptionId = await page.getByTestId('counter-description').getAttribute('id');
   const renderStateId = await page.getByTestId('render-state').getAttribute('id');
+  const validationControlId = await page.getByTestId('validation-control').getAttribute('id');
+  const validationHintId = await page.getByTestId('validation-hint').getAttribute('id');
+  const validationErrorId = await page.getByTestId('validation-error').getAttribute('id');
   expect(headingId).toBe(serverIds['interaction-heading']);
   expect(descriptionId).toBe(serverIds['counter-description']);
   expect(renderStateId).toBe(serverIds['render-state']);
+  expect(validationControlId).toBe(serverIds['validation-control']);
+  expect(validationHintId).toBe(serverIds['validation-hint']);
+  expect(validationErrorId).toBe(serverIds['validation-error']);
   await expect(page.locator('section')).toHaveAttribute('aria-labelledby', headingId!);
   await expect(page.getByTestId('increment')).toHaveAttribute('aria-describedby', descriptionId!);
   await expect(page.getByText('Initial render state')).toHaveAttribute('for', renderStateId!);
+  await expect(page.getByText('Account code', { exact: true })).toHaveAttribute(
+    'for',
+    validationControlId!,
+  );
 
-  await page.getByTestId('increment').click();
-  await expect(page.getByTestId('counter')).toHaveText('Hydrated count: 1');
+  const validationControl = page.getByTestId('validation-control');
+  const validationToggle = page.getByTestId('toggle-validation');
+  const validationError = page.getByTestId('validation-error');
+  const expectedDescriptionIds = `ssr-consumer-description ${validationHintId}`;
+  await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
+  await expect(validationControl).not.toHaveAttribute('aria-invalid');
+  await expect(validationControl).not.toHaveAttribute('aria-errormessage');
+  await expect(validationError).toBeHidden();
+
+  await validationToggle.click();
+  await expect(validationToggle).toBeFocused();
+  await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
+  await expect(validationControl).toHaveAttribute('aria-invalid', 'true');
+  await expect(validationControl).toHaveAttribute('aria-errormessage', validationErrorId!);
+  await expect(validationError).toBeVisible();
+  await expect(validationError).toHaveText('Enter an account code.');
+
+  await validationToggle.click();
+  await expect(validationToggle).toBeFocused();
+  await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
+  await expect(validationControl).not.toHaveAttribute('aria-invalid');
+  await expect(validationControl).not.toHaveAttribute('aria-errormessage');
+  await expect(validationError).toBeHidden();
+
+  const counter = page.getByTestId('counter');
+  const increment = page.getByTestId('increment');
+  await expect(counter).toHaveAttribute('role', 'status');
+  await expect(counter).toHaveAttribute('aria-atomic', 'true');
+  await counter.evaluate(element => {
+    const updates: string[] = [];
+    const targetWindow = window as Window & { __zordonStatusUpdates?: string[] };
+    targetWindow.__zordonStatusUpdates = updates;
+    new MutationObserver(() => {
+      const text = element.textContent?.trim() ?? '';
+      if (updates.at(-1) !== text) updates.push(text);
+    }).observe(element, { characterData: true, childList: true, subtree: true });
+  });
+  await increment.click();
+  await expect(increment).toBeFocused();
+  await expect(counter).toHaveText('Hydrated count: 1');
+  expect(
+    await page.evaluate(
+      () => (window as Window & { __zordonStatusUpdates?: string[] }).__zordonStatusUpdates,
+    ),
+  ).toEqual(['Hydrated count: 1']);
+  await expect(page.locator('.cdk-live-announcer-element')).toHaveCount(0);
+  await expect(page.locator('.cdk-describedby-message-container')).toHaveCount(0);
 
   await page
     .getByTestId('clear-server-theme')
@@ -84,6 +148,8 @@ test('hydrates without errors and preserves generated relationships', async ({ p
 test('has no detectable WCAG A or AA violations after hydration', async ({ page, runAxeScan }) => {
   await page.goto('/');
   await expect(page.getByTestId('hydration-state')).toHaveText('Hydration status: ready');
+  await page.getByTestId('toggle-validation').click();
+  await expect(page.getByTestId('validation-error')).toBeVisible();
 
   const results = await runAxeScan('[data-testid="ssr-example"]');
   expect(results.violations).toEqual([]);

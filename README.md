@@ -38,6 +38,7 @@ The v1 API is under active development. The existing legacy component source is 
 - [Body scroll lock and scrollbar gutters](docs/foundations/body-scroll-lock.md)
 - [Directionality and logical placement](docs/foundations/directionality-and-logical-placement.md)
 - [Reduced motion and animation state](docs/foundations/reduced-motion.md)
+- [Live announcements and accessible descriptions](docs/foundations/live-announcements-and-descriptions.md)
 - [Bundle-size budget policy](docs/testing/bundle-size-budgets.md)
 - [SSR and hydration testing](docs/testing/ssr-and-hydration.md)
 - [Maintainer release workflow](docs/guides/releasing.md)

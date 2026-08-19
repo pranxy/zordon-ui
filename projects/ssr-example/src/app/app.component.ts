@@ -30,6 +30,29 @@ import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
           value="Server and client agree"
           [id]="renderStateId"
         />
+        <p id="ssr-consumer-description">Consumer-provided account guidance.</p>
+        <label [attr.for]="validationControlId">Account code</label>
+        <input
+          [attr.aria-describedby]="validationDescriptionIds"
+          [attr.aria-errormessage]="validationInvalid() ? validationErrorId : null"
+          [attr.aria-invalid]="validationInvalid() ? 'true' : null"
+          data-testid="validation-control"
+          [id]="validationControlId"
+        />
+        <p data-testid="validation-hint" [id]="validationHintId">
+          Use the account code shown on your invoice.
+        </p>
+        <p
+          [attr.hidden]="validationInvalid() ? null : ''"
+          data-testid="validation-error"
+          [id]="validationErrorId"
+          role="alert"
+        >
+          {{ validationInvalid() ? 'Enter an account code.' : '' }}
+        </p>
+        <button data-testid="toggle-validation" type="button" (click)="toggleValidation()">
+          {{ validationInvalid() ? 'Clear account error' : 'Show account error' }}
+        </button>
         <button
           [attr.aria-describedby]="counterDescriptionId"
           data-testid="increment"
@@ -38,7 +61,9 @@ import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
         >
           Increment hydrated counter
         </button>
-        <output aria-live="polite" data-testid="counter">Hydrated count: {{ count() }}</output>
+        <output aria-atomic="true" data-testid="counter" role="status">
+          Hydrated count: {{ count() }}
+        </output>
       </section>
 
       <p data-testid="hydration-state">
@@ -112,7 +137,12 @@ export class SsrExampleAppComponent {
   protected readonly interactionHeadingId = this.ids.next('ssr-example-heading');
   protected readonly counterDescriptionId = this.ids.next('ssr-example-description');
   protected readonly renderStateId = this.ids.next('ssr-example-state');
+  protected readonly validationControlId = this.ids.next('ssr-example-validation-control');
+  protected readonly validationHintId = this.ids.next('ssr-example-validation-hint');
+  protected readonly validationErrorId = this.ids.next('ssr-example-validation-error');
+  protected readonly validationDescriptionIds = `ssr-consumer-description ${this.validationHintId}`;
   protected readonly count = signal(0);
+  protected readonly validationInvalid = signal(false);
   protected readonly hydrationReady = signal(false);
   protected readonly serverTheme = signal<string | null>('dark');
 
@@ -122,5 +152,9 @@ export class SsrExampleAppComponent {
 
   protected increment(): void {
     this.count.update(value => value + 1);
+  }
+
+  protected toggleValidation(): void {
+    this.validationInvalid.update(invalid => !invalid);
   }
 }
