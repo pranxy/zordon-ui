@@ -196,7 +196,10 @@ Overall component progress: **0 / 68 Done**.
   deterministic consumer-first description/error relationships, CDK reuse boundaries, SSR rules,
   and a real hydration fixture are documented and tested. A reusable imperative wrapper and manual
   assistive-technology proof remain pending until the first concrete Status, form, or Toast consumer.
-- [ ] Form control base behavior, touched state, disabled state, validation, and error IDs.
+- [~] Form control base behavior, touched state, disabled state, validation, and error IDs. Native
+  controls retain Angular's built-in accessors; composite CVA ownership, Forms state, validation,
+  error relationships, and SSR rules are documented and compatibility-tested without a premature
+  generic base. Completion waits for one real native directive and one real composite control.
 - [ ] Async action state and cancellation conventions.
 
 ### Testing and documentation foundations
@@ -497,7 +500,7 @@ These are release-level checks in addition to component-level tests.
 | Risk                                                                                                                                                 | Mitigation                                                                                                                 | Status |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | -----: |
 | daisyUI minor releases can change internal component CSS variables                                                                                   | Use the documented customization hierarchy; pin exact versions for internals; add per-component compatibility tests        |    [~] |
-| Wrapping native controls can damage semantics or form behavior                                                                                       | Prefer directives on native elements and keep advanced composites separate                                                 |    [ ] |
+| Wrapping native controls can damage semantics or form behavior                                                                                       | Prefer directives on native elements, retain built-in accessors, and keep advanced composites separate                     |    [~] |
 | Overlay components can diverge in focus, stacking, and dismissal behavior                                                                            | Build and test one shared overlay foundation before composites; prove shared package identity with two real entries        |    [~] |
 | Advanced components can make the core package heavy                                                                                                  | Use optional entry points and explicit dependency budgets                                                                  |    [ ] |
 | SSR-generated IDs can mismatch during hydration                                                                                                      | Use the shared generator; require explicit IDs for independent incremental hydration                                       |    [~] |
@@ -515,6 +518,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Defined native-versus-composite Angular Forms ownership, CVA callback/state/validation/error-ID rules, and added test-only pipeline plus native SSR/hydration evidence without a generic base.                | Phase 2 interaction   | `docs/foundations/form-control-behavior.md`        |
 | 2026-08-19 | Defined native live-region and description/error ownership, bounded future CDK reuse, and added deterministic SSR/hydration relationship and status-update evidence without a premature runtime wrapper.      | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-19 | Defined static-first reduced-motion ownership, Angular/daisyUI animation boundaries, lifecycle and SSR rules, and a live real-browser preference fixture without a premature runtime service.                 | Phase 2 interaction   | `docs/foundations/reduced-motion.md`               |
 | 2026-08-13 | Defined horizontal LTR/RTL ownership through CDK Directionality and added private overlay source propagation, live logical repositioning, cleanup, SSR, and writing-mode boundaries.                          | Phase 2 interaction   | `docs/foundations/`                                |

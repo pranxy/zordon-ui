@@ -89,6 +89,15 @@ CDK global announcer/describer containers during server rendering. DOM and axe c
 spoken output; each consuming component retains the manual screen-reader matrix in the
 [live-accessibility foundation](../foundations/live-announcements-and-descriptions.md).
 
+The Angular Forms compatibility spec uses a deliberately test-only composite accessor to pin the
+framework pipeline: non-emitting programmatic writes, user change versus logical touch, blur/submit
+update strategies, reset, initial and later disabled propagation, async pending/stale-result
+behavior, state classes, and destroy cleanup. It is characterization evidence, not a Zordon base
+class. The production SSR fixture separately uses Angular's built-in native input accessor and
+proves submitted/touched error eligibility, Forms-owned disabling, reset, stable error IDs, and a
+clean hydration. The first native directive and composite control must repeat the component-specific
+matrix in the [form-control foundation](../foundations/form-control-behavior.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

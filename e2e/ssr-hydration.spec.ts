@@ -90,25 +90,55 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   );
 
   const validationControl = page.getByTestId('validation-control');
-  const validationToggle = page.getByTestId('toggle-validation');
+  const validationSubmit = page.getByTestId('submit-validation');
+  const validationReset = page.getByTestId('reset-validation');
+  const validationDisabled = page.getByTestId('toggle-validation-disabled');
   const validationError = page.getByTestId('validation-error');
   const expectedDescriptionIds = `ssr-consumer-description ${validationHintId}`;
   await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
   await expect(validationControl).not.toHaveAttribute('aria-invalid');
   await expect(validationControl).not.toHaveAttribute('aria-errormessage');
+  await expect(validationControl).toHaveClass(/ng-pristine/);
+  await expect(validationControl).toHaveClass(/ng-untouched/);
   await expect(validationError).toBeHidden();
 
-  await validationToggle.click();
-  await expect(validationToggle).toBeFocused();
+  await validationSubmit.click();
+  await expect(validationSubmit).toBeFocused();
   await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
   await expect(validationControl).toHaveAttribute('aria-invalid', 'true');
   await expect(validationControl).toHaveAttribute('aria-errormessage', validationErrorId!);
   await expect(validationError).toBeVisible();
   await expect(validationError).toHaveText('Enter an account code.');
 
-  await validationToggle.click();
-  await expect(validationToggle).toBeFocused();
+  await validationControl.fill('AC-42');
+  await expect(validationControl).toHaveValue('AC-42');
+  await expect(validationControl).toHaveClass(/ng-dirty/);
   await expect(validationControl).toHaveAttribute('aria-describedby', expectedDescriptionIds);
+  await expect(validationControl).not.toHaveAttribute('aria-invalid');
+  await expect(validationControl).not.toHaveAttribute('aria-errormessage');
+  await expect(validationError).toBeHidden();
+
+  await validationControl.fill('');
+  await validationControl.blur();
+  await expect(validationControl).toHaveClass(/ng-touched/);
+  await expect(validationControl).toHaveAttribute('aria-invalid', 'true');
+  await expect(validationControl).toHaveAttribute('aria-errormessage', validationErrorId!);
+  await expect(validationError).toBeVisible();
+
+  await validationDisabled.click();
+  await expect(validationControl).toBeDisabled();
+  await expect(validationControl).not.toHaveAttribute('aria-invalid');
+  await expect(validationControl).not.toHaveAttribute('aria-errormessage');
+  await expect(validationError).toBeHidden();
+
+  await validationDisabled.click();
+  await expect(validationControl).toBeEnabled();
+  await expect(validationControl).toHaveAttribute('aria-invalid', 'true');
+  await expect(validationError).toBeVisible();
+  await validationReset.click();
+  await expect(validationControl).toHaveValue('');
+  await expect(validationControl).toHaveClass(/ng-pristine/);
+  await expect(validationControl).toHaveClass(/ng-untouched/);
   await expect(validationControl).not.toHaveAttribute('aria-invalid');
   await expect(validationControl).not.toHaveAttribute('aria-errormessage');
   await expect(validationError).toBeHidden();
@@ -148,7 +178,7 @@ test('hydrates without errors and preserves generated relationships', async ({ p
 test('has no detectable WCAG A or AA violations after hydration', async ({ page, runAxeScan }) => {
   await page.goto('/');
   await expect(page.getByTestId('hydration-state')).toHaveText('Hydration status: ready');
-  await page.getByTestId('toggle-validation').click();
+  await page.getByTestId('submit-validation').click();
   await expect(page.getByTestId('validation-error')).toBeVisible();
 
   const results = await runAxeScan('[data-testid="ssr-example"]');

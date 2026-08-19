@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, afterNextRender, inject, signal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ZdTheme],
+  imports: [ReactiveFormsModule, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -30,29 +32,49 @@ import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
           value="Server and client agree"
           [id]="renderStateId"
         />
-        <p id="ssr-consumer-description">Consumer-provided account guidance.</p>
-        <label [attr.for]="validationControlId">Account code</label>
-        <input
-          [attr.aria-describedby]="validationDescriptionIds"
-          [attr.aria-errormessage]="validationInvalid() ? validationErrorId : null"
-          [attr.aria-invalid]="validationInvalid() ? 'true' : null"
-          data-testid="validation-control"
-          [id]="validationControlId"
-        />
-        <p data-testid="validation-hint" [id]="validationHintId">
-          Use the account code shown on your invoice.
-        </p>
-        <p
-          [attr.hidden]="validationInvalid() ? null : ''"
-          data-testid="validation-error"
-          [id]="validationErrorId"
-          role="alert"
-        >
-          {{ validationInvalid() ? 'Enter an account code.' : '' }}
-        </p>
-        <button data-testid="toggle-validation" type="button" (click)="toggleValidation()">
-          {{ validationInvalid() ? 'Clear account error' : 'Show account error' }}
-        </button>
+        <form #validationFormDirective="ngForm" [formGroup]="validationForm">
+          <p id="ssr-consumer-description">Consumer-provided account guidance.</p>
+          <label [attr.for]="validationControlId">Account code</label>
+          <input
+            [attr.aria-describedby]="validationDescriptionIds"
+            [attr.aria-errormessage]="
+              validationErrorVisible(validationFormDirective.submitted) ? validationErrorId : null
+            "
+            [attr.aria-invalid]="
+              validationErrorVisible(validationFormDirective.submitted) ? 'true' : null
+            "
+            data-testid="validation-control"
+            formControlName="accountCode"
+            [id]="validationControlId"
+            required
+          />
+          <p data-testid="validation-hint" [id]="validationHintId">
+            Use the account code shown on your invoice.
+          </p>
+          <p
+            [attr.hidden]="validationErrorVisible(validationFormDirective.submitted) ? null : ''"
+            data-testid="validation-error"
+            [id]="validationErrorId"
+            role="alert"
+          >
+            {{
+              validationErrorVisible(validationFormDirective.submitted)
+                ? 'Enter an account code.'
+                : ''
+            }}
+          </p>
+          <button data-testid="submit-validation" type="submit">Validate account code</button>
+          <button
+            data-testid="reset-validation"
+            type="button"
+            (click)="resetValidation(validationFormDirective)"
+          >
+            Reset account field
+          </button>
+          <button data-testid="toggle-validation-disabled" type="button" (click)="toggleDisabled()">
+            {{ validationControl.disabled ? 'Enable account field' : 'Disable account field' }}
+          </button>
+        </form>
         <button
           [attr.aria-describedby]="counterDescriptionId"
           data-testid="increment"
@@ -142,7 +164,13 @@ export class SsrExampleAppComponent {
   protected readonly validationErrorId = this.ids.next('ssr-example-validation-error');
   protected readonly validationDescriptionIds = `ssr-consumer-description ${this.validationHintId}`;
   protected readonly count = signal(0);
-  protected readonly validationInvalid = signal(false);
+  protected readonly validationControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required],
+  });
+  protected readonly validationForm = new FormGroup({
+    accountCode: this.validationControl,
+  });
   protected readonly hydrationReady = signal(false);
   protected readonly serverTheme = signal<string | null>('dark');
 
@@ -154,7 +182,23 @@ export class SsrExampleAppComponent {
     this.count.update(value => value + 1);
   }
 
-  protected toggleValidation(): void {
-    this.validationInvalid.update(invalid => !invalid);
+  protected validationErrorVisible(submitted: boolean): boolean {
+    return (
+      this.validationControl.invalid &&
+      !this.validationControl.pending &&
+      (this.validationControl.touched || submitted)
+    );
+  }
+
+  protected resetValidation(formDirective: FormGroupDirective): void {
+    formDirective.resetForm({ accountCode: '' });
+  }
+
+  protected toggleDisabled(): void {
+    if (this.validationControl.disabled) {
+      this.validationControl.enable();
+    } else {
+      this.validationControl.disable();
+    }
   }
 }

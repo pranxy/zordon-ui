@@ -18,6 +18,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 - [Package entry-point map](entry-points.md)
 - [Styling and theming contract](../guides/styling-and-theming.md)
 - [Angular Aria adoption and component map](../foundations/angular-aria-adoption.md)
+- [Angular form-control behavior](../foundations/form-control-behavior.md)
 - [Public API review](../contributing/api-review.md)
 - [Deprecation and breaking changes](../contributing/deprecation-policy.md)
 - [Component maturity](../contributing/component-maturity.md)

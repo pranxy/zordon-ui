@@ -14,6 +14,8 @@ The dedicated Playwright suite verifies that:
 - consecutive server requests produce the same generated accessible relationships;
 - hydration preserves generated IDs and their `aria-*` references;
 - native status, hint, and error semantics remain deterministic and update once after hydration;
+- a native Reactive Forms control preserves initial value/state and deterministic error
+  relationships, then follows submitted, touched, disabled, valid, and reset transitions;
 - server HTML contains no eagerly created CDK live-announcer or description container;
 - no browser console errors, page errors, or hydration mismatch errors occur;
 - the hydrated fixture has no detectable WCAG A or AA violations.
@@ -83,6 +85,16 @@ component, but initial server content is not treated as an announcement. Imperat
 announcements begin only after hydration. The first Status, validation, Toast, or similar consumer
 must prove its exact priority, duplicate/coalescing, cleanup, and manual screen-reader behavior; see
 the [live-accessibility foundation](../foundations/live-announcements-and-descriptions.md).
+
+Angular Forms state is also rendered from one owner. The server starts with an untouched,
+unsubmitted native control and no premature error reference. The hydrated fixture reads
+`FormGroupDirective.submitted`, uses the built-in value accessor for value/touch/disabled updates,
+and resets through `FormGroupDirective.resetForm()`. The fixture intentionally pairs native
+`required` with `Validators.required` so both mechanisms are observable, but it does not imply that
+Angular validators generally mirror native constraints. This remains a native compatibility baseline;
+the first composite value accessor must prove its own deterministic value normalization, logical
+focus boundary, event replay, serialization, and cleanup. See the
+[form-control foundation](../foundations/form-control-behavior.md).
 
 ## Upstream references
 
