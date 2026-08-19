@@ -208,7 +208,10 @@ Overall component progress: **0 / 68 Done**.
 
 ### Testing and documentation foundations
 
-- [ ] Shared test harness base and interaction helpers that compose Angular Aria's private implementation harnesses without leaking them from `@pranxy/zordon-ui/testing`.
+- [~] Shared test harness base and interaction helpers. The component-first public-harness,
+  Angular Aria composition, browser-proof, package-isolation, and helper-ownership contract is
+  documented without an empty `@pranxy/zordon-ui/testing` entry point or a premature generic base.
+  Completion waits for the first published component harness and its package/compatibility proof.
 - [ ] Theme, direction, viewport, motion, and forced-colors test fixtures.
 - [ ] Component documentation template covering anatomy, API, accessibility, forms, theming, and examples.
 - [ ] Visual story matrix generator or equivalent documented convention.
@@ -522,6 +525,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Defined public harness, interaction-helper, Angular Aria composition, and package-isolation conventions without publishing an empty testing entry point or generic base.                                      | Phase 2 testing       | `docs/foundations/`                                |
 | 2026-08-19 | Defined async action ownership, concurrency, cancellation, stale-result, accessibility, and SSR contracts with browser/SSR characterization and no task framework.                                            | Phase 2 interaction   | `docs/foundations/async-actions.md`                |
 | 2026-08-19 | Defined native-versus-composite Angular Forms ownership, CVA callback/state/validation/error-ID rules, and added test-only pipeline plus native SSR/hydration evidence without a generic base.                | Phase 2 interaction   | `docs/foundations/form-control-behavior.md`        |
 | 2026-08-19 | Defined native live-region and description/error ownership, bounded future CDK reuse, and added deterministic SSR/hydration relationship and status-update evidence without a premature runtime wrapper.      | Phase 2 interaction   | `docs/foundations/`                                |

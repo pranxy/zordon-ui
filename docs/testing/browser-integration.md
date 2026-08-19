@@ -44,6 +44,11 @@ Every interactive component must add scenarios to the applicable layer:
 
 The documentation fixture covers Angular boot, deterministic focus movement, native dialog Escape/focus restoration, and native form validation/submission. The separate SSR example verifies meaningful server HTML, a JavaScript-disabled render, hydration without browser errors, post-hydration interaction, and an axe scan. Component-specific scenarios extend these foundations as implementations are added.
 
+Component harnesses complement these browser checks; they do not replace them. The
+[testing-harness foundation](../foundations/testing-harnesses-and-interactions.md) defines the
+component-first public harness boundary, Angular Aria composition rule, and when an interaction
+helper is justified.
+
 The focus-management compatibility fixture additionally verifies native `:focus-visible`, CDK
 initial focus, bidirectional Tab wrapping, focus-origin classes, destruction cleanup, and trigger
 restoration. Its [foundation contract](../foundations/focus-management.md) explains why real-browser
