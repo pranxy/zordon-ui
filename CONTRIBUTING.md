@@ -113,6 +113,9 @@ behavior, and do not use exclusions or line-execution-only tests to satisfy the 
   same change as the verified work.
 - Add API reference, examples, accessibility guidance, customization guidance, and migration notes
   required by the component Definition of Done.
+- Create the component's [visual story matrix](docs/templates/visual-story-matrix-template.md)
+  before adding screenshot baselines. Record the chosen boundaries, grouped values, and
+  non-screenshot accessibility/SSR evidence.
 - Update architecture or testing guides when their contract changes; do not leave the only
   explanation in a pull-request discussion.
 - Add or update visual baselines only for intentional rendering changes.

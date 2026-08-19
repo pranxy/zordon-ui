@@ -14,6 +14,11 @@ The initial matrix includes:
 
 Each component should extend this matrix only with representative visual boundaries: materially different variants, sizes, responsive layouts, theme behavior, and interactive states. Avoid snapshots that differ only in content.
 
+Start each component's selection with the
+[visual story matrix template](../templates/visual-story-matrix-template.md). It records why each
+public visual boundary is represented, grouped, or inapplicable, and keeps forced-colors,
+keyboard/focus, screen-reader, mobile, and SSR evidence outside ordinary screenshot claims.
+
 ## Commands
 
 ```sh

@@ -207,6 +207,10 @@ reduced-motion, forced-colors, and relevant mobile/zoom states through examples 
 Record the API-review decision, maturity, matrix cells, known limitations, and release/migration
 notes. A passing example alone does not make a component Preview or Stable.
 
+Start the visual selection with the
+[visual story matrix template](visual-story-matrix-template.md). Link its completed rows here;
+pixels support but do not replace browser, manual accessibility, or SSR evidence.
+
 ## Author checklist
 
 - [ ] Definition of Ready and this specification are complete before implementation.
