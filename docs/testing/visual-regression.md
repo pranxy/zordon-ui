@@ -30,6 +30,11 @@ Reference images live under `e2e/__screenshots__/`. Updating them is a reviewabl
 
 The visual project uses Playwright Chromium, a fixed viewport, reduced motion, disabled animations, hidden carets, CSS-pixel screenshots, and Arial in the isolated fixture. Snapshot comparison runs on `windows-latest` in CI because text and native-control rendering can differ across operating systems. Ordinary browser behavior tests remain OS-independent and run separately.
 
+The suite uses the internal [environment test fixtures](environment-test-fixtures.md) for its
+canonical desktop/mobile viewport, reduced-motion, light/dark/custom theme, and LTR setup. It does
+not take standard color snapshots under forced-colors emulation; those scenarios require semantic
+browser assertions and the component's manual high-contrast review.
+
 The pixel tolerance absorbs small anti-aliasing differences; it is not intended to hide layout or theme regressions. A legitimate platform expansion should create and maintain an explicit platform-specific baseline rather than loosening the global tolerance.
 
 ## Failure workflow

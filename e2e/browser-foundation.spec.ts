@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+import {
+  applyZordonDocumentEnvironment,
+  prepareZordonTestEnvironment,
+  ZORDON_TEST_MEDIA_PROFILES,
+} from './fixtures/environment';
+
 test.beforeEach(async ({ page }) => {
   await page.goto('/__zordon-tests__/browser');
   await expect(page.getByRole('heading', { name: 'Browser integration fixture' })).toBeVisible();
@@ -12,6 +18,36 @@ test('boots the Angular fixture without page errors', async ({ page }) => {
   await page.reload();
   await expect(page.getByTestId('browser-test-fixture')).toBeVisible();
   expect(pageErrors).toEqual([]);
+});
+
+test('configures deterministic theme, direction, viewport, motion, and forced-colors profiles', async ({
+  page,
+}) => {
+  await prepareZordonTestEnvironment(page, 'mobile', {
+    ...ZORDON_TEST_MEDIA_PROFILES.forcedColors,
+    colorScheme: 'dark',
+  });
+  await page.goto('/__zordon-tests__/browser');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'corporate' });
+
+  await expect(page.getByRole('heading', { name: 'Browser integration fixture' })).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'corporate');
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  expect(
+    await page.evaluate(() => ({
+      colorScheme: matchMedia('(prefers-color-scheme: dark)').matches,
+      direction: getComputedStyle(document.documentElement).direction,
+      forcedColors: matchMedia('(forced-colors: active)').matches,
+      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+      viewport: { height: innerHeight, width: innerWidth },
+    })),
+  ).toEqual({
+    colorScheme: true,
+    direction: 'rtl',
+    forcedColors: true,
+    reducedMotion: true,
+    viewport: { height: 844, width: 390 },
+  });
 });
 
 test('moves focus in deterministic keyboard order', async ({ page }) => {

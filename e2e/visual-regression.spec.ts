@@ -1,5 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 
+import {
+  applyZordonDocumentEnvironment,
+  prepareZordonTestEnvironment,
+  ZORDON_TEST_MEDIA_PROFILES,
+} from './fixtures/environment';
+import type { ZdTestTheme } from './fixtures/environment';
+
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
 const desktopThemes = [
@@ -15,12 +22,9 @@ const mobileThemes = [
   ['dark', 'dark-mobile.png'],
 ] as const;
 
-async function prepareFixture(page: Page, theme: string): Promise<void> {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
+async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
   await page.goto('/__zordon-tests__/browser');
-  await page.locator('html').evaluate((element, value) => {
-    element.setAttribute('data-theme', value);
-  }, theme);
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme });
   await page.addStyleTag({
     content: `
       ${fixtureSelector} {
@@ -67,7 +71,7 @@ async function expectFixtureScreenshot(page: Page, name: string): Promise<void> 
 
 for (const [theme, snapshot] of desktopThemes) {
   test(`${theme} theme at the desktop breakpoint`, async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 900 });
+    await prepareZordonTestEnvironment(page, 'desktop', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
     await prepareFixture(page, theme);
     await expectFixtureScreenshot(page, snapshot);
   });
@@ -75,14 +79,14 @@ for (const [theme, snapshot] of desktopThemes) {
 
 for (const [theme, snapshot] of mobileThemes) {
   test(`${theme} theme at the mobile breakpoint`, async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+    await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
     await prepareFixture(page, theme);
     await expectFixtureScreenshot(page, snapshot);
   });
 }
 
 test('light theme with the dialog open', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 900 });
+  await prepareZordonTestEnvironment(page, 'desktop', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
   await prepareFixture(page, 'light');
   await page.getByRole('button', { name: 'Open test dialog' }).click();
   await expect(page.getByRole('dialog', { name: 'Test dialog' })).toBeVisible();

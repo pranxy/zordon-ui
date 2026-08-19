@@ -212,7 +212,10 @@ Overall component progress: **0 / 68 Done**.
   Angular Aria composition, browser-proof, package-isolation, and helper-ownership contract is
   documented without an empty `@pranxy/zordon-ui/testing` entry point or a premature generic base.
   Completion waits for the first published component harness and its package/compatibility proof.
-- [ ] Theme, direction, viewport, motion, and forced-colors test fixtures.
+- [x] Theme, direction, viewport, motion, and forced-colors test fixtures. Internal Playwright
+      profiles establish canonical before-navigation viewport/media and after-navigation document
+      boundaries; Chromium characterizes every configured value, visual tests reuse deterministic
+      profiles, and component/manual proof remains explicitly component-owned.
 - [ ] Component documentation template covering anatomy, API, accessibility, forms, theming, and examples.
 - [ ] Visual story matrix generator or equivalent documented convention.
 - [ ] Public API extraction and breaking-change detection.
@@ -525,6 +528,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Added internal Playwright environment profiles for themes, direction, desktop/mobile viewports, reduced motion, and forced colors with a real-browser characterization and visual-suite reuse.                | Phase 2 testing       | `e2e/fixtures/environment.ts`                      |
 | 2026-08-19 | Defined public harness, interaction-helper, Angular Aria composition, and package-isolation conventions without publishing an empty testing entry point or generic base.                                      | Phase 2 testing       | `docs/foundations/`                                |
 | 2026-08-19 | Defined async action ownership, concurrency, cancellation, stale-result, accessibility, and SSR contracts with browser/SSR characterization and no task framework.                                            | Phase 2 interaction   | `docs/foundations/async-actions.md`                |
 | 2026-08-19 | Defined native-versus-composite Angular Forms ownership, CVA callback/state/validation/error-ID rules, and added test-only pipeline plus native SSR/hydration evidence without a generic base.                | Phase 2 interaction   | `docs/foundations/form-control-behavior.md`        |

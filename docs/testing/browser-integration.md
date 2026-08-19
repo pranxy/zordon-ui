@@ -30,6 +30,10 @@ Accessibility scenarios use `@axe-core/playwright` and attach the complete axe J
 
 Theme and responsive screenshot coverage follows the [visual regression testing policy](visual-regression.md). Visual baselines are generated and compared on Windows to avoid cross-platform font-rendering noise.
 
+The internal [environment test fixtures](environment-test-fixtures.md) centralize canonical browser
+profiles for themes, direction, desktop/mobile viewports, reduced motion, and forced colors. They
+configure conditions only; component tests still assert their semantic and accessibility effects.
+
 ## Coverage layers
 
 Every interactive component must add scenarios to the applicable layer:
