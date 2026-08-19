@@ -68,6 +68,13 @@ hydration, one post-hydration open in the nearest direction scope, and live repo
 second overlay. See the
 [directionality foundation](../foundations/directionality-and-logical-placement.md).
 
+Motion preference is presentation state, not server-rendered application state. Render the same
+meaningful static DOM, ARIA, text, and controlled values on server and client; let CSS media queries
+select motion after delivery. Browser-only `matchMedia` or animation work starts after the hydration
+boundary and must not duplicate replayed interactions. The first JavaScript-driven or
+lifecycle-delaying animation owns a real hydration, live-preference, interruption, and cleanup gate;
+see the [reduced-motion foundation](../foundations/reduced-motion.md).
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

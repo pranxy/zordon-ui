@@ -187,7 +187,11 @@ Overall component progress: **0 / 68 Done**.
   LTR/RTL source; private overlays resolve the content scope, propagate it into portals, and update
   plus reposition on live changes without pre-flipping logical start/end. Completion waits for the
   first published component's browser and SSR/hydration proof.
-- [ ] Reduced-motion policy and animation state utilities.
+- [~] Reduced-motion policy and animation state utilities. Static semantic state is the default;
+  non-essential CSS motion is enabled only under `prefers-reduced-motion: no-preference`, daisyUI
+  motion is inventoried per component, and a real-browser fixture proves live preference changes do
+  not reset state. A reusable JavaScript/lifecycle utility remains pending until the first concrete
+  consumer can define and verify its cancellation, SSR/hydration, and package boundary.
 - [ ] Live announcer and accessible description/error association.
 - [ ] Form control base behavior, touched state, disabled state, validation, and error IDs.
 - [ ] Async action state and cancellation conventions.
@@ -499,7 +503,7 @@ These are release-level checks in addition to component-level tests.
 | Angular Aria is developer preview in Angular 21 and can change before stabilization                                                                  | Keep it behind Zordon APIs, pin/test supported minor lines, use official harnesses, and run minimum/latest + SSR gates     |    [~] |
 | Visual completeness can hide accessibility gaps                                                                                                      | A11y is an independent completion column and release gate                                                                  |    [ ] |
 | “Implemented” can be confused with “production ready”                                                                                                | Mark Done only after tests, a11y, docs, and visual verification pass                                                       |    [ ] |
-| The current documentation app exceeds its initial bundle warning budget by 91.97 kB                                                                  | Replace legacy demo dependencies and set evidence-based budgets before beta                                                |    [ ] |
+| The current documentation app exceeds its initial bundle warning budget by 101.47 kB                                                                 | Replace legacy demo dependencies and set evidence-based budgets before beta                                                |    [ ] |
 | Production npm audit is clean; the full workspace has 5 development-only findings (1 high, 4 moderate) upstream in Angular 21 CLI/build dependencies | Monitor Angular 21 patches; do not accept npm's Angular 22 upgrade or invalid CLI downgrade while v1 targets Angular 21–22 |    [~] |
 
 ## Progress log
@@ -508,6 +512,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                        | Components/phases     | Owner or link                                      |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------- |
+| 2026-08-19 | Defined static-first reduced-motion ownership, Angular/daisyUI animation boundaries, lifecycle and SSR rules, and a live real-browser preference fixture without a premature runtime service.                 | Phase 2 interaction   | `docs/foundations/reduced-motion.md`               |
 | 2026-08-13 | Defined horizontal LTR/RTL ownership through CDK Directionality and added private overlay source propagation, live logical repositioning, cleanup, SSR, and writing-mode boundaries.                          | Phase 2 interaction   | `docs/foundations/`                                |
 | 2026-08-11 | Added a private ref-counted CDK body-scroll-lock lease, arbitrary-release tests, consumer-owned gutter guidance, and explicit hydration/mobile/shared-identity completion gates.                              | Phase 2 interaction   | `docs/foundations/body-scroll-lock.md`             |
 | 2026-08-11 | Added a private CDK overlay host, semantic stack, two-phase lifecycle, portal ownership, atomic dismissal, positioning and scroll-policy foundation with package/hydration gates.                             | Phase 2 interaction   | `docs/foundations/overlay-host-and-positioning.md` |

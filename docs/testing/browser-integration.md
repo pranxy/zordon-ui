@@ -75,6 +75,13 @@ open, and verifies right-edge alignment and portaled injected direction. The fir
 consumer must repeat the direction scenario with its own API and supported-browser matrix; see the
 [directionality foundation](../foundations/directionality-and-logical-placement.md).
 
+The reduced-motion fixture keeps semantic state independent of presentation. It proves a decorative
+transform and transition exist only under `no-preference`, then changes the emulated preference to
+`reduce` while the state remains active and verifies the motion disappears without resetting ARIA,
+text, or component state. Every animated component still owns its interruption, cancellation,
+lifecycle, and SSR/hydration scenarios; see the
+[reduced-motion foundation](../foundations/reduced-motion.md).
+
 ## Test authoring rules
 
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.

@@ -26,6 +26,61 @@ test('moves focus in deterministic keyboard order', async ({ page }) => {
   expect(await second.evaluate(element => element.matches(':focus-visible'))).toBe(true);
 });
 
+test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
+  const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
+  const probe = page.getByTestId('motion-probe');
+
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await probe.evaluate(element => {
+    element.addEventListener(
+      'transitionrun',
+      () => element.setAttribute('data-transition-running', 'true'),
+      { once: true },
+    );
+  });
+  await toggle.click();
+
+  const immediateState = await page.evaluate(() => {
+    const toggleElement = document.querySelector('[data-testid="motion-contract"] button');
+    const probeElement = document.querySelector('[data-testid="motion-probe"]');
+
+    return {
+      active: probeElement?.getAttribute('data-active'),
+      pressed: toggleElement?.getAttribute('aria-pressed'),
+      text: probeElement?.textContent?.trim(),
+    };
+  });
+  expect(immediateState).toEqual({
+    active: 'true',
+    pressed: 'true',
+    text: 'Motion is active',
+  });
+  await expect(probe).toHaveAttribute('data-transition-running', 'true');
+  expect(
+    await probe.evaluate(element =>
+      element.getAnimations().some(animation => animation.playState === 'running'),
+    ),
+  ).toBe(true);
+  expect(await probe.evaluate(element => getComputedStyle(element).transitionDuration)).toBe(
+    '0.2s, 0.2s',
+  );
+  expect(await probe.evaluate(element => getComputedStyle(element).transform)).not.toBe('none');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  expect(await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(
+    true,
+  );
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await expect(probe).toHaveAttribute('data-active', 'true');
+  await expect(probe).toContainText('Motion is active');
+  expect(await probe.evaluate(element => getComputedStyle(element).transitionDuration)).toBe('0s');
+  expect(await probe.evaluate(element => getComputedStyle(element).transform)).toBe('none');
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+  await expect(probe).toContainText('Motion is inactive');
+});
+
 test('captures, wraps, monitors, and restores focus with supported CDK primitives', async ({
   page,
 }) => {

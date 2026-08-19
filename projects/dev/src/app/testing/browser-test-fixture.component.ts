@@ -60,6 +60,29 @@ class ScrollLockPanelComponent {}
   host: {
     'data-testid': 'browser-test-fixture',
   },
+  styles: `
+    .zd-motion-probe {
+      transform: none;
+      transition: none;
+    }
+
+    .zd-motion-probe[data-active='true'] {
+      background-color: var(--color-accent);
+      color: var(--color-accent-content);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .zd-motion-probe {
+        transition:
+          transform 200ms ease-out,
+          background-color 200ms ease-out;
+      }
+
+      .zd-motion-probe[data-active='true'] {
+        transform: translateX(1rem);
+      }
+    }
+  `,
   template: `
     <article class="grid max-w-2xl gap-8">
       <header>
@@ -92,7 +115,12 @@ class ScrollLockPanelComponent {}
             <h2 id="test-dialog-title" class="text-xl font-semibold">Test dialog</h2>
             <p>Used to verify Escape handling and focus restoration.</p>
             <div class="modal-action">
-              <button class="btn" type="button" (click)="blockNextDialogCancel.set(true)">
+              <button
+                class="btn"
+                data-testid="block-dialog-cancel"
+                type="button"
+                (click)="blockNextDialogCancel.set(true)"
+              >
                 Block next Escape
               </button>
               <button autofocus class="btn" type="button" (click)="closeDialog()">
@@ -287,6 +315,25 @@ class ScrollLockPanelComponent {}
         <output data-testid="submitted-name">{{ submittedName() }}</output>
       </section>
 
+      <section aria-labelledby="motion-heading" class="grid gap-3" data-testid="motion-contract">
+        <h2 id="motion-heading" class="text-xl font-semibold">Reduced motion</h2>
+        <button
+          class="w-fit rounded border px-3 py-2"
+          type="button"
+          [attr.aria-pressed]="motionProbeActive()"
+          (click)="motionProbeActive.update(active => !active)"
+        >
+          Toggle motion probe
+        </button>
+        <div
+          class="zd-motion-probe rounded-box border p-4"
+          data-testid="motion-probe"
+          [attr.data-active]="motionProbeActive()"
+        >
+          Motion is {{ motionProbeActive() ? 'active' : 'inactive' }}
+        </div>
+      </section>
+
       <section hidden data-testid="theme-contract" zdTheme="corporate">
         <div data-testid="nested-theme" [zdTheme]="nestedTheme()"></div>
         <app-theme-host-fixture data-testid="component-theme" zdTheme="zordon-visual" />
@@ -334,6 +381,7 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected readonly extraFocusDisabled = signal(false);
   protected readonly nestedTheme = signal<string | null>('cupcake');
   protected readonly systemTheme = signal<string | null>(null);
+  protected readonly motionProbeActive = signal(false);
 
   protected openDialog(): void {
     this.blockNextDialogCancel.set(false);
