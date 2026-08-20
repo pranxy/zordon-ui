@@ -9,6 +9,7 @@ export {
   ZdClassNames,
   type ZdClassPrefixConfig,
   type ZdConfig,
+  type ZdFeature,
 } from './config/zordon-ui-config';
 
 export { ZdTheme } from './theme/theme';

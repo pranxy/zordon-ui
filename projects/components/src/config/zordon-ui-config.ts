@@ -6,6 +6,14 @@ import {
   makeEnvironmentProviders,
 } from '@angular/core';
 
+/** A component-owned, application-level configuration feature accepted by `provideZordonUi`. */
+export interface ZdFeature {
+  /** Stable component-specific feature key, used to reject duplicate configuration. */
+  readonly key: string;
+  /** Providers owned by the component feature. */
+  readonly providers: EnvironmentProviders;
+}
+
 /** Class prefixes that must match the consuming application's Tailwind and daisyUI CSS setup. */
 export interface ZdClassPrefixConfig {
   /** Exact daisyUI prefix string, including any separator, such as `d-`. */
@@ -28,6 +36,7 @@ const DAISY_UI_PREFIX_PATTERN = /^[a-z][A-Za-z0-9_-]*$/;
 const TAILWIND_PREFIX_PATTERN = /^[a-z]+$/;
 const DAISY_UI_CLASS_PATTERN = /^[a-z][a-z0-9-]*$/;
 const THEME_CONTROLLER_CLASS = 'theme-controller';
+const FEATURE_KEY_PATTERN = /^[a-z][a-z0-9-]*$/;
 
 const DEFAULT_CLASS_PREFIXES: ZdResolvedClassPrefixes = Object.freeze({
   daisyUi: '',
@@ -64,13 +73,40 @@ function resolveTailwindPrefix(prefix: unknown): string {
  *
  * Prefixes must match the consuming application's build-time Tailwind and daisyUI configuration.
  */
-export function provideZordonUi(config: ZdConfig = {}): EnvironmentProviders {
+export function provideZordonUi(
+  config: ZdConfig = {},
+  ...features: readonly ZdFeature[]
+): EnvironmentProviders {
   const classPrefixes = Object.freeze({
     daisyUi: resolveDaisyUiPrefix(config.classPrefixes?.daisyUi),
     tailwind: resolveTailwindPrefix(config.classPrefixes?.tailwind),
   });
 
-  return makeEnvironmentProviders([{ provide: ZD_CLASS_PREFIXES, useValue: classPrefixes }]);
+  return makeEnvironmentProviders([
+    { provide: ZD_CLASS_PREFIXES, useValue: classPrefixes },
+    ...resolveFeatures(features),
+  ]);
+}
+
+function resolveFeatures(features: readonly ZdFeature[]): readonly EnvironmentProviders[] {
+  const keys = new Set<string>();
+
+  return features.map(feature => {
+    if (
+      feature === null ||
+      typeof feature !== 'object' ||
+      typeof feature.key !== 'string' ||
+      !FEATURE_KEY_PATTERN.test(feature.key) ||
+      feature.providers === undefined
+    ) {
+      throw new TypeError('Zordon UI features must have a lowercase component key.');
+    }
+    if (keys.has(feature.key)) {
+      throw new RangeError(`Zordon UI feature "${feature.key}" can only be configured once.`);
+    }
+    keys.add(feature.key);
+    return feature.providers;
+  });
 }
 
 /** Generates complete daisyUI class tokens using the configured build-time prefixes. */

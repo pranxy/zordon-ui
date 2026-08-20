@@ -5,13 +5,22 @@ import { dirname, resolve } from 'node:path';
 
 const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
-const configPath = resolve(toolsDirectory, 'api-extractor.json');
+const reports = [
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui.api.md'),
+  },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-button.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-button.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-button.api.md'),
+  },
+];
 const apiExtractorPath = resolve(
   workspaceRoot,
   'node_modules/@microsoft/api-extractor/bin/api-extractor',
 );
-const baselinePath = resolve(workspaceRoot, 'etc/api/zordon-ui.api.md');
-const candidatePath = resolve(workspaceRoot, 'temp/api-extractor/zordon-ui.api.md');
 
 export function assertApiReportsMatch(baseline, candidate) {
   if (normalizeNewlines(baseline) === normalizeNewlines(candidate)) {
@@ -28,26 +37,26 @@ function normalizeNewlines(value) {
 }
 
 export async function checkApiReport({ spawn = spawnSync } = {}) {
-  const result = spawn(
-    process.execPath,
-    ['--no-warnings', apiExtractorPath, 'run', '--config', configPath],
-    {
-      cwd: workspaceRoot,
-      stdio: 'inherit',
-    },
-  );
-  if (result.error) {
-    throw result.error;
-  }
-  if (result.status !== 0) {
-    throw new Error(`API Extractor failed with exit code ${result.status ?? 'unknown'}.`);
-  }
+  for (const report of reports) {
+    const result = spawn(
+      process.execPath,
+      ['--no-warnings', apiExtractorPath, 'run', '--config', report.configPath, '--local'],
+      {
+        cwd: workspaceRoot,
+        stdio: 'inherit',
+      },
+    );
+    if (result.error) throw result.error;
+    if (result.status !== 0) {
+      throw new Error(`API Extractor failed with exit code ${result.status ?? 'unknown'}.`);
+    }
 
-  const [baseline, candidate] = await Promise.all([
-    readFile(baselinePath, 'utf8'),
-    readFile(candidatePath, 'utf8'),
-  ]);
-  assertApiReportsMatch(baseline, candidate);
+    const [baseline, candidate] = await Promise.all([
+      readFile(report.baselinePath, 'utf8'),
+      readFile(report.candidatePath, 'utf8'),
+    ]);
+    assertApiReportsMatch(baseline, candidate);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

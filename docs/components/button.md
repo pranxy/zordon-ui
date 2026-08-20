@@ -119,10 +119,11 @@ default; a workflow that must remove it from navigation owns that focus policy.
 | Pressed         | Consumer via `pressed`       | Normal native behavior               | Exact controlled `aria-pressed` when boolean    | Consumer updates/nulls input           |
 
 Loading adds `btn-disabled` and `aria-disabled="true"` as visual and operability signals while
-keeping the current host focusable. It guards its own user activation path; it does not disable a
-native button, invoke/await work, render a default spinner, emit a completion, or abort consumer
-work. Consumers project arbitrary loader markup. daisyUI Loading classes, when used, belong to that
-consumer/Loading component and need separate Tailwind candidates.
+keeping the current host focusable. It prevents the native default action of a user click, but does
+not suppress consumer event listeners. It does not disable a native button, invoke/await work,
+render a default spinner, emit a completion, or abort consumer work. Consumers project arbitrary
+loader markup. daisyUI Loading classes, when used, belong to that consumer/Loading component and
+need separate Tailwind candidates.
 
 Loading does not make form submission safe. Enter in a form field, `requestSubmit()`, a second
 submitter, and an application handler can bypass one Button's click guard. The form submit owner

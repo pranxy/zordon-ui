@@ -8,7 +8,7 @@ import { EnvironmentProviders } from '@angular/core';
 import * as i0 from '@angular/core';
 
 // @public
-export function provideZordonUi(config?: ZdConfig): EnvironmentProviders;
+export function provideZordonUi(config?: ZdConfig, ...features: readonly ZdFeature[]): EnvironmentProviders;
 
 // @public
 export type ZdBlockPlacement = 'top' | 'middle' | 'bottom';
@@ -40,6 +40,12 @@ export interface ZdConfig {
 
 // @public
 export type ZdDensity = 'compact' | 'comfortable' | 'spacious';
+
+// @public
+export interface ZdFeature {
+    readonly key: string;
+    readonly providers: EnvironmentProviders;
+}
 
 // @public
 export class ZdIdGenerator {

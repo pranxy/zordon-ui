@@ -1,8 +1,13 @@
-import { Component, Directive, inject } from '@angular/core';
+import { Component, Directive, inject, makeEnvironmentProviders } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { zdHostClasses } from '../internal/styling/host-classes';
-import { provideZordonUi, ZdClassNames, type ZdClassPrefixConfig } from './zordon-ui-config';
+import {
+  provideZordonUi,
+  ZdClassNames,
+  type ZdClassPrefixConfig,
+  type ZdFeature,
+} from './zordon-ui-config';
 
 @Directive({
   selector: '[zdTestPrefixedHost]',
@@ -119,6 +124,28 @@ describe('ZdClassNames', () => {
     expect(() => classNames.daisyUi('Button')).toThrowError(RangeError);
     expect(() => classNames.daisyUi('1btn')).toThrowError(RangeError);
     expect(() => classNames.daisyUi('btn_primary')).toThrowError(RangeError);
+  });
+
+  it('rejects malformed and duplicate component features before creating providers', () => {
+    const feature: ZdFeature = {
+      key: 'test-feature',
+      providers: makeEnvironmentProviders([]),
+    };
+
+    expect(() =>
+      provideZordonUi({}, { key: 'bad key', providers: feature.providers }),
+    ).toThrowError(/lowercase component key/);
+    expect(() =>
+      provideZordonUi(
+        {},
+        { key: 'valid', providers: feature.providers },
+        { key: 'valid', providers: feature.providers },
+      ),
+    ).toThrowError(/valid.*only be configured once/);
+    expect(() => provideZordonUi({}, null as never)).toThrowError(/lowercase component key/);
+    expect(() => provideZordonUi({}, { key: 'missing-providers' } as never)).toThrowError(
+      /lowercase component key/,
+    );
   });
 });
 

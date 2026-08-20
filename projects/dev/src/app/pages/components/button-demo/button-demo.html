@@ -37,13 +37,13 @@
         [codeSnippet]="buttonVariantsCode"
     >
         <div class="flex flex-wrap gap-2">
-            <button class="btn btn-outline">Outline</button>
-            <button class="btn btn-primary btn-outline">Primary</button>
-            <button class="btn btn-secondary btn-outline">Secondary</button>
-            <button class="btn btn-accent btn-outline">Accent</button>
+            <button zdButton variant="outline">Outline</button>
+            <button zdButton color="primary" variant="outline">Primary</button>
+            <button zdButton color="secondary" variant="outline">Secondary</button>
+            <button zdButton color="accent" variant="outline">Accent</button>
 
-            <button class="btn btn-wide btn-primary">Wide Button</button>
-            <button class="btn btn-circle">
+            <button zdButton color="primary" layout="wide">Wide Button</button>
+            <button zdButton layout="circle" aria-label="Close">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -59,7 +59,7 @@
                     />
                 </svg>
             </button>
-            <button class="btn btn-square">
+            <button zdButton layout="square" aria-label="Menu">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -84,11 +84,11 @@
         [codeSnippet]="buttonStatesCode"
     >
         <div class="flex flex-wrap gap-2">
-            <button class="btn" disabled>Disabled</button>
-            <button class="btn btn-primary btn-disabled">Disabled Style</button>
-            <button class="btn loading">Loading</button>
-            <button class="btn btn-square loading"></button>
-            <button class="btn btn-primary loading">Loading</button>
+            <button zdButton disabled>Disabled</button>
+            <a zdButton href="/" zdDisabled>Unavailable link</a>
+            <button zdButton loading>Saving</button>
+            <button zdButton layout="square" loading aria-label="Saving"></button>
+            <button zdButton color="primary" loading>Saving</button>
         </div>
     </app-component-card>
 
@@ -98,7 +98,7 @@
         [codeSnippet]="buttonIconsCode"
     >
         <div class="flex flex-wrap gap-2">
-            <button class="btn gap-2">
+            <button zdButton class="gap-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -115,7 +115,7 @@
                 </svg>
                 Button
             </button>
-            <button class="btn gap-2">
+            <button zdButton class="gap-2">
                 Download
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@
                     />
                 </svg>
             </button>
-            <button class="btn gap-2 btn-primary">
+            <button zdButton class="gap-2" color="primary">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-6 w-6"
@@ -158,12 +158,12 @@
         [codeSnippet]="buttonGroupsCode"
     >
         <div class="btn-group">
-            <button class="btn">Previous</button>
-            <button class="btn btn-active">1</button>
-            <button class="btn">2</button>
-            <button class="btn">3</button>
-            <button class="btn">4</button>
-            <button class="btn">Next</button>
+            <button zdButton>Previous</button>
+            <button zdButton active>1</button>
+            <button zdButton>2</button>
+            <button zdButton>3</button>
+            <button zdButton>4</button>
+            <button zdButton>Next</button>
         </div>
     </app-component-card>
 </div>

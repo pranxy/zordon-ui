@@ -1,9 +1,9 @@
 # Public API extraction and breaking-change detection
 
-The tracked API report at `etc/api/zordon-ui.api.md` is the declaration-level approval record for
-the current primary entry point, `@pranxy/zordon-ui`. It is generated from the built Angular Package
-Format declaration file, not from legacy source. CI fails when that report differs from the reviewed
-baseline.
+The tracked API reports at `etc/api/zordon-ui.api.md` and `etc/api/zordon-ui-button.api.md` are the
+declaration-level approval records for the primary and Button entry points. They are generated from
+built Angular Package Format declaration files, not legacy source. CI fails when either report
+differs from its reviewed baseline.
 
 ## Commands
 
@@ -26,8 +26,8 @@ an approval action; never run it merely to make a failing check pass.
 2. Run `npm run test:api`. A declaration change fails and produces a temporary comparison report.
 3. Review the public API checklist, component specification, maturity, SemVer/Changeset, migration
    notes, package entry point, and generated API-report diff together.
-4. If approved, run `npm run update:api`, inspect the tracked `etc/api/zordon-ui.api.md` diff, then
-   rerun `npm run test:api`.
+4. If approved, run `npm run update:api`, inspect every affected tracked report, then rerun
+   `npm run test:api`.
 5. Include the report diff and all required behavioral evidence in the pull request. A report change
    without the corresponding public API review is incomplete.
 
@@ -61,8 +61,10 @@ tracked review report.
 ## Future secondary entry points
 
 Each published component or optional entry point gets its own API Extractor configuration/report when
-it first exists. Do not add a placeholder report for an empty entry point. A future package-level
-aggregator must not blur independent entry-point compatibility boundaries.
+it first exists. Button is the first example. Its extractor tsconfig resolves primary-entry types
+from the built declaration file rather than source, so the report stays an APF gate. Do not add a
+placeholder report for an empty entry point. A future package-level aggregator must not blur
+independent entry-point compatibility boundaries.
 
 ## References
 

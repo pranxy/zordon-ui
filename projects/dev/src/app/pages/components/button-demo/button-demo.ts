@@ -1,20 +1,12 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-    ZdButton,
-    ZdButtonAnimation,
-    ZdButtonColor,
-    ZdButtonShape,
-    ZdButtonSize,
-    ZdButtonType,
-    ZdButtonWidth,
-} from '@pranxy/zordon-ui/button';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { type ZdColor, type ZdSize } from '@pranxy/zordon-ui';
+import { ZdButton, type ZdButtonVariant } from '@pranxy/zordon-ui/button';
 import { ComponentCard } from '../../../ui';
 
 @Component({
     selector: 'dev-button-demo',
-    imports: [ZdButton, FormsModule, ComponentCard, TitleCasePipe],
+    imports: [ZdButton, ComponentCard, TitleCasePipe],
     templateUrl: 'button-demo.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -22,7 +14,7 @@ export default class ButtonDemo {
     buttonText = signal('Click me');
 
     // Color options
-    colors: ZdButtonColor[] = [
+    colors: ZdColor[] = [
         'primary',
         'secondary',
         'accent',
@@ -34,25 +26,10 @@ export default class ButtonDemo {
     ];
 
     // Size options
-    sizes: ZdButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+    sizes: ZdSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
 
     // Style options
-    styles: ZdButtonType[] = ['default', 'outline', 'ghost', 'link'];
-
-    // Animation options
-    animations: ZdButtonAnimation[] = ['none', 'pulse'];
-
-    // Button configuration signal
-    color = model<ZdButtonColor>('primary');
-    size = model<ZdButtonSize>('md');
-    style = model<ZdButtonType>('default');
-    shape = model<ZdButtonShape | null>(null);
-    width = model<ZdButtonWidth | null>(null);
-    animation = model<ZdButtonAnimation>('none');
-    loading = model(false);
-    disabled = model(false);
-    glass = model(false);
-    noAnimation = model(false);
+    styles: ZdButtonVariant[] = ['outline', 'ghost', 'link'];
 
     buttonStylesCode = `<button zdButton>Default</button>
 <button zdButton color="primary">Primary</button>
