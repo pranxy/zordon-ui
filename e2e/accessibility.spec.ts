@@ -31,3 +31,14 @@ test('has no detectable WCAG A or AA violations with the dialog open', async ({
   const results = await runAxeScan('dialog[open]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for guarded Button states', async ({
+  page,
+  runAxeScan,
+}) => {
+  await page.getByTestId('button-toggle-loading').click();
+  await expect(page.getByTestId('button-loading')).toHaveAttribute('aria-disabled', 'true');
+
+  const results = await runAxeScan('[data-testid="button-contract"]');
+  expect(results.violations).toEqual([]);
+});

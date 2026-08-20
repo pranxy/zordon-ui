@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, afterNextRender, inject, signal } f
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
+import { ZdButton } from '@pranxy/zordon-ui/button';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ReactiveFormsModule, ZdTheme],
+  imports: [ReactiveFormsModule, ZdButton, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -86,6 +87,58 @@ import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
         <output aria-atomic="true" data-testid="counter" role="status">
           Hydrated count: {{ count() }}
         </output>
+
+        <section aria-labelledby="button-heading">
+          <h2 id="button-heading">Hydrated native Button</h2>
+          <button
+            zdButton
+            color="primary"
+            data-testid="button-pressed"
+            type="button"
+            [pressed]="buttonPressed()"
+            (click)="buttonPressed.update(pressed => !pressed)"
+          >
+            Toggle hydrated saved state
+          </button>
+          <button
+            zdButton
+            color="accent"
+            data-testid="button-loading"
+            type="button"
+            [loading]="buttonLoading()"
+            (click)="buttonLoadingClicks.update(clicks => clicks + 1)"
+          >
+            {{ buttonLoading() ? 'Saving hydrated changes' : 'Save hydrated changes' }}
+          </button>
+          <button
+            data-testid="button-toggle-loading"
+            type="button"
+            (click)="buttonLoading.update(loading => !loading)"
+          >
+            Toggle hydrated Button loading
+          </button>
+          <a
+            zdButton
+            href="#hydrated-button-target"
+            data-testid="button-disabled-link"
+            [zdDisabled]="buttonLinkDisabled()"
+            (click)="buttonLinkClicks.update(clicks => clicks + 1)"
+          >
+            Unavailable hydrated settings
+          </a>
+          <form data-testid="button-form" (submit)="submitButtonForm($event)">
+            <input name="button-value" type="hidden" value="hydrated" />
+            <button zdButton color="success" data-testid="button-submit" type="submit">
+              Submit hydrated native form
+            </button>
+          </form>
+          <output data-testid="button-loading-clicks"
+            >Loading clicks: {{ buttonLoadingClicks() }}</output
+          >
+          <output data-testid="button-link-clicks">Link clicks: {{ buttonLinkClicks() }}</output>
+          <output data-testid="button-submit-count">Button submits: {{ buttonSubmits() }}</output>
+          <span id="hydrated-button-target" tabindex="-1">Hydrated settings target</span>
+        </section>
 
         <div
           data-testid="async-action-region"
@@ -204,6 +257,12 @@ export class SsrExampleAppComponent {
   });
   protected readonly hydrationReady = signal(false);
   protected readonly serverTheme = signal<string | null>('dark');
+  protected readonly buttonPressed = signal(false);
+  protected readonly buttonLoading = signal(false);
+  protected readonly buttonLoadingClicks = signal(0);
+  protected readonly buttonLinkDisabled = signal(true);
+  protected readonly buttonLinkClicks = signal(0);
+  protected readonly buttonSubmits = signal(0);
   private actionCompletion: (() => void) | null = null;
 
   constructor() {
@@ -251,5 +310,10 @@ export class SsrExampleAppComponent {
     } else {
       this.validationControl.disable();
     }
+  }
+
+  protected submitButtonForm(event: SubmitEvent): void {
+    event.preventDefault();
+    this.buttonSubmits.update(submits => submits + 1);
   }
 }

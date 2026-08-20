@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
+import { ZdButton } from '@pranxy/zordon-ui/button';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
 import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
@@ -56,6 +57,7 @@ class ScrollLockPanelComponent {}
     CdkTrapFocus,
     Dir,
     ThemeHostFixtureComponent,
+    ZdButton,
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,6 +100,76 @@ class ScrollLockPanelComponent {}
           <button class="btn" data-testid="focus-first" type="button">First focus target</button>
           <button class="btn" data-testid="focus-second" type="button">Second focus target</button>
         </div>
+      </section>
+
+      <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">
+        <h2 id="button-heading" class="text-xl font-semibold">Native Button behavior</h2>
+        <div class="flex flex-wrap gap-2">
+          <button
+            zdButton
+            color="primary"
+            data-testid="button-pressed"
+            type="button"
+            [pressed]="buttonPressed()"
+            (click)="buttonPressed.update(pressed => !pressed)"
+          >
+            Toggle saved state
+          </button>
+          <button
+            zdButton
+            color="accent"
+            data-testid="button-loading"
+            type="button"
+            [loading]="buttonLoading()"
+            (click)="buttonLoadingClicks.update(clicks => clicks + 1)"
+          >
+            {{ buttonLoading() ? 'Saving changes' : 'Save changes' }}
+          </button>
+          <button
+            class="btn w-fit"
+            data-testid="button-toggle-loading"
+            type="button"
+            (click)="buttonLoading.update(loading => !loading)"
+          >
+            Toggle Button loading
+          </button>
+          <a
+            zdButton
+            href="#button-link-target"
+            data-testid="button-disabled-link"
+            [zdDisabled]="buttonLinkDisabled()"
+            (click)="buttonLinkClicks.update(clicks => clicks + 1)"
+          >
+            Unavailable settings
+          </a>
+          <button
+            class="btn w-fit"
+            data-testid="button-toggle-link"
+            type="button"
+            (click)="buttonLinkDisabled.update(disabled => !disabled)"
+          >
+            Toggle link availability
+          </button>
+        </div>
+        <form data-testid="button-form" (submit)="submitButtonForm($event)">
+          <label for="button-native-value">Native Button value</label>
+          <input
+            id="button-native-value"
+            data-testid="button-native-value"
+            name="button-value"
+            value="hydrated"
+          />
+          <button zdButton color="success" data-testid="button-submit" type="submit">
+            Submit native form
+          </button>
+          <input zdButton data-testid="button-reset" type="reset" value="Reset native form" />
+        </form>
+        <output data-testid="button-loading-clicks"
+          >Loading clicks: {{ buttonLoadingClicks() }}</output
+        >
+        <output data-testid="button-link-clicks">Link clicks: {{ buttonLinkClicks() }}</output>
+        <output data-testid="button-submit-count">Button submits: {{ buttonSubmits() }}</output>
+        <span id="button-link-target" tabindex="-1">Settings target</span>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">
@@ -409,6 +481,12 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected readonly motionProbeActive = signal(false);
   protected readonly asyncProbeVisible = signal(true);
   protected readonly asyncCleanupAborts = signal(0);
+  protected readonly buttonPressed = signal(false);
+  protected readonly buttonLoading = signal(false);
+  protected readonly buttonLoadingClicks = signal(0);
+  protected readonly buttonLinkDisabled = signal(true);
+  protected readonly buttonLinkClicks = signal(0);
+  protected readonly buttonSubmits = signal(0);
 
   protected openDialog(): void {
     this.blockNextDialogCancel.set(false);
@@ -535,6 +613,11 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     this.submittedName.set(String(new FormData(form).get('name') ?? ''));
+  }
+
+  protected submitButtonForm(event: SubmitEvent): void {
+    event.preventDefault();
+    this.buttonSubmits.update(submits => submits + 1);
   }
 
   ngOnDestroy(): void {

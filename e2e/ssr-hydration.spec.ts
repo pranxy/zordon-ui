@@ -40,6 +40,12 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).not.toContain('cdk-describedby-message-container');
   expect(html).toContain('Action idle');
   expect(html).toContain('Accepted actions: 0');
+  expect(html).toContain('data-testid="button-pressed"');
+  expect(html).toContain('data-testid="button-loading"');
+  expect(html).toContain('data-testid="button-disabled-link"');
+  expect(html).toContain('class="btn btn-primary"');
+  expect(html).toContain('aria-pressed="false"');
+  expect(html).toContain('href="#hydrated-button-target"');
   const asyncActionRegion = html.match(/<div[^>]*data-testid="async-action-region"[^>]*>/)?.[0];
   expect(asyncActionRegion).toContain('aria-busy="false"');
   expect(html).toMatch(/ngh="\d+"/);
@@ -88,7 +94,10 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   expect(validationHintId).toBe(serverIds['validation-hint']);
   expect(validationErrorId).toBe(serverIds['validation-error']);
   expect(asyncActionStatusId).toBe(serverIds['async-action-status']);
-  await expect(page.locator('section')).toHaveAttribute('aria-labelledby', headingId!);
+  await expect(page.getByRole('region', { name: 'Hydrated interaction' })).toHaveAttribute(
+    'aria-labelledby',
+    headingId!,
+  );
   await expect(page.getByTestId('increment')).toHaveAttribute('aria-describedby', descriptionId!);
   await expect(page.getByText('Initial render state')).toHaveAttribute('for', renderStateId!);
   await expect(page.getByText('Account code', { exact: true })).toHaveAttribute(
@@ -173,6 +182,50 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   ).toEqual(['Hydrated count: 1']);
   await expect(page.locator('.cdk-live-announcer-element')).toHaveCount(0);
   await expect(page.locator('.cdk-describedby-message-container')).toHaveCount(0);
+
+  const buttonPressed = page.getByTestId('button-pressed');
+  const buttonLoading = page.getByTestId('button-loading');
+  const buttonDisabledLink = page.getByTestId('button-disabled-link');
+  const buttonSubmit = page.getByTestId('button-submit');
+  const buttonForm = page.getByTestId('button-form');
+  await expect(buttonPressed).toHaveAttribute('aria-pressed', 'false');
+  await buttonPressed.click();
+  await expect(buttonPressed).toHaveAttribute('aria-pressed', 'true');
+  await expect(buttonPressed).toBeFocused();
+
+  await page.getByTestId('button-toggle-loading').click();
+  await expect(buttonLoading).toHaveAttribute('aria-disabled', 'true');
+  await buttonLoading.evaluate(element => {
+    element.addEventListener(
+      'click',
+      event => {
+        (
+          window as Window & { __zordonHydratedButtonDefaultPrevented?: boolean }
+        ).__zordonHydratedButtonDefaultPrevented = event.defaultPrevented;
+      },
+      { once: true },
+    );
+  });
+  await buttonLoading.evaluate((element: HTMLButtonElement) => element.click());
+  await expect(page.getByTestId('button-loading-clicks')).toHaveText('Loading clicks: 1');
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { __zordonHydratedButtonDefaultPrevented?: boolean })
+          .__zordonHydratedButtonDefaultPrevented,
+    ),
+  ).toBe(true);
+
+  await expect(buttonDisabledLink).toHaveAttribute('aria-disabled', 'true');
+  await buttonDisabledLink.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 1');
+  await expect(page).not.toHaveURL(/#hydrated-button-target$/);
+
+  await buttonSubmit.click();
+  await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 1');
+  await buttonForm.evaluate((element: HTMLFormElement) => element.requestSubmit());
+  await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 2');
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

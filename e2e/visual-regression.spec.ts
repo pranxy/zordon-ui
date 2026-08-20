@@ -47,6 +47,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#positioning-heading),
       ${fixtureSelector} section:has(#scroll-lock-heading),
       ${fixtureSelector} section:has(#focus-trap-heading),
+      ${fixtureSelector} section:has(#button-heading),
       ${fixtureSelector} [data-testid='async-action-contract'],
       ${fixtureSelector} [data-testid='motion-contract'],
       ${fixtureSelector} [data-testid='block-dialog-cancel'] {
@@ -93,6 +94,27 @@ test('light theme with the dialog open', async ({ page }) => {
 
   await expect(page.locator('dialog[open] .modal-box')).toHaveScreenshot(
     'light-dialog-open-desktop.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Button visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#button-heading) { display: grid !important; }`,
+  });
+  await page.getByTestId('button-toggle-loading').click();
+
+  await expect(page.getByTestId('button-contract')).toHaveScreenshot(
+    'button--guarded--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

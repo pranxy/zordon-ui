@@ -35,12 +35,14 @@ The planned Button is a native-host `[zdButton]` directive, not a replacement co
 
 Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 
-| ID  | Requirement                                                              | Deps          | Status   | Acceptance check                                                                                                        |
-| --- | ------------------------------------------------------------------------ | ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------- |
-| T01 | Add the Button secondary entry point and intentional public declarations | Specification | Verified | Partial-Ivy package builds `@pranxy/zordon-ui/button` without legacy exports                                            |
-| T02 | Add native-host class/state behavior                                     | T01           | Verified | Unit tests prove modifiers, consumer class composition, pressed, disabled-link, loading, and enabled-default boundaries |
-| T03 | Add typed Button application defaults through `provideZordonUi(...)`     | T01           | Verified | Omitted/global/local/reset/invalid/duplicate/immutable defaults tests pass                                              |
-| T04 | Add type, package, API, browser/SSR, a11y, and visual evidence           | T01–T03       | Pending  | All applicable matrix gates and public API review are recorded                                                          |
+| ID    | Requirement                                                                 | Deps          | Status      | Acceptance check                                                                                                        |
+| ----- | --------------------------------------------------------------------------- | ------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| T01   | Add the Button secondary entry point and intentional public declarations    | Specification | Verified    | Partial-Ivy package builds `@pranxy/zordon-ui/button` without legacy exports                                            |
+| T02   | Add native-host class/state behavior                                        | T01           | Verified    | Unit tests prove modifiers, consumer class composition, pressed, disabled-link, loading, and enabled-default boundaries |
+| T03   | Add typed Button application defaults through `provideZordonUi(...)`        | T01           | Verified    | Omitted/global/local/reset/invalid/duplicate/immutable defaults tests pass                                              |
+| T04   | Add type, package, API, browser/SSR, a11y, and visual evidence              | T01–T03       | In progress | Automated API/package/browser/SSR/axe/visual gates pass; manual AT and compatibility gates remain explicit              |
+| T04.1 | Record automated Button browser, SSR/hydration, axe, and visual evidence    | T01–T03       | Verified    | Chromium fixture proves public native-host behavior; SSR fixture and focused visual baseline pass                       |
+| T04.2 | Complete manual AT, forced-colors, and Angular 21/22 compatibility evidence | T04.1         | Pending     | Named reviewers record NVDA/VoiceOver/forced-colors checks and supported-version evidence                               |
 
 No subagent was used: the workspace instruction requires the primary agent to keep this shared
 implementation and its tracker serialized.
@@ -52,3 +54,9 @@ implementation and its tracker serialized.
   checks passed.
 - The Button entry has its own generated API Extractor report. Its imports of root types resolve
   against built APF declarations during extraction, not TypeScript source paths.
+- T04.1 adds public-host browser coverage plus deterministic SSR/hydration and visual evidence;
+  manual AT, forced-colors, and Angular 22 compatibility remain intentionally open in T04.2.
+- T04.1 validation: `typecheck:browser`, `lint:browser`, `lint:ssr`, `build:ssr`, focused
+  Chromium Button browser test, full Chromium browser/accessibility suite, `test:ssr`,
+  `test:visual`, and `build:docs` passed on 2026-08-20. The SSR and docs builds retain their
+  existing initial-bundle budget warnings.

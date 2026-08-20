@@ -233,6 +233,23 @@ The application owns `saving()` and the form-level guard; loader classes need th
 | Visual matrix         | colors/variants/sizes/layouts; disabled/loading/pressed; long text; RTL; themes; overrides                         | Planned |
 | Package/compatibility | entry build, API extraction, tarball, bundle, Angular 21 floor/22 current, Changeset                               | Planned |
 
+## Preview evidence
+
+Automated browser, SSR, package, and visual evidence is recorded as the implementation lands. Manual
+assistive-technology review remains a release gate; automated checks do not stand in for speech
+output or forced-colors assessment.
+
+| Area                    | Evidence                                                                                                                                                                                                                                        | Status                   |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| Native browser behavior | `e2e/browser-foundation.spec.ts` exercises button, link, and input hosts; controlled pressed state; guarded loading/link activation; listener preservation; native submit, `requestSubmit()`, and reset.                                        | Automated                |
+| SSR and hydration       | `e2e/ssr-hydration.spec.ts` verifies stable initial Button HTML, clean hydration, and the same controlled interactions after hydration. The event-replay provider is enabled; an exact pre-hydration replay race remains a future release test. | Automated, boundary open |
+| Automated accessibility | `e2e/accessibility.spec.ts` scans representative default and guarded Button states with axe.                                                                                                                                                    | Automated                |
+| Visual matrix           | [Button visual matrix](button-visual-matrix.md) records the guarded dark/RTL/mobile story and its Playwright baseline.                                                                                                                          | Automated                |
+| Manual accessibility    | [Button accessibility review](button-accessibility-review.md) is intentionally unfilled pending NVDA and VoiceOver review.                                                                                                                      | Pending                  |
+
+The component remains **Planned** until the manual accessibility and the tracked compatibility
+evidence are complete.
+
 ## Related contracts
 
 - [Component defaults](../foundations/component-defaults.md)

@@ -62,6 +62,65 @@ test('moves focus in deterministic keyboard order', async ({ page }) => {
   expect(await second.evaluate(element => element.matches(':focus-visible'))).toBe(true);
 });
 
+test('keeps native Button hosts semantic while guarding only loading and disabled-link activation', async ({
+  page,
+}) => {
+  const pressed = page.getByTestId('button-pressed');
+  const loading = page.getByTestId('button-loading');
+  const loadingToggle = page.getByTestId('button-toggle-loading');
+  const disabledLink = page.getByTestId('button-disabled-link');
+  const buttonForm = page.getByTestId('button-form');
+  const submit = page.getByTestId('button-submit');
+  const reset = page.getByTestId('button-reset');
+  const nativeValue = page.getByTestId('button-native-value');
+
+  await expect(pressed).toHaveAttribute('aria-pressed', 'false');
+  await pressed.click();
+  await expect(pressed).toHaveAttribute('aria-pressed', 'true');
+  await expect(pressed).toBeFocused();
+
+  await expect(disabledLink).toHaveAttribute('href', '#button-link-target');
+  await expect(disabledLink).toHaveAttribute('aria-disabled', 'true');
+  await disabledLink.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 1');
+  await expect(page).not.toHaveURL(/#button-link-target$/);
+
+  await loadingToggle.click();
+  await expect(loading).toHaveAttribute('aria-disabled', 'true');
+  await expect(loading).toHaveClass(/btn-disabled/);
+  await loading.evaluate(element => {
+    element.addEventListener(
+      'click',
+      event =>
+        ((
+          window as Window & { __zordonButtonLoadingDefaultPrevented?: boolean }
+        ).__zordonButtonLoadingDefaultPrevented = event.defaultPrevented),
+      { once: true },
+    );
+  });
+  await loading.focus();
+  await loading.evaluate((element: HTMLButtonElement) => element.click());
+  await expect(loading).toBeFocused();
+  await expect(page.getByTestId('button-loading-clicks')).toHaveText('Loading clicks: 1');
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { __zordonButtonLoadingDefaultPrevented?: boolean })
+          .__zordonButtonLoadingDefaultPrevented,
+    ),
+  ).toBe(true);
+
+  await submit.click();
+  await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 1');
+  await buttonForm.evaluate((element: HTMLFormElement) => element.requestSubmit());
+  await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 2');
+
+  await nativeValue.fill('changed');
+  await reset.click();
+  await expect(nativeValue).toHaveValue('hydrated');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');
