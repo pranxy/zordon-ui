@@ -63,6 +63,9 @@ jobs:
       - name: Lint SSR example
         run: npm run lint:ssr
 
+      - name: Lint documentation application
+        run: npm run lint:docs
+
       - name: Build library package
         run: npm run build:lib
 
@@ -102,8 +105,23 @@ jobs:
       - name: Test documentation unit contracts
         run: npm run test:docs
 
-      - name: Build documentation application and run SSR checks
-        run: npm run test:docs:ssr
+      - name: Build production documentation application
+        run: npm run build:docs
+
+      - name: Check documentation performance policy
+        run: npm run check:docs:performance
+
+      - name: Run documentation SSR and crawlability checks
+        run: npm run test:docs:ssr:built
+
+      - name: Run documentation browser interaction checks
+        run: npm run test:docs:browser:built
+
+      - name: Run documentation accessibility checks
+        run: npm run test:docs:a11y:built
+
+      - name: Check documentation internal links
+        run: npm run check:docs:links
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}

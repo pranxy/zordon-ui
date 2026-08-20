@@ -4,5 +4,10 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["e2e/**/*.ts", "playwright.config.ts", "playwright.ssr.config.ts"]
+  "include": [
+    "e2e/**/*.ts",
+    "playwright.config.ts",
+    "playwright.docs.config.ts",
+    "playwright.ssr.config.ts"
+  ]
 }

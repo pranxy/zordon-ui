@@ -208,38 +208,6 @@ test('Button enhancement reserves its layout at desktop and mobile widths', asyn
   }
 });
 
-test('ordinary internal links on representative pages resolve successfully', async ({
-  page,
-  request,
-}) => {
-  const internalTargets = new Set<string>();
-
-  for (const route of publicRoutes) {
-    await page.goto(route.path);
-    const targets = await page.getByRole('link').evaluateAll(links =>
-      links
-        .map(link => link.getAttribute('href'))
-        .filter((href): href is string => href !== null && href.startsWith('/'))
-        .map(href => href.split('#', 1)[0] ?? href),
-    );
-    targets.forEach(target => internalTargets.add(target));
-  }
-
-  expect(
-    internalTargets.size,
-    'the representative pages should expose ordinary internal links',
-  ).toBeGreaterThan(0);
-
-  for (const target of internalTargets) {
-    await test.step(target, async () => {
-      const response = await request.get(target);
-      expect(response.status(), `${target} should resolve below the HTTP error range`).toBeLessThan(
-        400,
-      );
-    });
-  }
-});
-
 test('an unknown route remains a server-rendered, recoverable noindex 404', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();

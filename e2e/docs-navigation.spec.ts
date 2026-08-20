@@ -1,4 +1,4 @@
-import { expect, test } from './fixtures/accessibility';
+import { expect, test } from '@playwright/test';
 
 test('skip link moves keyboard focus to the main documentation content', async ({ page }) => {
   await page.goto('/docs/getting-started');
@@ -137,24 +137,4 @@ test('theme selection persists across reload without hydration errors', async ({
     .toBe(darkBaseColor);
   await expect(page.getByRole('button', { name: 'Switch to light theme' })).toBeVisible();
   expect(errors).toEqual([]);
-});
-
-test('has no critical or serious accessibility violations at desktop and mobile widths', async ({
-  page,
-  runAxeScan,
-}) => {
-  for (const viewport of [
-    { width: 1280, height: 900 },
-    { width: 375, height: 812 },
-  ]) {
-    await page.setViewportSize(viewport);
-    await page.goto('/docs/getting-started');
-
-    const results = await runAxeScan();
-    const materialViolations = results.violations.filter(
-      violation => violation.impact === 'critical' || violation.impact === 'serious',
-    );
-
-    expect(materialViolations).toEqual([]);
-  }
 });

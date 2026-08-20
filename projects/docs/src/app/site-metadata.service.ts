@@ -3,7 +3,7 @@ import { Injectable, TransferState, inject, makeStateKey } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { findSitePage, notFoundPage } from './site-catalog';
+import { breadcrumbsForPage, findSitePage, notFoundPage, type DocsSitePage } from './site-catalog';
 import { DOCS_CANONICAL_ORIGIN, normalizeCanonicalOrigin } from './site-origin';
 
 const CANONICAL_ORIGIN_STATE = makeStateKey<string>('docs-canonical-origin');
@@ -57,6 +57,8 @@ export class DocsMetadataService {
       this.meta.removeTag("property='og:url'");
       this.document.head.querySelector("link[rel='canonical']")?.remove();
     }
+
+    this.setStructuredData(page, canonicalUrl);
   }
 
   private setCanonicalLink(url: string): void {
@@ -67,5 +69,48 @@ export class DocsMetadataService {
       this.document.head.appendChild(link);
     }
     link.href = url;
+  }
+
+  private setStructuredData(page: DocsSitePage, canonicalUrl: string | undefined): void {
+    const existing = this.document.head.querySelector<HTMLScriptElement>(
+      "script#docs-structured-data[type='application/ld+json']",
+    );
+    if (!canonicalUrl || !this.canonicalOrigin) {
+      existing?.remove();
+      return;
+    }
+
+    const structuredData =
+      page.id === 'home'
+        ? {
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareApplication',
+            'applicationCategory': 'DeveloperApplication',
+            'codeRepository': 'https://github.com/pranxy/zordon-ui',
+            'description': page.description,
+            'name': 'Zordon UI',
+            'operatingSystem': 'Web',
+            'programmingLanguage': 'TypeScript',
+            'url': canonicalUrl,
+          }
+        : {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            'itemListElement': breadcrumbsForPage(page).map((breadcrumb, index) => ({
+              '@type': 'ListItem',
+              'item': `${this.canonicalOrigin}${breadcrumb.path}`,
+              'name':
+                breadcrumb.breadcrumbLabel ??
+                breadcrumb.navigationLabel ??
+                breadcrumb.title.replace(/ \| Zordon UI$/, ''),
+              'position': index + 1,
+            })),
+          };
+
+    const script = existing ?? this.document.createElement('script');
+    script.id = 'docs-structured-data';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(structuredData).replaceAll('<', '\\u003c');
+    if (!existing) this.document.head.appendChild(script);
   }
 }
