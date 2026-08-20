@@ -43,6 +43,7 @@ test('mobile navigation disclosure reaches the getting-started page', async ({ p
     'aria-current',
     'page',
   );
+  await disclosure.click();
 
   const inlineTableOfContents = page.locator('main details').filter({ hasText: 'On this page' });
   const tableOfContentsDisclosure = inlineTableOfContents

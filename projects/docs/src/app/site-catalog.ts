@@ -1,4 +1,4 @@
-export type DocsMaturity = 'experimental' | 'preview' | 'stable';
+export type DocsMaturity = 'planned' | 'experimental' | 'preview' | 'stable';
 export type DocsSection = 'components' | 'docs' | 'foundations' | 'guides' | 'resources' | 'system';
 
 export interface DocsTableOfContentsItem {
@@ -7,6 +7,7 @@ export interface DocsTableOfContentsItem {
 }
 
 export interface DocsSitePage {
+  readonly breadcrumbLabel?: string;
   readonly description: string;
   readonly id: string;
   readonly httpStatus?: number;
@@ -36,6 +37,7 @@ export const homePage = defineSitePage({
   section: 'docs',
   indexable: true,
   navigationOrder: 0,
+  nextId: 'getting-started',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/home.component.ts',
 });
@@ -52,11 +54,122 @@ export const gettingStartedPage = defineSitePage({
   navigationOrder: 10,
   parentId: homePage.id,
   previousId: homePage.id,
+  nextId: 'components',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/getting-started.component.ts',
   tableOfContents: [
     { id: 'page-title', label: 'Get started' },
+    { id: 'prerequisites', label: 'Prerequisites' },
+    { id: 'install', label: 'Install' },
+    { id: 'configure', label: 'Configure styling' },
+    { id: 'configure-application', label: 'Configure the application' },
+    { id: 'first-component', label: 'Use your first component' },
     { id: 'what-comes-next', label: 'What comes next' },
+  ],
+});
+
+export const componentsPage = defineSitePage({
+  id: 'components',
+  path: '/components',
+  title: 'Components | Zordon UI',
+  description: 'Browse the Zordon UI component catalogue by category and maturity.',
+  section: 'components',
+  indexable: true,
+  navigationLabel: 'Components',
+  navigationOrder: 20,
+  parentId: homePage.id,
+  previousId: gettingStartedPage.id,
+  nextId: 'button',
+  sourceUrl:
+    'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/components.component.ts',
+  tableOfContents: [{ id: 'component-catalogue', label: 'Component catalogue' }],
+});
+
+export const buttonPage = defineSitePage({
+  id: 'button',
+  path: '/components/button',
+  title: 'Button | Zordon UI',
+  description: 'Button applies daisyUI appearance to a native action element.',
+  section: 'components',
+  indexable: true,
+  maturity: 'planned',
+  breadcrumbLabel: 'Button',
+  parentId: componentsPage.id,
+  previousId: componentsPage.id,
+  nextId: 'typed-vocabularies',
+  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/button.md',
+  tableOfContents: [
+    { id: 'page-title', label: 'Button' },
+    { id: 'install', label: 'Install and import' },
+    { id: 'example', label: 'Live example' },
+    { id: 'api', label: 'API' },
+    { id: 'variants', label: 'Variants' },
+    { id: 'accessibility', label: 'Accessibility' },
+    { id: 'customization', label: 'Customization' },
+    { id: 'ssr', label: 'SSR' },
+    { id: 'related', label: 'Related' },
+  ],
+});
+
+export const typedVocabulariesPage = defineSitePage({
+  id: 'typed-vocabularies',
+  path: '/foundations/typed-vocabularies',
+  title: 'Typed foundation vocabularies | Zordon UI',
+  description: 'Shared type-only vocabularies keep Zordon UI component APIs consistent.',
+  section: 'foundations',
+  indexable: true,
+  navigationLabel: 'Foundations',
+  navigationOrder: 30,
+  parentId: homePage.id,
+  previousId: buttonPage.id,
+  nextId: 'styling-and-theming',
+  sourceUrl:
+    'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
+  tableOfContents: [
+    { id: 'page-title', label: 'Typed vocabularies' },
+    { id: 'public-types', label: 'Public types' },
+    { id: 'customization-boundary', label: 'Customization boundary' },
+  ],
+});
+
+export const stylingAndThemingPage = defineSitePage({
+  id: 'styling-and-theming',
+  path: '/guides/styling-and-theming',
+  title: 'Styling and theming | Zordon UI',
+  description: 'Configure Tailwind CSS, daisyUI themes, and Zordon UI class prefixes.',
+  section: 'guides',
+  indexable: true,
+  navigationLabel: 'Guides',
+  navigationOrder: 40,
+  parentId: homePage.id,
+  previousId: typedVocabulariesPage.id,
+  nextId: 'resources',
+  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/guides/styling-and-theming.md',
+  tableOfContents: [
+    { id: 'page-title', label: 'Styling and theming' },
+    { id: 'supported-versions', label: 'Supported versions' },
+    { id: 'application-setup', label: 'Application setup' },
+    { id: 'themes', label: 'Themes and scopes' },
+  ],
+});
+
+export const resourcesPage = defineSitePage({
+  id: 'resources',
+  path: '/resources',
+  title: 'Resources | Zordon UI',
+  description: 'Find Zordon UI roadmap, release, contribution, and upstream resources.',
+  section: 'resources',
+  indexable: true,
+  navigationLabel: 'Resources',
+  navigationOrder: 50,
+  parentId: homePage.id,
+  previousId: stylingAndThemingPage.id,
+  sourceUrl:
+    'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/resources.component.ts',
+  tableOfContents: [
+    { id: 'page-title', label: 'Resources' },
+    { id: 'project', label: 'Project' },
+    { id: 'upstream', label: 'Upstream documentation' },
   ],
 });
 
@@ -70,7 +183,16 @@ export const notFoundPage = defineSitePage({
   indexable: false,
 });
 
-export const sitePages = [homePage, gettingStartedPage, notFoundPage] as const;
+export const sitePages = [
+  homePage,
+  gettingStartedPage,
+  componentsPage,
+  buttonPage,
+  typedVocabulariesPage,
+  stylingAndThemingPage,
+  resourcesPage,
+  notFoundPage,
+] as const;
 
 export function validateSitePages(pages: readonly DocsSitePage[]): readonly string[] {
   const issues: string[] = [];
@@ -129,6 +251,10 @@ export function validateSitePages(pages: readonly DocsSitePage[]): readonly stri
 
 export function findSitePage(path: string): DocsSitePage | undefined {
   return sitePages.find(page => page.path === path);
+}
+
+export function findSitePageById(id: string | undefined): DocsSitePage | undefined {
+  return id === undefined ? undefined : sitePages.find(page => page.id === id);
 }
 
 export function indexableSitePages(): readonly DocsSitePage[] {

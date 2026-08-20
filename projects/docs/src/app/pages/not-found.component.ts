@@ -10,7 +10,10 @@ import { RouterLink } from '@angular/router';
       <p class="eyebrow">404</p>
       <h1 id="page-title">Page not found</h1>
       <p>The address does not point to a Zordon UI documentation page.</p>
-      <a routerLink="/">Return home</a>
+      <div class="actions">
+        <a routerLink="/">Return home</a>
+        <a routerLink="/components">Browse components</a>
+      </div>
     </section>
   `,
   styles: `
@@ -20,6 +23,12 @@ import { RouterLink } from '@angular/router';
 
     .eyebrow {
       font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
   `,
 })

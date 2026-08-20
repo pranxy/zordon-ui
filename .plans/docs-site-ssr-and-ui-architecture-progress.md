@@ -27,7 +27,7 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | T04.2 | Add mobile navigation and local search dialog       | T04.1       | Verified | Keyboard and 375px navigation/search flows pass                       | Mobile current state, inline TOC, search Escape, and focus restoration pass              |
 | T04.3 | Add progressive light/dark theme control            | T04.1       | Verified | Stable SSR default hydrates; saved theme applies after render         | daisyUI theme variables change and persist without hydration errors                      |
 | T04.4 | Add navigation and accessibility browser coverage   | T04.1–T04.3 | Verified | Desktop/mobile keyboard and axe checks pass                           | Docs Playwright 11/11; serious/critical axe checks pass at both viewports                |
-| T05   | Build page templates and representative content     | T03, T04    | Pending  | Server HTML and post-hydration page tests pass                        | —                                                                                        |
+| T05   | Build page templates and representative content     | T03, T04    | Verified | Server HTML and post-hydration page tests pass                        | Representative route matrix, T05 8/8, full docs Playwright 19/19, and review `Clear`     |
 | T06   | Add crawlability, performance, and release gates    | T02–T05     | Pending  | CI route matrix and docs gates pass                                   | —                                                                                        |
 
 ## Loop log
@@ -37,6 +37,7 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | T02 | Primary agent                       | Shared workspace; tracker serialized because this thread cannot delegate agents | `lint:docs`; `test:docs:ssr` (2/2); selected Prettier; diff check                                                     | Parent-only inspection; independent delegation unavailable in this side conversation | No persistent server left by Playwright   |
 | T03 | Primary agent + delegated test lane | Shared workspace; production and test/config ownership split                    | `lint:docs`; `test:docs` (9/9); production build; docs Playwright (4/4); E2E typecheck; selected Prettier; diff check | Independent review found F1/F2; both fixed and focused re-review completed           | No persistent server/browser process left |
 | T04 | Primary agent + delegated test lane | Shared workspace; production and browser-test ownership split                   | `lint:docs`; `test:docs` (9/9); production build; docs Playwright (11/11); E2E typecheck; Prettier; diff check        | Independent review found F1–F3; all fixed; focused re-review `Clear`                 | No persistent server/browser process left |
+| T05 | Primary agent + delegated test lane | Shared workspace; production and page-test ownership split                      | `lint:docs`; `test:docs` (9/9); production build; T05 Playwright (8/8); full docs Playwright (19/19); E2E typecheck   | Independent review found F1–F3; all fixed; focused re-review `Clear`                 | No persistent server/browser process left |
 
 ## Reviews
 
@@ -45,6 +46,7 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Documentation-site plan | Primary agent only; independent delegation is unavailable in this side conversation | DEX-001: avoid CMS/runtime Markdown in v1                                   | Accepted in plan | Complexity prevention recorded            |
 | T03 implementation      | Independent delegated reviewer                                                      | F1: client routes/nav duplicated catalogue; F2: `noindex` implied 404       | Fix now          | Focused re-review: both resolved; `Clear` |
 | T04 implementation      | Independent delegated reviewer                                                      | F1: duplicate visual tokens; F2: incomplete active state; F3: no mobile TOC | Fix now          | Focused re-review: all resolved; `Clear`  |
+| T05 implementation      | Independent delegated reviewer                                                      | F1: hydration geometry; F2: incomplete Button API; F3: thin templates       | Fix now          | Focused re-review: all resolved; `Clear`  |
 
 ## Decisions / deviations
 
@@ -57,3 +59,4 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | D05  | Derive client route paths/titles and primary navigation from the typed catalogue                | Prevents sitemap/server routes from drifting from reachable client routes and links     | Accepted |
 | D06  | Set docs production budgets to 340 kB initial warning and 8 kB component-style warning          | Measured T04 output is 335.25 kB initial; hard errors remain 400 kB and 12 kB           | Accepted |
 | D07  | Import daisyUI themes while disabling unused Tailwind source scanning in the docs shell         | Preserves semantic theme variables without generating workspace-wide unused utilities   | Accepted |
+| D08  | Raise the docs initial warning budget from 340 kB to 360 kB for representative T05 content      | Measured production output is 352.17 kB; the hard error remains 400 kB                  | Accepted |

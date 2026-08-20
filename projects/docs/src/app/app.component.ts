@@ -15,6 +15,7 @@ import { filter, map } from 'rxjs';
 import {
   breadcrumbsForPage,
   findSitePage,
+  findSitePageById,
   indexableSitePages,
   notFoundPage,
   primaryNavigationPages,
@@ -102,10 +103,14 @@ type DocsTheme = 'dark' | 'light';
             @for (page of breadcrumbs(); track page.id; let last = $last) {
               <li>
                 @if (last) {
-                  <span aria-current="page">{{ page.navigationLabel ?? page.title }}</span>
+                  <span aria-current="page">{{
+                    page.breadcrumbLabel ?? page.navigationLabel ?? page.title
+                  }}</span>
                 } @else {
                   <a [routerLink]="page.path">{{
-                    page.id === 'home' ? 'Home' : (page.navigationLabel ?? page.title)
+                    page.id === 'home'
+                      ? 'Home'
+                      : (page.breadcrumbLabel ?? page.navigationLabel ?? page.title)
                   }}</a>
                 }
               </li>
@@ -145,6 +150,22 @@ type DocsTheme = 'dark' | 'light';
             </details>
           }
           <router-outlet />
+          @if (previousPage() || nextPage()) {
+            <nav class="page-pagination" aria-label="Page navigation">
+              @if (previousPage(); as previous) {
+                <a [routerLink]="previous.path">
+                  <span>Previous</span>
+                  {{ previous.navigationLabel ?? previous.title }}
+                </a>
+              }
+              @if (nextPage(); as next) {
+                <a class="next-page" [routerLink]="next.path">
+                  <span>Next</span>
+                  {{ next.navigationLabel ?? next.title }}
+                </a>
+              }
+            </nav>
+          }
         </main>
 
         @if (currentPage().tableOfContents?.length) {
@@ -477,6 +498,41 @@ type DocsTheme = 'dark' | 'light';
       color: var(--docs-accent-strong);
     }
 
+    .page-pagination {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-block-start: 3rem;
+      padding-block-start: 1.5rem;
+      border-block-start: 1px solid var(--docs-border);
+    }
+
+    .page-pagination a {
+      display: grid;
+      gap: 0.25rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      color: var(--docs-accent-strong);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .page-pagination a:hover {
+      background: var(--docs-subtle);
+    }
+
+    .page-pagination span {
+      color: var(--docs-muted-text);
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .page-pagination .next-page {
+      grid-column: 2;
+      text-align: end;
+    }
+
     .section-navigation,
     .table-of-contents {
       position: sticky;
@@ -690,6 +746,15 @@ type DocsTheme = 'dark' | 'light';
         display: none;
       }
 
+      .page-pagination {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .page-pagination .next-page {
+        grid-column: 1;
+        text-align: start;
+      }
+
       .site-footer {
         align-items: start;
       }
@@ -729,6 +794,8 @@ export class DocsAppComponent {
   protected readonly primaryNavigation = primaryNavigationPages();
   protected readonly currentPage = computed(() => findSitePage(this.routePath()) ?? notFoundPage);
   protected readonly breadcrumbs = computed(() => breadcrumbsForPage(this.currentPage()));
+  protected readonly previousPage = computed(() => findSitePageById(this.currentPage().previousId));
+  protected readonly nextPage = computed(() => findSitePageById(this.currentPage().nextId));
   protected readonly showDocumentationNavigation = computed(
     () => this.currentPage().path !== '/' && this.currentPage().section !== 'system',
   );

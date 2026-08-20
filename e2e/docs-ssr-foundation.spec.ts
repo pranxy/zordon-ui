@@ -12,7 +12,9 @@ test('delivers route-specific documentation HTML before JavaScript runs', async 
 
   expect(response.ok()).toBe(true);
   expect(html).toContain('Get started with Zordon UI');
-  expect(html).toContain('Angular applications configured with Tailwind CSS 4 and daisyUI 5.');
+  expect(html).toContain(
+    'Install Zordon UI in an Angular application configured with Tailwind CSS 4 and daisyUI 5',
+  );
   expect(html).toContain('<title>Get started with Zordon UI</title>');
   expect(html).toContain('name="description" content="Install and configure Zordon UI');
   expect(html).toMatch(

@@ -1,8 +1,12 @@
 import {
+  componentsPage,
   gettingStartedPage,
   homePage,
   primaryNavigationPages,
+  resourcesPage,
   sitePages,
+  stylingAndThemingPage,
+  typedVocabulariesPage,
   validateSitePages,
 } from './site-catalog';
 
@@ -60,6 +64,12 @@ describe('documentation site catalogue', () => {
   });
 
   it('provides ordered primary navigation from the catalogue', () => {
-    expect(primaryNavigationPages().map(page => page.path)).toEqual([gettingStartedPage.path]);
+    expect(primaryNavigationPages().map(page => page.path)).toEqual([
+      gettingStartedPage.path,
+      componentsPage.path,
+      typedVocabulariesPage.path,
+      stylingAndThemingPage.path,
+      resourcesPage.path,
+    ]);
   });
 });
