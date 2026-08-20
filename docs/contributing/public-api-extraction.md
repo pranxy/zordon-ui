@@ -1,8 +1,8 @@
 # Public API extraction and breaking-change detection
 
-The tracked API reports at `etc/api/zordon-ui.api.md` and `etc/api/zordon-ui-button.api.md` are the
-declaration-level approval records for the primary and Button entry points. They are generated from
-built Angular Package Format declaration files, not legacy source. CI fails when either report
+The tracked API reports at `etc/api/zordon-ui.api.md`, `etc/api/zordon-ui-button.api.md`, and
+`etc/api/zordon-ui-link.api.md` are the declaration-level approval records for the primary, Button,
+and Link entry points. They are generated from built Angular Package Format declaration files, not legacy source. CI fails when any report
 differs from its reviewed baseline.
 
 ## Commands
@@ -61,7 +61,7 @@ tracked review report.
 ## Future secondary entry points
 
 Each published component or optional entry point gets its own API Extractor configuration/report when
-it first exists. Button is the first example. Its extractor tsconfig resolves primary-entry types
+it first exists. Button and Link are the initial examples. Their extractor tsconfigs resolve primary-entry types
 from the built declaration file rather than source, so the report stays an APF gate. Do not add a
 placeholder report for an empty entry point. A future package-level aggregator must not blur
 independent entry-point compatibility boundaries.

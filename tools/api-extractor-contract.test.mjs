@@ -45,6 +45,24 @@ test('tracks the built Button secondary declaration surface with its own report'
   assert.match(report, /export function withButtonDefaults/);
 });
 
+test('tracks the built Link secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-link.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-link.api.md');
+
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-link.d.ts',
+  );
+  assert.equal(config.projectFolder, '../projects/components');
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-link.json',
+  );
+  assert.equal(config.apiReport.reportFileName, 'zordon-ui-link');
+  assert.match(report, /export class ZdLink/);
+  assert.match(report, /export function withLinkDefaults/);
+});
+
 test('commits the generated primary API report and exposes check/update scripts', async () => {
   const [report, manifest, workflow] = await Promise.all([
     readWorkspaceFile('etc/api/zordon-ui.api.md'),
@@ -58,6 +76,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(report, /export class ZdTheme/);
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
+  assert.match(scripts['update:api'], /api-extractor-link\.json.*--local/);
   assert.match(scripts['test:api'], /build:lib.*check:api/);
   assert.match(workflow, /name: Check public API report\s+run: npm run check:api/);
 });

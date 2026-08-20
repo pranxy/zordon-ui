@@ -16,6 +16,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-button.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-button.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-link.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-link.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-link.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

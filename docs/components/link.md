@@ -8,6 +8,10 @@ Link restores daisyUI’s underline treatment on a real navigation anchor. It is
 native-host `[zdLink]` directive, not a wrapper, button substitute, Router abstraction, or
 menu-item primitive.
 
+```ts
+import { ZdLink } from '@pranxy/zordon-ui/link';
+```
+
 ## Native boundary
 
 Use Link only on an `<a>` that already has navigation semantics:
@@ -39,6 +43,15 @@ The implementation pin is daisyUI 5.7.16. Its Link CSS has no variables or struc
 There is no daisyUI Link size, loading, icon, disabled, active/current-route, or new-window
 modifier. Zordon will not invent look-alike upstream tokens or depend on internal variables.
 
+## Tailwind candidate source
+
+Link generates classes from inputs at runtime, so Tailwind cannot infer its color candidates from
+the directive alone. Register every Link candidate that an application can use in a scanned source
+file or with Tailwind's explicit candidate mechanism. The documentation app registers the complete
+installed inventory in its stylesheet; applications using a class prefix must register the complete
+configured spelling (for example, `tw:d-link-primary`), as described in the
+[class-prefix guide](../foundations/class-prefixes.md).
+
 ## Planned public API
 
 | Input        | Type                   | Default | Contract                                                                           |
@@ -50,6 +63,16 @@ modifier. Zordon will not invent look-alike upstream tokens or depend on interna
 `color` and `hover` are the only candidates for a future `withLinkDefaults(...)` feature. They are
 appearance modifiers, so their effective precedence will be intrinsic default < application default
 < explicit local input. `zdDisabled` is local controlled state and is never globally defaulted.
+
+Configure application defaults through the root provider when the application has a shared Link
+appearance:
+
+```ts
+import { provideZordonUi } from '@pranxy/zordon-ui';
+import { withLinkDefaults } from '@pranxy/zordon-ui/link';
+
+provideZordonUi({}, withLinkDefaults({ color: 'primary', hover: true }));
+```
 
 Consumer classes, `[class]`, non-overlapping `ngClass`, `[style]`, `data-theme`, `aria-*`, `target`,
 `rel`, `download`, and Router directives remain additive consumer-owned sources. An explicit
