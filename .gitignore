@@ -3,6 +3,7 @@
 # Compiled output
 /dist
 /tmp
+/temp/api-extractor/
 /out-tsc
 /bazel-out
 

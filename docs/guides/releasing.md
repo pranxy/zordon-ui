@@ -77,6 +77,7 @@ npm run lint:lib
 npm run test:lib:types
 npm run test:lib:coverage
 npm run test:tooling
+npm run test:api
 npm run release:dry-run
 ```
 

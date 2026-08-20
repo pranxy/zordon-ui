@@ -66,6 +66,9 @@ jobs:
       - name: Build library package
         run: npm run build:lib
 
+      - name: Check public API report
+        run: npm run check:api
+
       - name: Test repository tooling
         run: npm run test:tooling
 

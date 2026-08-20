@@ -7,6 +7,8 @@ review decisions.
   and submitting work.
 - [Public API review](api-review.md): the required review surface and approval checklist for
   consumer-facing contracts.
+- [Public API extraction](public-api-extraction.md): tracked declaration reports and the approved
+  update workflow for breaking-change detection.
 - [Deprecation and breaking changes](deprecation-policy.md): SemVer classification, migration, and
   removal lifecycle.
 - [Component maturity](component-maturity.md): delivery-independent maturity labels and promotion

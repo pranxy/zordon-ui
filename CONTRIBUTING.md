@@ -140,6 +140,8 @@ A change is ready for review when:
 - its plan/spec scope is clear and unrelated cleanup is excluded;
 - applicable checks pass and any intentionally skipped gate is explained;
 - public API review evidence is included when the consumer contract changes;
+- a changed declaration report is reviewed and updated only through the
+  [public API extraction workflow](docs/contributing/public-api-extraction.md);
 - accessibility and manual verification evidence is recorded where applicable;
 - documentation, maturity, matrix status, visual baselines, and changeset agree with the code;
 - no generated reports, credentials, deep imports, accidental exports, or unrelated legacy files

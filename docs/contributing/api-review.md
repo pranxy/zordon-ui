@@ -63,8 +63,8 @@ specification.
 - [ ] The intended `public-api.ts` is the only export path; no implementation deep import is needed.
 - [ ] The primary versus secondary entry-point choice follows ADR 0006 and the entry-point map.
 - [ ] Experimental or optional dependencies do not leak into stable/core entry points.
-- [ ] The entry point builds in partial-Ivy mode, remains side-effect free, and passes API extraction
-      when that gate is available.
+- [ ] The entry point builds in partial-Ivy mode, remains side-effect free, and passes its tracked
+      [API extraction report](public-api-extraction.md).
 - [ ] Peer dependency and bundle-size effects are intentional, documented, and tested.
 
 ### Semantics, accessibility, and interaction
@@ -125,10 +125,9 @@ The reviewer outcome is one of:
 Approval must name the reviewed entry points and maturity. It never implicitly approves unrelated
 exports found in the same package.
 
-Today this is a documented review gate. Automated API extraction and breaking-change detection are
-planned in Phase 2 and must not be claimed as passing until that tooling exists. The active primary
-entry file is `projects/components/src/public-api.ts`; the legacy file one directory above it is not
-the package contract.
+The API report is a declaration-level gate, not a substitute for this whole review. The active
+primary entry file is `projects/components/src/public-api.ts`; the legacy file one directory above
+it is not the package contract.
 
 ## Primary references
 

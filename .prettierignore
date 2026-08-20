@@ -4,6 +4,7 @@
 /dist
 /node_modules
 /out-tsc
+/etc/api/*.api.md
 /package-lock.json
 /playwright-report
 /projects/dev/*

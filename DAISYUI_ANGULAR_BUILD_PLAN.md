@@ -218,7 +218,9 @@ Overall component progress: **0 / 68 Done**.
       profiles, and component/manual proof remains explicitly component-owned.
 - [x] Component documentation template covering anatomy, API, accessibility, forms, theming, and examples. The reusable specification template records component-local decisions and evidence while linking the accepted shared contracts; it is discoverable from contributor and maturity workflows.
 - [x] Visual story matrix generator or equivalent documented convention. The component-local story matrix selects and records material visual boundaries, grouped or inapplicable values, and the non-screenshot accessibility/SSR proof that image comparison cannot establish.
-- [ ] Public API extraction and breaking-change detection.
+- [x] Public API extraction and breaking-change detection. API Extractor tracks the built primary
+      declaration surface in a reviewed report, CI/release preparation reject drift, and public API
+      review retains explicit DOM/behavioral evidence beyond declarations.
 
 ## Recommended delivery sequence
 
@@ -528,6 +530,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                                              | Components/phases      | Owner or link                                        |
 | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------------------------- |
+| 2026-08-19 | Added a tracked API Extractor report for the built primary APF declaration, a drift-failing CI/release gate, update workflow, tooling tests, and documentation that preserves manual behavioral API review.                         | Phase 2 packaging      | `etc/api/zordon-ui.api.md`                           |
 | 2026-08-19 | Added internal Playwright environment profiles for themes, direction, desktop/mobile viewports, reduced motion, and forced colors with a real-browser characterization and visual-suite reuse.                                      | Phase 2 testing        | `e2e/fixtures/environment.ts`                        |
 | 2026-08-19 | Defined public harness, interaction-helper, Angular Aria composition, and package-isolation conventions without publishing an empty testing entry point or generic base.                                                            | Phase 2 testing        | `docs/foundations/`                                  |
 | 2026-08-19 | Defined async action ownership, concurrency, cancellation, stale-result, accessibility, and SSR contracts with browser/SSR characterization and no task framework.                                                                  | Phase 2 interaction    | `docs/foundations/async-actions.md`                  |
