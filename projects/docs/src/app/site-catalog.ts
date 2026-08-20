@@ -1,6 +1,11 @@
 export type DocsMaturity = 'experimental' | 'preview' | 'stable';
 export type DocsSection = 'components' | 'docs' | 'foundations' | 'guides' | 'resources' | 'system';
 
+export interface DocsTableOfContentsItem {
+  readonly id: string;
+  readonly label: string;
+}
+
 export interface DocsSitePage {
   readonly description: string;
   readonly id: string;
@@ -15,6 +20,7 @@ export interface DocsSitePage {
   readonly previousId?: string;
   readonly section: DocsSection;
   readonly sourceUrl?: string;
+  readonly tableOfContents?: readonly DocsTableOfContentsItem[];
   readonly title: string;
 }
 
@@ -48,6 +54,10 @@ export const gettingStartedPage = defineSitePage({
   previousId: homePage.id,
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/getting-started.component.ts',
+  tableOfContents: [
+    { id: 'page-title', label: 'Get started' },
+    { id: 'what-comes-next', label: 'What comes next' },
+  ],
 });
 
 export const notFoundPage = defineSitePage({
@@ -129,4 +139,22 @@ export function primaryNavigationPages(): readonly DocsSitePage[] {
   return [...sitePages]
     .filter(page => page.navigationLabel !== undefined)
     .sort((left, right) => (left.navigationOrder ?? 0) - (right.navigationOrder ?? 0));
+}
+
+export function breadcrumbsForPage(page: DocsSitePage): readonly DocsSitePage[] {
+  const breadcrumbs: DocsSitePage[] = [page];
+  const visited = new Set([page.id]);
+  let parentId = page.parentId;
+
+  while (parentId) {
+    if (visited.has(parentId)) break;
+    const parent = sitePages.find(candidate => candidate.id === parentId);
+    if (!parent) break;
+    breadcrumbs.unshift(parent);
+    visited.add(parent.id);
+    parentId = parent.parentId;
+  }
+
+  if (breadcrumbs[0]?.id !== homePage.id) breadcrumbs.unshift(homePage);
+  return breadcrumbs;
 }

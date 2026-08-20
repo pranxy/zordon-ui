@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         This documentation site will guide you through installation, configuration, and component
         usage.
       </p>
-      <h2>What comes next</h2>
+      <h2 id="what-comes-next">What comes next</h2>
       <p>
         Install the package, configure your daisyUI classes, then choose a component from the
         catalogue. The detailed installation guide lands with the first public component reference.
