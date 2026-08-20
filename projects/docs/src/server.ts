@@ -6,10 +6,44 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { indexableSitePages } from './app/site-catalog';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+function canonicalOrigin(): string | undefined {
+  const value = process.env['DOCS_CANONICAL_ORIGIN']?.replace(/\/$/, '');
+  return value?.startsWith('https://') ? value : undefined;
+}
+
+function sitemapXml(origin: string): string {
+  const urls = indexableSitePages()
+    .map(page => `  <url><loc>${origin}${page.path}</loc></url>`)
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+}
+
+app.get('/robots.txt', (_request, response) => {
+  const origin = canonicalOrigin();
+  response
+    .type('text/plain')
+    .send(
+      origin
+        ? `User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`
+        : 'User-agent: *\nDisallow: /\n',
+    );
+});
+
+app.get('/sitemap.xml', (_request, response) => {
+  const origin = canonicalOrigin();
+  if (!origin) {
+    response.status(404).end();
+    return;
+  }
+
+  response.type('application/xml').send(sitemapXml(origin));
+});
 
 app.use(
   express.static(browserDistFolder, {

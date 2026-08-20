@@ -10,6 +10,9 @@ test('delivers route-specific documentation HTML before JavaScript runs', async 
   expect(response.ok()).toBe(true);
   expect(html).toContain('Get started with Zordon UI');
   expect(html).toContain('Angular applications configured with Tailwind CSS 4 and daisyUI 5.');
+  expect(html).toContain('<title>Get started with Zordon UI</title>');
+  expect(html).toContain('name="description" content="Install and configure Zordon UI');
+  expect(html).toMatch(/<meta[^>]+name="robots"[^>]+content="index,follow"|<meta[^>]+content="index,follow"[^>]+name="robots"/);
   expect(html).toMatch(/ngh="\d+"/);
 
   const context = await browser.newContext({ javaScriptEnabled: false });
@@ -32,4 +35,15 @@ test('hydrates the server-rendered documentation without console errors', async 
   await expect(page.getByRole('heading', { name: 'Get started with Zordon UI' })).toBeVisible();
 
   expect(errors).toEqual([]);
+});
+
+test('keeps local and preview documentation output out of search indexes without a canonical origin', async ({
+  request,
+}) => {
+  const robots = await request.get('/robots.txt');
+  const sitemap = await request.get('/sitemap.xml');
+
+  expect(robots.ok()).toBe(true);
+  expect(await robots.text()).toBe('User-agent: *\nDisallow: /\n');
+  expect(sitemap.status()).toBe(404);
 });

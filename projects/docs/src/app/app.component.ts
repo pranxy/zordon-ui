@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { DocsMetadataService } from './site-metadata.service';
 
 @Component({
   selector: 'docs-root',
@@ -85,4 +86,10 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     }
   `,
 })
-export class DocsAppComponent {}
+export class DocsAppComponent {
+  private readonly metadata = inject(DocsMetadataService);
+
+  constructor() {
+    this.metadata.initialize();
+  }
+}
