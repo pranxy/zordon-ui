@@ -99,8 +99,11 @@ jobs:
       - name: Build SSR example and run hydration smoke tests
         run: npm run test:ssr
 
-      - name: Build documentation application
-        run: npm run build:docs
+      - name: Test documentation unit contracts
+        run: npm run test:docs
+
+      - name: Build documentation application and run SSR checks
+        run: npm run test:docs:ssr
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
@@ -110,6 +113,7 @@ jobs:
           path: |
             playwright-report/
             playwright-ssr-report/
+            playwright-docs-report/
           if-no-files-found: ignore
           retention-days: 14
 

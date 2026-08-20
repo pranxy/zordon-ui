@@ -4,7 +4,7 @@ const baseURL = process.env['PLAYWRIGHT_DOCS_BASE_URL'] ?? 'http://127.0.0.1:431
 
 export default defineConfig({
   testDir: './e2e',
-  testMatch: '**/docs-ssr-foundation.spec.ts',
+  testMatch: '**/docs-*.spec.ts',
   outputDir: 'test-results/playwright-docs',
   fullyParallel: false,
   forbidOnly: Boolean(process.env['CI']),
@@ -27,8 +27,11 @@ export default defineConfig({
   ],
   webServer: {
     command: 'node dist/docs/server/server.mjs',
+    env: {
+      DOCS_CANONICAL_ORIGIN: 'https://docs.example.test',
+    },
     url: baseURL,
-    reuseExistingServer: !process.env['CI'],
+    reuseExistingServer: false,
     timeout: 30_000,
     stdout: 'pipe',
     stderr: 'pipe',

@@ -7,14 +7,14 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 import { indexableSitePages } from './app/site-catalog';
+import { normalizeCanonicalOrigin } from './app/site-origin';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 function canonicalOrigin(): string | undefined {
-  const value = process.env['DOCS_CANONICAL_ORIGIN']?.replace(/\/$/, '');
-  return value?.startsWith('https://') ? value : undefined;
+  return normalizeCanonicalOrigin(process.env['DOCS_CANONICAL_ORIGIN']);
 }
 
 function sitemapXml(origin: string): string {

@@ -17,6 +17,7 @@
     "build": "ng build dev",
     "build:docs": "ng build docs --configuration production",
     "lint:docs": "ng lint docs",
+    "test:docs": "ng test docs --watch=false",
     "test:docs:ssr": "npm run build:docs && playwright test --config=playwright.docs.config.ts",
     "build:lib": "ng build components --configuration production",
     "build:ssr": "ng build ssr-example --configuration production",

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { primaryNavigationPages } from './site-catalog';
 import { DocsMetadataService } from './site-metadata.service';
 
 @Component({
@@ -11,7 +12,9 @@ import { DocsMetadataService } from './site-metadata.service';
     <header class="site-header">
       <a aria-label="Zordon UI home" class="brand" routerLink="/">Zordon UI</a>
       <nav aria-label="Primary navigation">
-        <a routerLink="/docs/getting-started" routerLinkActive="active">Get started</a>
+        @for (page of primaryNavigation; track page.id) {
+          <a [routerLink]="page.path" routerLinkActive="active">{{ page.navigationLabel }}</a>
+        }
       </nav>
     </header>
     <main id="main-content">
@@ -88,6 +91,7 @@ import { DocsMetadataService } from './site-metadata.service';
 })
 export class DocsAppComponent {
   private readonly metadata = inject(DocsMetadataService);
+  protected readonly primaryNavigation = primaryNavigationPages();
 
   constructor() {
     this.metadata.initialize();
