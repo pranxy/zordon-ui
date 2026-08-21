@@ -17,6 +17,11 @@ const reports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-button.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-divider.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-divider.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-divider.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-link.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-link.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-link.api.md'),

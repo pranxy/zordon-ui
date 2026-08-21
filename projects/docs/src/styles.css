@@ -6,7 +6,7 @@
     dark;
 }
 
-@source inline("btn btn-primary btn-secondary btn-outline btn-ghost btn-sm btn-lg link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error");
+@source inline("btn btn-primary btn-secondary btn-outline btn-ghost btn-sm btn-lg divider divider-vertical divider-horizontal divider-start divider-end divider-neutral divider-primary divider-secondary divider-accent divider-info divider-success divider-warning divider-error link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error");
 
 :root {
   color-scheme: light;
