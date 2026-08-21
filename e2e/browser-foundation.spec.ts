@@ -150,6 +150,29 @@ test('keeps native Link navigation, Router current-route state, and unavailable 
   await expect(page).toHaveURL(/#link-target$/);
 });
 
+test('keeps Divider host semantics consumer-owned while applying its configured classes', async ({
+  page,
+}) => {
+  const labeledDivider = page.getByTestId('divider-labeled');
+  const thematicBreak = page.getByTestId('divider-hr');
+  const decorativeDivider = page.getByTestId('divider-decorative');
+
+  await expect(labeledDivider).toHaveClass(/divider/);
+  await expect(labeledDivider).toHaveClass(/divider-primary/);
+  await expect(labeledDivider).toHaveClass(/divider-horizontal/);
+  await expect(labeledDivider).toHaveClass(/divider-end/);
+  await expect(labeledDivider).not.toHaveAttribute('role');
+  await expect(labeledDivider).not.toHaveAttribute('tabindex');
+
+  await expect(thematicBreak).toHaveJSProperty('tagName', 'HR');
+  await expect(thematicBreak).toHaveClass(/divider/);
+  await expect(thematicBreak).toHaveClass(/divider-neutral/);
+  await expect(thematicBreak).not.toHaveAttribute('role');
+  await expect(thematicBreak).not.toHaveAttribute('tabindex');
+  await expect(decorativeDivider).toHaveAttribute('aria-hidden', 'true');
+  await expect(decorativeDivider).not.toHaveAttribute('role');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');

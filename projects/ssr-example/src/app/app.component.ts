@@ -3,11 +3,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ReactiveFormsModule, ZdButton, ZdLink, ZdTheme],
+  imports: [ReactiveFormsModule, ZdButton, ZdDivider, ZdLink, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -160,6 +161,25 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
           </button>
           <output data-testid="link-clicks">Link clicks: {{ linkClicks() }}</output>
           <span id="hydrated-link-target" tabindex="-1">Hydrated account details</span>
+        </section>
+
+        <section aria-labelledby="divider-heading" data-testid="divider-contract">
+          <h2 id="divider-heading">Hydrated native Divider</h2>
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-stretch">
+            <p>Invoice delivery</p>
+            <div
+              zdDivider
+              color="primary"
+              orientation="horizontal"
+              placement="end"
+              data-testid="divider-labeled"
+            >
+              OR
+            </div>
+            <p>Account portal</p>
+          </div>
+          <hr zdDivider color="neutral" data-testid="divider-hr" />
+          <div zdDivider aria-hidden="true" data-testid="divider-decorative"></div>
         </section>
 
         <div

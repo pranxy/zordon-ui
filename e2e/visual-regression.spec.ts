@@ -49,6 +49,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#focus-trap-heading),
       ${fixtureSelector} section:has(#button-heading),
       ${fixtureSelector} section:has(#link-heading),
+      ${fixtureSelector} section:has(#divider-heading),
       ${fixtureSelector} [data-testid='async-action-contract'],
       ${fixtureSelector} [data-testid='motion-contract'],
       ${fixtureSelector} [data-testid='block-dialog-cancel'] {
@@ -136,6 +137,26 @@ test('Link visual boundaries in dark RTL mobile', async ({ page }) => {
 
   await expect(page.getByTestId('link-contract')).toHaveScreenshot(
     'link--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Divider visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#divider-heading) { display: grid !important; }`,
+  });
+
+  await expect(page.getByTestId('divider-contract')).toHaveScreenshot(
+    'divider--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

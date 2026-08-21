@@ -45,6 +45,9 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="button-disabled-link"');
   expect(html).toContain('data-testid="link-native"');
   expect(html).toContain('data-testid="link-disabled"');
+  expect(html).toContain('data-testid="divider-labeled"');
+  expect(html).toContain('data-testid="divider-hr"');
+  expect(html).toContain('data-testid="divider-decorative"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -243,6 +246,17 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(disabledLink).not.toHaveAttribute('aria-disabled');
   await disabledLink.click();
   await expect(page).toHaveURL(/#hydrated-link-target$/);
+
+  const labeledDivider = page.getByTestId('divider-labeled');
+  const thematicBreak = page.getByTestId('divider-hr');
+  await expect(labeledDivider).toHaveClass(/divider/);
+  await expect(labeledDivider).toHaveClass(/divider-primary/);
+  await expect(labeledDivider).toHaveClass(/divider-horizontal/);
+  await expect(labeledDivider).toHaveClass(/divider-end/);
+  await expect(labeledDivider).not.toHaveAttribute('role');
+  await expect(thematicBreak).toHaveJSProperty('tagName', 'HR');
+  await expect(thematicBreak).toHaveClass(/divider-neutral/);
+  await expect(page.getByTestId('divider-decorative')).toHaveAttribute('aria-hidden', 'true');
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

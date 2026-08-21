@@ -52,3 +52,14 @@ test('has no detectable WCAG A or AA violations for native Link states', async (
   const results = await runAxeScan('[data-testid="link-contract"]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for native Divider hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('divider-hr')).toHaveJSProperty('tagName', 'HR');
+  await expect(page.getByTestId('divider-decorative')).toHaveAttribute('aria-hidden', 'true');
+
+  const results = await runAxeScan('[data-testid="divider-contract"]');
+  expect(results.violations).toEqual([]);
+});

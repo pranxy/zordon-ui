@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
@@ -62,6 +63,7 @@ class ScrollLockPanelComponent {}
     RouterLinkActive,
     ThemeHostFixtureComponent,
     ZdButton,
+    ZdDivider,
     ZdLink,
     ZdTheme,
   ],
@@ -212,6 +214,25 @@ class ScrollLockPanelComponent {}
         </a>
         <output data-testid="link-clicks">Link clicks: {{ linkClicks() }}</output>
         <span id="link-target" tabindex="-1">Link target</span>
+      </section>
+
+      <section aria-labelledby="divider-heading" class="grid gap-3" data-testid="divider-contract">
+        <h2 id="divider-heading" class="text-xl font-semibold">Native Divider behavior</h2>
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-stretch">
+          <p>Shipping</p>
+          <div
+            zdDivider
+            color="primary"
+            orientation="horizontal"
+            placement="end"
+            data-testid="divider-labeled"
+          >
+            OR
+          </div>
+          <p>Pickup</p>
+        </div>
+        <hr zdDivider color="neutral" data-testid="divider-hr" />
+        <div zdDivider aria-hidden="true" data-testid="divider-decorative"></div>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">
