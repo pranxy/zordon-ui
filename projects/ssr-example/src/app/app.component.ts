@@ -3,10 +3,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdLink } from '@pranxy/zordon-ui/link';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ReactiveFormsModule, ZdButton, ZdTheme],
+  imports: [ReactiveFormsModule, ZdButton, ZdLink, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -140,6 +141,27 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
           <span id="hydrated-button-target" tabindex="-1">Hydrated settings target</span>
         </section>
 
+        <section aria-labelledby="link-heading">
+          <h2 id="link-heading">Hydrated native Link</h2>
+          <a zdLink data-testid="link-native" hover href="#hydrated-link-target">
+            Read hydrated account details
+          </a>
+          <a
+            zdLink
+            data-testid="link-disabled"
+            href="#hydrated-link-target"
+            [zdDisabled]="linkDisabled()"
+            (click)="linkClicks.update(clicks => clicks + 1)"
+          >
+            Unavailable hydrated account details
+          </a>
+          <button data-testid="link-toggle" type="button" (click)="toggleLink()">
+            Toggle hydrated Link availability
+          </button>
+          <output data-testid="link-clicks">Link clicks: {{ linkClicks() }}</output>
+          <span id="hydrated-link-target" tabindex="-1">Hydrated account details</span>
+        </section>
+
         <div
           data-testid="async-action-region"
           [attr.aria-busy]="actionPending() ? 'true' : 'false'"
@@ -263,6 +285,8 @@ export class SsrExampleAppComponent {
   protected readonly buttonLinkDisabled = signal(true);
   protected readonly buttonLinkClicks = signal(0);
   protected readonly buttonSubmits = signal(0);
+  protected readonly linkDisabled = signal(true);
+  protected readonly linkClicks = signal(0);
   private actionCompletion: (() => void) | null = null;
 
   constructor() {
@@ -315,5 +339,9 @@ export class SsrExampleAppComponent {
   protected submitButtonForm(event: SubmitEvent): void {
     event.preventDefault();
     this.buttonSubmits.update(submits => submits + 1);
+  }
+
+  protected toggleLink(): void {
+    this.linkDisabled.update(disabled => !disabled);
   }
 }

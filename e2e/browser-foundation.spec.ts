@@ -121,6 +121,35 @@ test('keeps native Button hosts semantic while guarding only loading and disable
   await expect(nativeValue).toHaveValue('hydrated');
 });
 
+test('keeps native Link navigation, Router current-route state, and unavailable guarding separate', async ({
+  page,
+}) => {
+  const nativeLink = page.getByTestId('link-native');
+  const routerLink = page.getByTestId('link-router');
+  const disabledLink = page.getByTestId('link-disabled');
+  const toggle = page.getByTestId('link-toggle');
+
+  await expect(nativeLink).toHaveClass(/link/);
+  await expect(nativeLink).toHaveClass(/link-hover/);
+  await expect(nativeLink).toHaveAttribute('href', '#link-target');
+  await expect(routerLink).toHaveClass(/is-current/);
+  await expect(routerLink).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByTestId('link-external')).toHaveAttribute('target', '_blank');
+  await expect(page.getByTestId('link-external')).toHaveAttribute('rel', 'noopener noreferrer');
+
+  await expect(disabledLink).toHaveAttribute('aria-disabled', 'true');
+  await disabledLink.focus();
+  await page.keyboard.press('Enter');
+  await expect(disabledLink).toBeFocused();
+  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 1');
+  await expect(page).not.toHaveURL(/#link-target$/);
+
+  await toggle.click();
+  await expect(disabledLink).not.toHaveAttribute('aria-disabled');
+  await disabledLink.click();
+  await expect(page).toHaveURL(/#link-target$/);
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');

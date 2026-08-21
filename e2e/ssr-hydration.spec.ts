@@ -43,6 +43,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="button-pressed"');
   expect(html).toContain('data-testid="button-loading"');
   expect(html).toContain('data-testid="button-disabled-link"');
+  expect(html).toContain('data-testid="link-native"');
+  expect(html).toContain('data-testid="link-disabled"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -226,6 +228,21 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 1');
   await buttonForm.evaluate((element: HTMLFormElement) => element.requestSubmit());
   await expect(page.getByTestId('button-submit-count')).toHaveText('Button submits: 2');
+
+  const nativeLink = page.getByTestId('link-native');
+  const disabledLink = page.getByTestId('link-disabled');
+  await expect(nativeLink).toHaveClass(/link/);
+  await expect(nativeLink).toHaveClass(/link-hover/);
+  await expect(disabledLink).toHaveAttribute('aria-disabled', 'true');
+  await disabledLink.focus();
+  await page.keyboard.press('Enter');
+  await expect(disabledLink).toBeFocused();
+  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 1');
+  await expect(page).not.toHaveURL(/#hydrated-link-target$/);
+  await page.getByTestId('link-toggle').click();
+  await expect(disabledLink).not.toHaveAttribute('aria-disabled');
+  await disabledLink.click();
+  await expect(page).toHaveURL(/#hydrated-link-target$/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

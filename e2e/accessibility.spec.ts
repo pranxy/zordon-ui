@@ -42,3 +42,13 @@ test('has no detectable WCAG A or AA violations for guarded Button states', asyn
   const results = await runAxeScan('[data-testid="button-contract"]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for native Link states', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('link-disabled')).toHaveAttribute('aria-disabled', 'true');
+
+  const results = await runAxeScan('[data-testid="link-contract"]');
+  expect(results.violations).toEqual([]);
+});

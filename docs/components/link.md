@@ -102,6 +102,9 @@ hide or remove unavailable navigation from the focus order.
 ## Accessibility and content
 
 - Use visible link text, or an explicit accessible name for icon-only links.
+- `link-*` colors are daisyUI theme tokens. A custom theme must keep every Link color it exposes at
+  the required contrast against its actual surface; Zordon does not override an upstream color with
+  a different semantic token. The default inherited Link color is the accessible fixture baseline.
 - Native Tab, Enter, context-menu, copy-link, download, and browser navigation behavior remain
   native while the link is enabled. Space is not a link activation key.
 - Link creates no live region, focus movement, generated ID, or ARIA role.
@@ -146,6 +149,11 @@ forced-colors review.
 | Accessibility          | Accessible name, current-page ownership, disabled-link discovery, keyboard, forced colors, manual NVDA and VoiceOver review         |
 | SSR/hydration          | Stable server `href`/classes/ARIA, clean hydration, post-hydration guard, and event-replay boundary                                 |
 | Visual                 | Light/dark/custom themes, hover-capable versus touch profile, RTL/long labels, consumer class override, disabled consumer styling   |
+
+Automated native, Router, SSR/hydration, axe, and visual evidence is recorded in the
+[Link visual matrix](link-visual-matrix.md). Manual assistive-technology, forced-colors, and
+semantic-color contrast work remains open in the
+[Link accessibility review](link-accessibility-review.md).
 
 ## Sources
 

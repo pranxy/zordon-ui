@@ -1,6 +1,7 @@
 import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { type Direction, Dir, Directionality } from '@angular/cdk/bidi';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,7 @@ import {
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdLink } from '@pranxy/zordon-ui/link';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
 import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
@@ -56,8 +58,11 @@ class ScrollLockPanelComponent {}
     CdkOverlayOrigin,
     CdkTrapFocus,
     Dir,
+    RouterLink,
+    RouterLinkActive,
     ThemeHostFixtureComponent,
     ZdButton,
+    ZdLink,
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -170,6 +175,43 @@ class ScrollLockPanelComponent {}
         <output data-testid="button-link-clicks">Link clicks: {{ buttonLinkClicks() }}</output>
         <output data-testid="button-submit-count">Button submits: {{ buttonSubmits() }}</output>
         <span id="button-link-target" tabindex="-1">Settings target</span>
+      </section>
+
+      <section aria-labelledby="link-heading" class="grid gap-3" data-testid="link-contract">
+        <h2 id="link-heading" class="text-xl font-semibold">Native Link behavior</h2>
+        <a zdLink data-testid="link-native" hover href="#link-target"> Read native link details </a>
+        <a
+          zdLink
+          data-testid="link-router"
+          routerLink="/__zordon-tests__/browser"
+          routerLinkActive="is-current"
+          ariaCurrentWhenActive="page"
+        >
+          Current fixture route
+        </a>
+        <a
+          zdLink
+          data-testid="link-disabled"
+          href="#link-target"
+          [zdDisabled]="linkDisabled()"
+          (click)="linkClicks.update(clicks => clicks + 1)"
+        >
+          Unavailable link details
+        </a>
+        <button class="btn w-fit" data-testid="link-toggle" type="button" (click)="toggleLink()">
+          Toggle Link availability
+        </button>
+        <a
+          zdLink
+          data-testid="link-external"
+          href="https://example.com/release-notes"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Release notes (opens in a new window)
+        </a>
+        <output data-testid="link-clicks">Link clicks: {{ linkClicks() }}</output>
+        <span id="link-target" tabindex="-1">Link target</span>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">
@@ -487,6 +529,8 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected readonly buttonLinkDisabled = signal(true);
   protected readonly buttonLinkClicks = signal(0);
   protected readonly buttonSubmits = signal(0);
+  protected readonly linkDisabled = signal(true);
+  protected readonly linkClicks = signal(0);
 
   protected openDialog(): void {
     this.blockNextDialogCancel.set(false);
@@ -618,6 +662,10 @@ export default class BrowserTestFixtureComponent implements OnDestroy {
   protected submitButtonForm(event: SubmitEvent): void {
     event.preventDefault();
     this.buttonSubmits.update(submits => submits + 1);
+  }
+
+  protected toggleLink(): void {
+    this.linkDisabled.update(disabled => !disabled);
   }
 
   ngOnDestroy(): void {
