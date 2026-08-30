@@ -12,7 +12,7 @@
     >
         <div class="flex flex-wrap gap-2">
             @for (color of colors; track color) {
-            <zd-badge [color]="color">{{ color | titlecase }}</zd-badge>
+            <span zdBadge [color]="color">{{ color | titlecase }}</span>
             }
         </div>
     </app-component-card>

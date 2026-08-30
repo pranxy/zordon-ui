@@ -15,6 +15,7 @@ import {
 import { ZdTheme } from '@pranxy/zordon-ui';
 import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
+import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
@@ -69,6 +70,7 @@ class ScrollLockPanelComponent {}
     ZdAura,
     ZdAvatar,
     ZdAvatarGroup,
+    ZdBadge,
     ZdButton,
     ZdDivider,
     ZdFieldset,
@@ -287,6 +289,42 @@ class ScrollLockPanelComponent {}
             <div class="w-16 rounded-full bg-neutral text-neutral-content"><span>AC</span></div>
           </div>
         </div>
+      </section>
+
+      <section aria-labelledby="badge-heading" class="grid gap-3" data-testid="badge-contract">
+        <h2 id="badge-heading" class="text-xl font-semibold">Native Badge behavior</h2>
+        <span
+          zdBadge
+          color="success"
+          size="xl"
+          style="soft"
+          role="status"
+          data-testid="badge-status"
+        >
+          Deployment complete
+        </span>
+        <button
+          zdBadge
+          color="primary"
+          size="xs"
+          style="outline"
+          type="button"
+          disabled
+          data-testid="badge-action"
+        >
+          Remove filter
+        </button>
+        <span zdBadge color="error" size="sm" style="dash" data-testid="badge-dash">
+          <svg aria-hidden="true" class="size-[1em]" viewBox="0 0 16 16">
+            <path d="M8 1 1 15h14L8 1Z" />
+          </svg>
+          Attention
+        </span>
+        <p class="flex items-center gap-2">
+          <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
+          <span>Payment failed</span>
+          <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
+        </p>
       </section>
 
       <section aria-labelledby="aura-heading" class="grid gap-3" data-testid="aura-contract">

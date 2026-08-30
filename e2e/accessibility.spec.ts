@@ -91,6 +91,15 @@ test('has no detectable WCAG A or AA violations for native Aura hosts', async ({
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('badge-status')).toHaveAttribute('role', 'status');
+  const results = await runAxeScan('[data-testid="badge-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

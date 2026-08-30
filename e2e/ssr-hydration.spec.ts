@@ -53,6 +53,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="fieldset-native"');
   expect(html).toContain('data-testid="avatar-online"');
   expect(html).toContain('data-testid="avatar-placeholder"');
+  expect(html).toContain('data-testid="badge-status"');
+  expect(html).toContain('data-testid="badge-action"');
   expect(html).toContain('data-testid="aura-rainbow"');
   expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('class="btn btn-primary"');
@@ -284,6 +286,18 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(onlineAvatar.locator('img')).toHaveAttribute('alt', 'Avery Chen');
   await expect(placeholderAvatar).toHaveClass(/avatar-placeholder/);
   await expect(placeholderAvatar).toHaveClass(/avatar-offline/);
+
+  const badgeStatus = page.getByTestId('badge-status');
+  const badgeAction = page.getByTestId('badge-action');
+  await expect(badgeStatus).toHaveClass(/badge-success/);
+  await expect(badgeStatus).toHaveClass(/badge-xl/);
+  await expect(badgeStatus).toHaveClass(/badge-soft/);
+  await expect(badgeStatus).toHaveAttribute('role', 'status');
+  await expect(badgeAction).toHaveClass(/badge-primary/);
+  await expect(badgeAction).toHaveClass(/badge-outline/);
+  await expect(badgeAction).toBeDisabled();
+  await expect(page.getByTestId('badge-dot')).toHaveAttribute('aria-hidden', 'true');
+  await expect(page.getByTestId('badge-ghost')).toHaveClass(/badge-ghost/);
 
   const rainbowAura = page.getByTestId('aura-rainbow');
   const glowAura = page.getByTestId('aura-glow');

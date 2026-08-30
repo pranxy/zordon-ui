@@ -217,6 +217,32 @@ test('keeps consumer image semantics while applying Avatar candidates', async ({
   await expect(placeholderAvatar).not.toHaveAttribute('role');
 });
 
+test('keeps Badge semantics and interaction consumer-owned while applying candidates', async ({
+  page,
+}) => {
+  const status = page.getByTestId('badge-status');
+  const action = page.getByTestId('badge-action');
+  const dash = page.getByTestId('badge-dash');
+  const dot = page.getByTestId('badge-dot');
+  const ghost = page.getByTestId('badge-ghost');
+
+  for (const token of ['badge', 'badge-success', 'badge-xl', 'badge-soft']) {
+    await expect(status).toHaveClass(new RegExp(token));
+  }
+  await expect(status).toHaveAttribute('role', 'status');
+  await expect(status).not.toHaveAttribute('tabindex');
+  for (const token of ['badge', 'badge-primary', 'badge-xs', 'badge-outline']) {
+    await expect(action).toHaveClass(new RegExp(token));
+  }
+  await expect(action).toBeDisabled();
+  await expect(action).not.toHaveAttribute('role');
+  await expect(dash).toHaveClass(/badge-dash/);
+  await expect(dash.getByText('Attention')).toBeVisible();
+  await expect(dot).toHaveAttribute('aria-hidden', 'true');
+  await expect(dot).not.toHaveAttribute('role');
+  await expect(ghost).toHaveClass(/badge-ghost/);
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

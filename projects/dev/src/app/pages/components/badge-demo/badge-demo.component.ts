@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ZdBadge, ZdBadgeColor, ZdBadgeSize, ZdBadgeType } from '@pranxy/zordon-ui/badge';
+import { ZdBadge, type ZdBadgeColor } from '@pranxy/zordon-ui/badge';
 import { ComponentCard } from '../../../ui';
 
 @Component({
@@ -20,10 +20,6 @@ export default class BadgeDemoComponent {
         'error',
         'accent',
     ];
-
-    sizes: ZdBadgeSize[] = ['xs', 'sm', 'md', 'lg'];
-
-    types: ZdBadgeType[] = ['dash', 'ghost', 'outline', 'soft'];
 
     basicBadgesCode = `<div class="badge">neutral</div>
 <div class="badge badge-primary">primary</div>

@@ -244,3 +244,22 @@ test('Aura visual boundaries in dark RTL mobile', async ({ page }) => {
     },
   );
 });
+
+test('Badge visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#badge-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('badge-contract')).toHaveScreenshot(
+    'badge--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});

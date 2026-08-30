@@ -4,6 +4,7 @@ import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
+import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
@@ -17,6 +18,7 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdAura,
     ZdAvatar,
     ZdAvatarGroup,
+    ZdBadge,
     ZdButton,
     ZdDivider,
     ZdFieldset,
@@ -238,6 +240,36 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
               <div><span>AC</span></div>
             </div>
           </div>
+        </section>
+
+        <section aria-labelledby="badge-heading" data-testid="badge-contract">
+          <h2 id="badge-heading">Hydrated native Badge</h2>
+          <span
+            zdBadge
+            color="success"
+            size="xl"
+            style="soft"
+            role="status"
+            data-testid="badge-status"
+          >
+            Deployment complete
+          </span>
+          <button
+            zdBadge
+            color="primary"
+            size="xs"
+            style="outline"
+            type="button"
+            disabled
+            data-testid="badge-action"
+          >
+            Remove filter
+          </button>
+          <span zdBadge color="error" size="sm" style="dash" data-testid="badge-dash"
+            >Attention</span
+          >
+          <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
+          <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
         </section>
 
         <section aria-labelledby="aura-heading" data-testid="aura-contract">
