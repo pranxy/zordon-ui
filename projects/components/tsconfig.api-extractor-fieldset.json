@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.lib.prod.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": { "@pranxy/zordon-ui": ["dist/components/types/pranxy-zordon-ui.d.ts"] }
+  },
+  "files": [
+    "../../dist/components/types/pranxy-zordon-ui-fieldset.d.ts",
+    "../../dist/components/types/pranxy-zordon-ui.d.ts"
+  ]
+}

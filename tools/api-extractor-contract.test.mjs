@@ -81,6 +81,22 @@ test('tracks the built Divider secondary declaration surface with its own report
   assert.match(report, /export function withDividerDefaults/);
 });
 
+test('tracks the built Fieldset secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-fieldset.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-fieldset.api.md');
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-fieldset.d.ts',
+  );
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-fieldset.json',
+  );
+  assert.match(report, /export class ZdFieldset/);
+  assert.match(report, /export class ZdFieldsetLegend/);
+  assert.match(report, /export class ZdFieldsetLabel/);
+});
+
 test('tracks the built Label secondary declaration surface with its own report', async () => {
   const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-label.json'));
   const report = await readWorkspaceFile('etc/api/zordon-ui-label.api.md');
@@ -113,6 +129,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
+  assert.match(scripts['update:api'], /api-extractor-fieldset\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-label\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-link\.json.*--local/);
   assert.match(scripts['test:api'], /build:lib.*check:api/);

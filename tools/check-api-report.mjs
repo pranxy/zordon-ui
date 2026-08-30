@@ -22,6 +22,11 @@ const reports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-divider.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-fieldset.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-fieldset.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-fieldset.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-label.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-label.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-label.api.md'),
