@@ -1,0 +1,7 @@
+@media (prefers-reduced-motion: reduce) {
+  [data-zd-aura],
+  [data-zd-aura]::before,
+  [data-zd-aura]::after {
+    animation: none !important;
+  }
+}

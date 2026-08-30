@@ -5,6 +5,7 @@
     "baseUrl": "./",
     "paths": {
       "@pranxy/zordon-ui": ["projects/components/src/public-api.ts"],
+      "@pranxy/zordon-ui/aura": ["projects/components/aura/src/public-api.ts"],
       "@pranxy/zordon-ui/avatar": ["projects/components/avatar/src/public-api.ts"],
       "@pranxy/zordon-ui/button": ["projects/components/button/src/public-api.ts"],
       "@pranxy/zordon-ui/divider": ["projects/components/divider/src/public-api.ts"],

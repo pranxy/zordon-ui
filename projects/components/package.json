@@ -28,5 +28,10 @@
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "exports": {
+    "./aura/aura-motion.css": "./aura/aura-motion.css"
+  },
+  "sideEffects": [
+    "./aura/aura-motion.css"
+  ]
 }

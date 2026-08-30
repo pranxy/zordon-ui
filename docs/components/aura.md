@@ -6,6 +6,12 @@
 
 Aura applies daisyUI’s decorative light effect to a consumer-owned wrapper. It is a standalone `[zdAura]` directive, not a Card/Button wrapper, interactive widget, color system, or animation service.
 
+Import the scoped motion policy once from the application’s global stylesheet, after daisyUI:
+
+```css
+@import '@pranxy/zordon-ui/aura/aura-motion.css';
+```
+
 ## Native and semantic boundary
 
 Use Aura on a wrapper with one or more direct consumer children. Installed daisyUI CSS puts decorative pseudo-elements behind those direct children and derives its radius from known child classes. The consumer selects the native wrapper and owns its semantics; Aura never adds a role, label, focus behavior, event handler, ID, or ARIA attribute.
@@ -66,7 +72,7 @@ The listed variables may be overridden by a consumer who accepts installed-daisy
 
 ## Motion, platform, and accessibility
 
-Aura is decorative, auto-starting, and infinite. daisyUI 5.7.16 slows its animation fourfold under `prefers-reduced-motion: reduce`; that is not sufficient for Zordon’s static-first policy. The Aura package must ship a narrowly scoped `reduce` CSS override that stops wrapper and pseudo-element animation while preserving the final border/glow state. It must not use `matchMedia`, timers, browser layout reads, or a public motion input/service.
+Aura is decorative, auto-starting, and infinite. daisyUI 5.7.16 slows its animation fourfold under `prefers-reduced-motion: reduce`; that is not sufficient for Zordon’s static-first policy. The exported `aura-motion.css` stylesheet stops opted-in wrapper and pseudo-element animation while preserving the final border/glow state. It must not use `matchMedia`, timers, browser layout reads, or a public motion input/service.
 
 The directive’s classes and marker are deterministic server HTML. SSR and hydrated clients start with the same host structure, inputs, and consumer content. CSS handles live preference changes without Angular state. Aura emits no localized strings and does not create directionality, keyboard, focus, or screen-reader behavior; consumer content remains responsible for each.
 

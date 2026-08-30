@@ -45,6 +45,37 @@ test('tracks the built Button secondary declaration surface with its own report'
   assert.match(report, /export function withButtonDefaults/);
 });
 
+test('tracks the built Aura secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-aura.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-aura.api.md');
+
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-aura.d.ts',
+  );
+  assert.equal(config.projectFolder, '../projects/components');
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-aura.json',
+  );
+  assert.equal(config.apiReport.reportFileName, 'zordon-ui-aura');
+  assert.match(report, /export class ZdAura/);
+  assert.match(report, /export type ZdAuraSize/);
+  assert.match(report, /export type ZdAuraVariant/);
+  assert.doesNotMatch(report, /resolveAura/);
+});
+
+test('declares the Aura reduced-motion stylesheet as a side-effectful package export', async () => {
+  const manifest = JSON.parse(await readWorkspaceFile('projects/components/package.json'));
+  const stylesheet = await readWorkspaceFile('projects/components/aura/src/aura-motion.css');
+
+  assert.equal(manifest.exports['./aura/aura-motion.css'], './aura/aura-motion.css');
+  assert.deepEqual(manifest.sideEffects, ['./aura/aura-motion.css']);
+  assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(stylesheet, /\[data-zd-aura\]::before/);
+  assert.match(stylesheet, /animation: none !important/);
+});
+
 test('tracks the built Avatar secondary declaration surface with its own report', async () => {
   const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-avatar.json'));
   const report = await readWorkspaceFile('etc/api/zordon-ui-avatar.api.md');
@@ -147,6 +178,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(report, /export function provideZordonUi/);
   assert.match(report, /export class ZdTheme/);
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
+  assert.match(scripts['update:api'], /api-extractor-aura\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-avatar\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
