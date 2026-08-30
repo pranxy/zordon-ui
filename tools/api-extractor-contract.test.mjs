@@ -45,6 +45,26 @@ test('tracks the built Button secondary declaration surface with its own report'
   assert.match(report, /export function withButtonDefaults/);
 });
 
+test('tracks the built Avatar secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-avatar.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-avatar.api.md');
+
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-avatar.d.ts',
+  );
+  assert.equal(config.projectFolder, '../projects/components');
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-avatar.json',
+  );
+  assert.equal(config.apiReport.reportFileName, 'zordon-ui-avatar');
+  assert.match(report, /export class ZdAvatar/);
+  assert.match(report, /export class ZdAvatarGroup/);
+  assert.match(report, /export type ZdAvatarPresence/);
+  assert.doesNotMatch(report, /resolveAvatarPresence/);
+});
+
 test('tracks the built Link secondary declaration surface with its own report', async () => {
   const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-link.json'));
   const report = await readWorkspaceFile('etc/api/zordon-ui-link.api.md');
@@ -127,6 +147,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(report, /export function provideZordonUi/);
   assert.match(report, /export class ZdTheme/);
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
+  assert.match(scripts['update:api'], /api-extractor-avatar\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-fieldset\.json.*--local/);

@@ -7,6 +7,11 @@ const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
 const reports = [
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-avatar.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-avatar.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-avatar.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui.api.md'),
