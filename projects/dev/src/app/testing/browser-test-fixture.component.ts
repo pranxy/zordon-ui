@@ -15,6 +15,7 @@ import {
 import { ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
+import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
@@ -64,6 +65,8 @@ class ScrollLockPanelComponent {}
     ThemeHostFixtureComponent,
     ZdButton,
     ZdDivider,
+    ZdFloatingLabel,
+    ZdLabel,
     ZdLink,
     ZdTheme,
   ],
@@ -233,6 +236,18 @@ class ScrollLockPanelComponent {}
         </div>
         <hr zdDivider color="neutral" data-testid="divider-hr" />
         <div zdDivider aria-hidden="true" data-testid="divider-decorative"></div>
+      </section>
+
+      <section aria-labelledby="label-heading" class="grid gap-3" data-testid="label-contract">
+        <h2 id="label-heading" class="text-xl font-semibold">Native Label behavior</h2>
+        <label zdLabel for="label-email" data-testid="label-explicit">Email address</label>
+        <input class="input" id="label-email" type="email" />
+        <label zdLabel data-testid="label-implicit"
+          >Accept updates <input class="checkbox" type="checkbox"
+        /></label>
+        <label zdFloatingLabel data-testid="label-floating"
+          ><span>Full name</span><input class="input" placeholder="Full name"
+        /></label>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">

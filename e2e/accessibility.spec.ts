@@ -63,3 +63,12 @@ test('has no detectable WCAG A or AA violations for native Divider hosts', async
   const results = await runAxeScan('[data-testid="divider-contract"]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for native Label hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('label-explicit')).toHaveAttribute('for', 'label-email');
+  const results = await runAxeScan('[data-testid="label-contract"]');
+  expect(results.violations).toEqual([]);
+});

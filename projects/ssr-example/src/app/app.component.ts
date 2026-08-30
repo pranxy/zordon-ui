@@ -4,11 +4,12 @@ import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
+import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ReactiveFormsModule, ZdButton, ZdDivider, ZdLink, ZdTheme],
+  imports: [ReactiveFormsModule, ZdButton, ZdDivider, ZdFloatingLabel, ZdLabel, ZdLink, ZdTheme],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -180,6 +181,20 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
           </div>
           <hr zdDivider color="neutral" data-testid="divider-hr" />
           <div zdDivider aria-hidden="true" data-testid="divider-decorative"></div>
+        </section>
+
+        <section aria-labelledby="label-heading" data-testid="label-contract">
+          <h2 id="label-heading">Hydrated native Label</h2>
+          <label zdLabel for="hydrated-label-email" data-testid="label-explicit"
+            >Email address</label
+          >
+          <input id="hydrated-label-email" type="email" />
+          <label zdLabel data-testid="label-implicit"
+            >Accept updates <input type="checkbox"
+          /></label>
+          <label zdFloatingLabel data-testid="label-floating"
+            ><span>Full name</span><input placeholder="Full name"
+          /></label>
         </section>
 
         <div

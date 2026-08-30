@@ -48,6 +48,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="divider-labeled"');
   expect(html).toContain('data-testid="divider-hr"');
   expect(html).toContain('data-testid="divider-decorative"');
+  expect(html).toContain('data-testid="label-explicit"');
+  expect(html).toContain('data-testid="label-floating"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -257,6 +259,12 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(thematicBreak).toHaveJSProperty('tagName', 'HR');
   await expect(thematicBreak).toHaveClass(/divider-neutral/);
   await expect(page.getByTestId('divider-decorative')).toHaveAttribute('aria-hidden', 'true');
+
+  const explicitLabel = page.getByTestId('label-explicit');
+  await expect(explicitLabel).toHaveClass(/label/);
+  await expect(explicitLabel).toHaveAttribute('for', 'hydrated-label-email');
+  await expect(page.getByTestId('label-implicit').locator('input')).toHaveCount(1);
+  await expect(page.getByTestId('label-floating')).toHaveClass(/floating-label/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

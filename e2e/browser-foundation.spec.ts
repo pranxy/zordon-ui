@@ -173,6 +173,22 @@ test('keeps Divider host semantics consumer-owned while applying its configured 
   await expect(decorativeDivider).not.toHaveAttribute('role');
 });
 
+test('keeps native Label association ownership while applying label candidates', async ({
+  page,
+}) => {
+  const explicitLabel = page.getByTestId('label-explicit');
+  const implicitLabel = page.getByTestId('label-implicit');
+  const floatingLabel = page.getByTestId('label-floating');
+
+  await expect(explicitLabel).toHaveClass(/label/);
+  await expect(explicitLabel).toHaveAttribute('for', 'label-email');
+  await expect(explicitLabel).not.toHaveAttribute('role');
+  await expect(implicitLabel.locator('input')).toHaveCount(1);
+  await expect(floatingLabel).toHaveClass(/floating-label/);
+  await expect(floatingLabel.getByText('Full name')).toBeVisible();
+  await expect(floatingLabel.locator('input')).toHaveAttribute('placeholder', 'Full name');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');
