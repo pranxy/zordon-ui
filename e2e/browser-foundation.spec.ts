@@ -200,6 +200,23 @@ test('keeps native Fieldset grouping and disabled ownership while applying candi
   await expect(fieldset).not.toHaveAttribute('role');
 });
 
+test('keeps consumer image semantics while applying Avatar candidates', async ({ page }) => {
+  const group = page.getByTestId('avatar-group');
+  const onlineAvatar = page.getByTestId('avatar-online');
+  const placeholderAvatar = page.getByTestId('avatar-placeholder');
+
+  await expect(group).toHaveClass(/avatar-group/);
+  await expect(group).not.toHaveAttribute('role');
+  await expect(onlineAvatar).toHaveClass(/avatar/);
+  await expect(onlineAvatar).toHaveClass(/avatar-online/);
+  await expect(onlineAvatar.locator('img')).toHaveAttribute('alt', 'Avery Chen');
+  await expect(onlineAvatar).not.toHaveAttribute('role');
+  await expect(placeholderAvatar).toHaveClass(/avatar/);
+  await expect(placeholderAvatar).toHaveClass(/avatar-placeholder/);
+  await expect(placeholderAvatar).toHaveClass(/avatar-offline/);
+  await expect(placeholderAvatar).not.toHaveAttribute('role');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');

@@ -51,6 +51,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="label-explicit"');
   expect(html).toContain('data-testid="label-floating"');
   expect(html).toContain('data-testid="fieldset-native"');
+  expect(html).toContain('data-testid="avatar-online"');
+  expect(html).toContain('data-testid="avatar-placeholder"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -270,6 +272,16 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(fieldset).toHaveClass(/fieldset/);
   await expect(fieldset).toHaveAttribute('disabled', '');
   await expect(fieldset.getByText('Delivery method')).toHaveClass(/fieldset-legend/);
+
+  const avatarGroup = page.getByTestId('avatar-group');
+  const onlineAvatar = page.getByTestId('avatar-online');
+  const placeholderAvatar = page.getByTestId('avatar-placeholder');
+  await expect(avatarGroup).toHaveClass(/avatar-group/);
+  await expect(avatarGroup).not.toHaveAttribute('role');
+  await expect(onlineAvatar).toHaveClass(/avatar-online/);
+  await expect(onlineAvatar.locator('img')).toHaveAttribute('alt', 'Avery Chen');
+  await expect(placeholderAvatar).toHaveClass(/avatar-placeholder/);
+  await expect(placeholderAvatar).toHaveClass(/avatar-offline/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

@@ -13,6 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
+import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
@@ -64,6 +65,8 @@ class ScrollLockPanelComponent {}
     RouterLink,
     RouterLinkActive,
     ThemeHostFixtureComponent,
+    ZdAvatar,
+    ZdAvatarGroup,
     ZdButton,
     ZdDivider,
     ZdFieldset,
@@ -265,6 +268,23 @@ class ScrollLockPanelComponent {}
           <label zdFieldsetLabel for="fieldset-method">Email</label>
           <input class="input" id="fieldset-method" type="email" />
         </fieldset>
+      </section>
+
+      <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">
+        <h2 id="avatar-heading" class="text-xl font-semibold">Native Avatar behavior</h2>
+        <div zdAvatarGroup class="avatar-group" data-testid="avatar-group">
+          <div zdAvatar presence="online" data-testid="avatar-online">
+            <div class="w-16 rounded-full">
+              <img
+                alt="Avery Chen"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23818cf8'/%3E%3Ccircle cx='32' cy='25' r='14' fill='%23fde68a'/%3E%3Cpath d='M8 64c4-18 16-27 24-27s20 9 24 27' fill='%23312e81'/%3E%3C/svg%3E"
+              />
+            </div>
+          </div>
+          <div zdAvatar placeholder presence="offline" data-testid="avatar-placeholder">
+            <div class="w-16 rounded-full bg-neutral text-neutral-content"><span>AC</span></div>
+          </div>
+        </div>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">

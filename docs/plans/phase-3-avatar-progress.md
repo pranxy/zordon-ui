@@ -11,11 +11,16 @@ Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 | T01 | Record the daisyUI Avatar inventory and native ownership boundary          | —    | Verified | Every upstream candidate and excluded behavior is explicit                                   | `docs/components/avatar.md`                                                 |
 | T02 | Define the directive API, customization, semantic, and platform boundaries | T01  | Verified | No image lifecycle, generated semantic role, or custom presence class is invented            | `docs/components/avatar.md`                                                 |
 | T03 | Package the public native Avatar directives and API contract               | T02  | Verified | `@pranxy/zordon-ui/avatar` builds with a reviewed declaration report and exact type coverage | Unit coverage, type test, lint, build, API, tooling, and bundle checks pass |
-| T04 | Add browser, SSR/hydration, axe, and visual evidence                       | T03  | Pending  | Public host classes and consumer image semantics survive every supported rendering path      | —                                                                           |
+| T04 | Add browser, SSR/hydration, axe, and visual evidence                       | T03  | Verified | Public host classes and consumer image semantics survive every supported rendering path      | 32 browser/axe, 3 SSR/hydration, and 14 visual checks pass                  |
 
 No subagent was used: the shared workspace remains serialized by instruction.
 
-## Next
+## Remaining
 
-- Add the representative Avatar fixture and focused browser, SSR/hydration, automated accessibility, and visual checks.
-- Document the remaining manual accessibility boundaries: assistive technology, forced colors, contrast, zoom/reflow, and image fallback ownership.
+- Complete the manual assistive-technology, forced-colors, contrast, zoom/reflow, and image-fallback review captured in [Avatar accessibility review](../components/avatar-accessibility-review.md).
+
+## Loop log
+
+| ID  | Owner  | Checks                                                                                     | Review                                                                               |
+| --- | ------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| T04 | Parent | `typecheck:browser`, browser/axe suites, `test:ssr`, visual update/compare, and docs links | Baseline reviewed after correcting the fixture to use a deterministic embedded image |

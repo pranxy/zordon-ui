@@ -81,3 +81,15 @@ test('has no detectable WCAG A or AA violations for native Fieldset hosts', asyn
   const results = await runAxeScan('[data-testid="fieldset-contract"]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('avatar-online').locator('img')).toHaveAttribute(
+    'alt',
+    'Avery Chen',
+  );
+  const results = await runAxeScan('[data-testid="avatar-contract"]');
+  expect(results.violations).toEqual([]);
+});

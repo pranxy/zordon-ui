@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, afterNextRender, inject, signal } f
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
+import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
@@ -12,6 +13,8 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
   selector: 'ssr-example-root',
   imports: [
     ReactiveFormsModule,
+    ZdAvatar,
+    ZdAvatarGroup,
     ZdButton,
     ZdDivider,
     ZdFieldset,
@@ -216,6 +219,23 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             <label zdFieldsetLabel for="hydrated-fieldset-email">Email</label
             ><input id="hydrated-fieldset-email" type="email" />
           </fieldset>
+        </section>
+
+        <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
+          <h2 id="avatar-heading">Hydrated native Avatar</h2>
+          <div zdAvatarGroup data-testid="avatar-group">
+            <div zdAvatar presence="online" data-testid="avatar-online">
+              <div>
+                <img
+                  alt="Avery Chen"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23818cf8'/%3E%3Ccircle cx='32' cy='25' r='14' fill='%23fde68a'/%3E%3Cpath d='M8 64c4-18 16-27 24-27s20 9 24 27' fill='%23312e81'/%3E%3C/svg%3E"
+                />
+              </div>
+            </div>
+            <div zdAvatar placeholder presence="offline" data-testid="avatar-placeholder">
+              <div><span>AC</span></div>
+            </div>
+          </div>
         </section>
 
         <div
