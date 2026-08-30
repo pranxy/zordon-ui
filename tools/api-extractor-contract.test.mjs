@@ -81,6 +81,24 @@ test('tracks the built Divider secondary declaration surface with its own report
   assert.match(report, /export function withDividerDefaults/);
 });
 
+test('tracks the built Label secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-label.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-label.api.md');
+
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-label.d.ts',
+  );
+  assert.equal(config.projectFolder, '../projects/components');
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-label.json',
+  );
+  assert.equal(config.apiReport.reportFileName, 'zordon-ui-label');
+  assert.match(report, /export class ZdLabel/);
+  assert.match(report, /export class ZdFloatingLabel/);
+});
+
 test('commits the generated primary API report and exposes check/update scripts', async () => {
   const [report, manifest, workflow] = await Promise.all([
     readWorkspaceFile('etc/api/zordon-ui.api.md'),
@@ -95,6 +113,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
+  assert.match(scripts['update:api'], /api-extractor-label\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-link\.json.*--local/);
   assert.match(scripts['test:api'], /build:lib.*check:api/);
   assert.match(workflow, /name: Check public API report\s+run: npm run check:api/);

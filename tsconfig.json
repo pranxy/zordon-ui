@@ -7,6 +7,7 @@
       "@pranxy/zordon-ui": ["projects/components/src/public-api.ts"],
       "@pranxy/zordon-ui/button": ["projects/components/button/src/public-api.ts"],
       "@pranxy/zordon-ui/divider": ["projects/components/divider/src/public-api.ts"],
+      "@pranxy/zordon-ui/label": ["projects/components/label/src/public-api.ts"],
       "@pranxy/zordon-ui/link": ["projects/components/link/src/public-api.ts"],
       "@pranxy/zordon-ui/*": ["projects/components/*"]
     },
