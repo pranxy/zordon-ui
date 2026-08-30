@@ -189,6 +189,17 @@ test('keeps native Label association ownership while applying label candidates',
   await expect(floatingLabel.locator('input')).toHaveAttribute('placeholder', 'Full name');
 });
 
+test('keeps native Fieldset grouping and disabled ownership while applying candidates', async ({
+  page,
+}) => {
+  const fieldset = page.getByTestId('fieldset-native');
+  await expect(fieldset).toHaveClass(/fieldset/);
+  await expect(fieldset).toHaveAttribute('disabled', '');
+  await expect(fieldset.getByText('Delivery method')).toHaveClass(/fieldset-legend/);
+  await expect(fieldset.getByText('Email')).toHaveClass(/fieldset-label/);
+  await expect(fieldset).not.toHaveAttribute('role');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');

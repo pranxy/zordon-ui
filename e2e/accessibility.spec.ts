@@ -72,3 +72,12 @@ test('has no detectable WCAG A or AA violations for native Label hosts', async (
   const results = await runAxeScan('[data-testid="label-contract"]');
   expect(results.violations).toEqual([]);
 });
+
+test('has no detectable WCAG A or AA violations for native Fieldset hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('fieldset-native')).toHaveAttribute('disabled', '');
+  const results = await runAxeScan('[data-testid="fieldset-contract"]');
+  expect(results.violations).toEqual([]);
+});

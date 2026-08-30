@@ -4,12 +4,24 @@ import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
+import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 @Component({
   selector: 'ssr-example-root',
-  imports: [ReactiveFormsModule, ZdButton, ZdDivider, ZdFloatingLabel, ZdLabel, ZdLink, ZdTheme],
+  imports: [
+    ReactiveFormsModule,
+    ZdButton,
+    ZdDivider,
+    ZdFieldset,
+    ZdFieldsetLabel,
+    ZdFieldsetLegend,
+    ZdFloatingLabel,
+    ZdLabel,
+    ZdLink,
+    ZdTheme,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'data-testid': 'ssr-example',
@@ -195,6 +207,15 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
           <label zdFloatingLabel data-testid="label-floating"
             ><span>Full name</span><input placeholder="Full name"
           /></label>
+        </section>
+
+        <section aria-labelledby="fieldset-heading" data-testid="fieldset-contract">
+          <h2 id="fieldset-heading">Hydrated native Fieldset</h2>
+          <fieldset zdFieldset disabled data-testid="fieldset-native">
+            <legend zdFieldsetLegend>Delivery method</legend>
+            <label zdFieldsetLabel for="hydrated-fieldset-email">Email</label
+            ><input id="hydrated-fieldset-email" type="email" />
+          </fieldset>
         </section>
 
         <div

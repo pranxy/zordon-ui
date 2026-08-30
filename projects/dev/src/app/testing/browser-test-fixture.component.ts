@@ -15,6 +15,7 @@ import {
 import { ZdTheme } from '@pranxy/zordon-ui';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
+import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
@@ -65,6 +66,9 @@ class ScrollLockPanelComponent {}
     ThemeHostFixtureComponent,
     ZdButton,
     ZdDivider,
+    ZdFieldset,
+    ZdFieldsetLabel,
+    ZdFieldsetLegend,
     ZdFloatingLabel,
     ZdLabel,
     ZdLink,
@@ -248,6 +252,19 @@ class ScrollLockPanelComponent {}
         <label zdFloatingLabel data-testid="label-floating"
           ><span>Full name</span><input class="input" placeholder="Full name"
         /></label>
+      </section>
+
+      <section
+        aria-labelledby="fieldset-heading"
+        class="grid gap-3"
+        data-testid="fieldset-contract"
+      >
+        <h2 id="fieldset-heading" class="text-xl font-semibold">Native Fieldset behavior</h2>
+        <fieldset zdFieldset disabled data-testid="fieldset-native">
+          <legend zdFieldsetLegend>Delivery method</legend>
+          <label zdFieldsetLabel for="fieldset-method">Email</label>
+          <input class="input" id="fieldset-method" type="email" />
+        </fieldset>
       </section>
 
       <section aria-labelledby="overlay-heading" class="grid gap-3">

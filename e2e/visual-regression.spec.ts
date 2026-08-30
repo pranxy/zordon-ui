@@ -51,6 +51,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#link-heading),
       ${fixtureSelector} section:has(#divider-heading),
       ${fixtureSelector} section:has(#label-heading),
+      ${fixtureSelector} section:has(#fieldset-heading),
       ${fixtureSelector} [data-testid='async-action-contract'],
       ${fixtureSelector} [data-testid='motion-contract'],
       ${fixtureSelector} [data-testid='block-dialog-cancel'] {
@@ -177,6 +178,25 @@ test('Label visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('label-contract')).toHaveScreenshot(
     'label--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Fieldset visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#fieldset-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('fieldset-contract')).toHaveScreenshot(
+    'fieldset--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',
