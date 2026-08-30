@@ -82,8 +82,12 @@ export async function checkPackageBudgets({
     }
 
     const target = getRuntimeExportTarget(exportValue);
-    if (!target || !target.endsWith('.mjs')) {
+    if (!target) {
       throw new Error(`No runtime .mjs export found for ${entryPoint}.`);
+    }
+
+    if (!target.endsWith('.mjs')) {
+      continue;
     }
 
     const artifactPath = resolveInside(outputDirectory, target);

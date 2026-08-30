@@ -6,7 +6,7 @@
     dark;
 }
 
-@source inline("aura aura-dual aura-rainbow aura-holo aura-gold aura-silver aura-glow aura-xs aura-sm aura-md aura-lg aura-xl avatar avatar-group avatar-offline avatar-online avatar-placeholder btn btn-primary btn-secondary btn-outline btn-ghost btn-sm btn-lg divider divider-vertical divider-horizontal divider-start divider-end divider-neutral divider-primary divider-secondary divider-accent divider-info divider-success divider-warning divider-error fieldset fieldset-label fieldset-legend floating-label label link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error");
+@source inline("aura aura-dual aura-rainbow aura-holo aura-gold aura-silver aura-glow aura-xs aura-sm aura-md aura-lg aura-xl avatar avatar-group avatar-offline avatar-online avatar-placeholder badge badge-outline badge-dash badge-soft badge-ghost badge-neutral badge-primary badge-secondary badge-accent badge-info badge-success badge-warning badge-error badge-xs badge-sm badge-md badge-lg badge-xl btn btn-primary btn-secondary btn-outline btn-ghost btn-sm btn-lg divider divider-vertical divider-horizontal divider-start divider-end divider-neutral divider-primary divider-secondary divider-accent divider-info divider-success divider-warning divider-error fieldset fieldset-label fieldset-legend floating-label label link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error");
 
 :root {
   color-scheme: light;

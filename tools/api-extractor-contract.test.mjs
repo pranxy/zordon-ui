@@ -65,6 +65,27 @@ test('tracks the built Aura secondary declaration surface with its own report', 
   assert.doesNotMatch(report, /resolveAura/);
 });
 
+test('tracks the built Badge secondary declaration surface with its own report', async () => {
+  const config = JSON.parse(await readWorkspaceFile('tools/api-extractor-badge.json'));
+  const report = await readWorkspaceFile('etc/api/zordon-ui-badge.api.md');
+
+  assert.equal(
+    config.mainEntryPointFilePath,
+    '<projectFolder>/../../dist/components/types/pranxy-zordon-ui-badge.d.ts',
+  );
+  assert.equal(config.projectFolder, '../projects/components');
+  assert.equal(
+    config.compiler.tsconfigFilePath,
+    '<projectFolder>/tsconfig.api-extractor-badge.json',
+  );
+  assert.equal(config.apiReport.reportFileName, 'zordon-ui-badge');
+  assert.match(report, /export class ZdBadge/);
+  assert.match(report, /export type ZdBadgeColor/);
+  assert.match(report, /export type ZdBadgeSize/);
+  assert.match(report, /export type ZdBadgeStyle/);
+  assert.doesNotMatch(report, /resolveBadge/);
+});
+
 test('declares the Aura reduced-motion stylesheet as a side-effectful package export', async () => {
   const manifest = JSON.parse(await readWorkspaceFile('projects/components/package.json'));
   const stylesheet = await readWorkspaceFile('projects/components/aura/src/aura-motion.css');
@@ -180,6 +201,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
   assert.match(scripts['update:api'], /api-extractor-aura\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-avatar\.json.*--local/);
+  assert.match(scripts['update:api'], /api-extractor-badge\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
   assert.match(scripts['update:api'], /api-extractor-fieldset\.json.*--local/);
