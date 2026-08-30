@@ -82,6 +82,15 @@ test('has no detectable WCAG A or AA violations for native Fieldset hosts', asyn
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Aura hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('aura-rainbow')).toHaveAttribute('data-zd-aura', 'true');
+  const results = await runAxeScan('[data-testid="aura-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

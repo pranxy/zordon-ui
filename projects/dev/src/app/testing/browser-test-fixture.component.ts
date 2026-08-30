@@ -13,6 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
+import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
@@ -65,6 +66,7 @@ class ScrollLockPanelComponent {}
     RouterLink,
     RouterLinkActive,
     ThemeHostFixtureComponent,
+    ZdAura,
     ZdAvatar,
     ZdAvatarGroup,
     ZdButton,
@@ -284,6 +286,16 @@ class ScrollLockPanelComponent {}
           <div zdAvatar placeholder presence="offline" data-testid="avatar-placeholder">
             <div class="w-16 rounded-full bg-neutral text-neutral-content"><span>AC</span></div>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="aura-heading" class="grid gap-3" data-testid="aura-contract">
+        <h2 id="aura-heading" class="text-xl font-semibold">Native Aura behavior</h2>
+        <div zdAura class="text-primary" size="lg" variant="rainbow" data-testid="aura-rainbow">
+          <button class="btn btn-primary" type="button">Start free trial</button>
+        </div>
+        <div zdAura class="text-secondary" size="xs" variant="glow" data-testid="aura-glow">
+          <div class="rounded-box bg-base-100 p-4">Decorative static glow under reduced motion</div>
         </div>
       </section>
 

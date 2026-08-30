@@ -53,6 +53,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="fieldset-native"');
   expect(html).toContain('data-testid="avatar-online"');
   expect(html).toContain('data-testid="avatar-placeholder"');
+  expect(html).toContain('data-testid="aura-rainbow"');
+  expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -282,6 +284,17 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(onlineAvatar.locator('img')).toHaveAttribute('alt', 'Avery Chen');
   await expect(placeholderAvatar).toHaveClass(/avatar-placeholder/);
   await expect(placeholderAvatar).toHaveClass(/avatar-offline/);
+
+  const rainbowAura = page.getByTestId('aura-rainbow');
+  const glowAura = page.getByTestId('aura-glow');
+  await expect(rainbowAura).toHaveClass(/aura/);
+  await expect(rainbowAura).toHaveClass(/aura-rainbow/);
+  await expect(rainbowAura).toHaveClass(/aura-lg/);
+  await expect(rainbowAura).toHaveAttribute('data-zd-aura', 'true');
+  await expect(rainbowAura).not.toHaveAttribute('role');
+  await expect(rainbowAura.getByRole('button', { name: 'Start free trial' })).toBeVisible();
+  await expect(glowAura).toHaveClass(/aura-glow/);
+  await expect(glowAura).toHaveClass(/aura-xs/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

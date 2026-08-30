@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, afterNextRender, inject, signal } f
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import type { FormGroupDirective } from '@angular/forms';
 import { ZdIdGenerator, ZdTheme } from '@pranxy/zordon-ui';
+import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
@@ -13,6 +14,7 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
   selector: 'ssr-example-root',
   imports: [
     ReactiveFormsModule,
+    ZdAura,
     ZdAvatar,
     ZdAvatarGroup,
     ZdButton,
@@ -235,6 +237,16 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             <div zdAvatar placeholder presence="offline" data-testid="avatar-placeholder">
               <div><span>AC</span></div>
             </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="aura-heading" data-testid="aura-contract">
+          <h2 id="aura-heading">Hydrated native Aura</h2>
+          <div zdAura size="lg" variant="rainbow" data-testid="aura-rainbow">
+            <button type="button">Start free trial</button>
+          </div>
+          <div zdAura size="xs" variant="glow" data-testid="aura-glow">
+            <div>Decorative static glow under reduced motion</div>
           </div>
         </section>
 

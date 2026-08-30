@@ -217,6 +217,40 @@ test('keeps consumer image semantics while applying Avatar candidates', async ({
   await expect(placeholderAvatar).not.toHaveAttribute('role');
 });
 
+test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
+  page,
+}) => {
+  const rainbowAura = page.getByTestId('aura-rainbow');
+  const glowAura = page.getByTestId('aura-glow');
+
+  await expect(rainbowAura).toHaveClass(/aura/);
+  await expect(rainbowAura).toHaveClass(/aura-rainbow/);
+  await expect(rainbowAura).toHaveClass(/aura-lg/);
+  await expect(rainbowAura).toHaveAttribute('data-zd-aura', 'true');
+  await expect(rainbowAura).not.toHaveAttribute('role');
+  await expect(rainbowAura.getByRole('button', { name: 'Start free trial' })).toBeVisible();
+  await expect(glowAura).toHaveClass(/aura-glow/);
+  await expect(glowAura).toHaveClass(/aura-xs/);
+
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect
+    .poll(() => rainbowAura.evaluate(element => getComputedStyle(element).animationName))
+    .toBe('aura');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect
+    .poll(() => rainbowAura.evaluate(element => getComputedStyle(element).animationName))
+    .toBe('none');
+  await expect
+    .poll(() =>
+      rainbowAura.evaluate(element => getComputedStyle(element, '::before').animationName),
+    )
+    .toBe('none');
+  await expect
+    .poll(() => glowAura.evaluate(element => getComputedStyle(element, '::before').animationName))
+    .toBe('none');
+});
+
 test('removes decorative motion without delaying the semantic state change', async ({ page }) => {
   const toggle = page.getByRole('button', { name: 'Toggle motion probe' });
   const probe = page.getByTestId('motion-probe');

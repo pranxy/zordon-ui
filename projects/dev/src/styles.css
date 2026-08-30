@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import '../../components/aura/src/aura-motion.css';
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
