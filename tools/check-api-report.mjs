@@ -22,6 +22,11 @@ const reports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-badge.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-card.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-card.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-card.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui.api.md'),

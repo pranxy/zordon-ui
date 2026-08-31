@@ -9,6 +9,7 @@
       "@pranxy/zordon-ui/avatar": ["projects/components/avatar/src/public-api.ts"],
       "@pranxy/zordon-ui/badge": ["projects/components/badge/src/public-api.ts"],
       "@pranxy/zordon-ui/button": ["projects/components/button/src/public-api.ts"],
+      "@pranxy/zordon-ui/card": ["projects/components/card/src/public-api.ts"],
       "@pranxy/zordon-ui/divider": ["projects/components/divider/src/public-api.ts"],
       "@pranxy/zordon-ui/fieldset": ["projects/components/fieldset/src/public-api.ts"],
       "@pranxy/zordon-ui/label": ["projects/components/label/src/public-api.ts"],

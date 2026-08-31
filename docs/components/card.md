@@ -2,7 +2,7 @@
 
 **Component ID:** DSP-05  
 **Maturity:** Planned  
-**Planned entry point:** `@pranxy/zordon-ui/card`
+**Entry point:** `@pranxy/zordon-ui/card`
 
 Card applies daisyUI’s composable content-container styling to consumer-owned native markup. It is
 four standalone directives—`[zdCard]`, `[zdCardBody]`, `[zdCardTitle]`, and
