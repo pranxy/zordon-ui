@@ -321,7 +321,8 @@ class ScrollLockPanelComponent {}
           zdBadge
           color="success"
           size="xl"
-          style="soft"
+          [style]="'soft'"
+          class="text-base-content"
           role="status"
           data-testid="badge-status"
         >
@@ -331,14 +332,21 @@ class ScrollLockPanelComponent {}
           zdBadge
           color="primary"
           size="xs"
-          style="outline"
+          [style]="'outline'"
           type="button"
           disabled
           data-testid="badge-action"
         >
           Remove filter
         </button>
-        <span zdBadge color="error" size="sm" style="dash" data-testid="badge-dash">
+        <span
+          zdBadge
+          color="error"
+          size="sm"
+          [style]="'dash'"
+          class="text-base-content"
+          data-testid="badge-dash"
+        >
           <svg aria-hidden="true" class="size-[1em]" viewBox="0 0 16 16">
             <path d="M8 1 1 15h14L8 1Z" />
           </svg>
@@ -347,7 +355,7 @@ class ScrollLockPanelComponent {}
         <p class="flex items-center gap-2">
           <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
           <span>Payment failed</span>
-          <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
+          <span zdBadge color="neutral" [style]="'ghost'" data-testid="badge-ghost">Retrying</span>
         </p>
       </section>
 
@@ -356,7 +364,7 @@ class ScrollLockPanelComponent {}
         <article
           zdCard
           size="xl"
-          style="border"
+          [style]="'border'"
           class="max-w-md bg-base-100 shadow-sm"
           data-testid="card-article"
         >
@@ -377,7 +385,7 @@ class ScrollLockPanelComponent {}
         <label
           zdCard
           size="xs"
-          style="dash"
+          [style]="'dash'"
           side
           class="max-w-md bg-base-100"
           data-testid="card-selectable"
@@ -493,7 +501,9 @@ class ScrollLockPanelComponent {}
               </div>
             </div>
             <div zdChatHeader>Ava Chen <time datetime="2026-09-01T10:45">10:45</time></div>
-            <div zdChatBubble color="primary">The deployment is ready for review.</div>
+            <div zdChatBubble color="primary" class="text-white">
+              The deployment is ready for review.
+            </div>
             <div zdChatFooter>Delivered</div>
           </li>
           <li zdChat placement="end" data-testid="chat-end">

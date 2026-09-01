@@ -1,7 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env['PLAYWRIGHT_BASE_URL'] ?? 'http://127.0.0.1:4300';
-const dedicatedSuites = ['**/ssr-hydration.spec.ts', '**/visual-regression.spec.ts'];
+const dedicatedSuites = [
+  '**/docs-*.spec.ts',
+  '**/ssr-hydration.spec.ts',
+  '**/visual-regression.spec.ts',
+];
 
 export default defineConfig({
   testDir: './e2e',

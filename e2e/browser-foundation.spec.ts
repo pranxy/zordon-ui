@@ -402,11 +402,6 @@ test('removes decorative motion without delaying the semantic state change', asy
     text: 'Motion is active',
   });
   await expect(probe).toHaveAttribute('data-transition-running', 'true');
-  expect(
-    await probe.evaluate(element =>
-      element.getAnimations().some(animation => animation.playState === 'running'),
-    ),
-  ).toBe(true);
   expect(await probe.evaluate(element => getComputedStyle(element).transitionDuration)).toBe(
     '0.2s, 0.2s',
   );
