@@ -322,6 +322,22 @@ test('keeps Carousel scrolling and list semantics consumer-owned while applying 
   );
 });
 
+test('keeps Collapse disclosure semantics consumer-owned while applying candidates', async ({
+  page,
+}) => {
+  const details = page.getByTestId('collapse-details');
+  const checkbox = page.getByTestId('collapse-checkbox');
+  await expect(details).toHaveClass(/collapse-arrow/);
+  await expect(details).not.toHaveAttribute('role');
+  await expect(details.locator('summary')).toHaveClass(/collapse-title/);
+  await expect(details.locator('[zdCollapseContent]')).toHaveClass(/collapse-content/);
+  await details.locator('summary').click();
+  await expect(details).toHaveAttribute('open', '');
+  await expect(checkbox).toHaveClass(/collapse-plus/);
+  await expect(checkbox).toHaveClass(/collapse-close/);
+  await expect(checkbox.locator('input[type=checkbox]')).not.toBeChecked();
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

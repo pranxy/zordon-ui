@@ -19,6 +19,7 @@ import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
+import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
 import {
   ZdChat,
   ZdChatBubble,
@@ -87,6 +88,9 @@ class ScrollLockPanelComponent {}
     ZdCardTitle,
     ZdCarousel,
     ZdCarouselItem,
+    ZdCollapse,
+    ZdCollapseContent,
+    ZdCollapseTitle,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -446,6 +450,34 @@ class ScrollLockPanelComponent {}
             Notify the team
           </li>
         </ol>
+      </section>
+
+      <section
+        aria-labelledby="collapse-heading"
+        class="grid gap-3"
+        data-testid="collapse-contract"
+      >
+        <h2 id="collapse-heading" class="text-xl font-semibold">Native Collapse behavior</h2>
+        <details
+          zdCollapse
+          indicator="arrow"
+          class="rounded-box border bg-base-100"
+          data-testid="collapse-details"
+        >
+          <summary zdCollapseTitle>Release notes</summary>
+          <div zdCollapseContent>Native details owns the disclosure state.</div>
+        </details>
+        <div
+          zdCollapse
+          indicator="plus"
+          forcedState="close"
+          class="rounded-box border bg-base-100"
+          data-testid="collapse-checkbox"
+        >
+          <input id="fixture-collapse-toggle" type="checkbox" />
+          <label zdCollapseTitle for="fixture-collapse-toggle">Optional updates</label>
+          <div zdCollapseContent>Consumer checkbox owns the disclosure state.</div>
+        </div>
       </section>
 
       <section aria-labelledby="chat-heading" class="grid gap-3" data-testid="chat-contract">
