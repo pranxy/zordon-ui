@@ -243,6 +243,39 @@ test('keeps Badge semantics and interaction consumer-owned while applying candid
   await expect(ghost).toHaveClass(/badge-ghost/);
 });
 
+test('keeps Card anatomy and selection semantics consumer-owned while applying candidates', async ({
+  page,
+}) => {
+  const article = page.getByTestId('card-article');
+  const selectable = page.getByTestId('card-selectable');
+  const imageFull = page.getByTestId('card-image-full');
+
+  for (const token of ['card', 'card-xl', 'card-border']) {
+    await expect(article).toHaveClass(new RegExp(token));
+  }
+  await expect(article).not.toHaveAttribute('role');
+  await expect(article).not.toHaveAttribute('tabindex');
+  await expect(article.locator('figure img')).toHaveAttribute(
+    'alt',
+    'Purple geometric launch illustration',
+  );
+  await expect(article.getByRole('heading', { name: 'Launch report' })).toHaveClass(/card-title/);
+  await expect(article.getByRole('button', { name: 'View report' })).toBeVisible();
+  await expect(article.locator('[zdCardActions]')).toHaveClass(/card-actions/);
+
+  for (const token of ['card', 'card-xs', 'card-dash', 'card-side']) {
+    await expect(selectable).toHaveClass(new RegExp(token));
+  }
+  await expect(selectable).not.toHaveAttribute('role');
+  await expect(selectable).not.toHaveAttribute('tabindex');
+  await selectable.getByRole('radio').check();
+  await expect(selectable.getByRole('radio')).toBeChecked();
+
+  await expect(imageFull).toHaveClass(/card/);
+  await expect(imageFull).toHaveClass(/image-full/);
+  await expect(imageFull.locator('figure img')).toHaveAttribute('alt', 'Night forest landscape');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

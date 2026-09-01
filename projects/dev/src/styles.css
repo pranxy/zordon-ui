@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '../../components/aura/src/aura-motion.css';
 
+@source inline("card card-body card-title card-actions card-border card-dash card-side image-full card-xs card-sm card-md card-lg card-xl");
+
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
     themes: light --default, dark --prefersdark, corporate, cupcake;

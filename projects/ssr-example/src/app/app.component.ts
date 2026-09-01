@@ -6,6 +6,7 @@ import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
@@ -20,6 +21,10 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdAvatarGroup,
     ZdBadge,
     ZdButton,
+    ZdCard,
+    ZdCardActions,
+    ZdCardBody,
+    ZdCardTitle,
     ZdDivider,
     ZdFieldset,
     ZdFieldsetLabel,
@@ -270,6 +275,34 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
           >
           <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
           <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
+        </section>
+
+        <section aria-labelledby="card-heading" data-testid="card-contract">
+          <h2 id="card-heading">Hydrated native Card</h2>
+          <article zdCard size="xl" style="border" data-testid="card-article">
+            <figure>
+              <img alt="Purple geometric launch illustration" src="/card-launch.svg" />
+            </figure>
+            <div zdCardBody>
+              <h3 zdCardTitle>Launch report</h3>
+              <p>Every system is ready for the next window.</p>
+              <div zdCardActions><button type="button">View report</button></div>
+            </div>
+          </article>
+          <label zdCard size="xs" style="dash" side data-testid="card-selectable">
+            <input name="ssr-plan" type="radio" value="standard" />
+            <div zdCardBody>
+              <h3 zdCardTitle>Standard plan</h3>
+              <p>Consumer-owned radio selection.</p>
+            </div>
+          </label>
+          <article zdCard imageFull data-testid="card-image-full">
+            <figure><img alt="Night forest landscape" src="/card-forest.svg" /></figure>
+            <div zdCardBody>
+              <h3 zdCardTitle>Trail conditions</h3>
+              <p>Open with light fog.</p>
+            </div>
+          </article>
         </section>
 
         <section aria-labelledby="aura-heading" data-testid="aura-contract">

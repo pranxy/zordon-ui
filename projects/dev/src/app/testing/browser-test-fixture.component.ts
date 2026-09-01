@@ -17,6 +17,7 @@ import { ZdAura } from '@pranxy/zordon-ui/aura';
 import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
+import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
@@ -72,6 +73,10 @@ class ScrollLockPanelComponent {}
     ZdAvatarGroup,
     ZdBadge,
     ZdButton,
+    ZdCard,
+    ZdCardActions,
+    ZdCardBody,
+    ZdCardTitle,
     ZdDivider,
     ZdFieldset,
     ZdFieldsetLabel,
@@ -325,6 +330,68 @@ class ScrollLockPanelComponent {}
           <span>Payment failed</span>
           <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
         </p>
+      </section>
+
+      <section aria-labelledby="card-heading" class="grid gap-3" data-testid="card-contract">
+        <h2 id="card-heading" class="text-xl font-semibold">Native Card behavior</h2>
+        <article
+          zdCard
+          size="xl"
+          style="border"
+          class="max-w-md bg-base-100 shadow-sm"
+          data-testid="card-article"
+        >
+          <figure>
+            <img
+              alt="Purple geometric launch illustration"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 240'%3E%3Crect width='640' height='240' fill='%234f46e5'/%3E%3Cpath d='M0 190 160 70l96 82 128-112 256 150v50H0Z' fill='%23818cf8'/%3E%3Ccircle cx='510' cy='65' r='34' fill='%23fde68a'/%3E%3C/svg%3E"
+            />
+          </figure>
+          <div zdCardBody>
+            <h3 zdCardTitle>Launch report</h3>
+            <p>Every system is ready for the next window.</p>
+            <div zdCardActions class="justify-end">
+              <button class="btn btn-primary" type="button">View report</button>
+            </div>
+          </div>
+        </article>
+        <label
+          zdCard
+          size="xs"
+          style="dash"
+          side
+          class="max-w-md bg-base-100"
+          data-testid="card-selectable"
+        >
+          <input class="radio radio-primary" name="fixture-plan" type="radio" value="standard" />
+          <figure>
+            <img
+              alt="Blue chart illustration"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 120'%3E%3Crect width='160' height='120' fill='%230891b2'/%3E%3Cpath d='M20 96V70h24v26zm38 0V42h24v54zm38 0V24h24v72z' fill='%23cffafe'/%3E%3C/svg%3E"
+            />
+          </figure>
+          <div zdCardBody>
+            <h3 zdCardTitle>Standard plan</h3>
+            <p>Consumer-owned radio selection.</p>
+          </div>
+        </label>
+        <article
+          zdCard
+          imageFull
+          class="max-w-md bg-base-100 shadow-sm"
+          data-testid="card-image-full"
+        >
+          <figure>
+            <img
+              alt="Night forest landscape"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 240'%3E%3Crect width='640' height='240' fill='%231e293b'/%3E%3Cpath d='M0 210 130 80l85 130L330 52l125 158 90-100 95 100v30H0Z' fill='%23166534'/%3E%3Ccircle cx='500' cy='56' r='30' fill='%23bae6fd'/%3E%3C/svg%3E"
+            />
+          </figure>
+          <div zdCardBody>
+            <h3 zdCardTitle>Trail conditions</h3>
+            <p>Open with light morning fog.</p>
+          </div>
+        </article>
       </section>
 
       <section aria-labelledby="aura-heading" class="grid gap-3" data-testid="aura-contract">

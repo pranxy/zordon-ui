@@ -55,6 +55,9 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="avatar-placeholder"');
   expect(html).toContain('data-testid="badge-status"');
   expect(html).toContain('data-testid="badge-action"');
+  expect(html).toContain('data-testid="card-article"');
+  expect(html).toContain('data-testid="card-selectable"');
+  expect(html).toContain('data-testid="card-image-full"');
   expect(html).toContain('data-testid="aura-rainbow"');
   expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('class="btn btn-primary"');
@@ -298,6 +301,25 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(badgeAction).toBeDisabled();
   await expect(page.getByTestId('badge-dot')).toHaveAttribute('aria-hidden', 'true');
   await expect(page.getByTestId('badge-ghost')).toHaveClass(/badge-ghost/);
+
+  const cardArticle = page.getByTestId('card-article');
+  const cardSelectable = page.getByTestId('card-selectable');
+  const imageFullCard = page.getByTestId('card-image-full');
+  await expect(cardArticle).toHaveClass(/card/);
+  await expect(cardArticle).toHaveClass(/card-xl/);
+  await expect(cardArticle).toHaveClass(/card-border/);
+  await expect(cardArticle).not.toHaveAttribute('role');
+  await expect(cardArticle.getByRole('heading', { name: 'Launch report' })).toHaveClass(
+    /card-title/,
+  );
+  await expect(cardArticle.locator('[zdCardActions]')).toHaveClass(/card-actions/);
+  await expect(cardSelectable).toHaveClass(/card-xs/);
+  await expect(cardSelectable).toHaveClass(/card-dash/);
+  await expect(cardSelectable).toHaveClass(/card-side/);
+  await cardSelectable.getByRole('radio').check();
+  await expect(cardSelectable.getByRole('radio')).toBeChecked();
+  await expect(imageFullCard).toHaveClass(/image-full/);
+  await expect(imageFullCard).not.toHaveAttribute('tabindex');
 
   const rainbowAura = page.getByTestId('aura-rainbow');
   const glowAura = page.getByTestId('aura-glow');
