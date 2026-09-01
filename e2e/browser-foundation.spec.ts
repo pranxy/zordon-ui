@@ -276,7 +276,9 @@ test('keeps Card anatomy and selection semantics consumer-owned while applying c
   await expect(imageFull.locator('figure img')).toHaveAttribute('alt', 'Night forest landscape');
 });
 
-test('keeps Chat Bubble conversation semantics consumer-owned while applying candidates', async ({ page }) => {
+test('keeps Chat Bubble conversation semantics consumer-owned while applying candidates', async ({
+  page,
+}) => {
   const start = page.getByTestId('chat-start');
   const end = page.getByTestId('chat-end');
   const error = page.getByTestId('chat-error');
@@ -290,6 +292,34 @@ test('keeps Chat Bubble conversation semantics consumer-owned while applying can
   await expect(end.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-success/);
   await expect(error.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-error/);
   await expect(error.locator('[zdChatFooter]')).toHaveText(/Not delivered/);
+});
+
+test('keeps Carousel scrolling and list semantics consumer-owned while applying candidates', async ({
+  page,
+}) => {
+  const horizontal = page.getByTestId('carousel-horizontal');
+  const vertical = page.getByTestId('carousel-vertical');
+
+  await expect(horizontal).toHaveClass(/carousel/);
+  await expect(horizontal).toHaveClass(/carousel-center/);
+  await expect(horizontal).not.toHaveAttribute('role');
+  await expect(horizontal).toHaveAttribute('tabindex', '0');
+  await expect(horizontal).toHaveAttribute('aria-label', 'Featured articles');
+  await expect(horizontal.locator('[zdCarouselItem]')).toHaveCount(2);
+  await expect(horizontal.locator('[zdCarouselItem]').first()).toHaveClass(/carousel-item/);
+  await expect(horizontal.locator('[zdCarouselItem]').first()).toHaveJSProperty('tagName', 'LI');
+
+  await expect(vertical).toHaveClass(/carousel/);
+  await expect(vertical).toHaveClass(/carousel-vertical/);
+  await expect(vertical).toHaveClass(/carousel-end/);
+  await expect(vertical).not.toHaveAttribute('role');
+  await expect(vertical).toHaveAttribute('tabindex', '0');
+  expect(await horizontal.evaluate(element => getComputedStyle(element).scrollSnapType)).toContain(
+    'x',
+  );
+  expect(await vertical.evaluate(element => getComputedStyle(element).scrollSnapType)).toContain(
+    'y',
+  );
 });
 
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({

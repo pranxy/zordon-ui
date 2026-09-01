@@ -7,7 +7,14 @@ import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
-import { ZdChat, ZdChatBubble, ZdChatFooter, ZdChatHeader, ZdChatImage } from '@pranxy/zordon-ui/chat-bubble';
+import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
+import {
+  ZdChat,
+  ZdChatBubble,
+  ZdChatFooter,
+  ZdChatHeader,
+  ZdChatImage,
+} from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
@@ -26,6 +33,8 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdCardActions,
     ZdCardBody,
     ZdCardTitle,
+    ZdCarousel,
+    ZdCarouselItem,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -259,7 +268,7 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             zdBadge
             color="success"
             size="xl"
-            style="soft"
+            [style]="'soft'"
             role="status"
             data-testid="badge-status"
           >
@@ -269,25 +278,28 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             zdBadge
             color="primary"
             size="xs"
-            style="outline"
+            [style]="'outline'"
             type="button"
             disabled
             data-testid="badge-action"
           >
             Remove filter
           </button>
-          <span zdBadge color="error" size="sm" style="dash" data-testid="badge-dash"
+          <span zdBadge color="error" size="sm" [style]="'dash'" data-testid="badge-dash"
             >Attention</span
           >
           <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
-          <span zdBadge color="neutral" style="ghost" data-testid="badge-ghost">Retrying</span>
+          <span zdBadge color="neutral" [style]="'ghost'" data-testid="badge-ghost">Retrying</span>
         </section>
 
         <section aria-labelledby="card-heading" data-testid="card-contract">
           <h2 id="card-heading">Hydrated native Card</h2>
-          <article zdCard size="xl" style="border" data-testid="card-article">
+          <article zdCard size="xl" [style]="'border'" data-testid="card-article">
             <figure>
-              <img alt="Purple geometric launch illustration" src="/card-launch.svg" />
+              <img
+                alt="Purple geometric launch illustration"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 2'%3E%3Crect width='4' height='2' fill='%234f46e5'/%3E%3C/svg%3E"
+              />
             </figure>
             <div zdCardBody>
               <h3 zdCardTitle>Launch report</h3>
@@ -295,7 +307,7 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
               <div zdCardActions><button type="button">View report</button></div>
             </div>
           </article>
-          <label zdCard size="xs" style="dash" side data-testid="card-selectable">
+          <label zdCard size="xs" [style]="'dash'" side data-testid="card-selectable">
             <input name="ssr-plan" type="radio" value="standard" />
             <div zdCardBody>
               <h3 zdCardTitle>Standard plan</h3>
@@ -303,18 +315,58 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             </div>
           </label>
           <article zdCard imageFull data-testid="card-image-full">
-            <figure><img alt="Night forest landscape" src="/card-forest.svg" /></figure>
+            <figure>
+              <img
+                alt="Night forest landscape"
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 2'%3E%3Crect width='4' height='2' fill='%23166534'/%3E%3C/svg%3E"
+              />
+            </figure>
             <div zdCardBody>
               <h3 zdCardTitle>Trail conditions</h3>
               <p>Open with light fog.</p>
             </div>
           </article>
         </section>
+        <section aria-labelledby="carousel-heading" data-testid="carousel-contract">
+          <h2 id="carousel-heading">Hydrated native Carousel</h2>
+          <ol
+            zdCarousel
+            align="center"
+            aria-label="Hydrated featured articles"
+            data-testid="carousel-horizontal"
+          >
+            <li zdCarouselItem>Architecture report</li>
+            <li zdCarouselItem>Release notes</li>
+          </ol>
+          <ol
+            zdCarousel
+            align="end"
+            orientation="vertical"
+            aria-label="Hydrated deployment checklist"
+            data-testid="carousel-vertical"
+          >
+            <li zdCarouselItem>Validate the deployment</li>
+            <li zdCarouselItem>Notify the team</li>
+          </ol>
+        </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>
           <ol aria-label="Hydrated conversation">
-            <li zdChat placement="start" data-testid="chat-start"><div zdChatImage><img alt="Ava Chen" src="/ava.svg" /></div><div zdChatHeader>Ava <time datetime="2026-09-01T10:45">10:45</time></div><div zdChatBubble color="primary">The deployment is ready.</div><div zdChatFooter>Delivered</div></li>
-            <li zdChat placement="end" data-testid="chat-end"><div zdChatBubble color="success">I’ll review it now.</div><div zdChatFooter>Seen</div></li>
+            <li zdChat placement="start" data-testid="chat-start">
+              <div zdChatImage>
+                <img
+                  alt="Ava Chen"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23818cf8'/%3E%3C/svg%3E"
+                />
+              </div>
+              <div zdChatHeader>Ava <time datetime="2026-09-01T10:45">10:45</time></div>
+              <div zdChatBubble color="primary">The deployment is ready.</div>
+              <div zdChatFooter>Delivered</div>
+            </li>
+            <li zdChat placement="end" data-testid="chat-end">
+              <div zdChatBubble color="success">I’ll review it now.</div>
+              <div zdChatFooter>Seen</div>
+            </li>
           </ol>
         </section>
 

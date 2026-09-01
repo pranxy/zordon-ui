@@ -58,6 +58,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="card-article"');
   expect(html).toContain('data-testid="card-selectable"');
   expect(html).toContain('data-testid="card-image-full"');
+  expect(html).toContain('data-testid="carousel-horizontal"');
+  expect(html).toContain('data-testid="carousel-vertical"');
   expect(html).toContain('data-testid="chat-start"');
   expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
@@ -322,6 +324,18 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(cardSelectable.getByRole('radio')).toBeChecked();
   await expect(imageFullCard).toHaveClass(/image-full/);
   await expect(imageFullCard).not.toHaveAttribute('tabindex');
+
+  const carouselHorizontal = page.getByTestId('carousel-horizontal');
+  const carouselVertical = page.getByTestId('carousel-vertical');
+  await expect(carouselHorizontal).toHaveClass(/carousel/);
+  await expect(carouselHorizontal).toHaveClass(/carousel-center/);
+  await expect(carouselHorizontal).toHaveAttribute('aria-label', 'Hydrated featured articles');
+  await expect(carouselHorizontal).not.toHaveAttribute('role');
+  await expect(carouselHorizontal).not.toHaveAttribute('tabindex');
+  await expect(carouselHorizontal.locator('[zdCarouselItem]')).toHaveCount(2);
+  await expect(carouselVertical).toHaveClass(/carousel-vertical/);
+  await expect(carouselVertical).toHaveClass(/carousel-end/);
+  await expect(carouselVertical).toHaveAttribute('aria-label', 'Hydrated deployment checklist');
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');

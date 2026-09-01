@@ -18,7 +18,14 @@ import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
-import { ZdChat, ZdChatBubble, ZdChatFooter, ZdChatHeader, ZdChatImage } from '@pranxy/zordon-ui/chat-bubble';
+import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
+import {
+  ZdChat,
+  ZdChatBubble,
+  ZdChatFooter,
+  ZdChatHeader,
+  ZdChatImage,
+} from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
@@ -78,6 +85,8 @@ class ScrollLockPanelComponent {}
     ZdCardActions,
     ZdCardBody,
     ZdCardTitle,
+    ZdCarousel,
+    ZdCarouselItem,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -400,11 +409,57 @@ class ScrollLockPanelComponent {}
         </article>
       </section>
 
+      <section
+        aria-labelledby="carousel-heading"
+        class="grid gap-3"
+        data-testid="carousel-contract"
+      >
+        <h2 id="carousel-heading" class="text-xl font-semibold">Native Carousel behavior</h2>
+        <ol
+          zdCarousel
+          align="center"
+          aria-label="Featured articles"
+          class="w-80 rounded-box bg-base-200 p-2"
+          data-testid="carousel-horizontal"
+          tabindex="0"
+        >
+          <li zdCarouselItem class="w-64 rounded-box border bg-base-100 p-4 text-base-content">
+            Architecture report
+          </li>
+          <li zdCarouselItem class="w-64 rounded-box border bg-base-100 p-4 text-base-content">
+            Release notes
+          </li>
+        </ol>
+        <ol
+          zdCarousel
+          align="end"
+          orientation="vertical"
+          aria-label="Deployment checklist"
+          class="h-44 w-80 rounded-box bg-base-200 p-2"
+          data-testid="carousel-vertical"
+          tabindex="0"
+        >
+          <li zdCarouselItem class="h-20 rounded-box border bg-base-100 p-4 text-base-content">
+            Validate the deployment
+          </li>
+          <li zdCarouselItem class="h-20 rounded-box border bg-base-100 p-4 text-base-content">
+            Notify the team
+          </li>
+        </ol>
+      </section>
+
       <section aria-labelledby="chat-heading" class="grid gap-3" data-testid="chat-contract">
         <h2 id="chat-heading" class="text-xl font-semibold">Native Chat Bubble behavior</h2>
         <ol aria-label="Fixture conversation" class="grid gap-2">
           <li zdChat placement="start" data-testid="chat-start">
-            <div zdChatImage zdAvatar><div class="w-10 rounded-full"><img alt="Ava Chen" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23818cf8'/%3E%3Ccircle cx='20' cy='15' r='9' fill='%23fde68a'/%3E%3C/svg%3E" /></div></div>
+            <div zdChatImage zdAvatar>
+              <div class="w-10 rounded-full">
+                <img
+                  alt="Ava Chen"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23818cf8'/%3E%3Ccircle cx='20' cy='15' r='9' fill='%23fde68a'/%3E%3C/svg%3E"
+                />
+              </div>
+            </div>
             <div zdChatHeader>Ava Chen <time datetime="2026-09-01T10:45">10:45</time></div>
             <div zdChatBubble color="primary">The deployment is ready for review.</div>
             <div zdChatFooter>Delivered</div>
