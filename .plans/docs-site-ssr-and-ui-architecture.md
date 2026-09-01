@@ -11,16 +11,16 @@
 
 ## Site map and UI organization
 
-| URL family | Purpose | Page structure |
-|---|---|---|
-| `/` | Library landing page | Value proposition, install action, representative component preview, feature principles, component coverage/status, links to get started and Button |
-| `/docs/getting-started` | Fast first-use path | Prerequisites, Tailwind/daisyUI configuration, install command, provider/configuration, first component, next steps |
-| `/components` | Discoverable component catalogue | Filterable cards grouped by category and maturity; each card exposes name, status, description, and reference URL |
+| URL family               | Purpose                           | Page structure                                                                                                                                                                        |
+| ------------------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                      | Library landing page              | Value proposition, install action, representative component preview, feature principles, component coverage/status, links to get started and Button                                   |
+| `/docs/getting-started`  | Fast first-use path               | Prerequisites, Tailwind/daisyUI configuration, install command, provider/configuration, first component, next steps                                                                   |
+| `/components`            | Discoverable component catalogue  | Filterable cards grouped by category and maturity; each card exposes name, status, description, and reference URL                                                                     |
 | `/components/:component` | Authoritative component reference | Title/status, install/import, live preview, copyable source, API, variants, accessibility/keyboard contract, customization, SSR/forms/overlay notes as applicable, related components |
-| `/foundations/:topic` | Cross-component contracts | Short explanation, decisions, consumer guidance, supported boundaries, and links to affected components |
-| `/guides/:topic` | Task-oriented workflows | Install, theming, configuration, migration/release guidance, and examples |
-| `/resources` | Supporting material | Roadmap/status, changelog/release notes, repository links, contribution links, and external daisyUI/Angular references |
-| `/404` | Recoverable unknown route | Clear not-found message, home/components links, and no index metadata |
+| `/foundations/:topic`    | Cross-component contracts         | Short explanation, decisions, consumer guidance, supported boundaries, and links to affected components                                                                               |
+| `/guides/:topic`         | Task-oriented workflows           | Install, theming, configuration, migration/release guidance, and examples                                                                                                             |
+| `/resources`             | Supporting material               | Roadmap/status, changelog/release notes, repository links, contribution links, and external daisyUI/Angular references                                                                |
+| `/404`                   | Recoverable unknown route         | Clear not-found message, home/components links, and no index metadata                                                                                                                 |
 
 ### Global shell
 
@@ -32,19 +32,19 @@
 
 ## Key files, evidence, and decisions
 
-| File or source | Why it matters | Decision or plan impact |
-|---|---|---|
-| `package.json` | `start` and `build:docs` currently build/serve the client-only `dev` app; GitHub Pages deployment is static | Replace with explicit docs build/serve/SSR scripts; run the compiled Node handler in a container that listens on the platform-supplied port |
-| `angular.json` | `dev` uses the browser-only application builder; `ssr-example` already uses an Angular server build | Create a separate `docs` app patterned on the SSR configuration, not by incrementally modifying the existing showcase |
-| `projects/ssr-example/src/app/app.routes.server.ts` | Existing proof that Angular server route configuration is supported in this workspace | Use route-level `RenderMode.Server` initially and evaluate prerendering after host choice |
-| `projects/dev/src/app/app.routes.ts` | Current site routes are a showcase taxonomy rather than an information architecture | Replace rather than preserve these routes; reserve test-only paths from crawlers and public navigation |
-| `docs/architecture/0001-platform-support.md` | Angular 21 is the build baseline, while Angular 21–22 consumers are supported | Use only Angular 21-compatible SSR/hydration APIs and add a framework compatibility lane before claiming Angular 22 docs-site support |
-| `docs/architecture/0003-styling-and-theming.md` | daisyUI is the visual source of truth and theme scopes are supported | Site styles use documented daisyUI utilities/themes rather than a duplicate design system |
-| `docs/architecture/0007-accessibility-ssr-and-localization.md` | Requires SSR-safe browser behavior and WCAG 2.2 AA-oriented interaction | Server HTML must not access browser globals; navigation/search/theme enhancements must be keyboard-accessible and hydrate safely |
-| [Angular hybrid rendering guide](https://angular.dev/guide/prerendering) | Angular supports route-specific server rendering and prerendering | Use an SSR-capable server build; prerender stable public routes where hosting and content make it worthwhile |
-| [Angular hydration guide](https://angular.dev/guide/hydration) | Hydration reuses server HTML and prevents client rerender flicker | Enable hydration and validate no mismatch for every representative public route |
-| [Cloud Run container deployment](https://docs.cloud.google.com/run/docs/deploying) | Cloud Run deploys immutable container revisions as HTTP services | Deploy the existing Node/Express SSR model as a container, with a preview revision before production promotion |
-| [Cloud Run container contract](https://docs.cloud.google.com/run/docs/container-contract) | Cloud Run supplies the `PORT` value that the service must listen on | Keep the Angular Node server's environment-driven port contract; do not bake a platform URL or port into the app |
+| File or source                                                                            | Why it matters                                                                                              | Decision or plan impact                                                                                                                     |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `package.json`                                                                            | `start` and `build:docs` currently build/serve the client-only `dev` app; GitHub Pages deployment is static | Replace with explicit docs build/serve/SSR scripts; run the compiled Node handler in a container that listens on the platform-supplied port |
+| `angular.json`                                                                            | `dev` uses the browser-only application builder; `ssr-example` already uses an Angular server build         | Create a separate `docs` app patterned on the SSR configuration, not by incrementally modifying the existing showcase                       |
+| `projects/ssr-example/src/app/app.routes.server.ts`                                       | Existing proof that Angular server route configuration is supported in this workspace                       | Use route-level `RenderMode.Server` initially and evaluate prerendering after host choice                                                   |
+| `projects/dev/src/app/app.routes.ts`                                                      | Current site routes are a showcase taxonomy rather than an information architecture                         | Replace rather than preserve these routes; reserve test-only paths from crawlers and public navigation                                      |
+| `docs/architecture/0001-platform-support.md`                                              | Angular 21 is the build baseline, while Angular 21–22 consumers are supported                               | Use only Angular 21-compatible SSR/hydration APIs and add a framework compatibility lane before claiming Angular 22 docs-site support       |
+| `docs/architecture/0003-styling-and-theming.md`                                           | daisyUI is the visual source of truth and theme scopes are supported                                        | Site styles use documented daisyUI utilities/themes rather than a duplicate design system                                                   |
+| `docs/architecture/0007-accessibility-ssr-and-localization.md`                            | Requires SSR-safe browser behavior and WCAG 2.2 AA-oriented interaction                                     | Server HTML must not access browser globals; navigation/search/theme enhancements must be keyboard-accessible and hydrate safely            |
+| [Angular hybrid rendering guide](https://angular.dev/guide/prerendering)                  | Angular supports route-specific server rendering and prerendering                                           | Use an SSR-capable server build; prerender stable public routes where hosting and content make it worthwhile                                |
+| [Angular hydration guide](https://angular.dev/guide/hydration)                            | Hydration reuses server HTML and prevents client rerender flicker                                           | Enable hydration and validate no mismatch for every representative public route                                                             |
+| [Cloud Run container deployment](https://docs.cloud.google.com/run/docs/deploying)        | Cloud Run deploys immutable container revisions as HTTP services                                            | Deploy the existing Node/Express SSR model as a container, with a preview revision before production promotion                              |
+| [Cloud Run container contract](https://docs.cloud.google.com/run/docs/container-contract) | Cloud Run supplies the `PORT` value that the service must listen on                                         | Keep the Angular Node server's environment-driven port contract; do not bake a platform URL or port into the app                            |
 
 - **Decision:** Deploy production SSR as a Docker container on **Google Cloud Run**. Its request-serving container model matches Angular's generated Node/Express handler and avoids platform-specific rendering adapters. GitHub Pages may remain a static preview only; it is not the production documentation host.
 - **Open gate:** Supply the GCP project, region, custom domain, and GitHub-to-Google workload-identity authorization before T06 deploy automation. The canonical origin stays environment-configured until the domain is selected.

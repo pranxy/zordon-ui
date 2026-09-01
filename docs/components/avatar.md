@@ -8,12 +8,12 @@ Avatar will apply daisyUI framing and presence styling to consumer markup. It wi
 
 ## daisyUI 5.7.16 inventory
 
-| Candidate | Planned native host | Contract |
-| --- | --- | --- |
-| `avatar` | `[zdAvatar]` on a consumer container | Requires consumer child `<div>`; image stays native `<img>`. |
-| `avatar-placeholder` | `placeholder` appearance input | Consumer supplies initials, icon, or fallback text in the child container. |
-| `avatar-online`, `avatar-offline` | `presence` input | Decorative upstream dot only; real status text belongs to a Status composition. |
-| `avatar-group` | `[zdAvatarGroup]` on a native container | Visual grouping only; consumer owns list/group semantics and overflow content. |
+| Candidate                         | Planned native host                     | Contract                                                                        |
+| --------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------- |
+| `avatar`                          | `[zdAvatar]` on a consumer container    | Requires consumer child `<div>`; image stays native `<img>`.                    |
+| `avatar-placeholder`              | `placeholder` appearance input          | Consumer supplies initials, icon, or fallback text in the child container.      |
+| `avatar-online`, `avatar-offline` | `presence` input                        | Decorative upstream dot only; real status text belongs to a Status composition. |
+| `avatar-group`                    | `[zdAvatarGroup]` on a native container | Visual grouping only; consumer owns list/group semantics and overflow content.  |
 
 The source provides no Avatar size, mask, ring, custom presence, loading, or selectable modifier. Consumers compose Tailwind sizing, Mask, rings, `loading="lazy"`, and native button/link hosts deliberately. Upstream `--color-*` tokens are theme inputs, not `--zd-*` hooks.
 

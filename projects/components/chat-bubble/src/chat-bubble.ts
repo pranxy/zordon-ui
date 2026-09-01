@@ -3,14 +3,7 @@ import { computed, Directive, inject, input } from '@angular/core';
 import { ZdClassNames } from '@pranxy/zordon-ui';
 
 export type ZdChatBubbleColor =
-  | 'neutral'
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error';
+  'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
 export type ZdChatPlacement = 'start' | 'end';
 
 @Directive({
@@ -69,9 +62,7 @@ export class ZdChatBubble {
 
 export function resolveChatPlacement(value: unknown): ZdChatPlacement {
   if (value === 'start' || value === 'end') return value;
-  throw new RangeError(
-    `Zordon UI Chat placement must be start or end; received ${String(value)}.`,
-  );
+  throw new RangeError(`Zordon UI Chat placement must be start or end; received ${String(value)}.`);
 }
 
 export function resolveChatBubbleColor(value: unknown): ZdChatBubbleColor | undefined {

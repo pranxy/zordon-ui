@@ -17,7 +17,9 @@ import {
   imports: [ZdChat, ZdChatBubble, ZdChatFooter, ZdChatHeader, ZdChatImage],
   template: `<li zdChat class="consumer" [placement]="placement()">
     <div zdChatImage class="consumer-image"><img alt="Ava Chen" src="/ava.png" /></div>
-    <div zdChatHeader class="consumer-header">Ava <time datetime="2026-09-01T10:45">10:45</time></div>
+    <div zdChatHeader class="consumer-header">
+      Ava <time datetime="2026-09-01T10:45">10:45</time>
+    </div>
     <div zdChatBubble class="consumer-bubble" [color]="color()">Ready for review.</div>
     <div zdChatFooter class="consumer-footer">Delivered</div>
   </li>`,

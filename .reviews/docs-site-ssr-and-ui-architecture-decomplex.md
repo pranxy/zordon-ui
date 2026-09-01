@@ -6,13 +6,13 @@ One complexity risk is admitted: adding a separate content platform or generic d
 
 ## Review contract
 
-| Axis | Selection |
-|---|---|
-| Mode | Prevention |
-| Target | Proposed SSR documentation site and information architecture |
-| Authority / required behavior | User requires an SSR, Google-indexable development/documentation site and an organized whole-site UI |
-| Scope | Rendering model, information architecture, navigation, documentation authoring, and validation; no component-library API work |
-| Report | `.reviews/docs-site-ssr-and-ui-architecture-decomplex.md` |
+| Axis                          | Selection                                                                                                                     |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Mode                          | Prevention                                                                                                                    |
+| Target                        | Proposed SSR documentation site and information architecture                                                                  |
+| Authority / required behavior | User requires an SSR, Google-indexable development/documentation site and an organized whole-site UI                          |
+| Scope                         | Rendering model, information architecture, navigation, documentation authoring, and validation; no component-library API work |
+| Report                        | `.reviews/docs-site-ssr-and-ui-architecture-decomplex.md`                                                                     |
 
 ## Coverage
 
