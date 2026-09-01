@@ -58,6 +58,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="card-article"');
   expect(html).toContain('data-testid="card-selectable"');
   expect(html).toContain('data-testid="card-image-full"');
+  expect(html).toContain('data-testid="chat-start"');
+  expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
   expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('class="btn btn-primary"');
@@ -320,6 +322,15 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(cardSelectable.getByRole('radio')).toBeChecked();
   await expect(imageFullCard).toHaveClass(/image-full/);
   await expect(imageFullCard).not.toHaveAttribute('tabindex');
+
+  const chatStart = page.getByTestId('chat-start');
+  const chatEnd = page.getByTestId('chat-end');
+  await expect(chatStart).toHaveClass(/chat-start/);
+  await expect(chatStart.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-primary/);
+  await expect(chatStart.locator('time')).toHaveAttribute('datetime', '2026-09-01T10:45');
+  await expect(chatStart).not.toHaveAttribute('role');
+  await expect(chatEnd).toHaveClass(/chat-end/);
+  await expect(chatEnd.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-success/);
 
   const rainbowAura = page.getByTestId('aura-rainbow');
   const glowAura = page.getByTestId('aura-glow');

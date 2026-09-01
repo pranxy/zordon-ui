@@ -7,6 +7,7 @@ import { ZdAvatar, ZdAvatarGroup } from '@pranxy/zordon-ui/avatar';
 import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
+import { ZdChat, ZdChatBubble, ZdChatFooter, ZdChatHeader, ZdChatImage } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
@@ -25,6 +26,11 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdCardActions,
     ZdCardBody,
     ZdCardTitle,
+    ZdChat,
+    ZdChatBubble,
+    ZdChatFooter,
+    ZdChatHeader,
+    ZdChatImage,
     ZdDivider,
     ZdFieldset,
     ZdFieldsetLabel,
@@ -303,6 +309,13 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
               <p>Open with light fog.</p>
             </div>
           </article>
+        </section>
+        <section aria-labelledby="chat-heading" data-testid="chat-contract">
+          <h2 id="chat-heading">Hydrated native Chat Bubble</h2>
+          <ol aria-label="Hydrated conversation">
+            <li zdChat placement="start" data-testid="chat-start"><div zdChatImage><img alt="Ava Chen" src="/ava.svg" /></div><div zdChatHeader>Ava <time datetime="2026-09-01T10:45">10:45</time></div><div zdChatBubble color="primary">The deployment is ready.</div><div zdChatFooter>Delivered</div></li>
+            <li zdChat placement="end" data-testid="chat-end"><div zdChatBubble color="success">I’ll review it now.</div><div zdChatFooter>Seen</div></li>
+          </ol>
         </section>
 
         <section aria-labelledby="aura-heading" data-testid="aura-contract">

@@ -13,13 +13,13 @@ Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 | T03 | Define customization, accessibility, SSR, and evidence contract            | T01–T02 | Verified | Consumer ownership and required Preview proof are explicit                                                                           | `docs/components/chat-bubble.md`                      |
 | T04 | Approve the DSP-07 specification cell                                      | T01–T03 | Verified | Master matrix records the implementation-ready specification                                                                         | `DAISYUI_ANGULAR_BUILD_PLAN.md`                       |
 | T05 | Package the Chat Bubble directives                                         | T04     | Verified | Public entry point builds with the reviewed candidate surface                                                                        | Unit/type/lint/API/bundle/tarball checks pass          |
-| T06 | Add browser, SSR/hydration, axe, and visual evidence                       | T05     | Pending  | Native compound semantics survive supported render paths                                                                             | Focused browser/axe, SSR/hydration, and visual checks |
+| T06 | Add browser, SSR/hydration, axe, and visual evidence                       | T05     | Verified | Native compound semantics survive supported render paths                                                                             | Focused browser/axe, SSR/hydration, and visual checks |
 
 No subagent was used: the shared workspace remains serialized by instruction.
 
 ## Next
 
-- Add browser, SSR/hydration, axe, and visual evidence for the native Chat Bubble compound composition.
+- Complete manual accessibility review before Chat Bubble advances beyond Planned maturity.
 
 ## Loop log
 

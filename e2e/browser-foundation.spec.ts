@@ -276,6 +276,22 @@ test('keeps Card anatomy and selection semantics consumer-owned while applying c
   await expect(imageFull.locator('figure img')).toHaveAttribute('alt', 'Night forest landscape');
 });
 
+test('keeps Chat Bubble conversation semantics consumer-owned while applying candidates', async ({ page }) => {
+  const start = page.getByTestId('chat-start');
+  const end = page.getByTestId('chat-end');
+  const error = page.getByTestId('chat-error');
+  await expect(start).toHaveClass(/chat-start/);
+  await expect(start).not.toHaveAttribute('role');
+  await expect(start.locator('img')).toHaveAttribute('alt', 'Ava Chen');
+  await expect(start.locator('time')).toHaveAttribute('datetime', '2026-09-01T10:45');
+  await expect(start.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-primary/);
+  await expect(start.locator('[zdChatFooter]')).toHaveText('Delivered');
+  await expect(end).toHaveClass(/chat-end/);
+  await expect(end.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-success/);
+  await expect(error.locator('[zdChatBubble]')).toHaveClass(/chat-bubble-error/);
+  await expect(error.locator('[zdChatFooter]')).toHaveText(/Not delivered/);
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

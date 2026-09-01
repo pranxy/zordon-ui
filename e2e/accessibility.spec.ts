@@ -109,6 +109,12 @@ test('has no detectable WCAG A or AA violations for native Card hosts', async ({
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Chat Bubble hosts', async ({ page, runAxeScan }) => {
+  await expect(page.getByTestId('chat-start').locator('img')).toHaveAttribute('alt', 'Ava Chen');
+  const results = await runAxeScan('[data-testid="chat-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,
