@@ -1,8 +1,8 @@
 # Collapse
 
 **Component ID:** DSP-08  
-**Maturity:** Planned  
-**Planned entry point:** `@pranxy/zordon-ui/collapse`
+**Maturity:** Preview  
+**Entry point:** `@pranxy/zordon-ui/collapse`
 
 Collapse’s first delivery is a native disclosure styling composition, not a stateful accordion
 widget. It maps daisyUI’s container, title, content, indicator, and forced visual-state classes
@@ -22,7 +22,7 @@ The installed daisyUI 5.7.16 CSS recognizes native `<details open>`, a consumer-
 a direct checked checkbox/radio input. It applies its own transitions only when reduced motion is
 not requested.
 
-## Planned public API
+## Public API
 
 `[zdCollapse]` has optional `indicator` (`'arrow' | 'plus'`) and `forcedState`
 (`'open' | 'close'`) inputs. `[zdCollapseTitle]` and `[zdCollapseContent]` add their respective

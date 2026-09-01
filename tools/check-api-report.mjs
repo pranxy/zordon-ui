@@ -32,6 +32,11 @@ const reports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-carousel.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-collapse.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-collapse.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-collapse.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-chat-bubble.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-chat-bubble.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-chat-bubble.api.md'),
