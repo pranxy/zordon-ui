@@ -2,7 +2,7 @@
 
 **Component ID:** DSP-07  
 **Maturity:** Planned  
-**Planned entry point:** `@pranxy/zordon-ui/chat-bubble`
+**Entry point:** `@pranxy/zordon-ui/chat-bubble`
 
 Chat Bubble applies daisyUI’s visual message layout to consumer-owned native markup. It is five
 standalone directives—`[zdChat]`, `[zdChatImage]`, `[zdChatHeader]`, `[zdChatFooter]`, and
