@@ -18,6 +18,7 @@
       "@pranxy/zordon-ui/kbd": ["projects/components/kbd/src/public-api.ts"],
       "@pranxy/zordon-ui/label": ["projects/components/label/src/public-api.ts"],
       "@pranxy/zordon-ui/link": ["projects/components/link/src/public-api.ts"],
+      "@pranxy/zordon-ui/stat": ["projects/components/stat/src/public-api.ts"],
       "@pranxy/zordon-ui/*": ["projects/components/*"]
     },
     "outDir": "./dist/out-tsc",
