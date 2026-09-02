@@ -9,6 +9,7 @@
 @source inline("stats stats-horizontal stats-vertical stat stat-title stat-value stat-desc stat-figure stat-actions");
 @source inline("status status-neutral status-primary status-secondary status-accent status-info status-success status-warning status-error status-xs status-sm status-md status-lg status-xl");
 @source inline("countdown");
+@source inline("diff diff-item-1 diff-item-2 diff-resizer");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {

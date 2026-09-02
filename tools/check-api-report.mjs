@@ -91,6 +91,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-countdown.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-countdown.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-diff.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-diff.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-diff.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,
