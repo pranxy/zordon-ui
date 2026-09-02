@@ -148,6 +148,15 @@ test('has no detectable WCAG A or AA violations for native Kbd hosts', async ({
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Status hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('status-online')).toHaveAttribute('aria-label', 'Service online');
+  const results = await runAxeScan('[data-testid="status-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

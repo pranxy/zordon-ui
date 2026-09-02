@@ -504,7 +504,13 @@ class ScrollLockPanelComponent {}
       <section aria-labelledby="status-heading" class="grid gap-3" data-testid="status-contract">
         <h2 id="status-heading" class="text-xl font-semibold">Native Status behavior</h2>
         <p class="flex items-center gap-2">
-          <span zdStatus color="success" size="xl" aria-label="Service online" data-testid="status-online"></span>
+          <span
+            zdStatus
+            color="success"
+            size="xl"
+            aria-label="Service online"
+            data-testid="status-online"
+          ></span>
           Service online
         </p>
       </section>

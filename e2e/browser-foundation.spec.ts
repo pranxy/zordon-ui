@@ -355,6 +355,15 @@ test('keeps Kbd text and shortcut semantics consumer-owned while applying candid
   await expect(extraLarge).toHaveAttribute('aria-hidden', 'true');
 });
 
+test('keeps Status labeling consumer-owned while applying candidates', async ({ page }) => {
+  const status = page.getByTestId('status-online');
+  await expect(status).toHaveClass(/status-success/);
+  await expect(status).toHaveClass(/status-xl/);
+  await expect(status).toHaveAttribute('aria-label', 'Service online');
+  await expect(status).not.toHaveAttribute('role');
+  await expect(status).not.toHaveAttribute('tabindex');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

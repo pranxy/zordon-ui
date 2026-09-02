@@ -64,6 +64,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="collapse-checkbox"');
   expect(html).toContain('data-testid="kbd-inline"');
   expect(html).toContain('data-testid="kbd-xl"');
+  expect(html).toContain('data-testid="status-online"');
   expect(html).toContain('data-testid="chat-start"');
   expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
@@ -362,6 +363,12 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(kbdCombination).toHaveAttribute('aria-label', 'Control plus Shift plus Delete');
   await expect(kbdExtraLarge).toHaveClass(/kbd-xl/);
   await expect(kbdExtraLarge).toHaveAttribute('aria-hidden', 'true');
+
+  const statusOnline = page.getByTestId('status-online');
+  await expect(statusOnline).toHaveClass(/status-success/);
+  await expect(statusOnline).toHaveClass(/status-xl/);
+  await expect(statusOnline).toHaveAttribute('aria-label', 'Service online');
+  await expect(statusOnline).not.toHaveAttribute('role');
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');

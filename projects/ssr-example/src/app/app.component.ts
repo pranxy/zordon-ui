@@ -380,7 +380,16 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
         </section>
         <section aria-labelledby="status-heading" data-testid="status-contract">
           <h2 id="status-heading">Hydrated native Status</h2>
-          <p><span zdStatus color="success" size="xl" aria-label="Service online" data-testid="status-online"></span> Service online</p>
+          <p>
+            <span
+              zdStatus
+              color="success"
+              size="xl"
+              aria-label="Service online"
+              data-testid="status-online"
+            ></span>
+            Service online
+          </p>
         </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>
