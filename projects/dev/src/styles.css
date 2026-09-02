@@ -8,6 +8,7 @@
 @source inline("kbd kbd-xs kbd-sm kbd-md kbd-lg kbd-xl");
 @source inline("stats stats-horizontal stats-vertical stat stat-title stat-value stat-desc stat-figure stat-actions");
 @source inline("status status-neutral status-primary status-secondary status-accent status-info status-success status-warning status-error status-xs status-sm status-md status-lg status-xl");
+@source inline("countdown");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
