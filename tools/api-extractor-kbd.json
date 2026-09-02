@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "projectFolder": "../projects/components",
+  "newlineKind": "lf",
+  "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-kbd.d.ts",
+  "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-kbd.json" },
+  "apiReport": {
+    "enabled": true,
+    "reportFileName": "zordon-ui-kbd",
+    "reportFolder": "<projectFolder>/../../etc/api",
+    "reportTempFolder": "<projectFolder>/../../temp/api-extractor",
+    "reportVariants": ["complete"],
+    "includeForgottenExports": true
+  },
+  "docModel": { "enabled": false },
+  "dtsRollup": { "enabled": false },
+  "tsdocMetadata": { "enabled": false },
+  "messages": {
+    "compilerMessageReporting": { "default": { "logLevel": "warning" } },
+    "extractorMessageReporting": {
+      "default": { "logLevel": "warning" },
+      "ae-forgotten-export": { "logLevel": "error", "addToApiReportFile": true },
+      "ae-missing-release-tag": { "logLevel": "none" },
+      "ae-undocumented": { "logLevel": "none" },
+      "ae-wrong-input-file-type": { "logLevel": "error" }
+    },
+    "tsdocMessageReporting": { "default": { "logLevel": "warning" } }
+  }
+}

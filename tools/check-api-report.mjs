@@ -42,6 +42,11 @@ const reports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-chat-bubble.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-kbd.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-kbd.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-kbd.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui.api.md'),
