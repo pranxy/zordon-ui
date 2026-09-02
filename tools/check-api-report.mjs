@@ -86,6 +86,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-status.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-status.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-countdown.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-countdown.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-countdown.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,
