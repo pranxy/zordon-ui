@@ -169,6 +169,15 @@ test('has no detectable WCAG A or AA violations for native Countdown hosts', asy
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Diff hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('diff-example')).toHaveAttribute('tabindex', '0');
+  const results = await runAxeScan('[data-testid="diff-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

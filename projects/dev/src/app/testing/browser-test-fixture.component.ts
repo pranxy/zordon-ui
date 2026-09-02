@@ -21,6 +21,7 @@ import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-u
 import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
 import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
 import { ZdCountdown } from '@pranxy/zordon-ui/countdown';
+import { ZdDiff, ZdDiffItem1, ZdDiffItem2, ZdDiffResizer } from '@pranxy/zordon-ui/diff';
 import {
   ZdChat,
   ZdChatBubble,
@@ -95,6 +96,10 @@ class ScrollLockPanelComponent {}
     ZdCollapseContent,
     ZdCollapseTitle,
     ZdCountdown,
+    ZdDiff,
+    ZdDiffItem1,
+    ZdDiffItem2,
+    ZdDiffResizer,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -531,6 +536,21 @@ class ScrollLockPanelComponent {}
           role="img"
           ><span aria-hidden="true" style="--value: 59">59</span></span
         >
+      </section>
+
+      <section aria-labelledby="diff-heading" class="grid gap-3" data-testid="diff-contract">
+        <h2 id="diff-heading" class="text-xl font-semibold">Native Diff behavior</h2>
+        <figure zdDiff class="aspect-video w-full max-w-sm" data-testid="diff-example" tabindex="0">
+          <div zdDiffItem1 data-testid="diff-before" tabindex="0">
+            <div class="grid h-full place-content-center bg-primary text-primary-content">
+              Before
+            </div>
+          </div>
+          <div zdDiffItem2 data-testid="diff-after">
+            <div class="grid h-full place-content-center bg-base-200">After</div>
+          </div>
+          <div zdDiffResizer data-testid="diff-resizer"></div>
+        </figure>
       </section>
 
       <section aria-labelledby="chat-heading" class="grid gap-3" data-testid="chat-contract">

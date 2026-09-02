@@ -10,6 +10,7 @@ import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-u
 import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
 import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
 import { ZdCountdown } from '@pranxy/zordon-ui/countdown';
+import { ZdDiff, ZdDiffItem1, ZdDiffItem2, ZdDiffResizer } from '@pranxy/zordon-ui/diff';
 import {
   ZdChat,
   ZdChatBubble,
@@ -43,6 +44,10 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdCollapseContent,
     ZdCollapseTitle,
     ZdCountdown,
+    ZdDiff,
+    ZdDiffItem1,
+    ZdDiffItem2,
+    ZdDiffResizer,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -403,6 +408,14 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             role="img"
             ><span aria-hidden="true" style="--value: 59">59</span></span
           >
+        </section>
+        <section aria-labelledby="diff-heading" data-testid="diff-contract">
+          <h2 id="diff-heading">Hydrated native Diff</h2>
+          <figure zdDiff class="aspect-video" data-testid="diff-example" tabindex="0">
+            <div zdDiffItem1 data-testid="diff-before" tabindex="0"><div>Before</div></div>
+            <div zdDiffItem2 data-testid="diff-after"><div>After</div></div>
+            <div zdDiffResizer data-testid="diff-resizer"></div>
+          </figure>
         </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>

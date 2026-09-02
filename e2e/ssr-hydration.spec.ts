@@ -66,6 +66,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="kbd-xl"');
   expect(html).toContain('data-testid="status-online"');
   expect(html).toContain('data-testid="countdown-remaining"');
+  expect(html).toContain('data-testid="diff-example"');
   expect(html).toContain('data-testid="chat-start"');
   expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
@@ -379,6 +380,13 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(countdownValue).toHaveAttribute('aria-hidden', 'true');
   await expect(countdownValue).toHaveCSS('--value', '59');
   await expect(countdownValue).toHaveText('59');
+
+  const diff = page.getByTestId('diff-example');
+  await expect(diff).toHaveClass(/diff/);
+  await expect(diff).toHaveAttribute('tabindex', '0');
+  await expect(page.getByTestId('diff-before')).toHaveClass(/diff-item-1/);
+  await expect(page.getByTestId('diff-after')).toHaveClass(/diff-item-2/);
+  await expect(page.getByTestId('diff-resizer')).toHaveClass(/diff-resizer/);
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');

@@ -379,6 +379,20 @@ test('keeps Countdown values and labeling consumer-owned while applying its wrap
   await expect(value).toHaveText('59');
 });
 
+test('keeps Diff semantics and native focusability consumer-owned while applying documented parts', async ({
+  page,
+}) => {
+  const diff = page.getByTestId('diff-example');
+  await expect(diff).toHaveJSProperty('tagName', 'FIGURE');
+  await expect(diff).toHaveClass(/diff/);
+  await expect(diff).toHaveAttribute('tabindex', '0');
+  await expect(page.getByTestId('diff-before')).toHaveClass(/diff-item-1/);
+  await expect(page.getByTestId('diff-before')).toHaveAttribute('tabindex', '0');
+  await expect(page.getByTestId('diff-after')).toHaveClass(/diff-item-2/);
+  await expect(page.getByTestId('diff-resizer')).toHaveClass(/diff-resizer/);
+  await expect(page.getByTestId('diff-resizer')).not.toHaveAttribute('role');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {
