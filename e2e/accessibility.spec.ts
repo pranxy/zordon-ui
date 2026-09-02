@@ -130,6 +130,15 @@ test('has no detectable WCAG A or AA violations for native Carousel hosts', asyn
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Collapse hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('collapse-details').locator('summary')).toHaveText('Release notes');
+  const results = await runAxeScan('[data-testid="collapse-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

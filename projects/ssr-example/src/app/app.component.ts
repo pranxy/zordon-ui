@@ -8,6 +8,7 @@ import { ZdBadge } from '@pranxy/zordon-ui/badge';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
+import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
 import {
   ZdChat,
   ZdChatBubble,
@@ -35,6 +36,9 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdCardTitle,
     ZdCarousel,
     ZdCarouselItem,
+    ZdCollapse,
+    ZdCollapseContent,
+    ZdCollapseTitle,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -348,6 +352,18 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             <li zdCarouselItem>Validate the deployment</li>
             <li zdCarouselItem>Notify the team</li>
           </ol>
+        </section>
+        <section aria-labelledby="collapse-heading" data-testid="collapse-contract">
+          <h2 id="collapse-heading">Hydrated native Collapse</h2>
+          <details zdCollapse indicator="arrow" data-testid="collapse-details">
+            <summary zdCollapseTitle>Hydrated release notes</summary>
+            <div zdCollapseContent>Native details owns the disclosure state after hydration.</div>
+          </details>
+          <div zdCollapse indicator="plus" forcedState="close" data-testid="collapse-checkbox">
+            <input id="ssr-collapse-toggle" type="checkbox" />
+            <label zdCollapseTitle for="ssr-collapse-toggle">Hydrated optional updates</label>
+            <div zdCollapseContent>Consumer checkbox owns the disclosure state.</div>
+          </div>
         </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>

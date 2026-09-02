@@ -60,6 +60,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="card-image-full"');
   expect(html).toContain('data-testid="carousel-horizontal"');
   expect(html).toContain('data-testid="carousel-vertical"');
+  expect(html).toContain('data-testid="collapse-details"');
+  expect(html).toContain('data-testid="collapse-checkbox"');
   expect(html).toContain('data-testid="chat-start"');
   expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
@@ -336,6 +338,17 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(carouselVertical).toHaveClass(/carousel-vertical/);
   await expect(carouselVertical).toHaveClass(/carousel-end/);
   await expect(carouselVertical).toHaveAttribute('aria-label', 'Hydrated deployment checklist');
+
+  const collapseDetails = page.getByTestId('collapse-details');
+  const collapseCheckbox = page.getByTestId('collapse-checkbox');
+  await expect(collapseDetails).toHaveClass(/collapse-arrow/);
+  await expect(collapseDetails).not.toHaveAttribute('role');
+  await expect(collapseDetails.locator('summary')).toHaveClass(/collapse-title/);
+  await collapseDetails.locator('summary').click();
+  await expect(collapseDetails).toHaveAttribute('open', '');
+  await expect(collapseCheckbox).toHaveClass(/collapse-plus/);
+  await expect(collapseCheckbox).toHaveClass(/collapse-close/);
+  await expect(collapseCheckbox.locator('input[type="checkbox"]')).not.toBeChecked();
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');
