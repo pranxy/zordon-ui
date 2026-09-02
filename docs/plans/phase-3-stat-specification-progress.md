@@ -12,7 +12,7 @@ Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 | T02 | Define native hosts, public API, and compound anatomy                 | T01     | Verified | Directives and optional typed orientation are explicit                 | `docs/components/stat.md`                  |
 | T03 | Define customization, data, accessibility, and lifecycle boundaries   | T01–T02 | Verified | Consumer ownership and Preview evidence are explicit                   | `docs/components/stat.md`                  |
 | T04 | Approve the DSP-15 specification cell                                 | T01–T03 | Verified | Master row records the approved specification                          | `DAISYUI_ANGULAR_BUILD_PLAN.md`            |
-| T05 | Package native Stat directives                                        | T04     | Pending  | Public entry point, tests, API report, bundle, and package checks pass | —                                          |
+| T05 | Package native Stat directives                                        | T04     | Verified | Public entry point, tests, API report, bundle, and package checks pass | `projects/components/stat/`, `etc/api/zordon-ui-stat.api.md` |
 | T06 | Add browser, SSR/hydration, axe, and visual evidence                  | T05     | Pending  | Native Stat semantics survive supported render paths                   | —                                          |
 
 No subagent was used: the shared workspace remains serialized by instruction.
@@ -25,5 +25,5 @@ No subagent was used: the shared workspace remains serialized by instruction.
 
 ## Next
 
-Package the native Stat directives. Formatting, trends, loading/error state, charts, polling,
+Add browser, SSR/hydration, axe, and visual evidence. Formatting, trends, loading/error state, charts, polling,
 live-region behavior, and actions remain separate consumer-owned concerns.
