@@ -508,6 +508,7 @@ class ScrollLockPanelComponent {}
             zdStatus
             color="success"
             size="xl"
+            role="img"
             aria-label="Service online"
             data-testid="status-online"
           ></span>

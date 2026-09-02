@@ -385,6 +385,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               zdStatus
               color="success"
               size="xl"
+              role="img"
               aria-label="Service online"
               data-testid="status-online"
             ></span>

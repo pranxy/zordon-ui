@@ -360,7 +360,7 @@ test('keeps Status labeling consumer-owned while applying candidates', async ({ 
   await expect(status).toHaveClass(/status-success/);
   await expect(status).toHaveClass(/status-xl/);
   await expect(status).toHaveAttribute('aria-label', 'Service online');
-  await expect(status).not.toHaveAttribute('role');
+  await expect(status).toHaveAttribute('role', 'img');
   await expect(status).not.toHaveAttribute('tabindex');
 });
 

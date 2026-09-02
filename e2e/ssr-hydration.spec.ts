@@ -368,7 +368,7 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(statusOnline).toHaveClass(/status-success/);
   await expect(statusOnline).toHaveClass(/status-xl/);
   await expect(statusOnline).toHaveAttribute('aria-label', 'Service online');
-  await expect(statusOnline).not.toHaveAttribute('role');
+  await expect(statusOnline).toHaveAttribute('role', 'img');
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');
