@@ -338,6 +338,23 @@ test('keeps Collapse disclosure semantics consumer-owned while applying candidat
   await expect(checkbox.locator('input[type=checkbox]')).not.toBeChecked();
 });
 
+test('keeps Kbd text and shortcut semantics consumer-owned while applying candidates', async ({
+  page,
+}) => {
+  const inline = page.getByTestId('kbd-inline');
+  const combination = page.getByTestId('kbd-combination');
+  const extraLarge = page.getByTestId('kbd-xl');
+
+  await expect(inline).toHaveJSProperty('tagName', 'KBD');
+  await expect(inline).toHaveClass(/kbd/);
+  await expect(inline).toHaveClass(/kbd-xs/);
+  await expect(inline).not.toHaveAttribute('role');
+  await expect(inline).not.toHaveAttribute('tabindex');
+  await expect(combination).toHaveAttribute('aria-label', 'Control plus Shift plus Delete');
+  await expect(extraLarge).toHaveClass(/kbd-xl/);
+  await expect(extraLarge).toHaveAttribute('aria-hidden', 'true');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

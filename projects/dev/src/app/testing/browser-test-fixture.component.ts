@@ -29,6 +29,7 @@ import {
 } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
+import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
@@ -100,6 +101,7 @@ class ScrollLockPanelComponent {}
     ZdFieldset,
     ZdFieldsetLabel,
     ZdFieldsetLegend,
+    ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
     ZdLink,
@@ -486,6 +488,16 @@ class ScrollLockPanelComponent {}
           <label zdCollapseTitle for="fixture-collapse-toggle">Optional updates</label>
           <div zdCollapseContent>Consumer checkbox owns the disclosure state.</div>
         </div>
+      </section>
+
+      <section aria-labelledby="kbd-heading" class="grid gap-3" data-testid="kbd-contract">
+        <h2 id="kbd-heading" class="text-xl font-semibold">Native Kbd behavior</h2>
+        <p>Press <kbd zdKbd size="xs" data-testid="kbd-inline">F</kbd> to search.</p>
+        <p aria-label="Control plus Shift plus Delete" data-testid="kbd-combination">
+          <kbd zdKbd aria-hidden="true">Ctrl</kbd> +
+          <kbd zdKbd size="xl" aria-hidden="true" data-testid="kbd-xl">Shift</kbd> +
+          <kbd zdKbd aria-hidden="true">Del</kbd>
+        </p>
       </section>
 
       <section aria-labelledby="chat-heading" class="grid gap-3" data-testid="chat-contract">

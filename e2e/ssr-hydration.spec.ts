@@ -62,6 +62,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="carousel-vertical"');
   expect(html).toContain('data-testid="collapse-details"');
   expect(html).toContain('data-testid="collapse-checkbox"');
+  expect(html).toContain('data-testid="kbd-inline"');
+  expect(html).toContain('data-testid="kbd-xl"');
   expect(html).toContain('data-testid="chat-start"');
   expect(html).toContain('data-testid="chat-end"');
   expect(html).toContain('data-testid="aura-rainbow"');
@@ -349,6 +351,17 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(collapseCheckbox).toHaveClass(/collapse-plus/);
   await expect(collapseCheckbox).toHaveClass(/collapse-close/);
   await expect(collapseCheckbox.locator('input[type="checkbox"]')).not.toBeChecked();
+
+  const kbdInline = page.getByTestId('kbd-inline');
+  const kbdCombination = page.getByTestId('kbd-combination');
+  const kbdExtraLarge = page.getByTestId('kbd-xl');
+  await expect(kbdInline).toHaveJSProperty('tagName', 'KBD');
+  await expect(kbdInline).toHaveClass(/kbd-xs/);
+  await expect(kbdInline).not.toHaveAttribute('role');
+  await expect(kbdInline).not.toHaveAttribute('tabindex');
+  await expect(kbdCombination).toHaveAttribute('aria-label', 'Control plus Shift plus Delete');
+  await expect(kbdExtraLarge).toHaveClass(/kbd-xl/);
+  await expect(kbdExtraLarge).toHaveAttribute('aria-hidden', 'true');
 
   const chatStart = page.getByTestId('chat-start');
   const chatEnd = page.getByTestId('chat-end');

@@ -50,6 +50,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#button-heading),
       ${fixtureSelector} section:has(#carousel-heading),
       ${fixtureSelector} section:has(#collapse-heading),
+      ${fixtureSelector} section:has(#kbd-heading),
       ${fixtureSelector} section:has(#chat-heading),
       ${fixtureSelector} section:has(#link-heading),
       ${fixtureSelector} section:has(#divider-heading),
@@ -333,6 +334,25 @@ test('Collapse visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('collapse-contract')).toHaveScreenshot(
     'collapse--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Kbd visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#kbd-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('kbd-contract')).toHaveScreenshot(
+    'kbd--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

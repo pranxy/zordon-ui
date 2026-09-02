@@ -139,6 +139,15 @@ test('has no detectable WCAG A or AA violations for native Collapse hosts', asyn
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Kbd hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('kbd-inline')).toHaveJSProperty('tagName', 'KBD');
+  const results = await runAxeScan('[data-testid="kbd-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Avatar hosts', async ({
   page,
   runAxeScan,

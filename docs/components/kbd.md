@@ -1,7 +1,7 @@
 # Kbd
 
 **Component ID:** DSP-13  
-**Maturity:** Planned  
+**Maturity:** Preview
 **Planned entry point:** `@pranxy/zordon-ui/kbd`
 
 Kbd applies daisyUI’s visual keycap treatment to a native `<kbd>` element. It is a presentation
