@@ -3,7 +3,25 @@
   "projectFolder": "../projects/components",
   "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-status.d.ts",
   "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-status.json" },
-  "apiReport": { "enabled": true, "reportFileName": "zordon-ui-status", "reportFolder": "<projectFolder>/../../etc/api", "reportTempFolder": "<projectFolder>/../../temp/api-extractor", "reportVariants": ["complete"], "includeForgottenExports": true },
-  "docModel": { "enabled": false }, "dtsRollup": { "enabled": false }, "tsdocMetadata": { "enabled": false },
-  "messages": { "compilerMessageReporting": { "default": { "logLevel": "warning" } }, "extractorMessageReporting": { "default": { "logLevel": "warning" }, "ae-forgotten-export": { "logLevel": "error", "addToApiReportFile": true }, "ae-missing-release-tag": { "logLevel": "none" }, "ae-undocumented": { "logLevel": "none" } }, "tsdocMessageReporting": { "default": { "logLevel": "warning" } } }
+  "apiReport": {
+    "enabled": true,
+    "reportFileName": "zordon-ui-status",
+    "reportFolder": "<projectFolder>/../../etc/api",
+    "reportTempFolder": "<projectFolder>/../../temp/api-extractor",
+    "reportVariants": ["complete"],
+    "includeForgottenExports": true
+  },
+  "docModel": { "enabled": false },
+  "dtsRollup": { "enabled": false },
+  "tsdocMetadata": { "enabled": false },
+  "messages": {
+    "compilerMessageReporting": { "default": { "logLevel": "warning" } },
+    "extractorMessageReporting": {
+      "default": { "logLevel": "warning" },
+      "ae-forgotten-export": { "logLevel": "error", "addToApiReportFile": true },
+      "ae-missing-release-tag": { "logLevel": "none" },
+      "ae-undocumented": { "logLevel": "none" }
+    },
+    "tsdocMessageReporting": { "default": { "logLevel": "warning" } }
+  }
 }
