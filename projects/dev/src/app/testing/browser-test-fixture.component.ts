@@ -32,6 +32,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
+import { ZdStatus } from '@pranxy/zordon-ui/status';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
 import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
@@ -105,6 +106,7 @@ class ScrollLockPanelComponent {}
     ZdFloatingLabel,
     ZdLabel,
     ZdLink,
+    ZdStatus,
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -497,6 +499,13 @@ class ScrollLockPanelComponent {}
           <kbd zdKbd aria-hidden="true">Ctrl</kbd> +
           <kbd zdKbd size="xl" aria-hidden="true" data-testid="kbd-xl">Shift</kbd> +
           <kbd zdKbd aria-hidden="true">Del</kbd>
+        </p>
+      </section>
+      <section aria-labelledby="status-heading" class="grid gap-3" data-testid="status-contract">
+        <h2 id="status-heading" class="text-xl font-semibold">Native Status behavior</h2>
+        <p class="flex items-center gap-2">
+          <span zdStatus color="success" size="xl" aria-label="Service online" data-testid="status-online"></span>
+          Service online
         </p>
       </section>
 

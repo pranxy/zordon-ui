@@ -21,6 +21,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
+import { ZdStatus } from '@pranxy/zordon-ui/status';
 
 @Component({
   selector: 'ssr-example-root',
@@ -53,6 +54,7 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
     ZdFloatingLabel,
     ZdLabel,
     ZdLink,
+    ZdStatus,
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -375,6 +377,10 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
             <kbd zdKbd size="xl" aria-hidden="true" data-testid="kbd-xl">Shift</kbd> +
             <kbd zdKbd aria-hidden="true">Del</kbd>
           </p>
+        </section>
+        <section aria-labelledby="status-heading" data-testid="status-contract">
+          <h2 id="status-heading">Hydrated native Status</h2>
+          <p><span zdStatus color="success" size="xl" aria-label="Service online" data-testid="status-online"></span> Service online</p>
         </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>
