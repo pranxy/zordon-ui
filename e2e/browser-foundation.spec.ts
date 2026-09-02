@@ -364,6 +364,21 @@ test('keeps Status labeling consumer-owned while applying candidates', async ({ 
   await expect(status).not.toHaveAttribute('tabindex');
 });
 
+test('keeps Countdown values and labeling consumer-owned while applying its wrapper', async ({
+  page,
+}) => {
+  const countdown = page.getByTestId('countdown-remaining');
+  const value = countdown.locator('span');
+
+  await expect(countdown).toHaveClass(/countdown/);
+  await expect(countdown).toHaveAttribute('role', 'img');
+  await expect(countdown).toHaveAttribute('aria-label', '59 seconds remaining');
+  await expect(countdown).not.toHaveAttribute('tabindex');
+  await expect(value).toHaveAttribute('aria-hidden', 'true');
+  await expect(value).toHaveCSS('--value', '59');
+  await expect(value).toHaveText('59');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

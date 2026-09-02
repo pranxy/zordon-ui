@@ -9,6 +9,7 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardActions, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 import { ZdCarousel, ZdCarouselItem } from '@pranxy/zordon-ui/carousel';
 import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
+import { ZdCountdown } from '@pranxy/zordon-ui/countdown';
 import {
   ZdChat,
   ZdChatBubble,
@@ -41,6 +42,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdCollapse,
     ZdCollapseContent,
     ZdCollapseTitle,
+    ZdCountdown,
     ZdChat,
     ZdChatBubble,
     ZdChatFooter,
@@ -391,6 +393,16 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             ></span>
             Service online
           </p>
+        </section>
+        <section aria-labelledby="countdown-heading" data-testid="countdown-contract">
+          <h2 id="countdown-heading">Hydrated native Countdown</h2>
+          <span
+            zdCountdown
+            aria-label="59 seconds remaining"
+            data-testid="countdown-remaining"
+            role="img"
+            ><span aria-hidden="true" style="--value: 59">59</span></span
+          >
         </section>
         <section aria-labelledby="chat-heading" data-testid="chat-contract">
           <h2 id="chat-heading">Hydrated native Chat Bubble</h2>
