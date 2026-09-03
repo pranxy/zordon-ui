@@ -393,6 +393,17 @@ test('keeps Diff semantics and native focusability consumer-owned while applying
   await expect(page.getByTestId('diff-resizer')).not.toHaveAttribute('role');
 });
 
+test('keeps Hover 3D activation and hover zones consumer-owned while applying its wrapper', async ({
+  page,
+}) => {
+  const hover3d = page.getByTestId('hover-3d-example');
+  await expect(hover3d).toHaveJSProperty('tagName', 'A');
+  await expect(hover3d).toHaveClass(/hover-3d/);
+  await expect(hover3d).toHaveAttribute('href', '#hover-3d-target');
+  await expect(hover3d.locator(':scope > div')).toHaveCount(8);
+  await expect(hover3d.locator(':scope > div').first()).toHaveAttribute('aria-hidden', 'true');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

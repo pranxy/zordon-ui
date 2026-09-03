@@ -91,6 +91,15 @@ test('has no detectable WCAG A or AA violations for native Aura hosts', async ({
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Hover 3D hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('hover-3d-example')).toHaveAttribute('href', '#hover-3d-target');
+  const results = await runAxeScan('[data-testid="hover-3d-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

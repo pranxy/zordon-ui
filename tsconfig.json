@@ -14,6 +14,7 @@
       "@pranxy/zordon-ui/collapse": ["projects/components/collapse/src/public-api.ts"],
       "@pranxy/zordon-ui/countdown": ["projects/components/countdown/src/public-api.ts"],
       "@pranxy/zordon-ui/diff": ["projects/components/diff/src/public-api.ts"],
+      "@pranxy/zordon-ui/hover-3d": ["projects/components/hover-3d/src/public-api.ts"],
       "@pranxy/zordon-ui/chat-bubble": ["projects/components/chat-bubble/src/public-api.ts"],
       "@pranxy/zordon-ui/divider": ["projects/components/divider/src/public-api.ts"],
       "@pranxy/zordon-ui/fieldset": ["projects/components/fieldset/src/public-api.ts"],

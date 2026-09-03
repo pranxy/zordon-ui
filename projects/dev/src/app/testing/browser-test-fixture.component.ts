@@ -31,6 +31,7 @@ import {
 } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
+import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -109,6 +110,7 @@ class ScrollLockPanelComponent {}
     ZdFieldset,
     ZdFieldsetLabel,
     ZdFieldsetLegend,
+    ZdHover3d,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -307,6 +309,26 @@ class ScrollLockPanelComponent {}
           <label zdFieldsetLabel for="fieldset-method">Email</label>
           <input class="input" id="fieldset-method" type="email" />
         </fieldset>
+      </section>
+
+      <section
+        aria-labelledby="hover-3d-heading"
+        class="grid gap-3"
+        data-testid="hover-3d-contract"
+      >
+        <h2 id="hover-3d-heading" class="text-xl font-semibold">Native Hover 3D behavior</h2>
+        <a zdHover3d class="w-60" data-testid="hover-3d-example" href="#hover-3d-target">
+          <figure class="rounded-box bg-primary p-8 text-primary-content">Product preview</figure>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+          <div aria-hidden="true"></div>
+        </a>
+        <span id="hover-3d-target" tabindex="-1">Hover 3D target</span>
       </section>
 
       <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">

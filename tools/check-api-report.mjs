@@ -96,6 +96,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-diff.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-diff.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-hover-3d.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-hover-3d.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-hover-3d.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

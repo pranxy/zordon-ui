@@ -20,6 +20,7 @@ import {
 } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
+import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -57,6 +58,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdFieldset,
     ZdFieldsetLabel,
     ZdFieldsetLegend,
+    ZdHover3d,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -260,6 +262,21 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
           </fieldset>
         </section>
 
+        <section aria-labelledby="hover-3d-heading" data-testid="hover-3d-contract">
+          <h2 id="hover-3d-heading">Hydrated native Hover 3D</h2>
+          <a zdHover3d data-testid="hover-3d-example" href="#hover-3d-target">
+            <div>Product preview</div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+            <div aria-hidden="true"></div>
+          </a>
+          <span id="hover-3d-target">Hover 3D target</span>
+        </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>
           <div zdAvatarGroup data-testid="avatar-group">

@@ -14,10 +14,14 @@ itself a native link or button rather than nesting interactive descendants.
 ```html
 <a zdHover3d href="/details">
   <figure><img alt="Product card" src="product.webp" /></figure>
-  <div aria-hidden="true"></div><div aria-hidden="true"></div>
-  <div aria-hidden="true"></div><div aria-hidden="true"></div>
-  <div aria-hidden="true"></div><div aria-hidden="true"></div>
-  <div aria-hidden="true"></div><div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
+  <div aria-hidden="true"></div>
 </a>
 ```
 
