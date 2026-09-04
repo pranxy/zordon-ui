@@ -418,6 +418,22 @@ test('keeps Hover Gallery media and semantics consumer-owned while applying its 
   await expect(hoverGallery).not.toHaveAttribute('role');
 });
 
+test('keeps List semantics and action ownership native while applying documented parts', async ({
+  page,
+}) => {
+  const list = page.getByTestId('list-example');
+  const row = page.getByTestId('list-row-example');
+  await expect(list).toHaveJSProperty('tagName', 'UL');
+  await expect(list).toHaveClass(/list/);
+  await expect(list).toHaveAttribute('aria-label', 'Recently played tracks');
+  await expect(list).not.toHaveAttribute('role');
+  await expect(row).toHaveJSProperty('tagName', 'LI');
+  await expect(row).toHaveClass(/list-row/);
+  await expect(row.locator('[zdListColGrow]')).toHaveClass(/list-col-grow/);
+  await expect(row.locator('[zdListColWrap]')).toHaveClass(/list-col-wrap/);
+  await expect(row.getByRole('button', { name: 'Play Moonlit Drive' })).toBeVisible();
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

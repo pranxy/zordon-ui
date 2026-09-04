@@ -106,6 +106,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-hover-gallery.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-hover-gallery.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-list.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-list.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-list.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

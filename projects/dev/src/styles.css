@@ -12,6 +12,7 @@
 @source inline("diff diff-item-1 diff-item-2 diff-resizer");
 @source inline("hover-3d");
 @source inline("hover-gallery");
+@source inline("list list-row list-col-grow list-col-wrap");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {

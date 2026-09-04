@@ -33,6 +33,7 @@ import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
+import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -113,6 +114,10 @@ class ScrollLockPanelComponent {}
     ZdFieldsetLegend,
     ZdHover3d,
     ZdHoverGallery,
+    ZdList,
+    ZdListColGrow,
+    ZdListColWrap,
+    ZdListRow,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -355,6 +360,28 @@ class ScrollLockPanelComponent {}
             src="https://placehold.co/480x320/059669/ffffff?text=Green"
           />
         </figure>
+      </section>
+
+      <section aria-labelledby="list-heading" class="grid gap-3" data-testid="list-contract">
+        <h2 id="list-heading" class="text-xl font-semibold">Native List behavior</h2>
+        <ul
+          zdList
+          aria-label="Recently played tracks"
+          class="rounded-box bg-base-100 shadow"
+          data-testid="list-example"
+        >
+          <li zdListRow data-testid="list-row-example">
+            <span class="tabular-nums opacity-60">01</span>
+            <div zdListColGrow>
+              <div>Moonlit Drive</div>
+              <div class="text-xs opacity-60">Avery Chen</div>
+            </div>
+            <p zdListColWrap class="text-xs">Saved for offline listening.</p>
+            <button class="btn btn-ghost btn-square" type="button" aria-label="Play Moonlit Drive">
+              ▶
+            </button>
+          </li>
+        </ul>
       </section>
 
       <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">

@@ -73,6 +73,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('data-testid="hover-3d-example"');
   expect(html).toContain('data-testid="hover-gallery-example"');
+  expect(html).toContain('data-testid="list-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -420,6 +421,15 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(hoverGallery).toHaveJSProperty('tagName', 'FIGURE');
   await expect(hoverGallery).toHaveClass(/hover-gallery/);
   await expect(hoverGallery.locator(':scope > img')).toHaveCount(3);
+
+  const list = page.getByTestId('list-example');
+  const listRow = page.getByTestId('list-row-example');
+  await expect(list).toHaveJSProperty('tagName', 'UL');
+  await expect(list).toHaveClass(/list/);
+  await expect(list).toHaveAttribute('aria-label', 'Recently played tracks');
+  await expect(listRow).toHaveClass(/list-row/);
+  await expect(listRow.locator('[zdListColGrow]')).toHaveClass(/list-col-grow/);
+  await expect(listRow.locator('[zdListColWrap]')).toHaveClass(/list-col-wrap/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

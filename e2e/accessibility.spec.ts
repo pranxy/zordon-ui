@@ -109,6 +109,18 @@ test('has no detectable WCAG A or AA violations for native Hover Gallery hosts',
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native List hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('list-example')).toHaveAttribute(
+    'aria-label',
+    'Recently played tracks',
+  );
+  const results = await runAxeScan('[data-testid="list-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,
