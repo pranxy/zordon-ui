@@ -72,6 +72,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="aura-rainbow"');
   expect(html).toContain('data-testid="aura-glow"');
   expect(html).toContain('data-testid="hover-3d-example"');
+  expect(html).toContain('data-testid="hover-gallery-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -414,6 +415,11 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(hover3d).toHaveClass(/hover-3d/);
   await expect(hover3d).toHaveAttribute('href', '#hover-3d-target');
   await expect(hover3d.locator(':scope > div')).toHaveCount(9);
+
+  const hoverGallery = page.getByTestId('hover-gallery-example');
+  await expect(hoverGallery).toHaveJSProperty('tagName', 'FIGURE');
+  await expect(hoverGallery).toHaveClass(/hover-gallery/);
+  await expect(hoverGallery.locator(':scope > img')).toHaveCount(3);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

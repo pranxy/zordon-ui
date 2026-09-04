@@ -404,6 +404,20 @@ test('keeps Hover 3D activation and hover zones consumer-owned while applying it
   await expect(hover3d.locator(':scope > div').first()).toHaveAttribute('aria-hidden', 'true');
 });
 
+test('keeps Hover Gallery media and semantics consumer-owned while applying its wrapper', async ({
+  page,
+}) => {
+  const hoverGallery = page.getByTestId('hover-gallery-example');
+  await expect(hoverGallery).toHaveJSProperty('tagName', 'FIGURE');
+  await expect(hoverGallery).toHaveClass(/hover-gallery/);
+  await expect(hoverGallery.locator(':scope > img')).toHaveCount(3);
+  await expect(hoverGallery.locator(':scope > img').first()).toHaveAttribute(
+    'alt',
+    'Blue product angle',
+  );
+  await expect(hoverGallery).not.toHaveAttribute('role');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

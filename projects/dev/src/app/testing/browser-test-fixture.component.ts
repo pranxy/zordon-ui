@@ -32,6 +32,7 @@ import {
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
+import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -111,6 +112,7 @@ class ScrollLockPanelComponent {}
     ZdFieldsetLabel,
     ZdFieldsetLegend,
     ZdHover3d,
+    ZdHoverGallery,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -329,6 +331,30 @@ class ScrollLockPanelComponent {}
           <div aria-hidden="true"></div>
         </a>
         <span id="hover-3d-target" tabindex="-1">Hover 3D target</span>
+      </section>
+
+      <section
+        aria-labelledby="hover-gallery-heading"
+        class="grid gap-3"
+        data-testid="hover-gallery-contract"
+      >
+        <h2 id="hover-gallery-heading" class="text-xl font-semibold">
+          Native Hover Gallery behavior
+        </h2>
+        <figure zdHoverGallery class="w-60" data-testid="hover-gallery-example">
+          <img
+            alt="Blue product angle"
+            src="https://placehold.co/480x320/2563eb/ffffff?text=Blue"
+          />
+          <img
+            alt="Purple product angle"
+            src="https://placehold.co/480x320/7c3aed/ffffff?text=Purple"
+          />
+          <img
+            alt="Green product angle"
+            src="https://placehold.co/480x320/059669/ffffff?text=Green"
+          />
+        </figure>
       </section>
 
       <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">
