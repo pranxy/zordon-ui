@@ -5,14 +5,22 @@ import {
   ZdTimelineBox,
   ZdTimelineEnd,
   ZdTimelineMiddle,
+  ZdTimelineSnapIcon,
   ZdTimelineStart,
 } from './timeline';
 @Component({
-  imports: [ZdTimeline, ZdTimelineBox, ZdTimelineEnd, ZdTimelineMiddle, ZdTimelineStart],
+  imports: [
+    ZdTimeline,
+    ZdTimelineBox,
+    ZdTimelineEnd,
+    ZdTimelineMiddle,
+    ZdTimelineSnapIcon,
+    ZdTimelineStart,
+  ],
   template: `<ol zdTimeline orientation="vertical" compact aria-label="Releases">
     <li>
       <div zdTimelineStart>2026</div>
-      <div zdTimelineMiddle>●</div>
+      <div zdTimelineMiddle zdTimelineSnapIcon>●</div>
       <div zdTimelineEnd zdTimelineBox>Release</div>
     </li>
   </ol>`,
@@ -36,6 +44,11 @@ describe('ZdTimeline', () => {
     ).toBe(true);
     expect(
       f.nativeElement.querySelector('[zdTimelineBox]').classList.contains('timeline-box'),
+    ).toBe(true);
+    expect(
+      f.nativeElement
+        .querySelector('[zdTimelineSnapIcon]')
+        .classList.contains('timeline-snap-icon'),
     ).toBe(true);
   });
 });
