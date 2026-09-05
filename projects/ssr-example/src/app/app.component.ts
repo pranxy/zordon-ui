@@ -24,6 +24,7 @@ import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 import { ZdTable } from '@pranxy/zordon-ui/table';
+import { ZdTextRotate } from '@pranxy/zordon-ui/text-rotate';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -68,6 +69,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdListColWrap,
     ZdListRow,
     ZdTable,
+    ZdTextRotate,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -333,6 +335,12 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               </tr>
             </tbody>
           </table>
+        </section>
+        <section aria-labelledby="text-rotate-heading" data-testid="text-rotate-contract">
+          <h2 id="text-rotate-heading">Hydrated native Text Rotate</h2>
+          <span zdTextRotate data-testid="text-rotate-example"
+            ><span><span>Design</span><span>Develop</span><span>Deploy</span></span></span
+          >
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

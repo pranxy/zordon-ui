@@ -448,6 +448,15 @@ test('keeps Table semantics native while applying documented size and layout can
   await expect(table.getByRole('rowheader', { name: 'September' })).toBeVisible();
 });
 
+test('keeps Text Rotate words and announcement policy consumer-owned', async ({ page }) => {
+  const textRotate = page.getByTestId('text-rotate-example');
+  await expect(textRotate).toHaveJSProperty('tagName', 'SPAN');
+  await expect(textRotate).toHaveClass(/text-rotate/);
+  await expect(textRotate.locator(':scope > span > span')).toHaveCount(3);
+  await expect(textRotate).not.toHaveAttribute('role');
+  await expect(textRotate).not.toHaveAttribute('aria-live');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

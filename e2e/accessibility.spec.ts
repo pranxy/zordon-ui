@@ -132,6 +132,14 @@ test('has no detectable WCAG A or AA violations for native Table hosts', async (
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Text Rotate hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('text-rotate-example')).toHaveClass(/text-rotate/);
+  expect((await runAxeScan('[data-testid="text-rotate-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

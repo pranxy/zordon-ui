@@ -75,6 +75,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="hover-gallery-example"');
   expect(html).toContain('data-testid="list-example"');
   expect(html).toContain('data-testid="table-example"');
+  expect(html).toContain('data-testid="text-rotate-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -438,6 +439,10 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(table).toHaveClass(/table-zebra/);
   await expect(table).toHaveClass(/table-pin-rows/);
   await expect(table.locator('caption')).toHaveText('Monthly deployments');
+
+  const textRotate = page.getByTestId('text-rotate-example');
+  await expect(textRotate).toHaveClass(/text-rotate/);
+  await expect(textRotate.locator(':scope > span > span')).toHaveCount(3);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');
