@@ -13,6 +13,7 @@
 @source inline("hover-3d");
 @source inline("hover-gallery");
 @source inline("list list-row list-col-grow list-col-wrap");
+@source inline("table table-xs table-sm table-md table-lg table-xl table-zebra table-pin-rows table-pin-cols");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {

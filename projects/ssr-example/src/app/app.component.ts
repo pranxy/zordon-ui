@@ -23,6 +23,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
+import { ZdTable } from '@pranxy/zordon-ui/table';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -66,6 +67,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdListColGrow,
     ZdListColWrap,
     ZdListRow,
+    ZdTable,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -311,6 +313,26 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               <button type="button" aria-label="Play Moonlit Drive">Play</button>
             </li>
           </ul>
+        </section>
+        <section aria-labelledby="table-heading" data-testid="table-contract">
+          <h2 id="table-heading">Hydrated native Table</h2>
+          <table zdTable size="sm" zebra pinRows data-testid="table-example">
+            <caption>
+              Monthly deployments
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">September</th>
+                <td>12</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

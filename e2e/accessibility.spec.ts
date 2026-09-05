@@ -121,6 +121,17 @@ test('has no detectable WCAG A or AA violations for native List hosts', async ({
   expect(results.violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Table hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('table-example').locator('caption')).toHaveText(
+    'Monthly deployments',
+  );
+  const results = await runAxeScan('[data-testid="table-contract"]');
+  expect(results.violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

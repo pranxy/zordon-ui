@@ -74,6 +74,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="hover-3d-example"');
   expect(html).toContain('data-testid="hover-gallery-example"');
   expect(html).toContain('data-testid="list-example"');
+  expect(html).toContain('data-testid="table-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -430,6 +431,13 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(listRow).toHaveClass(/list-row/);
   await expect(listRow.locator('[zdListColGrow]')).toHaveClass(/list-col-grow/);
   await expect(listRow.locator('[zdListColWrap]')).toHaveClass(/list-col-wrap/);
+
+  const table = page.getByTestId('table-example');
+  await expect(table).toHaveJSProperty('tagName', 'TABLE');
+  await expect(table).toHaveClass(/table-sm/);
+  await expect(table).toHaveClass(/table-zebra/);
+  await expect(table).toHaveClass(/table-pin-rows/);
+  await expect(table.locator('caption')).toHaveText('Monthly deployments');
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

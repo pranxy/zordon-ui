@@ -34,6 +34,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
+import { ZdTable } from '@pranxy/zordon-ui/table';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -118,6 +119,7 @@ class ScrollLockPanelComponent {}
     ZdListColGrow,
     ZdListColWrap,
     ZdListRow,
+    ZdTable,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -382,6 +384,29 @@ class ScrollLockPanelComponent {}
             </button>
           </li>
         </ul>
+      </section>
+
+      <section aria-labelledby="table-heading" class="grid gap-3" data-testid="table-contract">
+        <h2 id="table-heading" class="text-xl font-semibold">Native Table behavior</h2>
+        <div class="overflow-x-auto">
+          <table zdTable size="sm" zebra pinRows class="bg-base-100" data-testid="table-example">
+            <caption class="text-left">
+              Monthly deployments
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Month</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">September</th>
+                <td>12</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">

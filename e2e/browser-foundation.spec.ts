@@ -434,6 +434,20 @@ test('keeps List semantics and action ownership native while applying documented
   await expect(row.getByRole('button', { name: 'Play Moonlit Drive' })).toBeVisible();
 });
 
+test('keeps Table semantics native while applying documented size and layout candidates', async ({
+  page,
+}) => {
+  const table = page.getByTestId('table-example');
+  await expect(table).toHaveJSProperty('tagName', 'TABLE');
+  for (const token of ['table', 'table-sm', 'table-zebra', 'table-pin-rows']) {
+    await expect(table).toHaveClass(new RegExp(token));
+  }
+  await expect(table).not.toHaveAttribute('role');
+  await expect(table.locator('caption')).toHaveText('Monthly deployments');
+  await expect(table.getByRole('columnheader', { name: 'Month' })).toBeVisible();
+  await expect(table.getByRole('rowheader', { name: 'September' })).toBeVisible();
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {
