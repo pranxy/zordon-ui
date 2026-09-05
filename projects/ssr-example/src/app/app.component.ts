@@ -20,6 +20,7 @@ import {
 } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
+import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -70,6 +71,8 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdFieldset,
     ZdFieldsetLabel,
     ZdFieldsetLegend,
+    ZdFooter,
+    ZdFooterTitle,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -387,6 +390,21 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               Second release
             </article>
           </section>
+        </section>
+        <section aria-labelledby="footer-heading" data-testid="footer-contract">
+          <h2 id="footer-heading">Hydrated native Footer</h2>
+          <footer
+            zdFooter
+            direction="horizontal"
+            center
+            aria-label="Fixture footer"
+            data-testid="footer-example"
+          >
+            <nav aria-label="Fixture company links">
+              <h3 zdFooterTitle>Company</h3>
+              <a href="#footer-about">About</a>
+            </nav>
+          </footer>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

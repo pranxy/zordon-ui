@@ -479,6 +479,17 @@ test('keeps Stack host semantics consumer-owned while applying documented alignm
   await expect(stack).not.toHaveAttribute('role');
 });
 
+test('keeps Footer landmark semantics consumer-owned while applying documented classes', async ({
+  page,
+}) => {
+  const footer = page.getByTestId('footer-example');
+  await expect(footer).toHaveJSProperty('tagName', 'FOOTER');
+  await expect(footer).toHaveClass(/footer-horizontal/);
+  await expect(footer).toHaveClass(/footer-center/);
+  await expect(footer.getByRole('navigation')).toHaveAccessibleName('Fixture company links');
+  await expect(footer.locator('[zdFooterTitle]')).toHaveClass(/footer-title/);
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

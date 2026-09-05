@@ -31,6 +31,7 @@ import {
 } from '@pranxy/zordon-ui/chat-bubble';
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
+import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -122,6 +123,8 @@ class ScrollLockPanelComponent {}
     ZdFieldset,
     ZdFieldsetLabel,
     ZdFieldsetLegend,
+    ZdFooter,
+    ZdFooterTitle,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -450,6 +453,22 @@ class ScrollLockPanelComponent {}
             Second release
           </article>
         </section>
+      </section>
+
+      <section aria-labelledby="footer-heading" class="grid gap-3" data-testid="footer-contract">
+        <h2 id="footer-heading" class="text-xl font-semibold">Native Footer behavior</h2>
+        <footer
+          zdFooter
+          direction="horizontal"
+          center
+          aria-label="Fixture footer"
+          data-testid="footer-example"
+        >
+          <nav aria-label="Fixture company links">
+            <h3 zdFooterTitle>Company</h3>
+            <a href="#footer-about">About</a>
+          </nav>
+        </footer>
       </section>
 
       <section

@@ -162,6 +162,14 @@ test('has no detectable WCAG A or AA violations for native Stack hosts', async (
   expect((await runAxeScan('[data-testid="stack-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Footer hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('footer-example')).toHaveAttribute('aria-label', 'Fixture footer');
+  expect((await runAxeScan('[data-testid="footer-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

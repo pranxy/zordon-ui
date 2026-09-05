@@ -60,6 +60,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#text-rotate-heading),
       ${fixtureSelector} section:has(#timeline-heading),
       ${fixtureSelector} section:has(#stack-heading),
+      ${fixtureSelector} section:has(#footer-heading),
       ${fixtureSelector} section:has(#diff-heading),
       ${fixtureSelector} section:has(#chat-heading),
       ${fixtureSelector} section:has(#link-heading),
@@ -534,6 +535,25 @@ test('Stack visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('stack-contract')).toHaveScreenshot(
     'stack--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Footer visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#footer-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('footer-contract')).toHaveScreenshot(
+    'footer--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',
