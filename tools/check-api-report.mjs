@@ -5,7 +5,7 @@ import { dirname, resolve } from 'node:path';
 
 const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
-const reports = [
+export const apiReports = [
   {
     configPath: resolve(toolsDirectory, 'api-extractor-aura.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-aura.api.md'),
@@ -147,19 +147,8 @@ function normalizeNewlines(value) {
 }
 
 export async function checkApiReport({ spawn = spawnSync } = {}) {
-  for (const report of reports) {
-    const result = spawn(
-      process.execPath,
-      ['--no-warnings', apiExtractorPath, 'run', '--config', report.configPath, '--local'],
-      {
-        cwd: workspaceRoot,
-        stdio: 'inherit',
-      },
-    );
-    if (result.error) throw result.error;
-    if (result.status !== 0) {
-      throw new Error(`API Extractor failed with exit code ${result.status ?? 'unknown'}.`);
-    }
+  for (const report of apiReports) {
+    runApiExtractor(report, spawn);
 
     const [baseline, candidate] = await Promise.all([
       readFile(report.baselinePath, 'utf8'),
@@ -169,9 +158,39 @@ export async function checkApiReport({ spawn = spawnSync } = {}) {
   }
 }
 
+export function updateApiReports({ spawn = spawnSync } = {}) {
+  for (const report of apiReports) {
+    runApiExtractor(report, spawn);
+  }
+}
+
+function runApiExtractor(report, spawn) {
+  const result = spawn(
+    process.execPath,
+    ['--no-warnings', apiExtractorPath, 'run', '--config', report.configPath, '--local'],
+    {
+      cwd: workspaceRoot,
+      stdio: 'inherit',
+    },
+  );
+  if (result.error) throw result.error;
+  if (result.status !== 0) {
+    throw new Error(`API Extractor failed with exit code ${result.status ?? 'unknown'}.`);
+  }
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  checkApiReport().catch(error => {
-    console.error(error instanceof Error ? error.message : error);
+  const command = process.argv[2] ?? 'check';
+  const operation =
+    command === 'check' ? checkApiReport : command === 'update' ? updateApiReports : null;
+
+  if (!operation) {
+    console.error(`Unknown API report command: ${command}. Use \"check\" or \"update\".`);
     process.exitCode = 1;
-  });
+  } else {
+    Promise.resolve(operation()).catch(error => {
+      console.error(error instanceof Error ? error.message : error);
+      process.exitCode = 1;
+    });
+  }
 }

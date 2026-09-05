@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import test from 'node:test';
-import { assertApiReportsMatch } from './check-api-report.mjs';
+import { apiReports, assertApiReportsMatch } from './check-api-report.mjs';
 
 const workspaceRoot = resolve(import.meta.dirname, '..');
 
@@ -198,15 +198,37 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.match(report, /API Report File for "zordon-ui"/);
   assert.match(report, /export function provideZordonUi/);
   assert.match(report, /export class ZdTheme/);
-  assert.match(scripts['check:api'], /node tools\/check-api-report\.mjs/);
-  assert.match(scripts['update:api'], /api-extractor-aura\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-avatar\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-badge\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-button\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-divider\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-fieldset\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-label\.json.*--local/);
-  assert.match(scripts['update:api'], /api-extractor-link\.json.*--local/);
+  assert.equal(scripts['check:api'], 'node tools/check-api-report.mjs check');
+  assert.equal(scripts['update:api'], 'node tools/check-api-report.mjs update');
+  assert.deepEqual(
+    apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)),
+    [
+      'api-extractor-aura.json',
+      'api-extractor-avatar.json',
+      'api-extractor-badge.json',
+      'api-extractor-card.json',
+      'api-extractor-carousel.json',
+      'api-extractor-collapse.json',
+      'api-extractor-chat-bubble.json',
+      'api-extractor-kbd.json',
+      'api-extractor.json',
+      'api-extractor-button.json',
+      'api-extractor-divider.json',
+      'api-extractor-fieldset.json',
+      'api-extractor-label.json',
+      'api-extractor-link.json',
+      'api-extractor-stat.json',
+      'api-extractor-status.json',
+      'api-extractor-countdown.json',
+      'api-extractor-diff.json',
+      'api-extractor-hover-3d.json',
+      'api-extractor-hover-gallery.json',
+      'api-extractor-list.json',
+      'api-extractor-table.json',
+      'api-extractor-text-rotate.json',
+      'api-extractor-timeline.json',
+    ],
+  );
   assert.match(scripts['test:api'], /build:lib.*check:api/);
   assert.match(workflow, /name: Check public API report\s+run: npm run check:api/);
 });

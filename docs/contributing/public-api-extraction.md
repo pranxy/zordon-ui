@@ -17,8 +17,10 @@ npm run update:api
 ```
 
 `npm run check:api` only compares a completed library build with the baseline. It is used in CI after
-`build:lib`, and `release:dry-run` includes it. `update:api` uses API Extractor's local mode and is
-an approval action; never run it merely to make a failing check pass.
+`build:lib`, and `release:dry-run` includes it. Both commands use the single API-report registry in
+`tools/check-api-report.mjs`: `check` compares every candidate with its reviewed baseline, while
+`update` runs API Extractor for every registered entry point. It is an approval action; never run it
+merely to make a failing check pass.
 
 ## Review workflow
 
