@@ -6,15 +6,19 @@ const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 type AxeScanResult = Awaited<ReturnType<AxeBuilder['analyze']>>;
 
 interface AccessibilityFixtures {
-  runAxeScan: (scope?: string) => Promise<AxeScanResult>;
+  runAxeScan: (
+    scope?: string,
+    options?: { disabledRules?: readonly string[] },
+  ) => Promise<AxeScanResult>;
 }
 
 const test = base.extend<AccessibilityFixtures>({
   runAxeScan: async ({ page }, use, testInfo) => {
     let scanNumber = 0;
 
-    await use(async (scope?: string) => {
-      const builder = new AxeBuilder({ page }).withTags(WCAG_AA_TAGS);
+    await use(async (scope?: string, options?: { disabledRules?: readonly string[] }) => {
+      let builder = new AxeBuilder({ page }).withTags(WCAG_AA_TAGS);
+      if (options?.disabledRules?.length) builder = builder.disableRules(options.disabledRules);
       if (scope) {
         builder.include(scope);
       }
