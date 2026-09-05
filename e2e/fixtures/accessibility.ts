@@ -18,7 +18,9 @@ const test = base.extend<AccessibilityFixtures>({
 
     await use(async (scope?: string, options?: { disabledRules?: readonly string[] }) => {
       let builder = new AxeBuilder({ page }).withTags(WCAG_AA_TAGS);
-      if (options?.disabledRules?.length) builder = builder.disableRules(options.disabledRules);
+      if (options?.disabledRules?.length) {
+        builder = builder.disableRules([...options.disabledRules]);
+      }
       if (scope) {
         builder.include(scope);
       }
