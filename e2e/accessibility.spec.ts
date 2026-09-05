@@ -140,6 +140,17 @@ test('has no detectable WCAG A or AA violations for native Text Rotate hosts', a
   expect((await runAxeScan('[data-testid="text-rotate-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Timeline hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('timeline-example')).toHaveAttribute(
+    'aria-label',
+    'Release history',
+  );
+  expect((await runAxeScan('[data-testid="timeline-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

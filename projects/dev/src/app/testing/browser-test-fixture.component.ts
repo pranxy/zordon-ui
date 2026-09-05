@@ -36,6 +36,13 @@ import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 import { ZdTable } from '@pranxy/zordon-ui/table';
 import { ZdTextRotate } from '@pranxy/zordon-ui/text-rotate';
+import {
+  ZdTimeline,
+  ZdTimelineBox,
+  ZdTimelineEnd,
+  ZdTimelineMiddle,
+  ZdTimelineStart,
+} from '@pranxy/zordon-ui/timeline';
 import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
@@ -122,6 +129,11 @@ class ScrollLockPanelComponent {}
     ZdListRow,
     ZdTable,
     ZdTextRotate,
+    ZdTimeline,
+    ZdTimelineBox,
+    ZdTimelineEnd,
+    ZdTimelineMiddle,
+    ZdTimelineStart,
     ZdKbd,
     ZdFloatingLabel,
     ZdLabel,
@@ -419,6 +431,27 @@ class ScrollLockPanelComponent {}
         <span zdTextRotate data-testid="text-rotate-example"
           ><span><span>Design</span><span>Develop</span><span>Deploy</span></span></span
         >
+      </section>
+
+      <section
+        aria-labelledby="timeline-heading"
+        class="grid gap-3"
+        data-testid="timeline-contract"
+      >
+        <h2 id="timeline-heading" class="text-xl font-semibold">Native Timeline behavior</h2>
+        <ol
+          zdTimeline
+          orientation="vertical"
+          compact
+          aria-label="Release history"
+          data-testid="timeline-example"
+        >
+          <li>
+            <div zdTimelineStart>2026</div>
+            <div zdTimelineMiddle aria-hidden="true">●</div>
+            <div zdTimelineEnd zdTimelineBox>Release</div>
+          </li>
+        </ol>
       </section>
 
       <section aria-labelledby="avatar-heading" class="grid gap-3" data-testid="avatar-contract">

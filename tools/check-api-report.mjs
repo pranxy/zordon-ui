@@ -121,6 +121,11 @@ const reports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-text-rotate.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-text-rotate.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-timeline.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-timeline.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-timeline.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

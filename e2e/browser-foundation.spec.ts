@@ -457,6 +457,17 @@ test('keeps Text Rotate words and announcement policy consumer-owned', async ({ 
   await expect(textRotate).not.toHaveAttribute('aria-live');
 });
 
+test('keeps Timeline event semantics consumer-owned while applying documented parts', async ({
+  page,
+}) => {
+  const timeline = page.getByTestId('timeline-example');
+  await expect(timeline).toHaveJSProperty('tagName', 'OL');
+  await expect(timeline).toHaveClass(/timeline-vertical/);
+  await expect(timeline).toHaveAttribute('aria-label', 'Release history');
+  await expect(timeline.locator('[zdTimelineStart]')).toHaveClass(/timeline-start/);
+  await expect(timeline.locator('[zdTimelineEnd]')).toHaveClass(/timeline-end/);
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {
