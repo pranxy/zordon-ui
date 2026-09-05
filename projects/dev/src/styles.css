@@ -19,6 +19,7 @@
 @source inline("stack stack-top stack-bottom stack-start stack-end");
 @source inline("footer footer-title footer-center footer-horizontal footer-vertical");
 @source inline("hero hero-content hero-overlay");
+@source inline("indicator indicator-item indicator-start indicator-center indicator-end indicator-top indicator-middle indicator-bottom");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {

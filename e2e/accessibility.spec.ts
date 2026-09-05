@@ -185,6 +185,17 @@ test('has no detectable WCAG A or AA violations for native Hero hosts', async ({
   expect((await runAxeScan('[data-testid="hero-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Indicator hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('indicator-example')).toHaveAttribute(
+    'aria-label',
+    'Inbox with unread messages',
+  );
+  expect((await runAxeScan('[data-testid="indicator-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

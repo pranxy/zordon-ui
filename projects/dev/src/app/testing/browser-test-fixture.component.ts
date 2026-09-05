@@ -33,6 +33,7 @@ import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
+import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -129,6 +130,8 @@ class ScrollLockPanelComponent {}
     ZdHero,
     ZdHeroContent,
     ZdHeroOverlay,
+    ZdIndicator,
+    ZdIndicatorItem,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -491,6 +494,25 @@ class ScrollLockPanelComponent {}
             </div>
           </div>
         </section>
+      </section>
+
+      <section
+        aria-labelledby="indicator-heading"
+        class="grid gap-3"
+        data-testid="indicator-contract"
+      >
+        <h2 id="indicator-heading" class="text-xl font-semibold">Native Indicator behavior</h2>
+        <div zdIndicator aria-label="Inbox with unread messages" data-testid="indicator-example">
+          <span
+            zdIndicatorItem
+            horizontalPlacement="end"
+            verticalPlacement="top"
+            class="badge badge-primary"
+          >
+            3
+          </span>
+          <button type="button" class="btn" aria-label="Inbox">Inbox</button>
+        </div>
       </section>
 
       <section

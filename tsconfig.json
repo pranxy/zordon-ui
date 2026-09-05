@@ -23,6 +23,7 @@
       "@pranxy/zordon-ui/stack": ["projects/components/stack/src/public-api.ts"],
       "@pranxy/zordon-ui/footer": ["projects/components/footer/src/public-api.ts"],
       "@pranxy/zordon-ui/hero": ["projects/components/hero/src/public-api.ts"],
+      "@pranxy/zordon-ui/indicator": ["projects/components/indicator/src/public-api.ts"],
       "@pranxy/zordon-ui/chat-bubble": ["projects/components/chat-bubble/src/public-api.ts"],
       "@pranxy/zordon-ui/divider": ["projects/components/divider/src/public-api.ts"],
       "@pranxy/zordon-ui/fieldset": ["projects/components/fieldset/src/public-api.ts"],

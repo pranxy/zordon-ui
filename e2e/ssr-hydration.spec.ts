@@ -80,6 +80,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="stack-example"');
   expect(html).toContain('data-testid="footer-example"');
   expect(html).toContain('data-testid="hero-example"');
+  expect(html).toContain('data-testid="indicator-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -464,6 +465,12 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const hero = page.getByTestId('hero-example');
   await expect(hero).toHaveClass(/hero/);
   await expect(hero.locator('[zdHeroContent]')).toHaveClass(/hero-content/);
+
+  const indicator = page.getByTestId('indicator-example');
+  await expect(indicator).toHaveClass(/indicator/);
+  await expect(indicator.locator('[zdIndicatorItem]')).toHaveClass(/indicator-item/);
+  await expect(indicator.locator('[zdIndicatorItem]')).toHaveClass(/indicator-end/);
+  await expect(indicator.locator('[zdIndicatorItem]')).toHaveClass(/indicator-top/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

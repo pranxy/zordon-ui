@@ -62,6 +62,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#stack-heading),
       ${fixtureSelector} section:has(#footer-heading),
       ${fixtureSelector} section:has(#hero-heading),
+      ${fixtureSelector} section:has(#indicator-heading),
       ${fixtureSelector} section:has(#diff-heading),
       ${fixtureSelector} section:has(#chat-heading),
       ${fixtureSelector} section:has(#link-heading),
@@ -574,6 +575,25 @@ test('Hero visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('hero-contract')).toHaveScreenshot(
     'hero--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Indicator visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#indicator-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('indicator-contract')).toHaveScreenshot(
+    'indicator--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

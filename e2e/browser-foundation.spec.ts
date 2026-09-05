@@ -501,6 +501,21 @@ test('keeps Hero section semantics consumer-owned while applying documented part
   await expect(hero).not.toHaveAttribute('role');
 });
 
+test('keeps Indicator wrapper and item semantics consumer-owned while applying logical placement', async ({
+  page,
+}) => {
+  const indicator = page.getByTestId('indicator-example');
+  const item = indicator.locator('[zdIndicatorItem]');
+
+  await expect(indicator).toHaveJSProperty('tagName', 'DIV');
+  await expect(indicator).toHaveClass(/indicator/);
+  await expect(item).toHaveClass(/indicator-item/);
+  await expect(item).toHaveClass(/indicator-end/);
+  await expect(item).toHaveClass(/indicator-top/);
+  await expect(indicator).not.toHaveAttribute('role');
+  await expect(indicator.getByRole('button', { name: 'Inbox' })).toBeVisible();
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {
