@@ -468,6 +468,17 @@ test('keeps Timeline event semantics consumer-owned while applying documented pa
   await expect(timeline.locator('[zdTimelineEnd]')).toHaveClass(/timeline-end/);
 });
 
+test('keeps Stack host semantics consumer-owned while applying documented alignment', async ({
+  page,
+}) => {
+  const stack = page.getByTestId('stack-example');
+  await expect(stack).toHaveJSProperty('tagName', 'SECTION');
+  await expect(stack).toHaveClass(/stack-top/);
+  await expect(stack).toHaveClass(/stack-end/);
+  await expect(stack).toHaveAttribute('aria-label', 'Stacked release cards');
+  await expect(stack).not.toHaveAttribute('role');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

@@ -25,6 +25,7 @@ import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 import { ZdTable } from '@pranxy/zordon-ui/table';
 import { ZdTextRotate } from '@pranxy/zordon-ui/text-rotate';
+import { ZdStack } from '@pranxy/zordon-ui/stack';
 import {
   ZdTimeline,
   ZdTimelineBox,
@@ -77,6 +78,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdListRow,
     ZdTable,
     ZdTextRotate,
+    ZdStack,
     ZdTimeline,
     ZdTimelineBox,
     ZdTimelineEnd,
@@ -369,6 +371,22 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               <div zdTimelineEnd zdTimelineBox>Release</div>
             </li>
           </ol>
+        </section>
+        <section aria-labelledby="stack-heading" data-testid="stack-contract">
+          <h2 id="stack-heading">Hydrated native Stack</h2>
+          <section
+            zdStack
+            verticalAlignment="top"
+            horizontalAlignment="end"
+            aria-label="Stacked release cards"
+            class="h-28 w-44"
+            data-testid="stack-example"
+          >
+            <article class="rounded-box bg-primary p-4 text-primary-content">First release</article>
+            <article class="rounded-box bg-secondary p-4 text-secondary-content">
+              Second release
+            </article>
+          </section>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

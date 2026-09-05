@@ -151,6 +151,17 @@ test('has no detectable WCAG A or AA violations for native Timeline hosts', asyn
   expect((await runAxeScan('[data-testid="timeline-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Stack hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('stack-example')).toHaveAttribute(
+    'aria-label',
+    'Stacked release cards',
+  );
+  expect((await runAxeScan('[data-testid="stack-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

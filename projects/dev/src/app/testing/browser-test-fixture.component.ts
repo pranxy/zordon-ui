@@ -36,6 +36,7 @@ import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 import { ZdTable } from '@pranxy/zordon-ui/table';
 import { ZdTextRotate } from '@pranxy/zordon-ui/text-rotate';
+import { ZdStack } from '@pranxy/zordon-ui/stack';
 import {
   ZdTimeline,
   ZdTimelineBox,
@@ -129,6 +130,7 @@ class ScrollLockPanelComponent {}
     ZdListRow,
     ZdTable,
     ZdTextRotate,
+    ZdStack,
     ZdTimeline,
     ZdTimelineBox,
     ZdTimelineEnd,
@@ -431,6 +433,23 @@ class ScrollLockPanelComponent {}
         <span zdTextRotate data-testid="text-rotate-example"
           ><span><span>Design</span><span>Develop</span><span>Deploy</span></span></span
         >
+      </section>
+
+      <section aria-labelledby="stack-heading" class="grid gap-3" data-testid="stack-contract">
+        <h2 id="stack-heading" class="text-xl font-semibold">Native Stack behavior</h2>
+        <section
+          zdStack
+          verticalAlignment="top"
+          horizontalAlignment="end"
+          aria-label="Stacked release cards"
+          class="h-28 w-44"
+          data-testid="stack-example"
+        >
+          <article class="rounded-box bg-primary p-4 text-primary-content">First release</article>
+          <article class="rounded-box bg-secondary p-4 text-secondary-content">
+            Second release
+          </article>
+        </section>
       </section>
 
       <section

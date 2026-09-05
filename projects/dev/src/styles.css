@@ -16,6 +16,7 @@
 @source inline("table table-xs table-sm table-md table-lg table-xl table-zebra table-pin-rows table-pin-cols");
 @source inline("text-rotate");
 @source inline("timeline timeline-start timeline-middle timeline-end timeline-box timeline-snap-icon timeline-compact timeline-horizontal timeline-vertical");
+@source inline("stack stack-top stack-bottom stack-start stack-end");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
