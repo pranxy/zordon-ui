@@ -24,7 +24,9 @@ describe('ZdFooter', () => {
     expect(footer.classList.contains('footer')).toBe(true);
     expect(footer.classList.contains('footer-horizontal')).toBe(true);
     expect(footer.classList.contains('footer-center')).toBe(true);
-    expect(footer.querySelector('[zdFooterTitle]').classList.contains('footer-title')).toBe(true);
+    expect(
+      (footer.querySelector('[zdFooterTitle]') as HTMLElement).classList.contains('footer-title'),
+    ).toBe(true);
     expect(footer.hasAttribute('role')).toBe(false);
   });
 });

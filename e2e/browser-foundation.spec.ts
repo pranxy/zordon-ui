@@ -490,6 +490,17 @@ test('keeps Footer landmark semantics consumer-owned while applying documented c
   await expect(footer.locator('[zdFooterTitle]')).toHaveClass(/footer-title/);
 });
 
+test('keeps Hero section semantics consumer-owned while applying documented parts', async ({
+  page,
+}) => {
+  const hero = page.getByTestId('hero-example');
+  await expect(hero).toHaveJSProperty('tagName', 'SECTION');
+  await expect(hero).toHaveClass(/hero/);
+  await expect(hero.locator('[zdHeroContent]')).toHaveClass(/hero-content/);
+  await expect(hero.locator('[zdHeroOverlay]')).toHaveClass(/hero-overlay/);
+  await expect(hero).not.toHaveAttribute('role');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

@@ -229,6 +229,7 @@ test('commits the generated primary API report and exposes check/update scripts'
       'api-extractor-timeline.json',
       'api-extractor-stack.json',
       'api-extractor-footer.json',
+      'api-extractor-hero.json',
     ],
   );
   assert.match(scripts['test:api'], /build:lib.*check:api/);

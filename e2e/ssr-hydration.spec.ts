@@ -79,6 +79,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="timeline-example"');
   expect(html).toContain('data-testid="stack-example"');
   expect(html).toContain('data-testid="footer-example"');
+  expect(html).toContain('data-testid="hero-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -459,6 +460,10 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const footer = page.getByTestId('footer-example');
   await expect(footer).toHaveClass(/footer-horizontal/);
   await expect(footer.locator('[zdFooterTitle]')).toHaveClass(/footer-title/);
+
+  const hero = page.getByTestId('hero-example');
+  await expect(hero).toHaveClass(/hero/);
+  await expect(hero.locator('[zdHeroContent]')).toHaveClass(/hero-content/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

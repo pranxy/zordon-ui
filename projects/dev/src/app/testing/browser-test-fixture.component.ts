@@ -32,6 +32,7 @@ import {
 import { ZdDivider } from '@pranxy/zordon-ui/divider';
 import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui/fieldset';
 import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
+import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -125,6 +126,9 @@ class ScrollLockPanelComponent {}
     ZdFieldsetLegend,
     ZdFooter,
     ZdFooterTitle,
+    ZdHero,
+    ZdHeroContent,
+    ZdHeroOverlay,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -469,6 +473,24 @@ class ScrollLockPanelComponent {}
             <a href="#footer-about">About</a>
           </nav>
         </footer>
+      </section>
+
+      <section aria-labelledby="hero-heading" class="grid gap-3" data-testid="hero-contract">
+        <h2 id="hero-heading" class="text-xl font-semibold">Native Hero behavior</h2>
+        <section
+          zdHero
+          aria-labelledby="hero-example-title"
+          class="min-h-40 bg-base-200"
+          data-testid="hero-example"
+        >
+          <div zdHeroOverlay class="bg-neutral/40"></div>
+          <div zdHeroContent class="text-center">
+            <div>
+              <h3 id="hero-example-title">Launch</h3>
+              <p>Consumer-owned hero content.</p>
+            </div>
+          </div>
+        </section>
       </section>
 
       <section

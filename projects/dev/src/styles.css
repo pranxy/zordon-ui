@@ -18,6 +18,7 @@
 @source inline("timeline timeline-start timeline-middle timeline-end timeline-box timeline-snap-icon timeline-compact timeline-horizontal timeline-vertical");
 @source inline("stack stack-top stack-bottom stack-start stack-end");
 @source inline("footer footer-title footer-center footer-horizontal footer-vertical");
+@source inline("hero hero-content hero-overlay");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
