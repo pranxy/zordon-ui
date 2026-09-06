@@ -545,6 +545,16 @@ test('keeps Browser Mockup semantics consumer-owned while applying its documente
   await expect(mockup).toHaveAttribute('aria-label', 'Example browser');
 });
 
+test('keeps Code Mockup code semantics consumer-owned while applying its documented class', async ({
+  page,
+}) => {
+  const mockup = page.getByTestId('code-mockup-example');
+  await expect(mockup).toHaveJSProperty('tagName', 'SECTION');
+  await expect(mockup).toHaveClass(/mockup-code/);
+  await expect(mockup.locator('pre[data-prefix] code')).toHaveText('npm install @pranxy/zordon-ui');
+  await expect(mockup).toHaveAttribute('aria-label', 'Install command');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

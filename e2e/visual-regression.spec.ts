@@ -65,6 +65,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#indicator-heading),
       ${fixtureSelector} section:has(#join-heading),
       ${fixtureSelector} section:has(#browser-mockup-heading),
+      ${fixtureSelector} section:has(#code-mockup-heading),
       ${fixtureSelector} section:has(#diff-heading),
       ${fixtureSelector} section:has(#chat-heading),
       ${fixtureSelector} section:has(#link-heading),
@@ -653,6 +654,25 @@ test('Browser Mockup visual boundaries in dark RTL mobile', async ({ page }) => 
   });
   await expect(page.getByTestId('browser-mockup-contract')).toHaveScreenshot(
     'browser-mockup--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Code Mockup visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#code-mockup-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('code-mockup-contract')).toHaveScreenshot(
+    'code-mockup--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

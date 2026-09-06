@@ -226,6 +226,17 @@ test('has no detectable WCAG A or AA violations for native Browser Mockup hosts'
   expect((await runAxeScan('[data-testid="browser-mockup-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Code Mockup hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('code-mockup-example')).toHaveAttribute(
+    'aria-label',
+    'Install command',
+  );
+  expect((await runAxeScan('[data-testid="code-mockup-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,

@@ -234,6 +234,7 @@ test('commits the generated primary API report and exposes check/update scripts'
       'api-extractor-join.json',
       'api-extractor-mask.json',
       'api-extractor-browser-mockup.json',
+      'api-extractor-code-mockup.json',
     ],
   );
   assert.match(scripts['test:api'], /build:lib.*check:api/);

@@ -37,6 +37,7 @@ import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
+import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -140,6 +141,7 @@ class ScrollLockPanelComponent {}
     ZdMask,
     ZdBrowserMockup,
     ZdBrowserMockupToolbar,
+    ZdCodeMockup,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -557,6 +559,17 @@ class ScrollLockPanelComponent {}
         <section zdBrowserMockup aria-label="Example browser" data-testid="browser-mockup-example">
           <div zdBrowserMockupToolbar class="input">example.test</div>
           <div class="bg-base-200 p-4">Consumer-owned preview content.</div>
+        </section>
+      </section>
+
+      <section
+        aria-labelledby="code-mockup-heading"
+        class="grid gap-3"
+        data-testid="code-mockup-contract"
+      >
+        <h2 id="code-mockup-heading" class="text-xl font-semibold">Native Code Mockup behavior</h2>
+        <section zdCodeMockup aria-label="Install command" data-testid="code-mockup-example">
+          <pre data-prefix="$"><code>npm install @pranxy/zordon-ui</code></pre>
         </section>
       </section>
 

@@ -26,6 +26,7 @@ import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
+import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -88,6 +89,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdMask,
     ZdBrowserMockup,
     ZdBrowserMockupToolbar,
+    ZdCodeMockup,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -483,6 +485,12 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
           >
             <div zdBrowserMockupToolbar class="input">example.test</div>
             <div class="bg-base-200 p-4">Consumer-owned preview content.</div>
+          </section>
+        </section>
+        <section aria-labelledby="code-mockup-heading" data-testid="code-mockup-contract">
+          <h2 id="code-mockup-heading">Hydrated native Code Mockup</h2>
+          <section zdCodeMockup aria-label="Install command" data-testid="code-mockup-example">
+            <pre data-prefix="$"><code>npm install @pranxy/zordon-ui</code></pre>
           </section>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">

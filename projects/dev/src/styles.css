@@ -23,6 +23,7 @@
 @source inline("join join-item join-horizontal join-vertical");
 @source inline("mask mask-circle mask-half-1");
 @source inline("mockup-browser mockup-browser-toolbar");
+@source inline("mockup-code");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {
