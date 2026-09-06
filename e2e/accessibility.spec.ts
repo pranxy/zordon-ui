@@ -215,6 +215,14 @@ test('has no detectable WCAG A or AA violations for native Mask hosts', async ({
   expect((await runAxeScan('[data-testid="mask-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Stat hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('stat-example')).toHaveAttribute('aria-label', 'Account summary');
+  expect((await runAxeScan('[data-testid="stat-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Browser Mockup hosts', async ({
   page,
   runAxeScan,

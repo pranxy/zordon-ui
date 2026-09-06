@@ -55,6 +55,7 @@ import { ZdKbd } from '@pranxy/zordon-ui/kbd';
 import { ZdFloatingLabel, ZdLabel } from '@pranxy/zordon-ui/label';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 import { ZdStatus } from '@pranxy/zordon-ui/status';
+import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 
 import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
 import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
@@ -161,6 +162,11 @@ class ScrollLockPanelComponent {}
     ZdLabel,
     ZdLink,
     ZdStatus,
+    ZdStat,
+    ZdStatDesc,
+    ZdStatTitle,
+    ZdStats,
+    ZdStatValue,
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -546,6 +552,22 @@ class ScrollLockPanelComponent {}
           class="size-20 bg-primary"
           data-testid="mask-example"
         />
+      </section>
+
+      <section aria-labelledby="stat-heading" class="grid gap-3" data-testid="stat-contract">
+        <h2 id="stat-heading" class="text-xl font-semibold">Native Stat behavior</h2>
+        <section
+          zdStats
+          orientation="vertical"
+          aria-label="Account summary"
+          data-testid="stat-example"
+        >
+          <article zdStat>
+            <p zdStatTitle>Downloads</p>
+            <p zdStatValue>31K</p>
+            <p zdStatDesc>Updated today</p>
+          </article>
+        </section>
       </section>
 
       <section

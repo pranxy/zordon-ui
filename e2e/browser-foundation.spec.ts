@@ -535,6 +535,16 @@ test('keeps Mask image semantics consumer-owned while applying its shape', async
   await expect(mask).toHaveAttribute('alt', 'Avery Chen');
 });
 
+test('keeps Stat semantics consumer-owned while applying its documented anatomy', async ({
+  page,
+}) => {
+  const stats = page.getByTestId('stat-example');
+  await expect(stats).toHaveJSProperty('tagName', 'SECTION');
+  await expect(stats).toHaveClass(/stats-vertical/);
+  await expect(stats.locator('[zdStatValue]')).toHaveClass(/stat-value/);
+  await expect(stats).toHaveAttribute('aria-label', 'Account summary');
+});
+
 test('keeps Browser Mockup semantics consumer-owned while applying its documented parts', async ({
   page,
 }) => {

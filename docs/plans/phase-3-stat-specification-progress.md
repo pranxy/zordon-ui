@@ -1,8 +1,8 @@
 # Phase 3 Stat specification progress
 
 **Row:** DSP-15 Stat  
-**Status:** In progress  
-**Last updated:** 2026-09-02
+**Status:** Implemented  
+**Last updated:** 2026-09-06
 
 Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 
@@ -13,7 +13,7 @@ Template loaded from: `implement-plan/assets/progress-tracker-template.md`
 | T03 | Define customization, data, accessibility, and lifecycle boundaries   | T01–T02 | Verified | Consumer ownership and Preview evidence are explicit                   | `docs/components/stat.md`                                    |
 | T04 | Approve the DSP-15 specification cell                                 | T01–T03 | Verified | Master row records the approved specification                          | `DAISYUI_ANGULAR_BUILD_PLAN.md`                              |
 | T05 | Package native Stat directives                                        | T04     | Verified | Public entry point, tests, API report, bundle, and package checks pass | `projects/components/stat/`, `etc/api/zordon-ui-stat.api.md` |
-| T06 | Add browser, SSR/hydration, axe, and visual evidence                  | T05     | Pending  | Native Stat semantics survive supported render paths                   | —                                                            |
+| T06 | Add browser, SSR/hydration, axe, and visual evidence                  | T05     | Verified | Native Stat semantics survive supported render paths                   | 206 unit tests; 82 Chromium tests; 3 SSR tests; 39 visuals   |
 
 No subagent was used: the shared workspace remains serialized by instruction.
 
@@ -23,7 +23,4 @@ No subagent was used: the shared workspace remains serialized by instruction.
 | ---------------------- | ------------------- | ------------------------------------------------------------------------------------------------ | ----------- | ---------------------------------------------------------------------------- |
 | Specification boundary | Parent scope review | Native anatomy and consumer-owned data/live semantics avoid an unsupported dashboard abstraction | Validate    | Clear; independent review unavailable under serialized-workspace instruction |
 
-## Next
-
-Add browser, SSR/hydration, axe, and visual evidence. Formatting, trends, loading/error state, charts, polling,
-live-region behavior, and actions remain separate consumer-owned concerns.
+Formatting, trends, loading/error state, charts, polling, live-region behavior, and actions remain separate consumer-owned concerns.

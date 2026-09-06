@@ -27,6 +27,7 @@ import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
+import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -90,6 +91,11 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdBrowserMockup,
     ZdBrowserMockupToolbar,
     ZdCodeMockup,
+    ZdStat,
+    ZdStatDesc,
+    ZdStatTitle,
+    ZdStats,
+    ZdStatValue,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -475,6 +481,21 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             class="size-20 bg-primary"
             data-testid="mask-example"
           />
+        </section>
+        <section aria-labelledby="stat-heading" data-testid="stat-contract">
+          <h2 id="stat-heading">Hydrated native Stat</h2>
+          <section
+            zdStats
+            orientation="vertical"
+            aria-label="Account summary"
+            data-testid="stat-example"
+          >
+            <article zdStat>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Updated today</p>
+            </article>
+          </section>
         </section>
         <section aria-labelledby="browser-mockup-heading" data-testid="browser-mockup-contract">
           <h2 id="browser-mockup-heading">Hydrated native Browser Mockup</h2>
