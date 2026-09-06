@@ -146,6 +146,11 @@ export const apiReports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-indicator.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-indicator.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-join.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-join.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-join.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

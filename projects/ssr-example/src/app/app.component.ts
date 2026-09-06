@@ -23,6 +23,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
+import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -80,6 +81,8 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdHeroOverlay,
     ZdIndicator,
     ZdIndicatorItem,
+    ZdJoin,
+    ZdJoinItem,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -443,6 +446,18 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             </span>
             <button type="button" class="btn" aria-label="Inbox">Inbox</button>
           </div>
+        </section>
+        <section aria-labelledby="join-heading" data-testid="join-contract">
+          <h2 id="join-heading">Hydrated native Join</h2>
+          <nav
+            zdJoin
+            direction="vertical"
+            aria-label="Fixture page navigation"
+            data-testid="join-example"
+          >
+            <button zdJoinItem type="button" class="btn">Previous</button>
+            <button zdJoinItem type="button" class="btn">Next</button>
+          </nav>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

@@ -516,6 +516,18 @@ test('keeps Indicator wrapper and item semantics consumer-owned while applying l
   await expect(indicator.getByRole('button', { name: 'Inbox' })).toBeVisible();
 });
 
+test('keeps Join navigation semantics consumer-owned while applying direction and items', async ({
+  page,
+}) => {
+  const join = page.getByTestId('join-example');
+  await expect(join).toHaveJSProperty('tagName', 'NAV');
+  await expect(join).toHaveClass(/join/);
+  await expect(join).toHaveClass(/join-vertical/);
+  await expect(join.locator('[zdJoinItem]')).toHaveCount(2);
+  await expect(join.locator('[zdJoinItem]').first()).toHaveClass(/join-item/);
+  await expect(join).not.toHaveAttribute('role');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

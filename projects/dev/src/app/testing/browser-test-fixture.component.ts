@@ -34,6 +34,7 @@ import { ZdFieldset, ZdFieldsetLabel, ZdFieldsetLegend } from '@pranxy/zordon-ui
 import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
+import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -132,6 +133,8 @@ class ScrollLockPanelComponent {}
     ZdHeroOverlay,
     ZdIndicator,
     ZdIndicatorItem,
+    ZdJoin,
+    ZdJoinItem,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -513,6 +516,19 @@ class ScrollLockPanelComponent {}
           </span>
           <button type="button" class="btn" aria-label="Inbox">Inbox</button>
         </div>
+      </section>
+
+      <section aria-labelledby="join-heading" class="grid gap-3" data-testid="join-contract">
+        <h2 id="join-heading" class="text-xl font-semibold">Native Join behavior</h2>
+        <nav
+          zdJoin
+          direction="vertical"
+          aria-label="Fixture page navigation"
+          data-testid="join-example"
+        >
+          <button zdJoinItem type="button" class="btn">Previous</button>
+          <button zdJoinItem type="button" class="btn">Next</button>
+        </nav>
       </section>
 
       <section

@@ -196,6 +196,17 @@ test('has no detectable WCAG A or AA violations for native Indicator hosts', asy
   expect((await runAxeScan('[data-testid="indicator-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Join hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('join-example')).toHaveAttribute(
+    'aria-label',
+    'Fixture page navigation',
+  );
+  expect((await runAxeScan('[data-testid="join-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,
