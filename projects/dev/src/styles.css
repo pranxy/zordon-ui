@@ -22,6 +22,7 @@
 @source inline("indicator indicator-item indicator-start indicator-center indicator-end indicator-top indicator-middle indicator-bottom");
 @source inline("join join-item join-horizontal join-vertical");
 @source inline("mask mask-circle mask-half-1");
+@source inline("mockup-browser mockup-browser-toolbar");
 
 /* Production defaults plus the low/high-radius themes used by the visual test fixture. */
 @plugin "daisyui" {

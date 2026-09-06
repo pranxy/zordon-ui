@@ -36,6 +36,7 @@ import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
+import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -137,6 +138,8 @@ class ScrollLockPanelComponent {}
     ZdJoin,
     ZdJoinItem,
     ZdMask,
+    ZdBrowserMockup,
+    ZdBrowserMockupToolbar,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -541,6 +544,20 @@ class ScrollLockPanelComponent {}
           class="size-20 bg-primary"
           data-testid="mask-example"
         />
+      </section>
+
+      <section
+        aria-labelledby="browser-mockup-heading"
+        class="grid gap-3"
+        data-testid="browser-mockup-contract"
+      >
+        <h2 id="browser-mockup-heading" class="text-xl font-semibold">
+          Native Browser Mockup behavior
+        </h2>
+        <section zdBrowserMockup aria-label="Example browser" data-testid="browser-mockup-example">
+          <div zdBrowserMockupToolbar class="input">example.test</div>
+          <div class="bg-base-200 p-4">Consumer-owned preview content.</div>
+        </section>
       </section>
 
       <section

@@ -25,6 +25,7 @@ import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
+import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -85,6 +86,8 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdJoin,
     ZdJoinItem,
     ZdMask,
+    ZdBrowserMockup,
+    ZdBrowserMockupToolbar,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -470,6 +473,17 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             class="size-20 bg-primary"
             data-testid="mask-example"
           />
+        </section>
+        <section aria-labelledby="browser-mockup-heading" data-testid="browser-mockup-contract">
+          <h2 id="browser-mockup-heading">Hydrated native Browser Mockup</h2>
+          <section
+            zdBrowserMockup
+            aria-label="Example browser"
+            data-testid="browser-mockup-example"
+          >
+            <div zdBrowserMockupToolbar class="input">example.test</div>
+            <div class="bg-base-200 p-4">Consumer-owned preview content.</div>
+          </section>
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

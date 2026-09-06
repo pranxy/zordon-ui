@@ -535,6 +535,16 @@ test('keeps Mask image semantics consumer-owned while applying its shape', async
   await expect(mask).toHaveAttribute('alt', 'Avery Chen');
 });
 
+test('keeps Browser Mockup semantics consumer-owned while applying its documented parts', async ({
+  page,
+}) => {
+  const mockup = page.getByTestId('browser-mockup-example');
+  await expect(mockup).toHaveJSProperty('tagName', 'SECTION');
+  await expect(mockup).toHaveClass(/mockup-browser/);
+  await expect(mockup.locator('[zdBrowserMockupToolbar]')).toHaveClass(/mockup-browser-toolbar/);
+  await expect(mockup).toHaveAttribute('aria-label', 'Example browser');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {
