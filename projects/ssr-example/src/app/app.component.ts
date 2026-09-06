@@ -24,6 +24,7 @@ import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
+import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -83,6 +84,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdIndicatorItem,
     ZdJoin,
     ZdJoinItem,
+    ZdMask,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -458,6 +460,16 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             <button zdJoinItem type="button" class="btn">Previous</button>
             <button zdJoinItem type="button" class="btn">Next</button>
           </nav>
+        </section>
+        <section aria-labelledby="mask-heading" data-testid="mask-contract">
+          <h2 id="mask-heading">Hydrated native Mask</h2>
+          <img
+            zdMask
+            shape="circle"
+            alt="Avery Chen"
+            class="size-20 bg-primary"
+            data-testid="mask-example"
+          />
         </section>
         <section aria-labelledby="avatar-heading" data-testid="avatar-contract">
           <h2 id="avatar-heading">Hydrated native Avatar</h2>

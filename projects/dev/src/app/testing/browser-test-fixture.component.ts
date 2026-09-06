@@ -35,6 +35,7 @@ import { ZdFooter, ZdFooterTitle } from '@pranxy/zordon-ui/footer';
 import { ZdHero, ZdHeroContent, ZdHeroOverlay } from '@pranxy/zordon-ui/hero';
 import { ZdIndicator, ZdIndicatorItem } from '@pranxy/zordon-ui/indicator';
 import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
+import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -135,6 +136,7 @@ class ScrollLockPanelComponent {}
     ZdIndicatorItem,
     ZdJoin,
     ZdJoinItem,
+    ZdMask,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -529,6 +531,16 @@ class ScrollLockPanelComponent {}
           <button zdJoinItem type="button" class="btn">Previous</button>
           <button zdJoinItem type="button" class="btn">Next</button>
         </nav>
+      </section>
+      <section aria-labelledby="mask-heading" class="grid gap-3" data-testid="mask-contract">
+        <h2 id="mask-heading" class="text-xl font-semibold">Native Mask behavior</h2>
+        <img
+          zdMask
+          shape="circle"
+          alt="Avery Chen"
+          class="size-20 bg-primary"
+          data-testid="mask-example"
+        />
       </section>
 
       <section

@@ -82,6 +82,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="hero-example"');
   expect(html).toContain('data-testid="indicator-example"');
   expect(html).toContain('data-testid="join-example"');
+  expect(html).toContain('data-testid="mask-example"');
   expect(html).toContain('class="btn btn-primary"');
   expect(html).toContain('aria-pressed="false"');
   expect(html).toContain('href="#hydrated-button-target"');
@@ -476,6 +477,7 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const join = page.getByTestId('join-example');
   await expect(join).toHaveClass(/join-vertical/);
   await expect(join.locator('[zdJoinItem]')).toHaveCount(2);
+  await expect(page.getByTestId('mask-example')).toHaveClass(/mask-circle/);
 
   const asyncActionStart = page.getByTestId('async-action-start');
   const asyncActionStatus = page.getByTestId('async-action-status');

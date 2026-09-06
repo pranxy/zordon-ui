@@ -528,6 +528,13 @@ test('keeps Join navigation semantics consumer-owned while applying direction an
   await expect(join).not.toHaveAttribute('role');
 });
 
+test('keeps Mask image semantics consumer-owned while applying its shape', async ({ page }) => {
+  const mask = page.getByTestId('mask-example');
+  await expect(mask).toHaveJSProperty('tagName', 'IMG');
+  await expect(mask).toHaveClass(/mask-circle/);
+  await expect(mask).toHaveAttribute('alt', 'Avery Chen');
+});
+
 test('keeps Aura decorative and removes its motion on a live reduced-motion change', async ({
   page,
 }) => {

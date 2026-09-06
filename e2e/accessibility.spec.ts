@@ -207,6 +207,14 @@ test('has no detectable WCAG A or AA violations for native Join hosts', async ({
   expect((await runAxeScan('[data-testid="join-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Mask hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('mask-example')).toHaveAttribute('alt', 'Avery Chen');
+  expect((await runAxeScan('[data-testid="mask-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native Badge hosts', async ({
   page,
   runAxeScan,
