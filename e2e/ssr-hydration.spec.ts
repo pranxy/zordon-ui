@@ -84,6 +84,8 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="join-example"');
   expect(html).toContain('data-testid="mask-example"');
   expect(html).toContain('data-testid="stat-example"');
+  expect(html).toContain('data-testid="checkbox-example"');
+  expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
   expect(html).toContain('class="btn btn-primary"');
@@ -490,6 +492,13 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(join.locator('[zdJoinItem]')).toHaveCount(2);
   await expect(page.getByTestId('mask-example')).toHaveClass(/mask-circle/);
   await expect(page.getByTestId('stat-example')).toHaveClass(/stats-vertical/);
+  await expect(page.getByTestId('checkbox-example')).toHaveClass(/checkbox-primary/);
+  await expect(page.getByTestId('checkbox-example')).toBeChecked();
+  await expect(page.getByTestId('file-input-example')).toHaveClass(/file-input-primary/);
+  await expect(page.getByTestId('file-input-example')).toHaveAttribute(
+    'accept',
+    'image/png,image/jpeg',
+  );
 
   const browserMockup = page.getByTestId('browser-mockup-example');
   await expect(browserMockup).toHaveClass(/mockup-browser/);

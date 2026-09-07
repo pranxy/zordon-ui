@@ -554,6 +554,45 @@ test('keeps Stat semantics consumer-owned while applying its documented anatomy'
   await expect(stats).toHaveAttribute('aria-label', 'Account summary');
 });
 
+test('keeps Checkbox native semantics and state ownership while applying its documented classes', async ({
+  page,
+}) => {
+  const checkbox = page.getByTestId('checkbox-example');
+  await expect(checkbox).toHaveJSProperty('tagName', 'INPUT');
+  await expect(checkbox).toHaveAttribute('type', 'checkbox');
+  await expect(checkbox).toHaveClass(/checkbox-primary/);
+  await expect(checkbox).toHaveClass(/checkbox-lg/);
+  await expect(checkbox).toBeChecked();
+  await checkbox.uncheck();
+  await expect(checkbox).not.toBeChecked();
+});
+
+test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
+  page,
+}) => {
+  const input = page.getByTestId('file-input-example');
+  await expect(input).toHaveJSProperty('tagName', 'INPUT');
+  await expect(input).toHaveAttribute('type', 'file');
+  await expect(input).toHaveAttribute('accept', 'image/png,image/jpeg');
+  await expect(input).toHaveAttribute('multiple', '');
+  await expect(input).toHaveClass(/file-input-primary/);
+  await expect(input).toHaveClass(/file-input-lg/);
+  await input.setInputFiles({
+    name: 'profile.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from('png'),
+  });
+  await expect(
+    input.evaluate(element => ({
+      length: (element as HTMLInputElement).files?.length,
+      name: (element as HTMLInputElement).files?.item(0)?.name,
+    })),
+  ).resolves.toEqual({ length: 1, name: 'profile.png' });
+  await expect(input.evaluate(element => element.value.endsWith('profile.png'))).resolves.toBe(
+    true,
+  );
+});
+
 test('keeps Browser Mockup semantics consumer-owned while applying its documented parts', async ({
   page,
 }) => {
