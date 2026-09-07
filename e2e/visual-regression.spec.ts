@@ -68,6 +68,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#code-mockup-heading),
       ${fixtureSelector} section:has(#stat-heading),
       ${fixtureSelector} section:has(#checkbox-heading),
+      ${fixtureSelector} section:has(#radio-heading),
       ${fixtureSelector} section:has(#file-input-heading),
       ${fixtureSelector} section:has(#diff-heading),
       ${fixtureSelector} section:has(#chat-heading),
@@ -715,6 +716,25 @@ test('File Input visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('file-input-contract')).toHaveScreenshot(
     'file-input--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Radio visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#radio-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('radio-contract')).toHaveScreenshot(
+    'radio--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

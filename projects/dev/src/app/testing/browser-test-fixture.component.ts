@@ -40,6 +40,7 @@ import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/brows
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
+import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -147,6 +148,7 @@ class ScrollLockPanelComponent {}
     ZdCodeMockup,
     ZdCheckbox,
     ZdFileInput,
+    ZdRadio,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -613,6 +615,21 @@ class ScrollLockPanelComponent {}
           />
           Receive product updates
         </label>
+      </section>
+
+      <section aria-labelledby="radio-heading" class="grid gap-3" data-testid="radio-contract">
+        <h2 id="radio-heading" class="text-xl font-semibold">Native Radio behavior</h2>
+        <fieldset class="grid gap-2">
+          <legend>Plan</legend>
+          <label class="flex items-center gap-3" for="radio-starter">
+            <input id="radio-starter" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="starter" checked data-testid="radio-starter" />
+            Starter
+          </label>
+          <label class="flex items-center gap-3" for="radio-pro">
+            <input id="radio-pro" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="pro" data-testid="radio-pro" />
+            Pro
+          </label>
+        </fieldset>
       </section>
 
       <section

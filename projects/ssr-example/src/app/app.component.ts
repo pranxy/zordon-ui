@@ -29,6 +29,7 @@ import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/brows
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
+import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -95,6 +96,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdCodeMockup,
     ZdCheckbox,
     ZdFileInput,
+    ZdRadio,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -535,6 +537,20 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             />
             Receive product updates
           </label>
+        </section>
+        <section aria-labelledby="radio-heading" data-testid="radio-contract">
+          <h2 id="radio-heading">Hydrated native Radio</h2>
+          <fieldset>
+            <legend>Plan</legend>
+            <label for="radio-starter">
+              <input id="radio-starter" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="starter" checked data-testid="radio-starter" />
+              Starter
+            </label>
+            <label for="radio-pro">
+              <input id="radio-pro" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="pro" data-testid="radio-pro" />
+              Pro
+            </label>
+          </fieldset>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

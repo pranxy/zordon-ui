@@ -567,6 +567,21 @@ test('keeps Checkbox native semantics and state ownership while applying its doc
   await expect(checkbox).not.toBeChecked();
 });
 
+test('keeps Radio grouping, keyboard navigation, and native state ownership while applying its documented classes', async ({
+  page,
+}) => {
+  const starter = page.getByTestId('radio-starter');
+  const pro = page.getByTestId('radio-pro');
+  await expect(starter).toHaveAttribute('type', 'radio');
+  await expect(starter).toHaveClass(/radio-primary/);
+  await expect(starter).toHaveClass(/radio-lg/);
+  await expect(starter).toBeChecked();
+  await starter.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(pro).toBeChecked();
+  await expect(starter).not.toBeChecked();
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {
@@ -588,9 +603,9 @@ test('keeps File Input selection and native attributes consumer-owned while appl
       name: (element as HTMLInputElement).files?.item(0)?.name,
     })),
   ).resolves.toEqual({ length: 1, name: 'profile.png' });
-  await expect(input.evaluate(element => element.value.endsWith('profile.png'))).resolves.toBe(
-    true,
-  );
+  await expect(
+    input.evaluate(element => (element as HTMLInputElement).value.endsWith('profile.png')),
+  ).resolves.toBe(true);
 });
 
 test('keeps Browser Mockup semantics consumer-owned while applying its documented parts', async ({

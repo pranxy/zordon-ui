@@ -231,6 +231,11 @@ test('has no detectable WCAG A or AA violations for native Checkbox hosts', asyn
   expect((await runAxeScan('[data-testid="checkbox-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Radio hosts', async ({ page, runAxeScan }) => {
+  await expect(page.getByTestId('radio-starter')).toBeChecked();
+  expect((await runAxeScan('[data-testid="radio-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,
