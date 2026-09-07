@@ -3,14 +3,7 @@ import { computed, Directive, inject, input } from '@angular/core';
 import { ZdClassNames } from '@pranxy/zordon-ui';
 
 export type ZdFilterColor =
-  | 'neutral'
-  | 'primary'
-  | 'secondary'
-  | 'accent'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error';
+  'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
 export type ZdFilterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ZdFilterStyle = 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 
@@ -21,7 +14,8 @@ export class ZdFilter {
 }
 
 @Directive({
-  selector: 'input[type="radio"][zdFilterItem], input[type="checkbox"][zdFilterItem], input[type="reset"][zdFilterItem]',
+  selector:
+    'input[type="radio"][zdFilterItem], input[type="checkbox"][zdFilterItem], input[type="reset"][zdFilterItem]',
   host: { '[class]': 'hostClasses()' },
 })
 export class ZdFilterItem {

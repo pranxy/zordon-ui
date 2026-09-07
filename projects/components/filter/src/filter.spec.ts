@@ -7,9 +7,25 @@ import { ZdFilter, ZdFilterItem, ZdFilterReset } from './filter';
   imports: [ZdFilter, ZdFilterItem, ZdFilterReset],
   template: `
     <form zdFilter>
-      <input type="radio" zdFilterItem zdFilterReset name="plan" value="all" checked aria-label="All plans">
-      <input type="radio" zdFilterItem color="primary" size="lg" name="plan" value="pro" aria-label="Pro plans">
-      <input type="reset" zdFilterItem [style]="'ghost'" value="Reset">
+      <input
+        type="radio"
+        zdFilterItem
+        zdFilterReset
+        name="plan"
+        value="all"
+        checked
+        aria-label="All plans"
+      />
+      <input
+        type="radio"
+        zdFilterItem
+        color="primary"
+        size="lg"
+        name="plan"
+        value="pro"
+        aria-label="Pro plans"
+      />
+      <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" />
     </form>
   `,
 })

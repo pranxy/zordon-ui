@@ -626,11 +626,30 @@ class ScrollLockPanelComponent {}
         <fieldset class="grid gap-2">
           <legend>Plan</legend>
           <label class="flex items-center gap-3" for="radio-starter">
-            <input id="radio-starter" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="starter" checked data-testid="radio-starter" />
+            <input
+              id="radio-starter"
+              type="radio"
+              zdRadio
+              color="primary"
+              size="lg"
+              name="radio-contract-plan"
+              value="starter"
+              checked
+              data-testid="radio-starter"
+            />
             Starter
           </label>
           <label class="flex items-center gap-3" for="radio-pro">
-            <input id="radio-pro" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="pro" data-testid="radio-pro" />
+            <input
+              id="radio-pro"
+              type="radio"
+              zdRadio
+              color="primary"
+              size="lg"
+              name="radio-contract-plan"
+              value="pro"
+              data-testid="radio-pro"
+            />
             Pro
           </label>
         </fieldset>
@@ -639,9 +658,32 @@ class ScrollLockPanelComponent {}
       <section aria-labelledby="filter-heading" class="grid gap-3" data-testid="filter-contract">
         <h2 id="filter-heading" class="text-xl font-semibold">Native Filter behavior</h2>
         <form zdFilter data-testid="filter-example">
-          <input type="radio" zdFilterItem zdFilterReset name="filter-contract-status" value="all" checked aria-label="All statuses" data-testid="filter-all" />
-          <input type="radio" zdFilterItem color="primary" name="filter-contract-status" value="open" aria-label="Open statuses" data-testid="filter-open" />
-          <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" data-testid="filter-reset" />
+          <input
+            type="radio"
+            zdFilterItem
+            zdFilterReset
+            name="filter-contract-status"
+            value="all"
+            checked
+            aria-label="All statuses"
+            data-testid="filter-all"
+          />
+          <input
+            type="radio"
+            zdFilterItem
+            color="primary"
+            name="filter-contract-status"
+            value="open"
+            aria-label="Open statuses"
+            data-testid="filter-open"
+          />
+          <input
+            type="reset"
+            zdFilterItem
+            [style]="'ghost'"
+            value="Reset"
+            data-testid="filter-reset"
+          />
         </form>
       </section>
 

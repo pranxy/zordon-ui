@@ -9,8 +9,13 @@ replace, or manage the input or its group.
 ```html
 <fieldset>
   <legend>Plan</legend>
-  <label><input type="radio" zdRadio color="primary" size="lg" name="plan" value="starter" checked> Starter</label>
-  <label><input type="radio" zdRadio color="primary" size="lg" name="plan" value="pro"> Pro</label>
+  <label
+    ><input type="radio" zdRadio color="primary" size="lg" name="plan" value="starter" checked />
+    Starter</label
+  >
+  <label
+    ><input type="radio" zdRadio color="primary" size="lg" name="plan" value="pro" /> Pro</label
+  >
 </fieldset>
 ```
 

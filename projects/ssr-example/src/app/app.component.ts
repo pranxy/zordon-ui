@@ -547,11 +547,30 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
           <fieldset>
             <legend>Plan</legend>
             <label for="radio-starter">
-              <input id="radio-starter" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="starter" checked data-testid="radio-starter" />
+              <input
+                id="radio-starter"
+                type="radio"
+                zdRadio
+                color="primary"
+                size="lg"
+                name="radio-contract-plan"
+                value="starter"
+                checked
+                data-testid="radio-starter"
+              />
               Starter
             </label>
             <label for="radio-pro">
-              <input id="radio-pro" type="radio" zdRadio color="primary" size="lg" name="radio-contract-plan" value="pro" data-testid="radio-pro" />
+              <input
+                id="radio-pro"
+                type="radio"
+                zdRadio
+                color="primary"
+                size="lg"
+                name="radio-contract-plan"
+                value="pro"
+                data-testid="radio-pro"
+              />
               Pro
             </label>
           </fieldset>
@@ -559,9 +578,35 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
         <section aria-labelledby="filter-heading" data-testid="filter-contract">
           <h2 id="filter-heading">Hydrated native Filter</h2>
           <form zdFilter data-testid="filter-example">
-            <input type="radio" zdFilterItem zdFilterReset name="ssr-filter-status" value="all" checked aria-label="All statuses" data-testid="filter-all" [attr.style]="'min-height: 44px; min-width: 44px'" />
-            <input type="radio" zdFilterItem color="primary" name="ssr-filter-status" value="open" aria-label="Open statuses" data-testid="filter-open" [attr.style]="'min-height: 44px; min-width: 44px'" />
-            <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" data-testid="filter-reset" [attr.style]="'min-height: 44px; min-width: 44px'" />
+            <input
+              type="radio"
+              zdFilterItem
+              zdFilterReset
+              name="ssr-filter-status"
+              value="all"
+              checked
+              aria-label="All statuses"
+              data-testid="filter-all"
+              [attr.style]="'min-height: 44px; min-width: 44px'"
+            />
+            <input
+              type="radio"
+              zdFilterItem
+              color="primary"
+              name="ssr-filter-status"
+              value="open"
+              aria-label="Open statuses"
+              data-testid="filter-open"
+              [attr.style]="'min-height: 44px; min-width: 44px'"
+            />
+            <input
+              type="reset"
+              zdFilterItem
+              [style]="'ghost'"
+              value="Reset"
+              data-testid="filter-reset"
+              [attr.style]="'min-height: 44px; min-width: 44px'"
+            />
           </form>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">

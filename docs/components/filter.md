@@ -9,9 +9,17 @@ native radio used as an All/reset option outside a form.
 
 ```html
 <form zdFilter>
-  <input type="radio" zdFilterItem zdFilterReset name="status" value="all" checked aria-label="All">
-  <input type="radio" zdFilterItem color="primary" name="status" value="open" aria-label="Open">
-  <input type="reset" zdFilterItem [style]="'ghost'" value="Reset">
+  <input
+    type="radio"
+    zdFilterItem
+    zdFilterReset
+    name="status"
+    value="all"
+    checked
+    aria-label="All"
+  />
+  <input type="radio" zdFilterItem color="primary" name="status" value="open" aria-label="Open" />
+  <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" />
 </form>
 ```
 

@@ -582,7 +582,9 @@ test('keeps Radio grouping, keyboard navigation, and native state ownership whil
   await expect(starter).not.toBeChecked();
 });
 
-test('keeps Filter selection and reset behavior native while applying documented classes', async ({ page }) => {
+test('keeps Filter selection and reset behavior native while applying documented classes', async ({
+  page,
+}) => {
   const filter = page.getByTestId('filter-example');
   const all = page.getByTestId('filter-all');
   const open = page.getByTestId('filter-open');

@@ -48,8 +48,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command:
-      `node ./node_modules/@angular/cli/bin/ng.js serve docs --configuration development --host 127.0.0.1 --port ${port}`,
+    command: `node ./node_modules/@angular/cli/bin/ng.js serve docs --configuration development --host 127.0.0.1 --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env['CI'],
     timeout: 240_000,
