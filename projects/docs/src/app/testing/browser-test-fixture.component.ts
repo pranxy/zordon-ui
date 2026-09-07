@@ -187,6 +187,10 @@ class ScrollLockPanelComponent {}
     'data-testid': 'browser-test-fixture',
   },
   styles: `
+    [data-theme='corporate'] { --radius-box: 0.25rem; }
+    [data-theme='cupcake'] { --radius-box: 1rem; }
+    [data-theme='zordon-visual'] { --radius-box: 1.25rem; }
+
     @media (prefers-reduced-motion: reduce) {
       [data-zd-aura],
       [data-zd-aura]::before,
