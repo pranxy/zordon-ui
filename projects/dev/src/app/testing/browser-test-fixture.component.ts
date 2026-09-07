@@ -39,6 +39,7 @@ import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
+import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -145,6 +146,7 @@ class ScrollLockPanelComponent {}
     ZdBrowserMockupToolbar,
     ZdCodeMockup,
     ZdCheckbox,
+    ZdFileInput,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -590,6 +592,27 @@ class ScrollLockPanelComponent {}
             data-testid="checkbox-example"
           />
           Receive product updates
+        </label>
+      </section>
+
+      <section
+        aria-labelledby="file-input-heading"
+        class="grid gap-3"
+        data-testid="file-input-contract"
+      >
+        <h2 id="file-input-heading" class="text-xl font-semibold">Native File Input behavior</h2>
+        <label class="grid gap-2" for="file-input-example">
+          Profile images
+          <input
+            id="file-input-example"
+            type="file"
+            zdFileInput
+            color="primary"
+            size="lg"
+            accept="image/png,image/jpeg"
+            multiple
+            data-testid="file-input-example"
+          />
         </label>
       </section>
 
