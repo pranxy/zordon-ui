@@ -41,6 +41,7 @@ import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
 import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter';
+import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -152,6 +153,7 @@ class ScrollLockPanelComponent {}
     ZdFilter,
     ZdFilterItem,
     ZdFilterReset,
+    ZdRange,
     ZdRadio,
     ZdHover3d,
     ZdHoverGallery,
@@ -180,6 +182,7 @@ class ScrollLockPanelComponent {}
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './range-fixture.css',
   host: {
     'data-testid': 'browser-test-fixture',
   },
@@ -227,6 +230,34 @@ class ScrollLockPanelComponent {}
           <button class="btn" data-testid="focus-first" type="button">First focus target</button>
           <button class="btn" data-testid="focus-second" type="button">Second focus target</button>
         </div>
+      </section>
+
+      <section aria-labelledby="range-heading" class="grid gap-3" data-testid="range-contract">
+        <h2 id="range-heading" class="text-xl font-semibold">Native Range behavior</h2>
+        <label for="range-example">Volume</label>
+        <input
+          id="range-example"
+          type="range"
+          zdRange
+          color="primary"
+          size="lg"
+          min="0"
+          max="10"
+          step="2"
+          value="4"
+          data-testid="range-example"
+        />
+        <label for="range-vertical">Vertical volume</label>
+        <input
+          id="range-vertical"
+          type="range"
+          zdRange
+          vertical
+          min="0"
+          max="10"
+          value="4"
+          data-testid="range-vertical"
+        />
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

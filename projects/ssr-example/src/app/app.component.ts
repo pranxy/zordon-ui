@@ -30,6 +30,7 @@ import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
 import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter';
+import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
@@ -100,6 +101,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdFilter,
     ZdFilterItem,
     ZdFilterReset,
+    ZdRange,
     ZdRadio,
     ZdStat,
     ZdStatDesc,
@@ -608,6 +610,22 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               [attr.style]="'min-height: 44px; min-width: 44px'"
             />
           </form>
+        </section>
+        <section aria-labelledby="range-heading" data-testid="range-contract">
+          <h2 id="range-heading">Hydrated native Range</h2>
+          <label for="range-example">Volume</label>
+          <input
+            id="range-example"
+            type="range"
+            zdRange
+            color="primary"
+            size="lg"
+            min="0"
+            max="10"
+            step="2"
+            value="4"
+            data-testid="range-example"
+          />
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

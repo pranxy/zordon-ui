@@ -599,6 +599,20 @@ test('keeps Filter selection and reset behavior native while applying documented
   await expect(all).toBeChecked();
 });
 
+test('keeps Range bounds, keyboard behavior, and values native while applying documented classes', async ({
+  page,
+}) => {
+  const range = page.getByTestId('range-example');
+  await expect(range).toHaveClass(/range-primary/);
+  await expect(range).toHaveClass(/range-lg/);
+  await range.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(range).toHaveValue('6');
+  await page.keyboard.press('End');
+  await expect(range).toHaveValue('10');
+  await expect(page.getByTestId('range-vertical')).toHaveClass(/range-vertical/);
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

@@ -87,6 +87,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="checkbox-example"');
   expect(html).toContain('data-testid="radio-starter"');
   expect(html).toContain('data-testid="filter-example"');
+  expect(html).toContain('data-testid="range-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -499,6 +500,7 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(page.getByTestId('radio-starter')).toHaveClass(/radio-primary/);
   await expect(page.getByTestId('radio-starter')).toBeChecked();
   await expect(page.getByTestId('filter-example')).toHaveClass(/filter/);
+  await expect(page.getByTestId('range-example')).toHaveClass(/range-primary/);
   await expect(page.getByTestId('filter-all')).toBeChecked();
   await expect(page.getByTestId('file-input-example')).toHaveClass(/file-input-primary/);
   await expect(page.getByTestId('file-input-example')).toHaveAttribute(

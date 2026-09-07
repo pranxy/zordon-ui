@@ -186,6 +186,11 @@ export const apiReports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-radio.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-radio.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-range.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-range.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-range.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

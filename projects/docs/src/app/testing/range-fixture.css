@@ -1,0 +1,7 @@
+@import 'tailwindcss/utilities' source(none);
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+@source inline("range range-primary range-lg range-vertical");
