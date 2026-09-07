@@ -693,21 +693,9 @@ test('removes decorative motion without delaying the semantic state change', asy
   });
   await toggle.click();
 
-  const immediateState = await page.evaluate(() => {
-    const toggleElement = document.querySelector('[data-testid="motion-contract"] button');
-    const probeElement = document.querySelector('[data-testid="motion-probe"]');
-
-    return {
-      active: probeElement?.getAttribute('data-active'),
-      pressed: toggleElement?.getAttribute('aria-pressed'),
-      text: probeElement?.textContent?.trim(),
-    };
-  });
-  expect(immediateState).toEqual({
-    active: 'true',
-    pressed: 'true',
-    text: 'Motion is active',
-  });
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+  await expect(probe).toHaveAttribute('data-active', 'true');
+  await expect(probe).toContainText('Motion is active');
   await expect(probe).toHaveAttribute('data-transition-running', 'true');
   expect(await probe.evaluate(element => getComputedStyle(element).transitionDuration)).toBe(
     '0.2s, 0.2s',

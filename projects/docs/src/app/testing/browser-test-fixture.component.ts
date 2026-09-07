@@ -184,6 +184,14 @@ class ScrollLockPanelComponent {}
     'data-testid': 'browser-test-fixture',
   },
   styles: `
+    @media (prefers-reduced-motion: reduce) {
+      [data-zd-aura],
+      [data-zd-aura]::before,
+      [data-zd-aura]::after {
+        animation: none !important;
+      }
+    }
+
     .zd-motion-probe {
       transform: none;
       transition: none;
