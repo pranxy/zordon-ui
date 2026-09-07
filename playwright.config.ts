@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const baseURL = process.env['PLAYWRIGHT_BASE_URL'] ?? 'http://127.0.0.1:4300';
+const port = new URL(baseURL).port || '4300';
 const dedicatedSuites = [
   '**/docs-*.spec.ts',
   '**/ssr-hydration.spec.ts',
@@ -48,7 +49,7 @@ export default defineConfig({
   ],
   webServer: {
     command:
-      'node ./node_modules/@angular/cli/bin/ng.js serve dev --configuration development --host 127.0.0.1 --port 4300',
+      `node ./node_modules/@angular/cli/bin/ng.js serve docs --configuration development --host 127.0.0.1 --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env['CI'],
     timeout: 240_000,

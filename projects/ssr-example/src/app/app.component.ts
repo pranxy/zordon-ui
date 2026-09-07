@@ -29,6 +29,7 @@ import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/brows
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
 import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
+import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
@@ -96,6 +97,9 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdCodeMockup,
     ZdCheckbox,
     ZdFileInput,
+    ZdFilter,
+    ZdFilterItem,
+    ZdFilterReset,
     ZdRadio,
     ZdStat,
     ZdStatDesc,
@@ -551,6 +555,14 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               Pro
             </label>
           </fieldset>
+        </section>
+        <section aria-labelledby="filter-heading" data-testid="filter-contract">
+          <h2 id="filter-heading">Hydrated native Filter</h2>
+          <form zdFilter data-testid="filter-example">
+            <input type="radio" zdFilterItem zdFilterReset name="ssr-filter-status" value="all" checked aria-label="All statuses" data-testid="filter-all" [attr.style]="'min-height: 44px; min-width: 44px'" />
+            <input type="radio" zdFilterItem color="primary" name="ssr-filter-status" value="open" aria-label="Open statuses" data-testid="filter-open" [attr.style]="'min-height: 44px; min-width: 44px'" />
+            <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" data-testid="filter-reset" [attr.style]="'min-height: 44px; min-width: 44px'" />
+          </form>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

@@ -582,6 +582,21 @@ test('keeps Radio grouping, keyboard navigation, and native state ownership whil
   await expect(starter).not.toBeChecked();
 });
 
+test('keeps Filter selection and reset behavior native while applying documented classes', async ({ page }) => {
+  const filter = page.getByTestId('filter-example');
+  const all = page.getByTestId('filter-all');
+  const open = page.getByTestId('filter-open');
+  await expect(filter).toHaveClass(/filter/);
+  await expect(all).toHaveClass(/filter-reset/);
+  await expect(open).toHaveClass(/btn-primary/);
+  await expect(all).toBeChecked();
+  await open.focus();
+  await page.keyboard.press('Space');
+  await expect(open).toBeChecked();
+  await page.getByTestId('filter-reset').click();
+  await expect(all).toBeChecked();
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

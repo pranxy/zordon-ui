@@ -25,6 +25,11 @@ const pageLoaders = {
 } satisfies Record<SitePageId, PageLoader>;
 
 export const routes: Routes = [
+  {
+    path: '__zordon-tests__/browser',
+    loadComponent: () =>
+      import('./testing/browser-test-fixture.component').then(module => module.default),
+  },
   ...sitePages.map((page): Route => ({
     path: page.path === '/' ? '' : page.path.slice(1),
     pathMatch: 'full',

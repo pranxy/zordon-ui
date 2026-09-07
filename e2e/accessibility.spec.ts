@@ -236,6 +236,11 @@ test('has no detectable WCAG A or AA violations for native Radio hosts', async (
   expect((await runAxeScan('[data-testid="radio-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Filter hosts', async ({ page, runAxeScan }) => {
+  await expect(page.getByTestId('filter-example')).toHaveClass(/filter/);
+  expect((await runAxeScan('[data-testid="filter-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,

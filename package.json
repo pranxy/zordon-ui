@@ -12,9 +12,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve docs",
-    "start:legacy-demo": "ng serve dev",
     "start:docs:ssr": "node dist/docs/server/server.mjs",
-    "build": "ng build dev",
+    "build": "ng build docs --configuration production",
     "build:docs": "ng build docs --configuration production",
     "lint:docs": "ng lint docs",
     "test:docs": "ng test docs --watch=false",
@@ -51,14 +50,14 @@
     "test:visual:update": "playwright test --project=visual-chromium --update-snapshots",
     "test:ssr": "npm run build:ssr && playwright test --config=playwright.ssr.config.ts",
     "typecheck:browser": "tsc --project tsconfig.e2e.json",
-    "lint:browser": "eslint \"e2e/**/*.ts\" \"playwright*.config.ts\" \"projects/dev/src/app/testing/**/*.ts\"",
+    "lint:browser": "eslint \"e2e/**/*.ts\" \"playwright*.config.ts\" \"projects/docs/src/app/testing/**/*.ts\"",
     "lint": "ng lint",
     "lint:lib": "ng lint components",
     "lint:ssr": "ng lint ssr-example",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "github-build": "ng build --project dev --base-href https://pranxy.github.io/zordon-ui/",
-    "github-deploy": "npx angular-cli-ghpages --dir=dist/dev --no-silent"
+    "github-build": "ng build --project docs --base-href https://pranxy.github.io/zordon-ui/",
+    "github-deploy": "npx angular-cli-ghpages --dir=dist/docs/browser --no-silent"
   },
   "private": true,
   "dependencies": {

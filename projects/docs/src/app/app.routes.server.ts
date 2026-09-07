@@ -10,6 +10,10 @@ export function serverRouteForPage(page: DocsSitePage): ServerRoute {
 }
 
 export const serverRoutes: ServerRoute[] = [
+  {
+    path: '__zordon-tests__/browser',
+    renderMode: RenderMode.Client,
+  },
   ...sitePages.map(serverRouteForPage),
   {
     path: '**',
