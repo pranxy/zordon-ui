@@ -305,6 +305,14 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(fieldset).toHaveClass(/fieldset/);
   await expect(fieldset).toHaveAttribute('disabled', '');
   await expect(fieldset.getByText('Delivery method')).toHaveClass(/fieldset-legend/);
+  await expect(fieldset.locator('#hydrated-fieldset-email')).toBeDisabled();
+  await expect(fieldset.locator('#hydrated-fieldset-confirmation')).toBeDisabled();
+  await expect(page.getByTestId('fieldset-legend-control')).toBeEnabled();
+  await expect(page.getByTestId('fieldset-nested')).not.toHaveAttribute('disabled');
+  await expect(fieldset.locator('#hydrated-fieldset-email')).toHaveAttribute(
+    'aria-describedby',
+    'hydrated-fieldset-help hydrated-fieldset-error',
+  );
 
   const avatarGroup = page.getByTestId('avatar-group');
   const onlineAvatar = page.getByTestId('avatar-online');

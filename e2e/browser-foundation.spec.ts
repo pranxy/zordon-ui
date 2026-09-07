@@ -196,8 +196,17 @@ test('keeps native Fieldset grouping and disabled ownership while applying candi
   await expect(fieldset).toHaveClass(/fieldset/);
   await expect(fieldset).toHaveAttribute('disabled', '');
   await expect(fieldset.getByText('Delivery method')).toHaveClass(/fieldset-legend/);
-  await expect(fieldset.getByText('Email')).toHaveClass(/fieldset-label/);
+  await expect(fieldset.getByText('Email', { exact: true })).toHaveClass(/fieldset-label/);
   await expect(fieldset).not.toHaveAttribute('role');
+  await expect(fieldset.locator('#fieldset-method')).toBeDisabled();
+  await expect(fieldset.locator('#fieldset-confirmation')).toBeDisabled();
+  await expect(page.getByTestId('fieldset-legend-control')).toBeEnabled();
+  await expect(page.getByTestId('fieldset-nested')).not.toHaveAttribute('disabled');
+  await expect(fieldset.locator('#fieldset-method')).toHaveAttribute(
+    'aria-describedby',
+    'fieldset-help fieldset-error',
+  );
+  await expect(fieldset.locator('#fieldset-error')).toHaveAttribute('role', 'alert');
 });
 
 test('keeps consumer image semantics while applying Avatar candidates', async ({ page }) => {

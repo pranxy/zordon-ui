@@ -306,10 +306,29 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
 
         <section aria-labelledby="fieldset-heading" data-testid="fieldset-contract">
           <h2 id="fieldset-heading">Hydrated native Fieldset</h2>
-          <fieldset zdFieldset disabled data-testid="fieldset-native">
-            <legend zdFieldsetLegend>Delivery method</legend>
+          <fieldset
+            zdFieldset
+            aria-describedby="hydrated-fieldset-help hydrated-fieldset-error"
+            disabled
+            data-testid="fieldset-native"
+          >
+            <legend zdFieldsetLegend>
+              Delivery method
+              <input aria-label="Legend exemption example" data-testid="fieldset-legend-control" />
+            </legend>
             <label zdFieldsetLabel for="hydrated-fieldset-email">Email</label
-            ><input id="hydrated-fieldset-email" type="email" />
+            ><input
+              aria-describedby="hydrated-fieldset-help hydrated-fieldset-error"
+              id="hydrated-fieldset-email"
+              type="email"
+            />
+            <p id="hydrated-fieldset-help">We only use this to send the delivery confirmation.</p>
+            <p id="hydrated-fieldset-error" role="alert">Enter a delivery email.</p>
+            <fieldset zdFieldset data-testid="fieldset-nested">
+              <legend zdFieldsetLegend>Confirmation</legend>
+              <label zdFieldsetLabel for="hydrated-fieldset-confirmation">Confirm email</label>
+              <input id="hydrated-fieldset-confirmation" type="email" />
+            </fieldset>
           </fieldset>
         </section>
 

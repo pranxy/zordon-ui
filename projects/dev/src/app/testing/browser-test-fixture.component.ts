@@ -355,10 +355,30 @@ class ScrollLockPanelComponent {}
         data-testid="fieldset-contract"
       >
         <h2 id="fieldset-heading" class="text-xl font-semibold">Native Fieldset behavior</h2>
-        <fieldset zdFieldset disabled data-testid="fieldset-native">
-          <legend zdFieldsetLegend>Delivery method</legend>
+        <fieldset
+          zdFieldset
+          aria-describedby="fieldset-help fieldset-error"
+          disabled
+          data-testid="fieldset-native"
+        >
+          <legend zdFieldsetLegend>
+            Delivery method
+            <input aria-label="Legend exemption example" data-testid="fieldset-legend-control" />
+          </legend>
           <label zdFieldsetLabel for="fieldset-method">Email</label>
-          <input class="input" id="fieldset-method" type="email" />
+          <input
+            aria-describedby="fieldset-help fieldset-error"
+            class="input"
+            id="fieldset-method"
+            type="email"
+          />
+          <p id="fieldset-help">We only use this to send the delivery confirmation.</p>
+          <p id="fieldset-error" role="alert">Enter a delivery email.</p>
+          <fieldset zdFieldset data-testid="fieldset-nested">
+            <legend zdFieldsetLegend>Confirmation</legend>
+            <label zdFieldsetLabel for="fieldset-confirmation">Confirm email</label>
+            <input class="input" id="fieldset-confirmation" type="email" />
+          </fieldset>
         </fieldset>
       </section>
 
