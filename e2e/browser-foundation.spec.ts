@@ -545,6 +545,19 @@ test('keeps Stat semantics consumer-owned while applying its documented anatomy'
   await expect(stats).toHaveAttribute('aria-label', 'Account summary');
 });
 
+test('keeps Checkbox native semantics and state ownership while applying its documented classes', async ({
+  page,
+}) => {
+  const checkbox = page.getByTestId('checkbox-example');
+  await expect(checkbox).toHaveJSProperty('tagName', 'INPUT');
+  await expect(checkbox).toHaveAttribute('type', 'checkbox');
+  await expect(checkbox).toHaveClass(/checkbox-primary/);
+  await expect(checkbox).toHaveClass(/checkbox-lg/);
+  await expect(checkbox).toBeChecked();
+  await checkbox.uncheck();
+  await expect(checkbox).not.toBeChecked();
+});
+
 test('keeps Browser Mockup semantics consumer-owned while applying its documented parts', async ({
   page,
 }) => {

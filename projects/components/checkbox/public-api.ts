@@ -1,1 +1,5 @@
-export * from './checkbox.component';
+export {
+  ZdCheckbox,
+  type ZdCheckboxColor,
+  type ZdCheckboxSize,
+} from './src/checkbox';

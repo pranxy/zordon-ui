@@ -38,6 +38,7 @@ import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
+import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -143,6 +144,7 @@ class ScrollLockPanelComponent {}
     ZdBrowserMockup,
     ZdBrowserMockupToolbar,
     ZdCodeMockup,
+    ZdCheckbox,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -568,6 +570,27 @@ class ScrollLockPanelComponent {}
             <p zdStatDesc>Updated today</p>
           </article>
         </section>
+      </section>
+
+      <section
+        aria-labelledby="checkbox-heading"
+        class="grid gap-3"
+        data-testid="checkbox-contract"
+      >
+        <h2 id="checkbox-heading" class="text-xl font-semibold">Native Checkbox behavior</h2>
+        <label class="flex items-center gap-3" for="checkbox-example">
+          <input
+            id="checkbox-example"
+            type="checkbox"
+            zdCheckbox
+            color="primary"
+            size="lg"
+            name="updates"
+            checked
+            data-testid="checkbox-example"
+          />
+          Receive product updates
+        </label>
       </section>
 
       <section

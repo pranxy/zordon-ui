@@ -166,6 +166,11 @@ export const apiReports = [
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-code-mockup.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-code-mockup.api.md'),
   },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-checkbox.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-checkbox.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-checkbox.api.md'),
+  },
 ];
 const apiExtractorPath = resolve(
   workspaceRoot,

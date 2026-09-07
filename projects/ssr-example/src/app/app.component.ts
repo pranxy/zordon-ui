@@ -27,6 +27,7 @@ import { ZdJoin, ZdJoinItem } from '@pranxy/zordon-ui/join';
 import { ZdMask } from '@pranxy/zordon-ui/mask';
 import { ZdBrowserMockup, ZdBrowserMockupToolbar } from '@pranxy/zordon-ui/browser-mockup';
 import { ZdCodeMockup } from '@pranxy/zordon-ui/code-mockup';
+import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -91,6 +92,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdBrowserMockup,
     ZdBrowserMockupToolbar,
     ZdCodeMockup,
+    ZdCheckbox,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -496,6 +498,22 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               <p zdStatDesc>Updated today</p>
             </article>
           </section>
+        </section>
+        <section aria-labelledby="checkbox-heading" data-testid="checkbox-contract">
+          <h2 id="checkbox-heading">Hydrated native Checkbox</h2>
+          <label for="checkbox-example">
+            <input
+              id="checkbox-example"
+              type="checkbox"
+              zdCheckbox
+              color="primary"
+              size="lg"
+              name="updates"
+              checked
+              data-testid="checkbox-example"
+            />
+            Receive product updates
+          </label>
         </section>
         <section aria-labelledby="browser-mockup-heading" data-testid="browser-mockup-contract">
           <h2 id="browser-mockup-heading">Hydrated native Browser Mockup</h2>
