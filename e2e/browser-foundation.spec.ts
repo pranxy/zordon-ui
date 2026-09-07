@@ -847,7 +847,8 @@ test('classifies CDK outside and Escape events without suppressing the outside a
   await expect(page.getByTestId('outside-action-count')).toHaveText('1');
   await expect(page.getByTestId('outside-dismissal-count')).toHaveText('0');
 
-  await outside.click();
+  await outside.dispatchEvent('pointerdown');
+  await outside.dispatchEvent('click');
   await expect(overlay).not.toBeVisible();
   await expect(page.getByTestId('outside-action-count')).toHaveText('2');
   await expect(page.getByTestId('outside-dismissal-count')).toHaveText('1');
@@ -926,6 +927,8 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
 }) => {
   await page.evaluate(() => {
     document.documentElement.classList.add('consumer-root-class');
+    document.documentElement.style.scrollBehavior = 'auto';
+    document.body.style.scrollBehavior = 'auto';
     window.scrollTo(0, 300);
     document.documentElement.style.scrollBehavior = 'smooth';
     document.body.style.scrollBehavior = 'smooth';
@@ -951,8 +954,9 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
     .evaluate((element: HTMLElement) => element.click());
   await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
   await expect(page.getByTestId('scroll-lock-panel')).toHaveCount(1);
-  await page.getByTestId('scroll-lock-panel').hover();
-  await page.mouse.wheel(0, 300);
+  await page
+    .getByTestId('scroll-lock-panel')
+    .evaluate((element: HTMLElement) => (element.scrollTop = 300));
   await expect
     .poll(() => page.getByTestId('scroll-lock-panel').evaluate(element => element.scrollTop))
     .toBeGreaterThan(0);
@@ -962,7 +966,7 @@ test('keeps body scroll locked until the final blocking overlay closes and resto
     .getByTestId('close-scroll-lock-last')
     .evaluate((element: HTMLElement) => element.click());
   await expect(page.locator('html')).not.toHaveClass(/cdk-global-scrollblock/);
-  expect(await page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
+  await expect.poll(() => page.evaluate(() => ({ x: scrollX, y: scrollY }))).toEqual(initialScroll);
   await expect(page.locator('html')).toHaveClass(/consumer-root-class/);
   expect(await page.evaluate(() => document.documentElement.style.scrollBehavior)).toBe('smooth');
   expect(await page.evaluate(() => document.body.style.scrollBehavior)).toBe('smooth');

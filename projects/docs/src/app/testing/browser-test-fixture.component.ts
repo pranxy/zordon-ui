@@ -90,8 +90,12 @@ class PositionedOverlayPanelComponent {
     'data-testid': 'scroll-lock-panel',
     'class':
       'fixed right-4 top-20 h-64 w-64 overflow-auto rounded-box border bg-base-100 p-4 shadow',
+    'style':
+      'position: fixed; top: 5rem; right: 1rem; width: 16rem; height: 16rem; overflow: auto; padding: 1rem;',
   },
-  template: `<div class="h-[120vh]">Blocking overlay with an independently scrollable panel</div>`,
+  template: `<div style="height: 120vh">
+    Blocking overlay with an independently scrollable panel
+  </div>`,
 })
 class ScrollLockPanelComponent {}
 
@@ -1170,6 +1174,7 @@ class ScrollLockPanelComponent {}
           #positionedOrigin
           class="btn btn-info fixed bottom-1 left-8 z-10"
           data-testid="positioned-overlay-origin"
+          style="position: fixed; bottom: 0.25rem; left: 2rem; z-index: 10"
           type="button"
           (click)="openPositionedOverlay()"
         >
