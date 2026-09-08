@@ -1,6 +1,6 @@
 # daisyUI Angular Library Build Plan
 
-Last updated: 2026-08-11
+Last updated: 2026-09-08
 Planning baseline: daisyUI 5.7.16 documentation, 68 components
 Implementation status at plan creation: not started
 Scope note: this plan is intentionally independent of the repository's existing component implementation.
@@ -47,7 +47,11 @@ Component matrix columns:
 | 7     | Advanced data display and visual effects                           |    [ ] | Stage 7 rows are Done                                         |
 | 8     | Hardening, compatibility, and release                              |    [ ] | Release gates pass and v1.0.0 is published                    |
 
-Overall component progress: **0 / 68 Done**.
+Overall component progress: **0 / 68 Done**. This count requires every maturity gate, including
+manual assistive-technology, forced-colors, contrast, and reflow review.
+
+Automated delivery progress: **36 / 68** components have verified specification, build, test,
+documentation, and visual evidence. Their manual accessibility review remains open.
 
 ## Definition of Ready for a component
 
