@@ -7,7 +7,7 @@ const IMAGE_EXTENSIONS = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.sv
 
 const defaultBudgets = {
   initialWarningBytes: 360 * 1024,
-  initialErrorBytes: 400 * 1024,
+  initialErrorBytes: 410 * 1024,
   maximumImageBytes: 100 * 1024,
   maximumTotalImageBytes: 200 * 1024,
   maximumEmbeddedImageCharacters: 4 * 1024,

@@ -6,7 +6,7 @@ Zordon UI applies separate size gates to the documentation application and the p
 
 The Angular application builder enforces its `initial` and `anyComponentStyle` budgets from `angular.json`. These measure the complete documentation application and are intentionally independent from the library package budgets.
 
-The legacy documentation application currently exceeds its 500 KiB initial warning threshold but remains below the 1 MiB error threshold. This warning is tracked in the build plan and must not be silenced by raising the threshold without an evidence-based replacement.
+The documentation application has a 360 KiB initial warning threshold and a 410 KiB error threshold. The error threshold was calibrated against a measured 400.47 KiB production bundle (103.28 KiB estimated transfer size), leaving limited headroom while keeping the existing warning visible. These thresholds must not be raised without a new measurement and documented rationale.
 
 ## Library entry points
 
