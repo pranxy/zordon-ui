@@ -251,6 +251,12 @@ test('has no detectable WCAG A or AA violations for native Range hosts', async (
   expect((await runAxeScan('[data-testid="range-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Rating hosts', async ({
+  runAxeScan,
+}) => {
+  expect((await runAxeScan('[data-testid="rating-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,

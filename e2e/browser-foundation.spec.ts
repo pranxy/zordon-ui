@@ -613,6 +613,21 @@ test('keeps Range bounds, keyboard behavior, and values native while applying do
   await expect(page.getByTestId('range-vertical')).toHaveClass(/range-vertical/);
 });
 
+test('keeps Rating selection and keyboard behavior native while applying documented classes', async ({
+  page,
+}) => {
+  const rating = page.getByTestId('rating-example');
+  const stars = rating.locator('input[type="radio"]');
+  await expect(rating).toHaveClass(/rating-lg/);
+  await expect(page.getByTestId('rating-clear')).toHaveClass(/rating-hidden/);
+  await expect(stars.nth(3)).toBeChecked();
+  await stars.nth(3).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(stars.nth(4)).toBeChecked();
+  await page.getByTestId('rating-clear').check();
+  await expect(page.getByTestId('rating-clear')).toBeChecked();
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

@@ -42,6 +42,7 @@ import { ZdCheckbox } from '@pranxy/zordon-ui/checkbox';
 import { ZdFileInput } from '@pranxy/zordon-ui/file-input';
 import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter';
 import { ZdRange } from '@pranxy/zordon-ui/range';
+import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -158,6 +159,8 @@ class ScrollLockPanelComponent {}
     ZdFilterItem,
     ZdFilterReset,
     ZdRange,
+    ZdRating,
+    ZdRatingHidden,
     ZdRadio,
     ZdHover3d,
     ZdHoverGallery,
@@ -272,6 +275,28 @@ class ScrollLockPanelComponent {}
           value="4"
           data-testid="range-vertical"
         />
+      </section>
+
+      <section aria-labelledby="rating-heading" class="grid gap-3" data-testid="rating-contract">
+        <h2 id="rating-heading" class="text-xl font-semibold">Native Rating behavior</h2>
+        <fieldset>
+          <legend>Service rating</legend>
+          <div zdRating size="lg" data-testid="rating-example">
+            <input
+              zdRatingHidden
+              type="radio"
+              name="rating"
+              value="0"
+              aria-label="Clear rating"
+              data-testid="rating-clear"
+            />
+            <input type="radio" name="rating" value="1" aria-label="1 star" />
+            <input type="radio" name="rating" value="2" aria-label="2 stars" />
+            <input type="radio" name="rating" value="3" aria-label="3 stars" checked />
+            <input type="radio" name="rating" value="4" aria-label="4 stars" />
+            <input type="radio" name="rating" value="5" aria-label="5 stars" />
+          </div>
+        </fieldset>
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">
