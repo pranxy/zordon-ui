@@ -242,6 +242,7 @@ test('commits the generated primary API report and exposes check/update scripts'
       'api-extractor-range.json',
       'api-extractor-rating.json',
       'api-extractor-select.json',
+      'api-extractor-text-input.json',
     ],
   );
   assert.match(scripts['test:api'], /build:lib.*check:api/);

@@ -45,6 +45,7 @@ import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
+import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -164,6 +165,7 @@ class ScrollLockPanelComponent {}
     ZdRatingHidden,
     ZdRadio,
     ZdSelect,
+    ZdTextInput,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -224,7 +226,8 @@ class ScrollLockPanelComponent {}
       color: var(--color-accent-content);
     }
 
-    [data-testid='select-contract'] select {
+    [data-testid='select-contract'] select,
+    [data-testid='text-input-contract'] input {
       min-block-size: 2.75rem;
       padding-inline: 0.75rem;
       border: 1px solid var(--color-primary);
@@ -364,6 +367,32 @@ class ScrollLockPanelComponent {}
             <option value="us">United States</option>
           </optgroup>
         </select>
+      </section>
+
+      <section
+        aria-labelledby="text-input-heading"
+        class="grid gap-3"
+        data-testid="text-input-contract"
+      >
+        <h2 id="text-input-heading" class="text-xl font-semibold">Native Text Input behavior</h2>
+        <label for="text-input-example">Work email</label>
+        <input
+          id="text-input-example"
+          zdTextInput
+          color="primary"
+          size="lg"
+          type="email"
+          value="person@example.com"
+          data-testid="text-input-example"
+        />
+        <label for="text-input-password">Password</label>
+        <input
+          id="text-input-password"
+          zdTextInput
+          type="password"
+          autocomplete="current-password"
+          data-testid="text-input-password"
+        />
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

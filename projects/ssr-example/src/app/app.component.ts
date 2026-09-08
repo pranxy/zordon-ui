@@ -34,6 +34,7 @@ import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
+import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -108,6 +109,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdRatingHidden,
     ZdRadio,
     ZdSelect,
+    ZdTextInput,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -690,6 +692,27 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             <option selected value="eu">Europe</option>
             <option value="us">United States</option>
           </select>
+        </section>
+        <section aria-labelledby="text-input-heading" data-testid="text-input-contract">
+          <h2 id="text-input-heading">Hydrated native Text Input</h2>
+          <label for="text-input-example">Work email</label>
+          <input
+            id="text-input-example"
+            zdTextInput
+            color="primary"
+            size="lg"
+            type="email"
+            value="person@example.com"
+            data-testid="text-input-example"
+          />
+          <label for="text-input-password">Password</label>
+          <input
+            id="text-input-password"
+            zdTextInput
+            type="password"
+            autocomplete="current-password"
+            data-testid="text-input-password"
+          />
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

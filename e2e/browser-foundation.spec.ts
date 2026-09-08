@@ -646,6 +646,21 @@ test('keeps Select values, multiple options, and keyboard behavior native while 
   await expect(multiple).toHaveValues(['eu']);
 });
 
+test('keeps Text Input types, values, and keyboard behavior native while applying documented classes', async ({
+  page,
+}) => {
+  const input = page.getByTestId('text-input-example');
+  await expect(input).toHaveAttribute('type', 'email');
+  await expect(input).toHaveClass(/input-primary/);
+  await expect(input).toHaveClass(/input-lg/);
+  await expect(input).toHaveValue('person@example.com');
+  await input.focus();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('updated@example.com');
+  await expect(input).toHaveValue('updated@example.com');
+  await expect(page.getByTestId('text-input-password')).toHaveAttribute('type', 'password');
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

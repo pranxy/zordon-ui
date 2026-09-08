@@ -90,6 +90,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="range-example"');
   expect(html).toContain('data-testid="rating-example"');
   expect(html).toContain('data-testid="select-example"');
+  expect(html).toContain('data-testid="text-input-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -371,6 +372,14 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   const multipleSelect = page.getByTestId('select-multiple');
   await expect(multipleSelect).toHaveAttribute('multiple', '');
   await expect(multipleSelect).toHaveValues(['eu']);
+
+  const textInput = page.getByTestId('text-input-example');
+  await expect(textInput).toHaveClass(/input-primary/);
+  await expect(textInput).toHaveClass(/input-lg/);
+  await expect(textInput).toHaveAttribute('type', 'email');
+  await textInput.fill('hydrated@example.com');
+  await expect(textInput).toHaveValue('hydrated@example.com');
+  await expect(page.getByTestId('text-input-password')).toHaveAttribute('type', 'password');
 
   const carouselHorizontal = page.getByTestId('carousel-horizontal');
   const carouselVertical = page.getByTestId('carousel-vertical');
