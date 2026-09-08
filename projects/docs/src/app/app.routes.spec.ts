@@ -5,7 +5,7 @@ import { gettingStartedPage, sitePages } from './site-catalog';
 describe('documentation client routes', () => {
   it('exposes every catalogue path before the wildcard route', () => {
     const catalogueRoutePaths = routes
-      .filter(route => route.path !== '**')
+      .filter(route => route.path !== '**' && !route.path?.startsWith('__zordon-tests__/'))
       .map(route => (route.path === '' ? '/' : `/${route.path}`));
 
     expect(catalogueRoutePaths).toEqual(sitePages.map(page => page.path));
