@@ -628,6 +628,24 @@ test('keeps Rating selection and keyboard behavior native while applying documen
   await expect(page.getByTestId('rating-clear')).toBeChecked();
 });
 
+test('keeps Select values, multiple options, and keyboard behavior native while applying documented classes', async ({
+  page,
+}) => {
+  const select = page.getByTestId('select-example');
+  await expect(select).toHaveClass(/select-primary/);
+  await expect(select).toHaveClass(/select-lg/);
+  await expect(select).toHaveValue('staging');
+  await select.focus();
+  await page.keyboard.press('End');
+  await expect(select).toHaveValue('production');
+  await select.selectOption('development');
+  await expect(select).toHaveValue('development');
+  const multiple = page.getByTestId('select-multiple');
+  await expect(multiple).toHaveAttribute('multiple', '');
+  await expect(multiple.locator('optgroup')).toHaveCount(2);
+  await expect(multiple).toHaveValues(['eu']);
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

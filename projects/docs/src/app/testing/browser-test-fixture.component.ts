@@ -44,6 +44,7 @@ import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter'
 import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
+import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -162,6 +163,7 @@ class ScrollLockPanelComponent {}
     ZdRating,
     ZdRatingHidden,
     ZdRadio,
+    ZdSelect,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -220,6 +222,20 @@ class ScrollLockPanelComponent {}
     .zd-motion-probe[data-active='true'] {
       background-color: var(--color-accent);
       color: var(--color-accent-content);
+    }
+
+    [data-testid='select-contract'] select {
+      min-block-size: 2.75rem;
+      padding-inline: 0.75rem;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius-field);
+      background: var(--color-base-100);
+      color: var(--color-base-content);
+    }
+
+    [data-testid='select-contract'] select[multiple] {
+      min-block-size: 7rem;
+      padding-block: 0.5rem;
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -329,6 +345,25 @@ class ScrollLockPanelComponent {}
             />
           </div>
         </fieldset>
+      </section>
+
+      <section aria-labelledby="select-heading" class="grid gap-3" data-testid="select-contract">
+        <h2 id="select-heading" class="text-xl font-semibold">Native Select behavior</h2>
+        <label for="select-example">Deployment environment</label>
+        <select id="select-example" zdSelect color="primary" size="lg" data-testid="select-example">
+          <option value="development">Development</option>
+          <option selected value="staging">Staging</option>
+          <option value="production">Production</option>
+        </select>
+        <label for="select-multiple">Regions</label>
+        <select id="select-multiple" zdSelect multiple data-testid="select-multiple">
+          <optgroup label="Primary region">
+            <option selected value="eu">Europe</option>
+          </optgroup>
+          <optgroup label="Additional region">
+            <option value="us">United States</option>
+          </optgroup>
+        </select>
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

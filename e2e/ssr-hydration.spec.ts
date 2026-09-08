@@ -89,6 +89,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="filter-example"');
   expect(html).toContain('data-testid="range-example"');
   expect(html).toContain('data-testid="rating-example"');
+  expect(html).toContain('data-testid="select-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -360,6 +361,16 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(cardSelectable.getByRole('radio')).toBeChecked();
   await expect(imageFullCard).toHaveClass(/image-full/);
   await expect(imageFullCard).not.toHaveAttribute('tabindex');
+
+  const select = page.getByTestId('select-example');
+  await expect(select).toHaveClass(/select-primary/);
+  await expect(select).toHaveClass(/select-lg/);
+  await expect(select).toHaveValue('staging');
+  await select.selectOption('production');
+  await expect(select).toHaveValue('production');
+  const multipleSelect = page.getByTestId('select-multiple');
+  await expect(multipleSelect).toHaveAttribute('multiple', '');
+  await expect(multipleSelect).toHaveValues(['eu']);
 
   const carouselHorizontal = page.getByTestId('carousel-horizontal');
   const carouselVertical = page.getByTestId('carousel-vertical');

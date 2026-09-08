@@ -31,6 +31,7 @@
       "@pranxy/zordon-ui/checkbox": ["projects/components/checkbox/public-api.ts"],
       "@pranxy/zordon-ui/file-input": ["projects/components/file-input/src/public-api.ts"],
       "@pranxy/zordon-ui/filter": ["projects/components/filter/src/public-api.ts"],
+      "@pranxy/zordon-ui/select": ["projects/components/select/src/public-api.ts"],
       "@pranxy/zordon-ui/range": ["projects/components/range/src/public-api.ts"],
       "@pranxy/zordon-ui/rating": ["projects/components/rating/src/public-api.ts"],
       "@pranxy/zordon-ui/radio": ["projects/components/radio/src/public-api.ts"],

@@ -33,6 +33,7 @@ import { ZdFilter, ZdFilterItem, ZdFilterReset } from '@pranxy/zordon-ui/filter'
 import { ZdRange } from '@pranxy/zordon-ui/range';
 import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
+import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -106,6 +107,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdRating,
     ZdRatingHidden,
     ZdRadio,
+    ZdSelect,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -668,6 +670,26 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
               />
             </div>
           </fieldset>
+        </section>
+        <section aria-labelledby="select-heading" data-testid="select-contract">
+          <h2 id="select-heading">Hydrated native Select</h2>
+          <label for="select-example">Deployment environment</label>
+          <select
+            id="select-example"
+            zdSelect
+            color="primary"
+            size="lg"
+            data-testid="select-example"
+          >
+            <option value="development">Development</option>
+            <option selected value="staging">Staging</option>
+            <option value="production">Production</option>
+          </select>
+          <label for="select-multiple">Regions</label>
+          <select id="select-multiple" zdSelect multiple data-testid="select-multiple">
+            <option selected value="eu">Europe</option>
+            <option value="us">United States</option>
+          </select>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>
