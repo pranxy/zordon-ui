@@ -641,11 +641,31 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
                 name="rating"
                 value="0"
                 aria-label="Clear rating"
+                style="width: 24px; height: 24px"
                 data-testid="rating-clear"
               />
-              <input type="radio" name="rating" value="1" aria-label="1 star" />
-              <input type="radio" name="rating" value="2" aria-label="2 stars" />
-              <input type="radio" name="rating" value="3" aria-label="3 stars" checked />
+              <input
+                type="radio"
+                name="rating"
+                value="1"
+                aria-label="1 star"
+                style="width: 24px; height: 24px"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="2"
+                aria-label="2 stars"
+                style="width: 24px; height: 24px"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value="3"
+                aria-label="3 stars"
+                style="width: 24px; height: 24px"
+                checked
+              />
             </div>
           </fieldset>
         </section>
