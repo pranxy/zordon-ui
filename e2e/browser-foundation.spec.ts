@@ -661,6 +661,21 @@ test('keeps Text Input types, values, and keyboard behavior native while applyin
   await expect(page.getByTestId('text-input-password')).toHaveAttribute('type', 'password');
 });
 
+test('keeps Textarea rows, constraints, values, and keyboard behavior native while applying documented classes', async ({
+  page,
+}) => {
+  const textarea = page.getByTestId('textarea-example');
+  await expect(textarea).toHaveClass(/textarea-primary/);
+  await expect(textarea).toHaveClass(/textarea-lg/);
+  await expect(textarea).toHaveAttribute('rows', '4');
+  await expect(textarea).toHaveAttribute('maxlength', '280');
+  await expect(textarea).toHaveValue('Initial release note');
+  await textarea.focus();
+  await page.keyboard.press('Control+A');
+  await page.keyboard.type('Updated release note');
+  await expect(textarea).toHaveValue('Updated release note');
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

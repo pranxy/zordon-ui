@@ -46,6 +46,7 @@ import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
+import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -166,6 +167,7 @@ class ScrollLockPanelComponent {}
     ZdRadio,
     ZdSelect,
     ZdTextInput,
+    ZdTextarea,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -227,7 +229,8 @@ class ScrollLockPanelComponent {}
     }
 
     [data-testid='select-contract'] select,
-    [data-testid='text-input-contract'] input {
+    [data-testid='text-input-contract'] input,
+    [data-testid='textarea-contract'] textarea {
       min-block-size: 2.75rem;
       padding-inline: 0.75rem;
       border: 1px solid var(--color-primary);
@@ -239,6 +242,11 @@ class ScrollLockPanelComponent {}
     [data-testid='select-contract'] select[multiple] {
       min-block-size: 7rem;
       padding-block: 0.5rem;
+    }
+
+    [data-testid='textarea-contract'] textarea {
+      padding-block: 0.75rem;
+      resize: vertical;
     }
 
     @media (prefers-reduced-motion: no-preference) {
@@ -393,6 +401,25 @@ class ScrollLockPanelComponent {}
           autocomplete="current-password"
           data-testid="text-input-password"
         />
+      </section>
+
+      <section
+        aria-labelledby="textarea-heading"
+        class="grid gap-3"
+        data-testid="textarea-contract"
+      >
+        <h2 id="textarea-heading" class="text-xl font-semibold">Native Textarea behavior</h2>
+        <label for="textarea-example">Release notes</label>
+        <textarea
+          id="textarea-example"
+          zdTextarea
+          color="primary"
+          size="lg"
+          rows="4"
+          maxlength="280"
+          data-testid="textarea-example"
+        >
+Initial release note</textarea>
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

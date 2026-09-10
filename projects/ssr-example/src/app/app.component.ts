@@ -35,6 +35,7 @@ import { ZdRating, ZdRatingHidden } from '@pranxy/zordon-ui/rating';
 import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
+import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -110,6 +111,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdRadio,
     ZdSelect,
     ZdTextInput,
+    ZdTextarea,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -713,6 +715,20 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             autocomplete="current-password"
             data-testid="text-input-password"
           />
+        </section>
+        <section aria-labelledby="textarea-heading" data-testid="textarea-contract">
+          <h2 id="textarea-heading">Hydrated native Textarea</h2>
+          <label for="textarea-example">Release notes</label>
+          <textarea
+            id="textarea-example"
+            zdTextarea
+            color="primary"
+            size="lg"
+            rows="4"
+            maxlength="280"
+            data-testid="textarea-example"
+          >
+Initial release note</textarea>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

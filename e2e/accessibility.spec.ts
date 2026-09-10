@@ -273,6 +273,14 @@ test('has no detectable WCAG A or AA violations for native Text Input hosts', as
   expect((await runAxeScan('[data-testid="text-input-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Textarea hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('textarea-example')).toHaveClass(/textarea-primary/);
+  expect((await runAxeScan('[data-testid="textarea-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,
