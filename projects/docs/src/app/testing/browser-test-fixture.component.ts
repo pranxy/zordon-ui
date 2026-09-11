@@ -48,6 +48,7 @@ import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
 import { ZdToggle } from '@pranxy/zordon-ui/toggle';
+import { ZdValidator, ZdValidatorHint } from '@pranxy/zordon-ui/validator';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -170,6 +171,8 @@ class ScrollLockPanelComponent {}
     ZdTextInput,
     ZdTextarea,
     ZdToggle,
+    ZdValidator,
+    ZdValidatorHint,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -232,7 +235,8 @@ class ScrollLockPanelComponent {}
 
     [data-testid='select-contract'] select,
     [data-testid='text-input-contract'] input,
-    [data-testid='textarea-contract'] textarea {
+    [data-testid='textarea-contract'] textarea,
+    [data-testid='validator-contract'] input {
       min-block-size: 2.75rem;
       padding-inline: 0.75rem;
       border: 1px solid var(--color-primary);
@@ -436,6 +440,23 @@ Initial release note</textarea>
           checked
           data-testid="toggle-example"
         />
+      </section>
+
+      <section
+        aria-labelledby="validator-heading"
+        class="grid gap-3"
+        data-testid="validator-contract"
+      >
+        <h2 id="validator-heading" class="text-xl font-semibold">Native Validator behavior</h2>
+        <label for="validator-example">Account code</label>
+        <input
+          id="validator-example"
+          zdValidator
+          required
+          aria-describedby="validator-hint"
+          data-testid="validator-example"
+        />
+        <p id="validator-hint" zdValidatorHint>Enter an account code.</p>
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

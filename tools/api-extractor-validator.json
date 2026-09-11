@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
+  "projectFolder": "../projects/components",
+  "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-validator.d.ts",
+  "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-validator.json" },
+  "apiReport": {
+    "enabled": true,
+    "reportFileName": "zordon-ui-validator",
+    "reportFolder": "<projectFolder>/../../etc/api",
+    "reportTempFolder": "<projectFolder>/../../temp/api-extractor",
+    "reportVariants": ["complete"],
+    "includeForgottenExports": true
+  },
+  "docModel": { "enabled": false },
+  "dtsRollup": { "enabled": false },
+  "tsdocMetadata": { "enabled": false }
+}

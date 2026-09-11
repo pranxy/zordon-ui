@@ -111,6 +111,9 @@ behavior, and do not use exclusions or line-execution-only tests to satisfy the 
 
 - Update the affected build-plan checkbox, component matrix cells, notes, and progress log in the
   same change as the verified work.
+- Keep a component implementation in progress until its required checks, API report, documentation,
+  visual evidence, tracker update, and Conventional Commit handoff are complete. Partial or
+  interrupted command output is not completion evidence.
 - Add API reference, examples, accessibility guidance, customization guidance, and migration notes
   required by the component Definition of Done.
 - Create the component's [visual story matrix](docs/templates/visual-story-matrix-template.md)

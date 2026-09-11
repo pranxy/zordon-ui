@@ -688,6 +688,19 @@ test('keeps Toggle selection and keyboard behavior native while applying documen
   await expect(toggle).not.toBeChecked();
 });
 
+test('keeps Validator constraints and error text consumer-owned while applying documented classes', async ({
+  page,
+}) => {
+  const validator = page.getByTestId('validator-example');
+  await expect(validator).toHaveClass(/validator/);
+  await expect(validator).toHaveAttribute('required', '');
+  await expect(validator).toHaveAttribute('aria-describedby', 'validator-hint');
+  await expect(page.locator('#validator-hint')).toHaveClass(/validator-hint/);
+  expect(await validator.evaluate(input => (input as HTMLInputElement).checkValidity())).toBe(
+    false,
+  );
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

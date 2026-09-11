@@ -93,6 +93,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="text-input-example"');
   expect(html).toContain('data-testid="textarea-example"');
   expect(html).toContain('data-testid="toggle-example"');
+  expect(html).toContain('data-testid="validator-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -396,6 +397,15 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(toggle).toBeChecked();
   await toggle.uncheck();
   await expect(toggle).not.toBeChecked();
+
+  const validator = page.getByTestId('validator-example');
+  await expect(validator).toHaveClass(/validator/);
+  await expect(validator).toHaveAttribute('required', '');
+  await expect(validator).toHaveAttribute('aria-describedby', 'validator-hint');
+  await expect(page.locator('#validator-hint')).toHaveClass(/validator-hint/);
+  expect(await validator.evaluate(input => (input as HTMLInputElement).checkValidity())).toBe(
+    false,
+  );
 
   const carouselHorizontal = page.getByTestId('carousel-horizontal');
   const carouselVertical = page.getByTestId('carousel-vertical');

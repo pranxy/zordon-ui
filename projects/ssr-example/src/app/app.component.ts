@@ -37,6 +37,7 @@ import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
 import { ZdToggle } from '@pranxy/zordon-ui/toggle';
+import { ZdValidator, ZdValidatorHint } from '@pranxy/zordon-ui/validator';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -114,6 +115,8 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdTextInput,
     ZdTextarea,
     ZdToggle,
+    ZdValidator,
+    ZdValidatorHint,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -744,6 +747,18 @@ Initial release note</textarea>
             checked
             data-testid="toggle-example"
           />
+        </section>
+        <section aria-labelledby="validator-heading" data-testid="validator-contract">
+          <h2 id="validator-heading">Hydrated native Validator</h2>
+          <label for="validator-example">Account code</label>
+          <input
+            id="validator-example"
+            zdValidator
+            required
+            aria-describedby="validator-hint"
+            data-testid="validator-example"
+          />
+          <p id="validator-hint" zdValidatorHint>Enter an account code.</p>
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

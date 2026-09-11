@@ -13,7 +13,7 @@ This file is the source of truth for delivery progress. Update checkboxes and th
 
 ## Component delivery rule
 
-Deliver one component as a single uninterrupted milestone: finish its specification, implementation, public entry point, documentation, API report, type/unit/browser/SSR/accessibility/visual evidence, and tracker update before beginning another component. At each implementation handoff, provide a Conventional Commits message for the component, even when an explicitly human-owned maturity gate remains open. Record that message in the component tracker. Do not describe a component as complete while any of those tasks remain.
+Deliver one component as a single uninterrupted milestone: finish its specification, implementation, public entry point, documentation, API report, type/unit/browser/SSR/accessibility/visual evidence, and tracker update before beginning another component. At each implementation handoff, provide a Conventional Commits message for the component, even when an explicitly human-owned maturity gate remains open. Record that message in the component tracker. Do not end an implementation handoff or report a component as complete until it is ready for that commit; command output that is partial, truncated, or interrupted is progress only and must be resolved before handoff.
 
 ## Status conventions
 
@@ -50,7 +50,7 @@ Component matrix columns:
 Overall component progress: **0 / 68 Done**. This count requires every maturity gate, including
 manual assistive-technology, forced-colors, contrast, and reflow review.
 
-Automated delivery progress: **41 / 68** components have verified specification, build, test,
+Automated delivery progress: **42 / 68** components have verified specification, build, test,
 documentation, and visual evidence. Their manual accessibility review remains open.
 
 ## Definition of Ready for a component
@@ -83,6 +83,8 @@ documentation, and visual evidence. Their manual accessibility review remains op
 - [ ] Has visual regression coverage for representative variants, themes, breakpoints, and states.
 - [ ] Is exported from the intended public entry point with no accidental private exports.
 - [ ] Has no unresolved critical or high-severity defects.
+- [ ] Has recorded passing results for every applicable required check, and its Conventional Commit
+      message is recorded in the component tracker.
 
 ## Phase 0 — Product and architecture decisions
 
@@ -409,7 +411,7 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
 | INP-11 | Text Input | Colors/ghost/xs–xl; native types; icons/add-ons/prefix/suffix; clear/password actions; count/mask/debounce; native attrs; forms/validation                   |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |                           Native Text Input directive ships colors, sizes, and ghost styling. Native inputs own type, editing, autocomplete, Forms, validation, and serialization; field composition, actions, count, mask, debounce, and autocomplete interaction remain consumer-owned. Automated evidence is recorded; manual review remains open. |
 | INP-12 | Textarea   | Colors/ghost/sizes; controlled value; resize/auto-grow; min/max rows; count; validation; disabled/read-only; forms and field parts                           |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |                                                        Native Textarea directive ships colors, sizes, and ghost styling. Native textarea owns editing, rows, resize, Forms, validation, and serialization; auto-grow, count, mask, debounce, and field composition remain consumer-owned. Automated evidence is recorded; manual review remains open. |
 | INP-13 | Toggle     | Colors; xs–xl; checked/unchecked/optional indeterminate; disabled/read-only/loading; labels/icons; forms; switch semantics                                   |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |                                                               Native Toggle directive ships colors and sizes. Native checkbox owns checked state, keyboard, Forms, validation, labels, and serialization; switch wording, icons, loading, and indeterminate policy remain consumer-owned. Automated evidence is recorded; manual review remains open. |
-| INP-14 | Validator  | Valid/invalid/pending; hints/errors; touched/dirty/submitted policies; native constraints; Reactive Forms; optional Signal Forms; ARIA association           |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |                                                                                                                                                                                                                                                                                                                                                   [ ] | Cross-cutting dependency for all form controls                                                                                                                                                                                                                                                                                                                               |
+| INP-14 | Validator  | Native constraints and Angular Forms state; consumer hints/errors and ARIA relationships                                                                     |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |                                                                                                                                                                                      Native Validator directives style controls and hints; native and Angular Forms own validation state. Automated evidence is recorded; manual review remains open. |
 | INP-15 | OTP        | Configurable length/character set; visual cells; input strategy; auto-advance/backspace; paste/autofill; masking; states; validation; completion; forms      |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |                                                                                                                                                                                                                                                                                                                                                   [ ] | Mobile and password-manager testing required                                                                                                                                                                                                                                                                                                                                 |
 
 ### Layout — 8
