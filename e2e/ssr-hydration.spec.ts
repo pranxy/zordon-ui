@@ -92,6 +92,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="select-example"');
   expect(html).toContain('data-testid="text-input-example"');
   expect(html).toContain('data-testid="textarea-example"');
+  expect(html).toContain('data-testid="toggle-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -388,6 +389,13 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(textarea).toHaveAttribute('rows', '4');
   await textarea.fill('Hydrated release note');
   await expect(textarea).toHaveValue('Hydrated release note');
+
+  const toggle = page.getByTestId('toggle-example');
+  await expect(toggle).toHaveClass(/toggle-primary/);
+  await expect(toggle).toHaveClass(/toggle-lg/);
+  await expect(toggle).toBeChecked();
+  await toggle.uncheck();
+  await expect(toggle).not.toBeChecked();
 
   const carouselHorizontal = page.getByTestId('carousel-horizontal');
   const carouselVertical = page.getByTestId('carousel-vertical');

@@ -281,6 +281,14 @@ test('has no detectable WCAG A or AA violations for native Textarea hosts', asyn
   expect((await runAxeScan('[data-testid="textarea-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for native Toggle hosts', async ({
+  page,
+  runAxeScan,
+}) => {
+  await expect(page.getByTestId('toggle-example')).toHaveClass(/toggle-primary/);
+  expect((await runAxeScan('[data-testid="toggle-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,

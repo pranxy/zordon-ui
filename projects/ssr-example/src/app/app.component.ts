@@ -36,6 +36,7 @@ import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
+import { ZdToggle } from '@pranxy/zordon-ui/toggle';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
@@ -112,6 +113,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
     ZdSelect,
     ZdTextInput,
     ZdTextarea,
+    ZdToggle,
     ZdStat,
     ZdStatDesc,
     ZdStatTitle,
@@ -729,6 +731,19 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             data-testid="textarea-example"
           >
 Initial release note</textarea>
+        </section>
+        <section aria-labelledby="toggle-heading" data-testid="toggle-contract">
+          <h2 id="toggle-heading">Hydrated native Toggle</h2>
+          <label for="toggle-example">Enable release notifications</label>
+          <input
+            id="toggle-example"
+            type="checkbox"
+            zdToggle
+            color="primary"
+            size="lg"
+            checked
+            data-testid="toggle-example"
+          />
         </section>
         <section aria-labelledby="file-input-heading" data-testid="file-input-contract">
           <h2 id="file-input-heading">Hydrated native File Input</h2>

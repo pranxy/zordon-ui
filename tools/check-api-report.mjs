@@ -202,6 +202,11 @@ export const apiReports = [
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-text-input.api.md'),
   },
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-toggle.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-toggle.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-toggle.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-textarea.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-textarea.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-textarea.api.md'),

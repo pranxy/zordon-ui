@@ -676,6 +676,18 @@ test('keeps Textarea rows, constraints, values, and keyboard behavior native whi
   await expect(textarea).toHaveValue('Updated release note');
 });
 
+test('keeps Toggle selection and keyboard behavior native while applying documented classes', async ({
+  page,
+}) => {
+  const toggle = page.getByTestId('toggle-example');
+  await expect(toggle).toHaveClass(/toggle-primary/);
+  await expect(toggle).toHaveClass(/toggle-lg/);
+  await expect(toggle).toBeChecked();
+  await toggle.focus();
+  await page.keyboard.press('Space');
+  await expect(toggle).not.toBeChecked();
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {

@@ -47,6 +47,7 @@ import { ZdRadio } from '@pranxy/zordon-ui/radio';
 import { ZdSelect } from '@pranxy/zordon-ui/select';
 import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
+import { ZdToggle } from '@pranxy/zordon-ui/toggle';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -168,6 +169,7 @@ class ScrollLockPanelComponent {}
     ZdSelect,
     ZdTextInput,
     ZdTextarea,
+    ZdToggle,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -420,6 +422,20 @@ class ScrollLockPanelComponent {}
           data-testid="textarea-example"
         >
 Initial release note</textarea>
+      </section>
+
+      <section aria-labelledby="toggle-heading" class="grid gap-3" data-testid="toggle-contract">
+        <h2 id="toggle-heading" class="text-xl font-semibold">Native Toggle behavior</h2>
+        <label for="toggle-example">Enable release notifications</label>
+        <input
+          id="toggle-example"
+          type="checkbox"
+          zdToggle
+          color="primary"
+          size="lg"
+          checked
+          data-testid="toggle-example"
+        />
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

@@ -75,6 +75,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
       ${fixtureSelector} section:has(#select-heading),
       ${fixtureSelector} section:has(#text-input-heading),
       ${fixtureSelector} section:has(#textarea-heading),
+      ${fixtureSelector} section:has(#toggle-heading),
       ${fixtureSelector} section:has(#file-input-heading),
       ${fixtureSelector} section:has(#diff-heading),
       ${fixtureSelector} section:has(#chat-heading),
@@ -855,6 +856,25 @@ test('Textarea visual boundaries in dark RTL mobile', async ({ page }) => {
   });
   await expect(page.getByTestId('textarea-contract')).toHaveScreenshot(
     'textarea--native--dark-rtl-mobile.png',
+    {
+      animations: 'disabled',
+      caret: 'hide',
+      maxDiffPixelRatio: 0.002,
+      scale: 'css',
+      threshold: 0.2,
+    },
+  );
+});
+
+test('Toggle visual boundaries in dark RTL mobile', async ({ page }) => {
+  await prepareZordonTestEnvironment(page, 'mobile', ZORDON_TEST_MEDIA_PROFILES.reducedMotion);
+  await prepareFixture(page, 'dark');
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.addStyleTag({
+    content: `${fixtureSelector} section:has(#toggle-heading) { display: grid !important; }`,
+  });
+  await expect(page.getByTestId('toggle-contract')).toHaveScreenshot(
+    'toggle--native--dark-rtl-mobile.png',
     {
       animations: 'disabled',
       caret: 'hide',

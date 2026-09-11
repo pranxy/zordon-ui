@@ -34,6 +34,7 @@
       "@pranxy/zordon-ui/select": ["projects/components/select/src/public-api.ts"],
       "@pranxy/zordon-ui/text-input": ["projects/components/text-input/src/public-api.ts"],
       "@pranxy/zordon-ui/textarea": ["projects/components/textarea/src/public-api.ts"],
+      "@pranxy/zordon-ui/toggle": ["projects/components/toggle/src/public-api.ts"],
       "@pranxy/zordon-ui/range": ["projects/components/range/src/public-api.ts"],
       "@pranxy/zordon-ui/rating": ["projects/components/rating/src/public-api.ts"],
       "@pranxy/zordon-ui/radio": ["projects/components/radio/src/public-api.ts"],
