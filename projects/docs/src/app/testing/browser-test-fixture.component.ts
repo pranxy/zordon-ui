@@ -49,6 +49,7 @@ import { ZdTextInput } from '@pranxy/zordon-ui/text-input';
 import { ZdTextarea } from '@pranxy/zordon-ui/textarea';
 import { ZdToggle } from '@pranxy/zordon-ui/toggle';
 import { ZdValidator, ZdValidatorHint } from '@pranxy/zordon-ui/validator';
+import { ZdOtp } from '@pranxy/zordon-ui/otp';
 import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';
 import { ZdHoverGallery } from '@pranxy/zordon-ui/hover-gallery';
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
@@ -173,6 +174,7 @@ class ScrollLockPanelComponent {}
     ZdToggle,
     ZdValidator,
     ZdValidatorHint,
+    ZdOtp,
     ZdHover3d,
     ZdHoverGallery,
     ZdList,
@@ -457,6 +459,11 @@ Initial release note</textarea>
           data-testid="validator-example"
         />
         <p id="validator-hint" zdValidatorHint>Enter an account code.</p>
+      </section>
+
+      <section aria-labelledby="otp-heading" class="grid gap-3" data-testid="otp-contract">
+        <h2 id="otp-heading" class="text-xl font-semibold">One-time password</h2>
+        <zd-otp length="4" data-testid="otp-example" ariaLabel="Verification code" />
       </section>
 
       <section aria-labelledby="button-heading" class="grid gap-3" data-testid="button-contract">

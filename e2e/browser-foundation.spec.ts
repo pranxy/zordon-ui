@@ -716,6 +716,16 @@ test('keeps File Input selection and native attributes consumer-owned while appl
     mimeType: 'image/png',
     buffer: Buffer.from('png'),
   });
+
+  test('distributes OTP paste input and preserves labelled native cells', async ({ page }) => {
+    const otp = page.getByTestId('otp-example');
+    const cells = otp.locator('input');
+    await expect(cells).toHaveCount(4);
+    await expect(cells.first()).toHaveAttribute('autocomplete', 'one-time-code');
+    await cells.first().pressSequentially('1234');
+    await expect(cells.nth(0)).toHaveValue('1');
+    await expect(cells.nth(1)).toHaveValue('2');
+  });
   await expect(
     input.evaluate(element => ({
       length: (element as HTMLInputElement).files?.length,

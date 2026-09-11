@@ -297,6 +297,11 @@ test('has no detectable WCAG A or AA violations for native Validator hosts', asy
   expect((await runAxeScan('[data-testid="validator-contract"]')).violations).toEqual([]);
 });
 
+test('has no detectable WCAG A or AA violations for OTP', async ({ page, runAxeScan }) => {
+  await expect(page.getByTestId('otp-example').locator('input')).toHaveCount(4);
+  expect((await runAxeScan('[data-testid="otp-contract"]')).violations).toEqual([]);
+});
+
 test('has no detectable WCAG A or AA violations for native File Input hosts', async ({
   page,
   runAxeScan,

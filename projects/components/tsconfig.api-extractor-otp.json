@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/api-extractor-otp"
+  },
+  "include": ["otp/src/**/*.ts"],
+  "exclude": ["otp/src/**/*.spec.ts"]
+}

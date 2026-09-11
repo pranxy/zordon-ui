@@ -94,6 +94,7 @@ test('serves meaningful rendered HTML without client JavaScript', async ({ brows
   expect(html).toContain('data-testid="textarea-example"');
   expect(html).toContain('data-testid="toggle-example"');
   expect(html).toContain('data-testid="validator-example"');
+  expect(html).toContain('data-testid="otp-example"');
   expect(html).toContain('data-testid="file-input-example"');
   expect(html).toContain('data-testid="browser-mockup-example"');
   expect(html).toContain('data-testid="code-mockup-example"');
@@ -154,7 +155,7 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   );
   await expect(page.getByTestId('increment')).toHaveAttribute('aria-describedby', descriptionId!);
   await expect(page.getByText('Initial render state')).toHaveAttribute('for', renderStateId!);
-  await expect(page.getByText('Account code', { exact: true })).toHaveAttribute(
+  await expect(page.locator('form').getByText('Account code', { exact: true })).toHaveAttribute(
     'for',
     validationControlId!,
   );
@@ -406,6 +407,10 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   expect(await validator.evaluate(input => (input as HTMLInputElement).checkValidity())).toBe(
     false,
   );
+
+  const otp = page.getByTestId('otp-example');
+  await expect(otp.locator('input')).toHaveCount(4);
+  await expect(otp.locator('input').first()).toHaveAttribute('autocomplete', 'one-time-code');
 
   const carouselHorizontal = page.getByTestId('carousel-horizontal');
   const carouselVertical = page.getByTestId('carousel-vertical');
