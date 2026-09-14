@@ -1,0 +1,55 @@
+/* Import after daisyUI. Data attributes also work with configured class prefixes. */
+[data-zd-swap] > input[type='checkbox'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+[data-zd-swap] > [data-zd-swap-part] {
+  visibility: hidden;
+}
+[data-zd-swap]:not(:has(> input[type='checkbox']))[data-zd-swap-state='off']
+  > [data-zd-swap-part='off'],
+[data-zd-swap]:not(:has(> input[type='checkbox']))[data-zd-swap-state='on']
+  > [data-zd-swap-part='on'],
+[data-zd-swap]:not(:has(> input[type='checkbox']))[data-zd-swap-state='indeterminate']
+  > [data-zd-swap-part='indeterminate'],
+[data-zd-swap]:has(> input:not(:checked):not(:indeterminate)) > [data-zd-swap-part='off'],
+[data-zd-swap]:has(> input:checked:not(:indeterminate)) > [data-zd-swap-part='on'],
+[data-zd-swap]:has(> input:indeterminate) > [data-zd-swap-part='indeterminate'] {
+  visibility: visible;
+  opacity: 1;
+}
+[data-zd-swap][data-zd-swap-state='indeterminate'] > [data-zd-swap-part='indeterminate'],
+[data-zd-swap]:has(> input:indeterminate) > [data-zd-swap-part='indeterminate'] {
+  transform: none;
+  rotate: none;
+}
+[data-zd-swap]:focus-visible,
+[data-zd-swap]:has(> input:focus-visible) {
+  outline: 2px solid var(--color-primary, currentColor);
+  outline-offset: 3px;
+}
+[data-zd-swap]:disabled,
+[data-zd-swap]:has(> input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-zd-swap] > [data-zd-swap-part] {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    rotate: none !important;
+    scale: none !important;
+  }
+}
+@media (forced-colors: active) {
+  [data-zd-swap]:focus-visible,
+  [data-zd-swap]:has(> input:focus-visible) {
+    outline-color: Highlight;
+  }
+}

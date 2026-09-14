@@ -30,9 +30,11 @@
     "tslib": "^2.3.0"
   },
   "exports": {
-    "./aura/aura-motion.css": "./aura/aura-motion.css"
+    "./aura/aura-motion.css": "./aura/aura-motion.css",
+    "./swap/swap.css": "./swap/swap.css"
   },
   "sideEffects": [
-    "./aura/aura-motion.css"
+    "./aura/aura-motion.css",
+    "./swap/swap.css"
   ]
 }

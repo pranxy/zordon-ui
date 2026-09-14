@@ -1,5 +1,35 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Swap renders native controls without JavaScript and hydrates controlled activation', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/swap');
+    await expect(server.getByRole('checkbox', { name: 'Notifications' })).not.toBeChecked();
+    await expect(server.getByRole('button', { name: 'Mute', exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+    await expect(server.getByTestId('swap-checkbox').locator('[zdSwapOff]')).toBeVisible();
+    await server.getByRole('checkbox', { name: 'Notifications' }).check();
+    await expect(server.getByTestId('swap-checkbox').locator('[zdSwapOn]')).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/swap');
+  await page.getByRole('checkbox', { name: 'Notifications' }).check();
+  await page.getByRole('button', { name: 'Mute', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('true / true / 0');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Public Dropdown stays closed on the server and hydrates nested Aria menus', async ({
   browser,
   page,

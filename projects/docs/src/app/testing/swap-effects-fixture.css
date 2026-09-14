@@ -1,0 +1,5 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin "daisyui" {
+  themes: false;
+}
+@source inline("swap-rotate swap-flip");

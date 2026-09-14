@@ -91,10 +91,24 @@ test('declares the Aura reduced-motion stylesheet as a side-effectful package ex
   const stylesheet = await readWorkspaceFile('projects/components/aura/src/aura-motion.css');
 
   assert.equal(manifest.exports['./aura/aura-motion.css'], './aura/aura-motion.css');
-  assert.deepEqual(manifest.sideEffects, ['./aura/aura-motion.css']);
+  assert.deepEqual(manifest.sideEffects, ['./aura/aura-motion.css', './swap/swap.css']);
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(stylesheet, /\[data-zd-aura\]::before/);
   assert.match(stylesheet, /animation: none !important/);
+});
+
+test('packages the required Swap stylesheet and native declaration surface', async () => {
+  const manifest = JSON.parse(await readWorkspaceFile('dist/components/package.json'));
+  assert.equal(manifest.exports['./swap/swap.css'], './swap/swap.css');
+  assert.ok(manifest.sideEffects.includes('./swap/swap.css'));
+  assert.ok(manifest.exports['./swap']);
+  const stylesheet = await readWorkspaceFile('dist/components/swap/swap.css');
+  assert.match(stylesheet, /prefers-reduced-motion: reduce/);
+  assert.match(stylesheet, /forced-colors: active/);
+  const report = await readWorkspaceFile('etc/api/zordon-ui-swap.api.md');
+  assert.match(report, /export class ZdSwapInput/);
+  assert.match(report, /readonly activeChange/);
+  assert.doesNotMatch(report, /@angular\/(?:aria|cdk)/);
 });
 
 test('tracks the built Avatar secondary declaration surface with its own report', async () => {
@@ -204,6 +218,7 @@ test('commits the generated primary API report and exposes check/update scripts'
     apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)).sort(),
     [
       'api-extractor-calendar.json',
+      'api-extractor-swap.json',
       'api-extractor-dropdown.json',
       'api-extractor-internal-overlay.json',
       'api-extractor-aura.json',

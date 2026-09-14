@@ -5,6 +5,7 @@
     "LICENSE",
     "README.md",
     "CHANGELOG.md",
+    { "glob": "swap.css", "input": "swap/src", "output": "swap" },
     {
       "glob": "aura-motion.css",
       "input": "aura/src",

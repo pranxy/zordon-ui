@@ -9,6 +9,19 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Swap light desktop and dark RTL mobile states', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.goto('/__zordon-tests__/swap');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await expect(page.getByTestId('swap-fixture')).toHaveScreenshot('swap--light-desktop.png');
+  await page.getByRole('button', { name: 'Toggle mixed' }).click();
+  await page.getByRole('button', { name: 'Mute', exact: true }).click();
+  await page.getByRole('button', { name: 'Toggle manual' }).click();
+  await page.setViewportSize({ width: 360, height: 1000 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await expect(page.getByTestId('swap-fixture')).toHaveScreenshot('swap--dark-rtl-mobile.png');
+});
+
 test('Dropdown light menu and dark RTL nested mobile panels', async ({ page }) => {
   await page.goto('/__zordon-tests__/dropdown');
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
