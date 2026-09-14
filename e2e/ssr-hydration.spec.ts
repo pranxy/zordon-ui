@@ -1,5 +1,39 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Dropdown probe renders a closed trigger and hydrates Angular 21 menu portals', async ({
+  browser,
+  page,
+  request,
+}) => {
+  const html = await (await request.get('/dropdown-probe')).text();
+  expect(html).toContain('id="dropdown-probe-trigger"');
+  expect(html).not.toContain('id="dropdown-probe-menu"');
+  expect(html).not.toContain('class="cdk-overlay-pane"');
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const serverPage = await noJs.newPage();
+    await serverPage.goto('/dropdown-probe');
+    await expect(serverPage.getByRole('button', { name: 'Open actions' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(serverPage.getByRole('menu')).toHaveCount(0);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/dropdown-probe');
+  const trigger = page.getByRole('button', { name: 'Open actions' });
+  await trigger.click();
+  await expect(page.getByRole('menuitem', { name: 'Edit', exact: true })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status')).toHaveText('edit');
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('Calendar renders civil-date selection and hydrates native controls and popup', async ({
   browser,
   page,

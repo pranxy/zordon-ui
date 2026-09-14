@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'dropdown-probe',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/dropdown-menu-probe.component').then(
+        module => module.DropdownMenuProbeComponent,
+      ),
+  },
+  {
     path: 'calendar',
     loadComponent: () =>
       import('../../../docs/src/app/testing/calendar-test-fixture.component').then(
