@@ -701,6 +701,19 @@ test('keeps Validator constraints and error text consumer-owned while applying d
   );
 });
 
+test('types OTP input, clears rejected characters, and preserves labelled native cells', async ({
+  page,
+}) => {
+  const cells = page.getByTestId('otp-example').locator('input');
+  await expect(cells).toHaveCount(4);
+  await expect(cells.first()).toHaveAttribute('autocomplete', 'one-time-code');
+  await cells.first().pressSequentially('x');
+  await expect(cells.first()).toHaveValue('');
+  await cells.first().pressSequentially('1234');
+  for (let index = 0; index < 4; index++)
+    await expect(cells.nth(index)).toHaveValue(String(index + 1));
+});
+
 test('keeps File Input selection and native attributes consumer-owned while applying modifiers', async ({
   page,
 }) => {
@@ -717,15 +730,6 @@ test('keeps File Input selection and native attributes consumer-owned while appl
     buffer: Buffer.from('png'),
   });
 
-  test('distributes OTP paste input and preserves labelled native cells', async ({ page }) => {
-    const otp = page.getByTestId('otp-example');
-    const cells = otp.locator('input');
-    await expect(cells).toHaveCount(4);
-    await expect(cells.first()).toHaveAttribute('autocomplete', 'one-time-code');
-    await cells.first().pressSequentially('1234');
-    await expect(cells.nth(0)).toHaveValue('1');
-    await expect(cells.nth(1)).toHaveValue('2');
-  });
   await expect(
     input.evaluate(element => ({
       length: (element as HTMLInputElement).files?.length,

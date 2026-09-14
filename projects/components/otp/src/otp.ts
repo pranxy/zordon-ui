@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  forwardRef,
+  inject,
   input,
   numberAttribute,
   output,
@@ -10,13 +10,17 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+function otpAccessor(): ZdOtp {
+  return inject(ZdOtp);
+}
+
 @Component({
   selector: 'zd-otp',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ZdOtp),
+      useFactory: otpAccessor,
       multi: true,
     },
   ],
@@ -73,7 +77,7 @@ export class ZdOtp implements ControlValueAccessor {
   private onTouched: () => void = () => undefined;
 
   writeValue(value: string | null): void {
-    this.setValue(value ?? '', false);
+    this.setValue(value ?? '');
   }
 
   registerOnChange(callback: (value: string) => void): void {
@@ -90,6 +94,7 @@ export class ZdOtp implements ControlValueAccessor {
 
   protected onInput(index: number, value: string, cell: HTMLInputElement): void {
     const characters = this.accept(value);
+    cell.value = characters.slice(0, 1);
     this.update(index, characters.slice(0, 1));
     if (characters && index < this.length() - 1) {
       cell.parentElement?.querySelectorAll<HTMLInputElement>('input')[index + 1]?.focus();
@@ -125,14 +130,13 @@ export class ZdOtp implements ControlValueAccessor {
     this.commit(next);
   }
 
-  private setValue(value: string, emit: boolean): void {
+  private setValue(value: string): void {
     const next = this.emptySlots();
     this.accept(value)
       .slice(0, this.length())
       .split('')
       .forEach((character, index) => (next[index] = character));
     this.slots.set(next);
-    if (emit) this.emit(next);
   }
 
   private commit(next: string[]): void {

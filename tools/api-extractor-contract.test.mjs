@@ -201,8 +201,9 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.equal(scripts['check:api'], 'node tools/check-api-report.mjs check');
   assert.equal(scripts['update:api'], 'node tools/check-api-report.mjs update');
   assert.deepEqual(
-    apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)),
+    apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)).sort(),
     [
+      'api-extractor-calendar.json',
       'api-extractor-aura.json',
       'api-extractor-avatar.json',
       'api-extractor-badge.json',
@@ -247,7 +248,7 @@ test('commits the generated primary API report and exposes check/update scripts'
       'api-extractor-toggle.json',
       'api-extractor-validator.json',
       'api-extractor-otp.json',
-    ],
+    ].sort(),
   );
   assert.match(scripts['test:api'], /build:lib.*check:api/);
   assert.match(workflow, /name: Check public API report\s+run: npm run check:api/);

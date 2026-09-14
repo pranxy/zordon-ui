@@ -9,6 +9,20 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Calendar light desktop, dark RTL mobile, and popup', async ({ page }) => {
+  await page.goto('/__zordon-tests__/calendar');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await expect(page.getByTestId('calendar-single')).toHaveScreenshot('calendar--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 800 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle calendar direction' }).click();
+  await expect(page.getByTestId('calendar-range')).toHaveScreenshot(
+    'calendar--dark-rtl-mobile.png',
+  );
+  await page.getByRole('button', { name: 'Departure: Choose date' }).click();
+  await expect(page.getByRole('dialog')).toHaveScreenshot('calendar--popup.png');
+});
+
 const desktopThemes = [
   ['light', 'light-desktop.png'],
   ['dark', 'dark-desktop.png'],
@@ -43,6 +57,7 @@ async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
         animation-duration: 0s !important;
       }
 
+      ${fixtureSelector} docs-calendar-grid-probe,
       ${fixtureSelector} section:has(#dismissal-heading),
       ${fixtureSelector} section:has(#positioning-heading),
       ${fixtureSelector} section:has(#scroll-lock-heading),

@@ -1,3 +1,4 @@
+import { CalendarGridProbeComponent } from './calendar-grid-probe.component';
 import { CdkMonitorFocus, CdkTrapFocus } from '@angular/cdk/a11y';
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { type Direction, Dir, Directionality } from '@angular/cdk/bidi';
@@ -109,6 +110,7 @@ class ScrollLockPanelComponent {}
 @Component({
   selector: 'docs-browser-test-fixture',
   imports: [
+    CalendarGridProbeComponent,
     AsyncActionProbeComponent,
     CdkConnectedOverlay,
     CdkMonitorFocus,
@@ -461,6 +463,7 @@ Initial release note</textarea>
         <p id="validator-hint" zdValidatorHint>Enter an account code.</p>
       </section>
 
+      <docs-calendar-grid-probe />
       <section aria-labelledby="otp-heading" class="grid gap-3" data-testid="otp-contract">
         <h2 id="otp-heading" class="text-xl font-semibold">One-time password</h2>
         <zd-otp length="4" data-testid="otp-example" ariaLabel="Verification code" />

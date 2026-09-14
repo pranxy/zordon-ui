@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "projectFolder": "../projects/components",
-  "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-otp.d.ts",
-  "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-otp.json" },
+  "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-calendar.d.ts",
+  "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-calendar.json" },
   "apiReport": {
     "enabled": true,
-    "reportFileName": "zordon-ui-otp",
+    "reportFileName": "zordon-ui-calendar",
     "reportFolder": "<projectFolder>/../../etc/api",
     "reportTempFolder": "<projectFolder>/../../temp/api-extractor",
     "reportVariants": ["complete"],

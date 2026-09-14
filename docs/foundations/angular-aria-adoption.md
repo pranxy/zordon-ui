@@ -41,6 +41,21 @@ The Angular 21 documentation exposes these building blocks from public subpaths:
 These names are a versioned research baseline, not a license to expose them. Inspect the pinned
 package API before each integration because developer-preview names can change.
 
+### First consumer: Calendar (2026-09-14)
+
+Calendar now composes Grid/GridRow/GridCell/GridCellWidget internally with Aria/CDK 21.2.14 on
+Angular 21.2.19. Its explicit grid probe covers roving focus, native/widget activation, disabled
+dates, live RTL, teardown, and SSR/hydration. The final Calendar disables generic Aria selection
+and represents date selection with native button pressed states; Calendar owns date/range rules.
+Page/month boundary handling is a private date-specific gap, not a replacement key manager.
+
+The user requested delivery on Angular 21. The installed Angular 21.2 lane is verified; the
+Angular 21.0 floor and Angular 22 lane remain unverified and are not implied by this preview.
+The package adds an exact Aria 21.2.14 peer, which requires matching CDK. Public declarations
+contain no Aria types. See [Calendar](../components/calendar.md) and its
+[delivery record](../plans/phase-4-calendar-progress.md) for scope and evidence. Future consumers
+must still complete their own integration/compatibility gates.
+
 Angular's Autocomplete, Select, Multiselect, and Menubar guides are composed experiences built
 from those families. For example, Select combines Combobox and Listbox and uses CDK Overlay for
 positioning.

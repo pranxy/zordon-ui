@@ -1,5 +1,80 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Calendar renders civil-date selection and hydrates native controls and popup', async ({
+  browser,
+  page,
+  request,
+  runAxeScan,
+}) => {
+  const first = await (await request.get('/calendar')).text();
+  const second = await (await request.get('/calendar')).text();
+  const ids = (html: string) =>
+    [...html.matchAll(/id="(zd-calendar-[^"]*-day-2026-09-14)"/g)].map(match => match[1]);
+  expect(ids(first)).toHaveLength(4);
+  expect(ids(second)).toEqual(ids(first));
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const serverPage = await noJs.newPage();
+  await serverPage.goto('/calendar');
+  await expect(
+    serverPage.getByTestId('calendar-single').locator('[data-date="2026-09-14"]'),
+  ).toHaveAttribute('aria-pressed', 'true');
+  await expect(
+    serverPage.getByTestId('calendar-single').locator('[data-date="2026-09-15"]'),
+  ).toHaveAttribute('aria-disabled', 'true');
+  await expect(serverPage.getByTestId('calendar-popup').locator('dialog')).not.toBeVisible();
+  await noJs.close();
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/calendar');
+  await page.getByTestId('calendar-single').locator('[data-date="2026-09-16"]').click();
+  await expect(page.getByTestId('calendar-single').getByRole('status')).toHaveText('2026-09-16');
+  const trigger = page.getByRole('button', { name: 'Departure: Choose date' });
+  await trigger.click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  expect((await runAxeScan('docs-calendar-test-fixture')).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
+test('Calendar grid spike preserves date semantics before and after hydration', async ({
+  browser,
+  page,
+  request,
+}) => {
+  const first = await (await request.get('/calendar-grid-probe')).text();
+  const second = await (await request.get('/calendar-grid-probe')).text();
+  for (const html of [first, second]) {
+    expect(html).toContain('id="calendar-probe-cell-14"');
+    expect(html).toContain('id="calendar-probe-day-14"');
+  }
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const serverPage = await noJs.newPage();
+  await serverPage.goto('/calendar-grid-probe');
+  const serverProbe = serverPage.getByTestId('calendar-grid-probe');
+  await expect(serverProbe.locator('#calendar-probe-cell-14')).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(serverProbe.locator('#calendar-probe-cell-15')).toHaveAttribute(
+    'aria-disabled',
+    'true',
+  );
+  await expect(serverProbe.getByRole('button', { name: 'September 14, 2026' })).toBeVisible();
+  await noJs.close();
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/calendar-grid-probe');
+  const probe = page.getByTestId('calendar-grid-probe');
+  await probe.getByRole('button', { name: 'September 14, 2026' }).focus();
+  await page.keyboard.press('ArrowDown');
+  await expect(probe.getByRole('button', { name: 'September 21, 2026' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(probe.getByRole('status')).toHaveText('21');
+  await expect(probe.locator('#calendar-probe-cell-21')).toHaveAttribute('aria-selected', 'true');
+  expect(errors).toEqual([]);
+});
+
 function generatedRelationshipIds(html: string): Record<string, string> {
   return Object.fromEntries(
     [

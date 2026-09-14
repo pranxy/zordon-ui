@@ -7,6 +7,11 @@ const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
 export const apiReports = [
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-calendar.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-calendar.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-calendar.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-aura.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-aura.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-aura.api.md'),

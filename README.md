@@ -7,6 +7,7 @@ The v1 API is under active development. The existing legacy component source is 
 ## Current baseline
 
 - Angular 21 build baseline with Angular 21–22 consumer support planned
+- Calendar preview verified on Angular 21.2; requires `@angular/aria@21.2.14` and matching `@angular/cdk@21.2.14`
 - Tailwind CSS 4
 - daisyUI 5.7.16
 - Package: `@pranxy/zordon-ui`
@@ -17,6 +18,7 @@ The v1 API is under active development. The existing legacy component source is 
 ## Project tracking
 
 - [Contributor workflow](CONTRIBUTING.md)
+- [Calendar API, forms, localization, and examples](docs/components/calendar.md)
 - [Contribution and compatibility policies](docs/contributing/README.md)
 - [Build plan and 68-component matrix](DAISYUI_ANGULAR_BUILD_PLAN.md)
 - [Architecture decisions](docs/architecture/README.md)

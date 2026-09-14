@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/calendar',
+    loadComponent: () =>
+      import('./testing/calendar-test-fixture.component').then(
+        module => module.CalendarTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/browser',
     loadComponent: () =>
       import('./testing/browser-test-fixture.component').then(module => module.default),

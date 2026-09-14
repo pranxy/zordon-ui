@@ -5,7 +5,7 @@
     "paths": { "@pranxy/zordon-ui": ["dist/components/types/pranxy-zordon-ui.d.ts"] }
   },
   "files": [
-    "../../dist/components/types/pranxy-zordon-ui-otp.d.ts",
+    "../../dist/components/types/pranxy-zordon-ui-calendar.d.ts",
     "../../dist/components/types/pranxy-zordon-ui.d.ts"
   ]
 }

@@ -1,0 +1,135 @@
+<ng-template #content>
+  <div class="zd-calendar-navigation">
+    <button
+      type="button"
+      [class]="buttonClass"
+      [attr.aria-label]="strings.previousMonth"
+      [disabled]="!canNavigate(-1)"
+      (click)="navigate(-1)"
+    >
+      ‹
+    </button>
+    <div class="zd-calendar-month-controls">
+      <select
+        #monthControl
+        [attr.aria-label]="strings.month"
+        [disabled]="isDisabled()"
+        [value]="+visibleMonth().slice(5, 7) - 1"
+        (change)="changeMonth(monthControl.value, yearControl.value)"
+      >
+        @for (name of monthNames(); track $index) {
+        <option [value]="$index">{{ name }}</option>
+        }
+      </select>
+      <input
+        #yearControl
+        type="number"
+        min="1"
+        max="9999"
+        [attr.aria-label]="strings.year"
+        [disabled]="isDisabled()"
+        [value]="+visibleMonth().slice(0, 4)"
+        (change)="changeMonth(monthControl.value, yearControl.value)"
+      />
+    </div>
+    <button
+      type="button"
+      [class]="buttonClass"
+      [attr.aria-label]="strings.nextMonth"
+      [disabled]="!canNavigate(1)"
+      (click)="navigate(1)"
+    >
+      ›
+    </button>
+  </div>
+  <p class="zd-calendar-caption" aria-live="polite" [id]="id + '-month'">{{ monthLabel() }}</p>
+  <table
+    ngGrid
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-describedby]="ariaDescribedby()"
+    [disabled]="isDisabled()"
+    [enableSelection]="false"
+    [softDisabled]="false"
+    rowWrap="continuous"
+    colWrap="nowrap"
+  >
+    <thead>
+      <tr>
+        @for (weekday of weekdays(); track $index) {
+        <th scope="col" [attr.abbr]="weekday.long">{{ weekday.short }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (week of weeks(); track $index; let rowIndex = $index) {
+      <tr ngGridRow>
+        @for (date of week; track $index; let column = $index) {
+        <td
+          ngGridCell
+          role="gridcell"
+          [id]="id + '-cell-' + (date ?? 'empty-' + rowIndex + '-' + $index)"
+          [disabled]="date === null"
+          [selectable]="false"
+        >
+          @if (date) {
+          <button
+            ngGridCellWidget
+            type="button"
+            [id]="id + '-day-' + date"
+            [attr.id]="id + '-day-' + date"
+            [attr.data-date]="date"
+            [class]="buttonClass + ' ' + (selected(date) ? selectedClass : ghostClass)"
+            [class.zd-calendar-outside]="date.slice(0, 7) !== visibleMonth().slice(0, 7)"
+            [disabled]="isDisabled()"
+            [attr.disabled]="isDisabled() ? '' : null"
+            [attr.aria-disabled]="unavailable(date) || readOnly() || isDisabled()"
+            [attr.aria-pressed]="selected(date)"
+            [attr.aria-current]="today() === date ? 'date' : null"
+            [attr.aria-label]="dateLabel(date)"
+            (click)="choose(date)"
+            (keydown)="onDateKeydown($event, date)"
+          >
+            @if (dayTemplate(); as customDay) {
+            <ng-container
+              [ngTemplateOutlet]="customDay"
+              [ngTemplateOutletContext]="dayContext(date)"
+            />
+            } @else { {{ dayLabel(date) }} }
+          </button>
+          }
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+  @if (rangePending()) {
+  <p role="status">{{ strings.rangeInstruction }}</p>
+  }
+</ng-template>
+
+@if (presentation() === 'popup') {
+<button
+  #trigger
+  type="button"
+  [class]="buttonClass"
+  aria-haspopup="dialog"
+  [attr.aria-label]="ariaLabel() + ': ' + strings.chooseDate"
+  [attr.aria-expanded]="browserReady() && opened() && !isDisabled()"
+  [attr.aria-controls]="id + '-dialog'"
+  [disabled]="isDisabled()"
+  (click)="setOpen(true)"
+>
+  {{ strings.chooseDate }}
+</button>
+<dialog
+  #dialog
+  [id]="id + '-dialog'"
+  [attr.aria-label]="ariaLabel()"
+  (cancel)="$event.preventDefault(); setOpen(false)"
+  (close)="setOpen(false)"
+>
+  <ng-container [ngTemplateOutlet]="content" />
+  <button type="button" [class]="buttonClass" (click)="setOpen(false)">{{ strings.close }}</button>
+</dialog>
+} @else { <ng-container [ngTemplateOutlet]="content" /> }
