@@ -1,0 +1,7 @@
+@import 'tailwindcss/utilities' source(none);
+
+@plugin "daisyui" {
+  themes: false;
+}
+
+@source inline("aura aura-rainbow aura-glow aura-xs aura-lg");

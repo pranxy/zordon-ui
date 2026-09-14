@@ -9,6 +9,31 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Dropdown light menu and dark RTL nested mobile panels', async ({ page }) => {
+  await page.goto('/__zordon-tests__/dropdown');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await expect(page.getByTestId('dropdown-menu-root')).toHaveAttribute(
+    'data-zd-dropdown-ready',
+    'true',
+  );
+  const trigger = page.getByRole('button', { name: 'Actions', exact: true });
+  await trigger.click();
+  await expect(page.getByRole('menuitem', { name: 'Edit', exact: true })).toBeFocused();
+  await expect(page.getByRole('menu', { name: 'Actions', exact: true })).toHaveScreenshot(
+    'dropdown--light-menu.png',
+  );
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 360, height: 800 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle direction', exact: true }).click();
+  await trigger.click();
+  await expect(page.getByRole('menuitem', { name: 'Edit', exact: true })).toBeFocused();
+  await page.keyboard.press('End');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByRole('menuitem', { name: 'Archive', exact: true })).toBeFocused();
+  await expect(page).toHaveScreenshot('dropdown--dark-rtl-nested-mobile.png');
+});
+
 test('Calendar light desktop, dark RTL mobile, and popup', async ({ page }) => {
   await page.goto('/__zordon-tests__/calendar');
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });

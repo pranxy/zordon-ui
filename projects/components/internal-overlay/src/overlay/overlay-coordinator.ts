@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import {
   inject,
@@ -13,7 +13,7 @@ import {
 import { fromEvent, type Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
-import type { ZdOverlayHandle, ZdOverlayOpenConfig } from './overlay-contracts';
+import type { ZdOverlayHandle, ZdOverlayOpenConfig, ZdOverlayPlacement } from './overlay-contracts';
 import { ZdBodyScrollLock } from './body-scroll-lock';
 import { ZdInternalOverlayHandle } from './overlay-handle';
 import { createZdPositionStrategy, createZdScrollStrategy } from './overlay-positioning';
@@ -21,6 +21,14 @@ import { ZdOverlayStack } from './overlay-stack';
 
 @Injectable({ providedIn: 'root' })
 export class ZdOverlayCoordinator {
+  private readonly refs = new WeakMap<ZdOverlayHandle, OverlayRef>();
+
+  updatePlacement(handle: ZdOverlayHandle, placement: ZdOverlayPlacement): void {
+    if (handle.lifecycle === 'open')
+      this.refs
+        .get(handle)
+        ?.updatePositionStrategy(createZdPositionStrategy(this.overlay, placement));
+  }
   private readonly overlay = inject(Overlay);
   private readonly bodyScrollLock = inject(ZdBodyScrollLock);
   private readonly directionality = inject(Directionality);
@@ -52,7 +60,12 @@ export class ZdOverlayCoordinator {
         config.scrollPolicy,
       ),
     });
-    const handle = new ZdInternalOverlayHandle(overlayRef, this.stack, config.onCloseRequest);
+    const handle = new ZdInternalOverlayHandle(
+      overlayRef,
+      this.stack,
+      config.onCloseRequest,
+      config.canClose,
+    );
     const directionSubscription = directionality.change
       .pipe(distinctUntilChanged())
       .subscribe(direction => {
@@ -107,6 +120,15 @@ export class ZdOverlayCoordinator {
           ),
         ]);
         return [
+          ...(config.captureEscape
+            ? [
+                fromEvent<KeyboardEvent>(overlayRef.overlayElement, 'keydown', {
+                  capture: true,
+                }).subscribe(event => {
+                  if (this.stack.handleEscape(registration, event)) event.stopPropagation();
+                }),
+              ]
+            : []),
           directionSubscription,
           overlayRef
             .keydownEvents()
@@ -123,6 +145,7 @@ export class ZdOverlayCoordinator {
           ...boundarySubscriptions,
         ];
       });
+      this.refs.set(handle, overlayRef);
       return handle;
     } catch (error) {
       directionSubscription.unsubscribe();

@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/dropdown',
+    loadComponent: () =>
+      import('./testing/dropdown-test-fixture.component').then(
+        module => module.DropdownTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/dropdown-probe',
     loadComponent: () =>
       import('./testing/dropdown-menu-probe.component').then(

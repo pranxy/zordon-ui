@@ -779,7 +779,7 @@ test('keeps Aura decorative and removes its motion on a live reduced-motion chan
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect
     .poll(() => rainbowAura.evaluate(element => getComputedStyle(element).animationName))
-    .toBe('aura');
+    .toMatch(/(?:^|_)aura$/);
 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect

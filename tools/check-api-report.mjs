@@ -7,6 +7,16 @@ const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
 export const apiReports = [
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-dropdown.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-dropdown.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-dropdown.api.md'),
+  },
+  {
+    configPath: resolve(toolsDirectory, 'api-extractor-internal-overlay.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-internal-overlay.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-internal-overlay.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-calendar.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-calendar.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-calendar.api.md'),

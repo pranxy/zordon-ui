@@ -5,9 +5,10 @@ dismissal arbitration, connected/global positioning, theme forwarding, and clean
 public component API. Native dialog and popover components remain native-first when the platform
 already supplies the required behavior.
 
-This foundation is **Partial**. Its source-level behavior is implemented and tested, but future
-component secondary entry points must prove that they share one application stack rather than
-bundling separate private singleton identities. No CDK or private Zordon overlay type is exported.
+This foundation is **Partial**. Dropdown imports the version-locked `internal-overlay` package bridge
+defined by ADR 0009. The bridge owns the coordinator/stack identity and explicitly reports its support
+types. A second actual overlay component must still prove shared application stacking. Consumer
+Dropdown inputs and outputs do not expose CDK or internal overlay objects.
 
 ## Ownership and lifecycle
 
@@ -77,13 +78,13 @@ component-specific hydration gate.
 
 ## Package boundary and completion gate
 
-Keeping these classes unexported prevents CDK and private types from entering the current package
-API or root bundle. Independently built secondary entry points can, however, duplicate a private
-root token/class and create separate stacks. This row becomes Complete only after two actual overlay
-component entry points prove one shared registry and top-only arbitration through an approved
-package identity boundary. A primary `ɵ` bridge would still be a published artifact and therefore
-requires an explicit ADR, API review, package evidence, and release intent; hidden globals or DOM
-singleton properties are prohibited.
+The implementation lives in `projects/components/internal-overlay/src/overlay/`, with one explicit
+secondary package bridge under [ADR 0009](../architecture/0009-shared-overlay-runtime.md). Dropdown
+and the browser foundation fixture import that entry rather than compiling separate source copies.
+Its API report makes the implementation export visible; the primary bundle remains independent.
+This row becomes Complete only after two actual overlay component entry points prove shared registry
+identity and top-only arbitration. The fixture is not counted as a second component. Hidden globals
+or DOM singleton properties remain prohibited.
 
 ## Verification
 

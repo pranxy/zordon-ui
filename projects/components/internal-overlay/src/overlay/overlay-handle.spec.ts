@@ -5,6 +5,28 @@ import { ZdInternalOverlayHandle } from './overlay-handle';
 import { ZdOverlayStack } from './overlay-stack';
 
 describe('ZdInternalOverlayHandle', () => {
+  it('keeps a vetoed surface open and allows a later accepted close', () => {
+    const element = document.createElement('div');
+    const overlayRef = { overlayElement: element, dispose: vi.fn() } as unknown as OverlayRef;
+    const stack = new ZdOverlayStack();
+    const canClose = vi.fn().mockReturnValue(false);
+    const request = vi.fn();
+    const handle = new ZdInternalOverlayHandle(overlayRef, stack, request, canClose);
+    const registration = stack.register({
+      pane: element,
+      backdrop: () => null,
+      requestClose: reason => handle.requestClose(reason),
+    });
+    handle.bind(registration, () => []);
+    expect(handle.element).toBe(element);
+    expect(handle.requestClose('escape')).toBe(false);
+    expect(handle.lifecycle).toBe('open');
+    expect(request).not.toHaveBeenCalled();
+    canClose.mockReturnValue(true);
+    expect(handle.requestClose('escape')).toBe(true);
+    expect(handle.lifecycle).toBe('closing');
+    handle.finalizeClose();
+  });
   function setup() {
     const overlayElement = document.createElement('div');
     const overlayRef = {

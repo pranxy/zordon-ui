@@ -4,6 +4,7 @@ import { CdkConnectedOverlay, type ConnectedPosition } from '@angular/cdk/overla
 import {
   ChangeDetectionStrategy,
   Component,
+  afterEveryRender,
   afterRenderEffect,
   untracked,
   signal,
@@ -133,6 +134,13 @@ import {
 })
 export class DropdownMenuProbeComponent {
   private readonly trigger = viewChild<MenuTrigger<string>>('trigger');
+  private readonly focusVisibleChild = afterEveryRender(() => {
+    const child = this.childMenu();
+    if (child?.visible() && child.parent()?.element === child.element.ownerDocument.activeElement) {
+      // Aria can request focus before Angular removes the hidden attribute.
+      child.element.querySelector<HTMLElement>('[data-active="true"]')?.focus();
+    }
+  });
   private readonly focusAttachedMenu = afterRenderEffect(() => {
     const menu = this.rootMenu();
     untracked(() => {

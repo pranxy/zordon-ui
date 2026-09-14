@@ -70,8 +70,8 @@ import { ZdLink } from '@pranxy/zordon-ui/link';
 import { ZdStatus } from '@pranxy/zordon-ui/status';
 import { ZdStat, ZdStatDesc, ZdStatTitle, ZdStats, ZdStatValue } from '@pranxy/zordon-ui/stat';
 
-import { ZdOverlayCoordinator } from '../../../../components/src/internal/overlay/overlay-coordinator';
-import type { ZdOverlayHandle } from '../../../../components/src/internal/overlay/overlay-contracts';
+import { ɵZdOverlayCoordinator as ZdOverlayCoordinator } from '@pranxy/zordon-ui/internal-overlay';
+import type { ZdOverlayHandle } from '@pranxy/zordon-ui/internal-overlay';
 import { AsyncActionProbeComponent } from './async-action-probe.component';
 
 @Component({
@@ -204,7 +204,7 @@ class ScrollLockPanelComponent {}
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './range-fixture.css',
+  styleUrls: ['./range-fixture.css', './aura-fixture.css'],
   host: {
     'data-testid': 'browser-test-fixture',
   },

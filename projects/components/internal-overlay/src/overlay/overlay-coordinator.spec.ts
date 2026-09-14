@@ -80,6 +80,41 @@ describe('ZdOverlayCoordinator', () => {
 
   afterEach(() => TestBed.inject(OverlayContainer).ngOnDestroy());
 
+  it('captures Escape before hosted widgets, preserves vetoes and updates live placement', () => {
+    const fixture = TestBed.createComponent(TestPortalHost);
+    fixture.detectChanges();
+    const coordinator = TestBed.inject(ZdOverlayCoordinator);
+    const canClose = vi.fn().mockReturnValue(false);
+    const handle = coordinator.open(
+      globalConfig(
+        {
+          kind: 'template',
+          template: fixture.componentInstance.content,
+          viewContainerRef: fixture.componentInstance.viewContainerRef,
+        },
+        { captureEscape: true, canClose },
+      ),
+    )!;
+    const widget = document.createElement('button');
+    handle.element.appendChild(widget);
+    const widgetEscape = vi.fn();
+    widget.addEventListener('keydown', widgetEscape);
+    widget.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    expect(widgetEscape).toHaveBeenCalledOnce();
+    widget.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }),
+    );
+    expect(widgetEscape).toHaveBeenCalledOnce();
+    expect(handle.lifecycle).toBe('open');
+    expect(canClose).toHaveBeenCalledOnce();
+    coordinator.updatePlacement(handle, { kind: 'global', horizontal: 'end' });
+    coordinator.updatePlacement({ ...handle, lifecycle: 'open' } as typeof handle, {
+      kind: 'global',
+    });
+    handle.finalizeClose();
+    coordinator.updatePlacement(handle, { kind: 'global' });
+  });
+
   it('attaches a template portal, forwards the composed theme, and cleans up after two-phase close', () => {
     const fixture = TestBed.createComponent(TestPortalHost);
     fixture.detectChanges();
@@ -457,6 +492,7 @@ describe('ZdOverlayCoordinator', () => {
     fixture.detectChanges();
     const coordinator = TestBed.inject(ZdOverlayCoordinator);
     const fakeParent = {
+      element: document.createElement('div'),
       destroy: vi.fn(),
       finalizeClose: vi.fn(),
       lifecycle: 'open' as const,

@@ -76,10 +76,15 @@ export interface ZdOverlayOpenConfig<TComponent = unknown, TContext extends obje
   /** Internal direction source. Defaults to the portal content's nearest CDK Directionality. */
   readonly directionality?: Directionality;
   readonly theme?: string | null;
+  /** A rejected close still shields lower overlays from the event. */
+  readonly canClose?: (reason: ZdOverlayCloseReason, event?: Event) => boolean;
+  /** Intercept Escape before a hosted widget can close its entire tree. */
+  readonly captureEscape?: boolean;
   readonly onCloseRequest: (reason: ZdOverlayCloseReason, event?: Event) => void;
 }
 
 export interface ZdOverlayHandle {
+  readonly element: HTMLElement;
   readonly lifecycle: ZdOverlayLifecycle;
   requestClose(reason: ZdOverlayCloseReason, event?: Event): boolean;
   finalizeClose(): void;

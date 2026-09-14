@@ -17,10 +17,15 @@ export class ZdInternalOverlayHandle implements ZdOverlayHandle {
     private readonly overlayRef: OverlayRef,
     private readonly stack: ZdOverlayStack,
     private readonly onCloseRequest: (reason: ZdOverlayCloseReason, event?: Event) => void,
+    private readonly canClose?: (reason: ZdOverlayCloseReason, event?: Event) => boolean,
   ) {}
 
   get lifecycle(): ZdOverlayLifecycle {
     return this.state;
+  }
+
+  get element(): HTMLElement {
+    return this.overlayRef.overlayElement;
   }
 
   bind(
@@ -38,6 +43,7 @@ export class ZdInternalOverlayHandle implements ZdOverlayHandle {
 
   requestClose(reason: ZdOverlayCloseReason, event?: Event): boolean {
     const registration = this.registration;
+    if (this.canClose && !this.canClose(reason, event)) return false;
     if (!registration || !this.stack.markClosing(registration)) return false;
     this.state = 'closing';
     this.onCloseRequest(reason, event);

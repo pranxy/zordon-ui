@@ -281,6 +281,18 @@ For each component, test observable behavior rather than the presence of a direc
 A passing Angular Aria harness test does not replace browser and assistive-technology verification
 of the complete Zordon component.
 
+## Dropdown on Angular 21
+
+Dropdown composes `Menu` and `MenuItem` from `@angular/aria/menu` as host directives.
+Each lazy submenu owns an independent Aria menu; the shared CDK overlay runtime connects initial
+focus, logical submenu opening/collapse, top-only Escape, controlled state and selection close.
+Aria retains within-menu navigation, typeahead and disabled-item behavior. The native trigger and
+arbitrary-content mode do not impose menu semantics. See [ADR 0009](../architecture/0009-shared-overlay-runtime.md)
+for the portal gaps and package identity evidence.
+
+Consumer input/output/method signatures expose no Aria objects. Angular-generated static host-directive
+metadata retains its Aria references in the reviewed API report, under ADR 0008's explicit exception.
+
 ## Component readiness checklist
 
 Before implementing a component that might use Angular Aria, record:
@@ -288,7 +300,8 @@ Before implementing a component that might use Angular Aria, record:
 - [ ] Native HTML was evaluated first.
 - [ ] The exact WAI-ARIA pattern and Angular Aria family/composition are named.
 - [ ] Angular Aria-owned behavior and Zordon-owned behavior do not overlap.
-- [ ] Public APIs contain no Angular Aria declaration or type.
+- [ ] Consumer APIs contain no Angular Aria declaration or type; any generated compiler metadata
+      references follow ADR 0008's reviewed exception.
 - [ ] The pinned version's inputs, outputs, signals, emitted attributes, and harnesses were inspected.
 - [ ] Forms, overlay, SSR/hydration, RTL, localization, and dynamic-content gaps are specified.
 - [ ] A fallback/private gap is justified and behavior-tested if Angular Aria cannot cover it.

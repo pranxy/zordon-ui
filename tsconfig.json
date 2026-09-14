@@ -4,6 +4,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/dropdown": ["projects/components/dropdown/src/public-api.ts"],
+      "@pranxy/zordon-ui/internal-overlay": [
+        "projects/components/internal-overlay/src/public-api.ts"
+      ],
       "@pranxy/zordon-ui": ["projects/components/src/public-api.ts"],
       "@pranxy/zordon-ui/aura": ["projects/components/aura/src/public-api.ts"],
       "@pranxy/zordon-ui/avatar": ["projects/components/avatar/src/public-api.ts"],

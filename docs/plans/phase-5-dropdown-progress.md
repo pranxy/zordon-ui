@@ -1,30 +1,51 @@
 # Phase 5 Dropdown progress
 
-**Row:** ACT-02 Dropdown  
-**Status:** Integration spike implemented; production adapter and package boundary pending  
+**Row:** ACT-02 Dropdown
+
+**Status:** Automated implementation complete; manual accessibility pending
+
 **Updated:** 2026-09-14
 
-| Task                                                                       | Status               | Evidence / next action                                                        |
-| -------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------- |
-| Audit installed Angular 21 Menu/CDK and daisyUI                            | Verified             | Angular 21.2.19, Aria/CDK 21.2.14, daisyUI 5.7.16; no dependency changes      |
-| Define component behavior and ownership                                    | Drafted              | `docs/components/dropdown.md`; compound API requires package-isolation proof  |
-| Prove lazy menu, disabled items, activation, focus, nested RTL and cleanup | Verified in Chromium | `e2e/dropdown-menu-probe.spec.ts`; scoped axe scan also passes                |
-| Prove closed SSR markup and hydrated opening                               | Verified in Chromium | Production SSR build and one targeted hydration regression pass               |
-| Public compound declarations and shared stack package identity             | Pending              | ADR/API review and partial-Ivy build before public implementation             |
-| Production implementation and automated component evidence                 | Pending              | Root/trigger/panel/menu parts; complete contract and checks in component spec |
-| Manual accessibility and release maturity                                  | Pending              | No human evidence claimed                                                     |
+**Commit:** `feat(dropdown): add Angular 21 menu and overlay component`
 
-The initial lazy-CDK composition failed first-item focus. The render-time public Aria handoff fixes
-that case. Nested focus then exposed the detached child boundary: without the scoped capture adapter,
-the root closed when focus entered the submenu. The adapter also converts root-tree Escape to top-only
-Escape. Both LTR and RTL tests now preserve the root on the first Escape and restore the root trigger
-on the second. These findings are requirements for the eventual production adapter, not permission to
-rebuild Aria navigation or publish test-only wiring.
+The public `@pranxy/zordon-ui/dropdown` entry provides root, native trigger, lazy panel, menu and
+item parts. Angular 21.2.19 and Aria/CDK 21.2.14 are unchanged. Aria Menu/MenuItem own navigation,
+typeahead and disabled-item behavior; CDK and the shared Zordon coordinator own portal placement
+and overlay lifecycle. Native arbitrary-content panels retain their form semantics and tab order.
 
-The probe's two-panel boundaries, eager hidden child shell and first-item-only handoff are intentionally
-limited. Recursive nesting, last-item initial focus, hover/focus/manual triggers, controlled vetoes,
-navigation close, package identity and the production public API remain unverified.
+| Task                                                                        | Status                | Evidence                                                                                                                |
+| --------------------------------------------------------------------------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Public behavior and ownership                                               | Verified              | `docs/components/dropdown.md`, ADRs 0008/0009                                                                           |
+| Controlled/internal state and close policies                                | Verified              | Unit tests, public Chromium fixture                                                                                     |
+| Click/hover/focus/manual triggers; recursive LTR/RTL menus                  | Verified              | Unit and Chromium tests; three-level nesting, top-only Escape, focus restoration                                        |
+| Placement, live direction, theme, reduced motion, forced colors and cleanup | Verified in Chromium  | Unit contracts and geometric/browser assertions                                                                         |
+| One packaged overlay runtime                                                | Verified for Dropdown | Partial-Ivy build, complete API reports, built-bundle tooling assertion and package dry-run                             |
+| Unit coverage                                                               | Verified              | 256 tests in 64 files; 100% statements, branches, functions and lines per file; 60 implementation files audited         |
+| Browser behavior and automated accessibility                                | Verified              | Full Chromium suite: 118 passing, including public Dropdown and Aria prototype                                          |
+| SSR and hydration                                                           | Verified              | Production SSR build and seven Chromium hydration regressions                                                           |
+| Visual matrix                                                               | Verified              | Full suite: 55 passing; new light desktop and dark RTL narrow-viewport baselines inspected; existing baselines retained |
+| Types, lint, API and packaging                                              | Verified              | Library/browser types; library/docs/browser/SSR lint; 63 tooling tests; API reports; 47 bundle budgets; package dry-run |
+| Manual accessibility and release maturity                                   | Pending               | `docs/components/dropdown-accessibility-review.md`; no human evidence claimed                                           |
 
-Automated component delivery remains **43 / 68**. Dropdown is not shipped or marked Done.
+The public adapter uses independent, lazily attached Aria menus. It does not inherit the prototype's
+eager hidden child shells or detached-parent focusout workaround. Zordon connects initial first/last
+focus, logical submenu opening/collapse, selection close and controlled vetoes around Aria's menu
+navigation. The prototype remains as integration evidence; its render-time focus handoff now also
+waits for the child's hidden attribute to clear before focusing the active item.
 
-Verification: two Chromium probe tests and one production SSR test pass. Browser TypeScript, browser lint and SSR lint pass. Touched-file formatting and whitespace checks pass. No public library source or package dependency changed in this milestone.
+The version-locked `internal-overlay` secondary entry packages a single coordinator/stack identity;
+the primary bundle remains lightweight. Consumer Dropdown inputs, outputs and methods do not accept
+Aria/CDK objects. Angular's generated static host-directive metadata necessarily references Aria and
+is retained in the complete API report under the explicit ADR 0008 exception.
+
+Dropdown measures **28.21 KiB raw / 5.75 KiB gzip**; the shared bridge measures **18.82 KiB raw /
+4.22 KiB gzip**, within unchanged 40/12 KiB entry budgets. The docs initial bundle is **409.84 kB**,
+below its unchanged 410 kB hard limit but above its 360 kB warning. Test-only Aura CSS is now loaded
+with its lazy fixture, using the existing fixture CSS pattern; its live reduced-motion behavior and
+scoped animation name are verified. No dependency upgrade or budget increase was used.
+
+The broader overlay foundation remains Partial until a second actual overlay component proves
+cross-component stacking. Angular 21.0, Angular 22, Firefox, WebKit, vertical writing modes and
+human assistive-technology/device review remain unverified. Nothing is published or marked Done.
+
+Automated component delivery is **44 / 68**. Overall maturity remains **0 / 68 Done**.

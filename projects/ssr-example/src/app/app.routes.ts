@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'dropdown',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/dropdown-test-fixture.component').then(
+        module => module.DropdownTestFixtureComponent,
+      ),
+  },
+  {
     path: 'dropdown-probe',
     loadComponent: () =>
       import('../../../docs/src/app/testing/dropdown-menu-probe.component').then(

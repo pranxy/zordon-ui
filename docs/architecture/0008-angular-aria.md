@@ -29,6 +29,9 @@ Zordon UI's visual foundation.
   overlay lifecycle policy, SSR contracts, and customization in the Zordon layer.
 - Do not re-export Angular Aria declarations or expose its classes, signals, or types in Zordon
   public signatures. It remains a replaceable implementation detail behind Zordon declarations.
+  Host-directive composition may reference pinned Aria declarations in Angular-generated static
+  `ɵ` compiler metadata, as recorded by ADR 0009. Consumer inputs, outputs and methods remain isolated;
+  retain the compiler dependency in complete API reports and review it on upgrades.
 - Do not create generic roving-tabindex, active-descendant, typeahead, tree, listbox, menu, tabs, or
   grid utilities where Angular Aria already supplies the required behavior.
 - A small private gap implementation is allowed only when the component specification identifies

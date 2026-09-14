@@ -1,5 +1,46 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Public Dropdown stays closed on the server and hydrates nested Aria menus', async ({
+  browser,
+  page,
+  request,
+  runAxeScan,
+}) => {
+  const html = await (await request.get('/dropdown')).text();
+  expect(html).not.toContain('class="cdk-overlay-pane"');
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/dropdown');
+    await expect(server.getByRole('button', { name: 'Actions', exact: true })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(server.getByRole('menu')).toHaveCount(0);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/dropdown');
+  await expect(page.getByTestId('dropdown-menu-root')).toHaveAttribute(
+    'data-zd-dropdown-ready',
+    'true',
+  );
+  const trigger = page.getByRole('button', { name: 'Actions', exact: true });
+  await trigger.click();
+  await expect(page.getByRole('menuitem', { name: 'Edit', exact: true })).toBeFocused();
+  await page.keyboard.press('End');
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('menuitem', { name: 'Archive', exact: true })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status')).toHaveText('archive');
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Dropdown probe renders a closed trigger and hydrates Angular 21 menu portals', async ({
   browser,
   page,

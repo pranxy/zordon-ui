@@ -1,110 +1,179 @@
 # Dropdown
 
-> **Maturity:** Planned — Angular 21 integration spike implemented; public component not shipped  
-> **Proposed entry point:** `@pranxy/zordon-ui/dropdown`  
-> **Matrix row:** ACT-02 · Updated 2026-09-14
+> **Maturity:** Preview — automated verification complete; manual accessibility pending
 
-Dropdown opens anchored content from a native button. An action menu uses Angular Aria Menu;
-arbitrary content retains its native controls, labels and tab order. A panel containing a form is
-not assigned `role="menu"`. Native `<details>` and Popover remain suitable for simpler consumer
-disclosures; this component supplies coordinated placement, controlled state and nested dismissal.
+> **Entry point:** `@pranxy/zordon-ui/dropdown` · **Matrix row:** ACT-02
 
-This work targets the existing Angular 21.2.19 and Aria/CDK 21.2.14 installation. Angular 22 and the
-Angular 21.0 floor are unverified. The following is the implementation contract, not an importable API.
+> **Target:** Angular 21.2.19, Aria/CDK 21.2.14, daisyUI 5.7.16
 
-## Public contract to implement
+Dropdown opens an anchored panel from a native button. Menu panels compose Angular Aria Menu and
+MenuItem; arbitrary content retains native form controls, labels and tab order. CDK owns connected
+positioning, collision handling and scroll repositioning. The shared Zordon runtime owns the overlay
+stack, event arbitration and disposal. No Angular upgrade is required.
 
-- A compound root, native button trigger, panel and optional menu/item parts. Consumer markup owns
-  trigger content and item content. No required icon library, data-only menu API or generic slot registry.
-- `open` / `openChange` supports controlled state. Opening and closing requests have one owner;
-  an externally closed or disabled root cannot retain an interactive panel.
-- Separate action-menu and arbitrary-content semantics. Menu items emit an activation value exactly
-  once; pointer and keyboard activation use the same path. Disabled menu items remain discoverable
-  by arrow keys and cannot activate; a disabled native trigger is removed from the tab order.
-- Logical side `top | bottom | start | end` and alignment `start | center | end`; a nonnegative gap;
-  optional flipping; an 8px viewport margin. CDK owns collision and scroll repositioning.
-- Click is the default trigger. Hover and focus are optional additions to keyboard/click access;
-  manual mode is controlled by the consumer. Delayed hover opening/closing must preserve the path
-  from trigger to panel and cancel all pending work on close/destruction. Hover must not steal focus.
-- Close policies distinguish selection, Escape, outside pointer, focus leaving, trigger, programmatic,
-  navigation and destruction. Consumer content can request selection close explicitly; clicking any
-  arbitrary descendant is not assumed to be a selection. Escape and outside dismissal can be disabled
-  without allowing the same physical event to dismiss a lower surface.
-- Root button Enter/Space/ArrowDown opens at the first menu item; ArrowUp opens at the last. Aria owns
-  navigation, wrapping, typeahead and logical submenu arrows. Tab follows normal document navigation
-  and closes without forcing focus back. Escape restores the owning trigger; submenu Escape restores
-  its parent item and leaves the root menu open. Selection normally closes the action-menu tree.
-- Arbitrary content is nonmodal and does not trap focus. Initial focus is an explicit panel policy;
-  closing after outside pointer or Tab must preserve the user's new focus destination. Restoration
-  never focuses a destroyed/disabled trigger or overrides focus intentionally moved by an action.
-- Nested menus use child-first disposal and one application overlay stack. Content templates retain
-  Angular bindings, declaration injector, current `Dir`, and the nearest theme. No moving live DOM
-  through a DOM portal, globals, or DOM singleton properties.
+## Setup and composition
 
-## Styling and customization
+Install the library's matching Angular Aria/CDK peers and include CDK's structural overlay CSS in the
+application stylesheet:
 
-The installed daisyUI 5.7.16 source contains `dropdown`, `dropdown-content`, `dropdown-start`,
-`dropdown-center`, `dropdown-end`, `dropdown-top`, `dropdown-bottom`, `dropdown-left`,
-`dropdown-right`, `dropdown-hover`, `dropdown-open`, and `dropdown-close` candidates.
+```css
+@import '@angular/cdk/overlay-prebuilt.css';
+```
 
-These classes do not all belong on a CDK-positioned panel: daisyUI's dropdown rules also control
-visibility, absolute positioning, transforms, focus outlines and z-index. The implementation must
-inventory the emitted subset and scope any overrides so CDK exclusively owns position, the overlay
-stack owns stacking, and Angular state owns visibility. Do not combine CSS hover/focus visibility
-with a competing Angular open state. Left/right classes must not become a physical public API.
+```ts
+import {
+  ZdDropdown,
+  ZdDropdownTrigger,
+  ZdDropdownPanel,
+  ZdDropdownMenu,
+  ZdDropdownItem,
+} from '@pranxy/zordon-ui/dropdown';
+```
 
-Use `ZdClassNames` for emitted daisyUI candidates and theme tokens for surface, text, border, radius
-and focus styles. Preserve consumer host classes/styles and provide documented panel sizing and
-class hooks across the portal boundary. Check narrow viewports, long labels, dark themes, live RTL,
-forced colors, zoom/reflow and reduced motion. Do not suppress a native visible focus indicator.
+Add these standalone declarations to the consuming component's imports. A root owns one trigger and
+one panel template. Content stays in its Angular declaration context and is created only while open.
 
-## Angular 21 integration findings
+```html
+<div zdDropdown mode="menu" (selected)="performAction($event)">
+  <button zdDropdownTrigger>Actions</button>
+  <ng-template zdDropdownPanel>
+    <zd-dropdown-menu aria-label="Document actions">
+      <button type="button" zdDropdownItem value="edit">Edit</button>
+      <button type="button" zdDropdownItem value="delete" [disabled]="cannotDelete()">
+        Delete
+      </button>
+      <div zdDropdown mode="menu" side="end">
+        <button zdDropdownTrigger zdDropdownItem value="export">Export</button>
+        <ng-template zdDropdownPanel>
+          <zd-dropdown-menu aria-label="Export options">
+            <button type="button" zdDropdownItem value="pdf">PDF</button>
+            <button type="button" zdDropdownItem value="csv">CSV</button>
+          </zd-dropdown-menu>
+        </ng-template>
+      </div>
+    </zd-dropdown-menu>
+  </ng-template>
+</div>
+```
 
-The test-only fixture at `/__zordon-tests__/dropdown-probe` composes the installed Menu, MenuItem,
-MenuTrigger and CdkConnectedOverlay APIs. It is deliberately excluded from the published library.
+Give every menu an accessible name with native `aria-label` or `aria-labelledby`. Repeated/nested
+roots retain independent ownership; the nearest enclosing root supplies the parent overlay. Do not
+place arbitrary input fields inside a menu. For form content use the default content mode:
 
-Three adaptations are required:
+```html
+<div zdDropdown #preferences="zdDropdown" [(open)]="preferencesOpen" initialFocus="first">
+  <button zdDropdownTrigger>Preferences</button>
+  <ng-template zdDropdownPanel>
+    <form
+      aria-label="Preferences"
+      (submit)="$event.preventDefault(); save(); preferences.close('selection')"
+    >
+      <label>Display name <input name="displayName" /></label>
+      <button type="submit">Save</button>
+    </form>
+  </ng-template>
+</div>
+```
 
-1. **Lazy initial focus:** the trigger opens before a classic CDK template portal creates its Menu.
-   After the menu attaches, a render hook must hand focus back to Aria through its public API. The
-   probe verifies first-item opening. Last-item opening and focus/hover/manual policies still need
-   the production adapter and their own regression cases.
-2. **Portaled focus boundaries:** moving focus from the root panel into its detached child panel
-   otherwise closes the root. The probe installs a capture listener on the owned root menu that
-   recognizes the child panel. Generalize this through the existing stack's logical inside boundary,
-   including descendants and teardown, rather than copying two-panel checks into each component.
-3. **Top-only Escape:** installed Aria closes the root tree on submenu Escape. The probe handles
-   plain Escape on the child before Aria's handler, calls the public parent close API and restores
-   the parent item. Production handling must use stack arbitration so a single event cannot close
-   both surfaces. Other navigation remains with Aria.
+Arbitrary panels own their surface styling and semantic roles. The root supplies no dialog role or
+focus trap. Consumers keep native click/submit events; action-menu selection is emitted by `selected`.
+Menu-item values may be any consumer value, so the output is `unknown` and applications should narrow it.
 
-The probe creates the child menu shell while the root is open so its public Menu reference exists
-before the submenu trigger needs it. Closed child content is hidden. Production rendering must
-prove that an inactive shell does not join the interactive overlay stack, affect hit testing,
-participate in accessibility navigation or keep observers/listeners alive unnecessarily.
+## Public API
 
-## Package and completion gates
+| Declaration                                   | Contract                                                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `[zdDropdown]`, exported as `zdDropdown`      | Root state, placement, close policy and parent ownership                                         |
+| `button[zdDropdownTrigger]`                   | Native type=button trigger; expanded/controls/popup attributes; keyboard and pointer access      |
+| `ng-template[zdDropdownPanel]`                | Exactly one lazy template for its nearest root; duplicate panels throw                           |
+| `zd-dropdown-menu`                            | Aria menu with projected native items; optional `id`, `wrap` and `typeaheadDelay` inputs         |
+| `button[zdDropdownItem]`, `a[zdDropdownItem]` | Required `value`, boolean `disabled`, optional `searchTerm`; Aria item navigation and activation |
 
-The [overlay foundation](../foundations/overlay-host-and-positioning.md) is Partial: private source
-imports in separate secondary entry points can duplicate root singleton identities. Before publishing
-Dropdown, settle the shared package identity with an ADR and API/package review. A new `ɵ` bridge is
-still a published artifact; it cannot be disguised as private or bypass the documented review.
-Two actual overlay component entries are required to close the foundation's full completion gate.
+| Root input/output                                                     | Default and behavior                                                                                         |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `open` / `openChange`                                                 | Omitted: internal state. Bound boolean: emit requests and wait for consumer acceptance                       |
+| `expanded`                                                            | Read-only signal reflecting a rendered panel; false on the server                                            |
+| `disabled`                                                            | false; disables the trigger and prevents/removes the panel                                                   |
+| `mode`                                                                | `content`; use `menu` with Aria menu content                                                                 |
+| `trigger`                                                             | `click`; `hover` and `focus` add opening behavior; `manual` requires consumer state or `show()`              |
+| `side`, `align`                                                       | `bottom`, `start`; sides top/bottom/start/end and alignments start/center/end                                |
+| `gap`, `autoFlip`                                                     | 4px, true; finite nonnegative gap, opposite-side fallback and CDK viewport push                              |
+| `hoverDelay`                                                          | 150ms for opening/closing; negative values clamp to zero, nonfinite values use 150ms                         |
+| `initialFocus`                                                        | `none`; `first` moves focus for programmatic opening; keyboard/click opening has its own policy              |
+| `closeOnSelection`, `closeOnEscape`, `closeOnOutside`, `closeOnFocus` | true; independent policies. A rejected close still shields lower overlays                                    |
+| `restoreFocus`                                                        | true; Escape, selection and programmatic close restore only while focus still belongs to the closing surface |
+| `panelClass`                                                          | Empty; space-separated consumer classes applied to the owned CDK pane                                        |
+| `selected`                                                            | Selected value; accepted selection closes the current tree and reaches ancestor root outputs                 |
+| `closed`                                                              | Actual disposal reason; not emitted for a rejected close request or destruction                              |
+| `show()`, `close(reason?)`                                            | Programmatic requests; close defaults to `programmatic`; navigation integrations call `close('navigation')`  |
 
-The public Dropdown report must contain no Aria/CDK classes in consumer signatures. Verify this with
-the actual proposed compound declarations and a production partial-Ivy build, not merely the test fixture.
-The default secondary budget remains 40 KiB raw / 12 KiB gzip. No new budget or dependency exception
-is approved by this specification.
+Close reasons are trigger, selection, backdrop, outside-pointer, escape, programmatic, navigation,
+destroy, focus and hover. Dropdown itself does not add a backdrop. Explicit consumer `close()` calls
+are authoritative requests and are not filtered through keyboard/outside policy switches.
 
-Before marking the row's automated columns complete, add production component/type/unit/API coverage,
-full browser regressions, recursive nesting and dismissal-policy checks, SSR/hydration/event replay,
-position/scroll/theme/direction tests, inspected visual baselines, changeset and package dry-run.
-Screen-reader, touch, high-contrast and zoom/reflow human evidence is required before Done/stable.
+A bound `open` is controlled: ignoring `openChange` leaves the existing state intact. Do not bind an
+unchanging false value and expect internal opening. Disabled roots cannot retain an interactive panel;
+a bound true value can reopen when the root becomes enabled again. Removed triggers/panels clean up
+their owned overlay. Overlay content is recreated on the next opening; persistent form data belongs
+in the consumer model, not in a destroyed embedded view.
+
+## Keyboard, focus and nested behavior
+
+- Enter/Space click a native root trigger; ArrowDown opens the first menu item and ArrowUp the last.
+- Aria owns arrow navigation, Home/End, wrapping, typeahead and disabled-item discovery within a menu.
+  Typeahead uses rendered text by default and updates with text changes; supply `searchTerm` for icon-rich
+  or abbreviated content. Disabled actions cannot fire native clicks or library selection.
+- Nested triggers open with the logical forward arrow, Enter, Space or click. The logical backward
+  arrow closes their panel. Plain Escape closes only the top surface and restores its owning trigger.
+  Ctrl/Alt/Meta/composition keyboard events are not repurposed as submenu navigation.
+- Menu Tab/Shift+Tab closes the root tree and resumes tab order beside the root trigger. Arbitrary
+  content retains normal tabbing internally; its boundary continues beside the root trigger.
+- Hover opening does not steal focus. Grace periods let the pointer cross between trigger and panel;
+  focus retained inside the surface prevents hover departure from closing it.
+- Outside/focus departure and navigation close preserve the new focus destination. Restoration skips
+  disabled/disconnected triggers and does not override focus moved by a consumer action.
+
+Each lazy submenu is an independent Aria Menu. Zordon's small adapter supplies disclosure opening,
+initial focus, portal ownership, logical submenu boundaries and root selection close. No Aria private
+pattern or input mutation is used. Unlike the initial probe, production code does not create hidden,
+inactive submenu panes. See [ADR 0009](../architecture/0009-shared-overlay-runtime.md).
+
+## Styling, direction and SSR
+
+The menu emits prefix-aware daisyUI `menu`, `btn` and `btn-ghost` candidates through `ZdClassNames`.
+It does not emit daisyUI dropdown hover/visibility/position classes that would compete with CDK.
+The menu surface uses daisyUI background, text, border, radius and primary focus tokens. Scoped menu
+CSS suppresses inherited button motion under reduced motion and retains forced-colors focus outlines.
+Consumer classes and styles remain available on native triggers, menu elements and items. `panelClass`
+provides a global CSS hook for pane width or other portal-level styling; consumer emulated styles
+should target projected content directly rather than assuming the pane is a DOM descendant.
+
+CDK uses an 8px viewport margin, opposite-side fallback when enabled, push, and reposition-on-scroll.
+Placement and nearest CDK `Dir` changes update the existing pane. The nearest `data-theme` is captured
+when opening and applied only to that pane; it is not continuously observed. Horizontal writing mode
+with explicit LTR/RTL is supported; vertical writing modes are unverified.
+
+Server HTML contains closed native triggers and no overlay DOM. Render hooks attach listeners and
+panels only in the browser. Generated relationships use the shared ID service. Scope/application
+providers are retained by template portals; the shared CDK overlay container is not themed or destroyed.
+
+## Package and verification boundary
+
+All Dropdown instances import `@pranxy/zordon-ui/internal-overlay`, which owns one coordinator/stack
+identity per Angular application. The bridge is version-locked implementation infrastructure and is
+not a consumer extension API. A second shipped overlay component must still prove cross-component
+stacking before the broader foundation can be marked Complete.
+
+Consumer Dropdown inputs, outputs and methods expose no Aria/CDK objects. Angular-generated static
+`ɵ` host-directive metadata does reference the pinned Aria types and remains visible in the complete
+API report; this compiler compatibility dependency is explicitly reviewed, not hidden.
+
+Angular 21.0, Angular 22, Firefox and WebKit remain unverified. Manual assistive-technology and device
+review is pending. See [progress](../plans/phase-5-dropdown-progress.md),
+[visual matrix](dropdown-visual-matrix.md), and [manual review](dropdown-accessibility-review.md).
 
 ## Sources
 
-- [Angular 21 Menu guide](https://v21.angular.dev/guide/aria/menu), compared with the installed
-  `@angular/aria` 21.2.14 declarations/runtime rather than assuming later CDK examples apply unchanged.
+- [Angular 21 Menu guide](https://v21.angular.dev/guide/aria/menu), compared with installed Aria 21.2.14.
 - [daisyUI Dropdown](https://daisyui.com/components/dropdown/), compared with installed 5.7.16 CSS.
-- [ADR 0008: Angular Aria](../architecture/0008-angular-aria.md).
-- [ADR 0004: Overlay infrastructure](../architecture/0004-overlays-and-angular-cdk.md).
+- [Overlay foundation](../foundations/overlay-host-and-positioning.md).
