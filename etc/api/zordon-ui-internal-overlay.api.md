@@ -112,6 +112,7 @@ export interface ZdOverlayOpenConfig<TComponent = unknown, TContext extends obje
     readonly hasBackdrop?: boolean;
     // (undocumented)
     readonly onCloseRequest: (reason: ZdOverlayCloseReason, event?: Event) => void;
+    readonly onPositionChange?: (position: ZdOverlayConnectedPosition) => void;
     // (undocumented)
     readonly origin?: HTMLElement;
     // (undocumented)
@@ -150,6 +151,10 @@ export interface ZdOverlayTemplateContent<TContext extends object = object> {
 
 // @public (undocumented)
 export class ɵZdOverlayCoordinator {
+    // (undocumented)
+    contains(handle: ZdOverlayHandle, target: Node | null): boolean;
+    // (undocumented)
+    dispatchEscape(handle: ZdOverlayHandle, event: KeyboardEvent): boolean;
     // (undocumented)
     open<TComponent, TContext extends object>(config: ZdOverlayOpenConfig<TComponent, TContext>): ZdOverlayHandle | null;
     // (undocumented)

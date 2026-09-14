@@ -80,6 +80,57 @@ describe('ZdOverlayCoordinator', () => {
 
   afterEach(() => TestBed.inject(OverlayContainer).ngOnDestroy());
 
+  it('reports applied connected positions, preserves subscriptions across updates and routes origin Escape', () => {
+    const fixture = TestBed.createComponent(TestPortalHost);
+    fixture.detectChanges();
+    const host = fixture.componentInstance;
+    const coordinator = TestBed.inject(ZdOverlayCoordinator);
+    const position = {
+      originX: 'center',
+      overlayX: 'center',
+      originY: 'top',
+      overlayY: 'bottom',
+    } as const;
+    const onPositionChange = vi.fn();
+    const request = vi.fn();
+    const handle = coordinator.open({
+      content: {
+        kind: 'template',
+        template: host.content,
+        viewContainerRef: host.viewContainerRef,
+      },
+      placement: { kind: 'connected', origin: host.origin.nativeElement, positions: [position] },
+      onPositionChange,
+      onCloseRequest: request,
+    })!;
+    coordinator.updatePlacement(handle, {
+      kind: 'connected',
+      origin: host.origin.nativeElement,
+      positions: [position],
+    });
+    expect(onPositionChange).toHaveBeenCalledWith(expect.objectContaining(position));
+    expect(coordinator.contains(handle, handle.element)).toBe(true);
+    expect(coordinator.contains(handle, null)).toBe(false);
+    const unknown = { ...handle, lifecycle: 'open' } as typeof handle;
+    expect(coordinator.contains(unknown, handle.element)).toBe(false);
+    expect(
+      coordinator.dispatchEscape(unknown, new KeyboardEvent('keydown', { key: 'Escape' })),
+    ).toBe(false);
+    expect(
+      coordinator.dispatchEscape(
+        handle,
+        new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }),
+      ),
+    ).toBe(true);
+    expect(request).toHaveBeenCalledWith('escape', expect.any(KeyboardEvent));
+    handle.finalizeClose();
+    expect(coordinator.contains(handle, handle.element)).toBe(false);
+    const global = coordinator.open(
+      globalConfig({ kind: 'component', component: TestPortalComponent }, { onPositionChange }),
+    )!;
+    global.finalizeClose();
+  });
+
   it('captures Escape before hosted widgets, preserves vetoes and updates live placement', () => {
     const fixture = TestBed.createComponent(TestPortalHost);
     fixture.detectChanges();

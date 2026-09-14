@@ -1,5 +1,48 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Tooltip renders closed semantics and hydrates shared Dropdown focus and dismissal', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/tooltip');
+    await expect(server.getByTestId('tooltip-plain')).toHaveAttribute(
+      'data-zd-tooltip-ready',
+      'false',
+    );
+    await expect(server.getByTestId('tooltip-plain')).toHaveAttribute(
+      'aria-describedby',
+      'tooltip-existing',
+    );
+    await expect(server.locator('.cdk-overlay-pane')).toHaveCount(0);
+    await expect(server.getByRole('tooltip')).toHaveCount(0);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/tooltip');
+  await expect(page.getByTestId('tooltip-plain')).toHaveAttribute('data-zd-tooltip-ready', 'true');
+  await page.getByTestId('tooltip-plain').focus();
+  await expect(page.getByRole('tooltip')).toHaveText('Saves your current draft.');
+  await page.keyboard.press('Escape');
+  await page.getByRole('button', { name: 'Menu with help' }).click();
+  await expect(page.getByRole('dialog', { name: 'Menu help' })).toBeVisible();
+  await page.keyboard.press('F2');
+  await expect(page.getByRole('textbox', { name: 'Draft name' })).toBeFocused();
+  await expect(page.getByRole('menu', { name: 'Draft actions' })).toBeVisible();
+  expect((await runAxeScan()).violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('menuitem', { name: 'Edit settings' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('Swap renders native controls without JavaScript and hydrates controlled activation', async ({
   browser,
   page,

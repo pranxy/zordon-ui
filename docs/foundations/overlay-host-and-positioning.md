@@ -5,10 +5,10 @@ dismissal arbitration, connected/global positioning, theme forwarding, and clean
 public component API. Native dialog and popover components remain native-first when the platform
 already supplies the required behavior.
 
-This foundation is **Partial**. Dropdown imports the version-locked `internal-overlay` package bridge
-defined by ADR 0009. The bridge owns the coordinator/stack identity and explicitly reports its support
-types. A second actual overlay component must still prove shared application stacking. Consumer
-Dropdown inputs and outputs do not expose CDK or internal overlay objects.
+This foundation is **Complete for its automated gate**. Dropdown and Tooltip import the version-locked
+`internal-overlay` package bridge defined by ADR 0009. Built-package contracts and mixed-component
+browser/SSR tests prove shared application stacking. The bridge explicitly reports its support types;
+consumer component inputs and outputs do not expose CDK or internal overlay objects.
 
 ## Ownership and lifecycle
 
@@ -69,22 +69,20 @@ The coordinator snapshots the nearest composed-ancestor `data-theme` from the or
 sets it on the owned pane. An explicit `null` removes the pane attribute; the global document theme
 continues to inherit naturally. The shared overlay container is never themed or mutated.
 
-Server HTML must contain the meaningful closed or inline trigger/content state, never a pane,
-backdrop, generated overlay host, or dispatcher listener. The first real consuming component must
-prove hydration/event replay opens exactly one overlay after render, does not reinterpret the
-opening event as outside, positions correctly, and cleans up without mismatch errors. The current
-browser fixture proves layout and cleanup after ordinary client rendering; it does not close that
-component-specific hydration gate.
+Server HTML contains meaningful native triggers and inline descriptions without panes or backdrops.
+Production SSR tests verify no-JavaScript output and hydrated Dropdown/Tooltip opening, focus,
+top-only Escape and cleanup without mismatch errors. Native Tooltip listeners activate after render;
+pre-activation focus events are not replayed. Essential descriptions remain consumer-owned inline
+content. These tests do not claim incremental hydration or unrelated overlay integration.
 
 ## Package boundary and completion gate
 
 The implementation lives in `projects/components/internal-overlay/src/overlay/`, with one explicit
-secondary package bridge under [ADR 0009](../architecture/0009-shared-overlay-runtime.md). Dropdown
-and the browser foundation fixture import that entry rather than compiling separate source copies.
+secondary package bridge under [ADR 0009](../architecture/0009-shared-overlay-runtime.md). Dropdown,
+Tooltip and the browser foundation fixture import that entry rather than compiling separate source copies.
 Its API report makes the implementation export visible; the primary bundle remains independent.
-This row becomes Complete only after two actual overlay component entry points prove shared registry
-identity and top-only arbitration. The fixture is not counted as a second component. Hidden globals
-or DOM singleton properties remain prohibited.
+The two actual component entry points prove shared registry identity and top-only arbitration; the
+fixture is not counted as a second component. Hidden globals or DOM singleton properties remain prohibited.
 
 ## Verification
 
@@ -92,8 +90,9 @@ Unit tests cover stack/lifecycle transitions, event claiming, child-first teardo
 portal destruction, server gating, theme snapshots, ordered position mapping, and allowed scroll
 strategies. The real Chromium fixture proves edge collision/flip, viewport margin, scroll
 repositioning, theme application, pane/backdrop attachment, Escape/backdrop reasons, and final
-container cleanup. The first consuming component must extend browser, SSR/hydration, focus,
-directionality, scroll-lock, accessibility, and package compatibility coverage.
+container cleanup. Dropdown and Tooltip extend browser, SSR/hydration, focus, directionality, axe and
+package coverage. Blocking scroll-lock hydration/mobile evidence and human accessibility remain
+separate component gates. See [Tooltip progress](../plans/phase-5-tooltip-progress.md).
 
 ## Sources
 

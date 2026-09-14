@@ -9,6 +9,22 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Tooltip colors in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.goto('/__zordon-tests__/tooltip');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await expect(page.getByTestId('tooltip-plain')).toHaveAttribute('data-zd-tooltip-ready', 'true');
+  await page.getByRole('button', { name: 'Show colors' }).click();
+  await expect(page.getByRole('tooltip')).toHaveCount(8);
+  await expect(page.getByTestId('tooltip-palette')).toHaveScreenshot('tooltip--light-colors.png');
+  await page.setViewportSize({ width: 360, height: 1100 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('tooltip-palette')).toHaveScreenshot(
+    'tooltip--dark-rtl-colors.png',
+  );
+});
+
 test('Swap light desktop and dark RTL mobile states', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/swap');

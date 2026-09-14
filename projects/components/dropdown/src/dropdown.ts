@@ -328,7 +328,7 @@ export class ZdDropdown {
     return (
       !!target &&
       (!!this.origin?.contains(target) ||
-        !!this.handle?.element.contains(target) ||
+        (!!this.handle && this.coordinator.contains(this.handle, target)) ||
         [...this.children].some(child => child.contains(target)))
     );
   }

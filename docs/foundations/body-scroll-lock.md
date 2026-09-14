@@ -5,7 +5,8 @@ multiple blocking overlays. It does not expose a consumer service or own applica
 
 This foundation is **Partial**. Source-level nesting, cleanup, and SSR boundaries are implemented
 and tested. Completion requires a real Modal or Drawer to prove hydration and physical mobile
-behavior, plus two packaged overlay entries to prove one shared manager identity.
+behavior. Dropdown and Tooltip now satisfy the shared packaged-runtime gate under ADR 0009;
+neither is a blocking component, so this does not complete scroll-lock readiness.
 
 ## Lock ownership and lifecycle
 
@@ -75,8 +76,9 @@ The coordinator checks the browser platform before creating an overlay, strategy
 HTML therefore has no lock class, offsets, or overlay DOM. The first component must prove event
 replay opens once after hydration and final close restores document state without mismatch.
 
-Current runtime remains unreachable from intentional exports, so private CDK types do not enter the
-package FESM or declarations. A shared published identity requires ADR/API/release review.
+The runtime now lives in the version-locked `internal-overlay` bridge under ADR 0009, with explicit
+API reporting and package checks for its shared identity. Consumer component APIs expose no CDK
+objects. This packaging evidence does not substitute for a real blocking component's hydration test.
 
 Focused tests cover ref counting, arbitrary release order, repeated lifecycle calls, injector
 destruction, policy mapping, cleanup, server no-op, and event ownership. A real-browser scenario is

@@ -1,6 +1,6 @@
 # ADR 0009: One packaged overlay runtime
 
-Status: Accepted for the Dropdown implementation; cross-component completion remains pending
+Status: Accepted; cross-component automated completion verified with Dropdown and Tooltip
 
 Date: 2026-09-14
 
@@ -14,7 +14,7 @@ This is a published, version-locked implementation bridge, not an undocumented c
 It carries no independent stability promise and is not intended for consumer imports.
 
 The primary entry point remains lightweight and does not re-export overlay infrastructure. Aria and
-CDK types may occur in the internal bridge report, but consumer Dropdown input/output signatures
+CDK types may occur in the internal bridge report, but consumer Dropdown and Tooltip input/output signatures
 must not expose them. Packaging and release review include both reports and the packed tarball.
 Angular's generated static `ɵ` host-directive metadata necessarily references the pinned Aria
 declarations. This compiler metadata is visible in the complete API report and is an explicit
@@ -39,7 +39,14 @@ invisible submenu overlays and detached-parent focusout handling from the origin
 
 ## Completion boundary
 
-The Dropdown package build must import the bridge rather than defining the coordinator again.
-The existing browser foundation fixture uses the same entry. The broader foundation still requires
-two actual shipped overlay component entries to prove cross-component stacking; a test fixture is
-not counted as a second component. That gate remains open until another overlay component ships.
+The package contract checks both built Dropdown and Tooltip entries import the bridge without
+defining another coordinator/stack. Browser and production SSR tests place an interactive Tooltip
+inside Dropdown: focus enters the sibling portal without closing its menu, Escape closes only the
+top surface, and parent view destruction removes its Tooltip. These two real component entries
+close the automated shared-identity gate. Human accessibility and blocking-component mobile review
+remain separate gates.
+
+The coordinator exposes internal structural applied-position notifications for arrows, logical
+containment across child panes and origin-level Escape dispatch. Containment follows pane origins
+without inventing lifetime parent registrations; Angular view destruction still owns embedded
+Tooltip teardown. The internal API report records these changes explicitly.

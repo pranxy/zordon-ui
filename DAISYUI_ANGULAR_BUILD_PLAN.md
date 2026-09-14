@@ -50,7 +50,7 @@ Component matrix columns:
 Overall component progress: **0 / 68 Done**. This count requires every maturity gate, including
 manual assistive-technology, forced-colors, contrast, and reflow review.
 
-Automated delivery progress: **45 / 68** components have verified specification, build, test,
+Automated delivery progress: **46 / 68** components have verified specification, build, test,
 documentation, and visual evidence. Their manual accessibility review remains open.
 
 ## Definition of Ready for a component
@@ -183,16 +183,16 @@ documentation, and visual evidence. Their manual accessibility review remains op
       fixtures lock down cancellation, Escape classification, outside boundaries, drag behavior,
       cleanup, and SSR limits. Atomic top-only arbitration remains with the next private overlay
       stack because it requires real overlay references, parents, and lifecycles.
-- [~] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies. A
-  private CDK-backed coordinator, handle, semantic stack, positioning mapper, scroll-policy
-  boundary, and real-browser fixture are implemented. Completion waits for two actual overlay
-  component secondary entry points to prove one shared package-level stack identity plus the
-  first consumer's SSR/hydration path.
+- [x] Overlay/portal host, stacking, positioning, collision detection, and scroll strategies. A
+      private CDK-backed coordinator, handle, semantic stack, positioning mapper, scroll-policy
+      boundary, and real-browser fixture are implemented. Dropdown and Tooltip prove one shared
+      package-level stack identity, top-only arbitration and production SSR/hydration behavior.
+      See docs/plans/phase-5-tooltip-progress.md.
 - [~] Body scroll lock and scrollbar-gutter handling. A private ref-counted CDK block-strategy
   adapter prevents sibling/nested overlays from unlocking underneath each other, preserves CDK's
   scroll-position and classic-gutter fallback, and documents consumer-owned `scrollbar-gutter`.
-  Completion waits for a real blocking component's hydration and physical mobile proof plus the
-  overlay foundation's two-entry shared-identity gate.
+  Completion waits for a real blocking component's hydration and physical mobile proof.
+  Dropdown and Tooltip have satisfied the overlay foundation's two-entry shared-identity gate.
 - [~] Directionality and logical placement mapping. CDK `Directionality` is the sole horizontal
   LTR/RTL source; private overlays resolve the content scope, propagate it into portals, and update
   plus reposition on live changes without pre-flipping logical start/end. Completion waits for the
@@ -384,15 +384,15 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
 
 ### Feedback — 7
 
-| ID     | Component       | Required feature scope                                                                                                                                      | Spec | Build | Tests | A11y | Docs | Visual | Done | Notes                             |
-| ------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---: | ----: | ----: | ---: | ---: | -----: | ---: | --------------------------------- |
-| FDB-01 | Alert           | Info/success/warning/error; soft/outline/dash; responsive direction; icon/title/body/actions; dismiss/auto-dismiss; details; live-region modes              |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                   |
-| FDB-02 | Loading         | Spinner/dots/ring/ball/bars/infinity; xs–xl; colors; accessible labels; inline/center/overlay; delayed display; custom loader; reduced motion               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                   |
-| FDB-03 | Progress        | Determinate/indeterminate; value/max; colors; labels/formatting; optional buffer; animation; completion; reduced motion                                     |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                   |
-| FDB-04 | Radial Progress | Value/max; size/thickness; colors; projected label/icon; indeterminate; animation; thresholds; reduced motion                                               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                   |
-| FDB-05 | Skeleton        | Text/rectangle/circle/custom; dimensions/radius; multiline and composition presets; animation/speed; loading-region semantics; reduced motion               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                   |
-| FDB-06 | Toast           | Declarative outlet and service; all positions; semantic/custom content; timeout/pause/actions/dismiss; promise flow; queue/limit/dedupe; live priority; SSR |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] | Depends on overlay/live announcer |
-| FDB-07 | Tooltip         | All placements; colors; hover/focus/touch/manual; delay; auto-flip/shift; arrow; rich content; interactive mode; disabled triggers; ARIA                    |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] | Depends on overlay foundation     |
+| ID     | Component       | Required feature scope                                                                                                                                      | Spec | Build | Tests | A11y | Docs | Visual | Done | Notes                                                                                                                                                                                             |
+| ------ | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ---: | ----: | ----: | ---: | ---: | -----: | ---: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FDB-01 | Alert           | Info/success/warning/error; soft/outline/dash; responsive direction; icon/title/body/actions; dismiss/auto-dismiss; details; live-region modes              |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                                                                                                                                                                                   |
+| FDB-02 | Loading         | Spinner/dots/ring/ball/bars/infinity; xs–xl; colors; accessible labels; inline/center/overlay; delayed display; custom loader; reduced motion               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                                                                                                                                                                                   |
+| FDB-03 | Progress        | Determinate/indeterminate; value/max; colors; labels/formatting; optional buffer; animation; completion; reduced motion                                     |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                                                                                                                                                                                   |
+| FDB-04 | Radial Progress | Value/max; size/thickness; colors; projected label/icon; indeterminate; animation; thresholds; reduced motion                                               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                                                                                                                                                                                   |
+| FDB-05 | Skeleton        | Text/rectangle/circle/custom; dimensions/radius; multiline and composition presets; animation/speed; loading-region semantics; reduced motion               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] |                                                                                                                                                                                                   |
+| FDB-06 | Toast           | Declarative outlet and service; all positions; semantic/custom content; timeout/pause/actions/dismiss; promise flow; queue/limit/dedupe; live priority; SSR |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] | Depends on overlay/live announcer                                                                                                                                                                 |
+| FDB-07 | Tooltip         | All placements; colors; hover/focus/touch/manual; delay; auto-flip/shift; arrow; rich content; interactive mode; disabled triggers; ARIA                    |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Angular 21 shared CDK implementation verified with Dropdown. Unit/type/API/package/Chromium/SSR/visual evidence passes; manual accessibility pending. See docs/plans/phase-5-tooltip-progress.md. |
 
 ### Data input — 15
 
@@ -540,6 +540,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                                                                                                                                                                                           | Components/phases      | Owner or link                                        |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------------------------- |
+| 2026-09-14 | Added Tooltip descriptive and interactive help with hover/focus/touch/manual state, collision-aware arrows and shared Dropdown stacking. All automated checks pass; delivery is 46/68. Overlay shared-identity gate is verified; manual accessibility remains pending.                                                                                                           | Phase 5 implementation | `docs/plans/phase-5-tooltip-progress.md`             |
 | 2026-09-14 | Added native Swap checkbox, controlled toggle-button and manual modes with decorative state parts, read-only guards and packaged reduced-motion styling. Unit coverage, types, API, package, Chromium, SSR and visual checks pass; automated delivery is 45/68. Manual accessibility remains pending; FAB still depends on Tooltip.                                              | Phase 5 implementation | `docs/plans/phase-5-swap-progress.md`                |
 | 2026-09-14 | Added public Dropdown on Angular 21 with Aria Menu/MenuItem, lazy CDK panels, recursive RTL menus, controlled state and a shared packaged overlay runtime. Unit coverage, types, API, package, Chromium, SSR and visual checks pass; automated delivery is 44/68. Manual accessibility and second-component shared-stack evidence remain open.                                   | Phase 5 implementation | `docs/plans/phase-5-dropdown-progress.md`            |
 | 2026-09-14 | Started Dropdown with a draft behavior contract and Angular 21 Menu/CDK integration spike. Chromium verifies keyboard, disabled items, activation, nested RTL, top-only Escape, axe and cleanup; production SSR verifies closed markup and hydrated opening. Public implementation and shared overlay package identity remain pending; automated delivery stays 43/68.           | Phase 5 integration    | `docs/plans/phase-5-dropdown-progress.md`            |

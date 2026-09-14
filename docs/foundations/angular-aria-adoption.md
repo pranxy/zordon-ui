@@ -293,6 +293,15 @@ for the portal gaps and package identity evidence.
 Consumer input/output/method signatures expose no Aria objects. Angular-generated static host-directive
 metadata retains its Aria references in the reviewed API report, under ADR 0008's explicit exception.
 
+## Tooltip on Angular 21
+
+Tooltip uses native host actions and Forms, with `role="tooltip"` for descriptions or an explicit
+nonmodal `role="dialog"` for interactive help. The pinned Aria 21 package has no standalone Tooltip
+primitive. Native `title` cannot cover rich templates, controlled visibility, touch or collision
+placement, so this documented gap uses the existing shared CDK overlay bridge. It adds no Aria
+dependency or exposed CDK consumer API. Dropdown and Tooltip exercise shared top-only Escape,
+logical focus boundaries and parent teardown in browser and production SSR tests.
+
 ## Component readiness checklist
 
 Before implementing a component that might use Angular Aria, record:

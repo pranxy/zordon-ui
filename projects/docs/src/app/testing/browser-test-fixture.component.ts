@@ -204,7 +204,12 @@ class ScrollLockPanelComponent {}
     ZdTheme,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./range-fixture.css', './aura-fixture.css', './carousel-fixture.css'],
+  styleUrls: [
+    './range-fixture.css',
+    './aura-fixture.css',
+    './carousel-fixture.css',
+    './collapse-fixture.css',
+  ],
   host: {
     'data-testid': 'browser-test-fixture',
   },

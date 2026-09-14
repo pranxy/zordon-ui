@@ -1,0 +1,67 @@
+zd-tooltip-surface {
+  display: block;
+  position: relative;
+  max-inline-size: min(20rem, calc(100vw - 16px));
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-field, 0.375rem);
+  color: var(--zd-tooltip-fg);
+  background: var(--zd-tooltip-bg);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  box-shadow: 0 3px 12px #0002;
+}
+zd-tooltip-surface .zd-tooltip-body {
+  max-block-size: calc(100vh - 40px);
+  overflow: auto;
+}
+zd-tooltip-surface .zd-tooltip-arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+zd-tooltip-surface[data-zd-tooltip-side='top'] .zd-tooltip-arrow {
+  bottom: -4px;
+  left: calc(var(--zd-tooltip-arrow-x, 50%) - 4px);
+}
+zd-tooltip-surface[data-zd-tooltip-side='bottom'] .zd-tooltip-arrow {
+  top: -4px;
+  left: calc(var(--zd-tooltip-arrow-x, 50%) - 4px);
+}
+zd-tooltip-surface[data-zd-tooltip-side='start'] .zd-tooltip-arrow {
+  inset-inline-end: -4px;
+  top: calc(var(--zd-tooltip-arrow-y, 50%) - 4px);
+}
+zd-tooltip-surface[data-zd-tooltip-side='end'] .zd-tooltip-arrow {
+  inset-inline-start: -4px;
+  top: calc(var(--zd-tooltip-arrow-y, 50%) - 4px);
+}
+zd-tooltip-surface:focus-visible,
+zd-tooltip-surface :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  zd-tooltip-surface {
+    animation: none;
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  zd-tooltip-surface {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  zd-tooltip-surface .zd-tooltip-arrow {
+    border-block-end: 1px solid CanvasText;
+    border-inline-end: 1px solid CanvasText;
+  }
+  zd-tooltip-surface:focus-visible,
+  zd-tooltip-surface :focus-visible {
+    outline-color: Highlight;
+  }
+}

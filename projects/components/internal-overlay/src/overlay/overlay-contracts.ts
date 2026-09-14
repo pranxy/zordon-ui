@@ -80,6 +80,8 @@ export interface ZdOverlayOpenConfig<TComponent = unknown, TContext extends obje
   readonly canClose?: (reason: ZdOverlayCloseReason, event?: Event) => boolean;
   /** Intercept Escape before a hosted widget can close its entire tree. */
   readonly captureEscape?: boolean;
+  /** Reports the applied logical placement after CDK collision handling. */
+  readonly onPositionChange?: (position: ZdOverlayConnectedPosition) => void;
   readonly onCloseRequest: (reason: ZdOverlayCloseReason, event?: Event) => void;
 }
 

@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'tooltip',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/tooltip-test-fixture.component').then(
+        module => module.TooltipTestFixtureComponent,
+      ),
+  },
+  {
     path: 'swap',
     loadComponent: () =>
       import('../../../docs/src/app/testing/swap-test-fixture.component').then(

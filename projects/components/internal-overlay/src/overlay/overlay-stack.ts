@@ -121,6 +121,28 @@ export class ZdOverlayStack {
     return this.entries.length;
   }
 
+  /** Include surfaces whose trigger is inside an owned pane, without inventing a lifetime parent. */
+  contains(registration: ZdOverlayStackRegistration, target: Node | null): boolean {
+    if (!target || !this.entries.includes(registration)) return false;
+    const visited = new Set<ZdOverlayStackRegistration>();
+    const inside = (entry: ZdOverlayStackRegistration): boolean => {
+      if (visited.has(entry)) return false;
+      visited.add(entry);
+      if (
+        entry.pane.contains(target) ||
+        [...entry.boundaries].some(boundary => boundary.contains(target))
+      )
+        return true;
+      return this.entries.some(
+        child =>
+          (child.parent === entry ||
+            [...child.boundaries].some(boundary => entry.pane.contains(boundary))) &&
+          inside(child),
+      );
+    };
+    return inside(registration);
+  }
+
   private top(): ZdOverlayStackRegistration | undefined {
     return this.entries.at(-1);
   }

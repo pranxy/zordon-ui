@@ -1,6 +1,11 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Directionality } from '@angular/cdk/bidi';
-import { Overlay, type OverlayRef } from '@angular/cdk/overlay';
+import {
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  type OverlayRef,
+  type PositionStrategy,
+} from '@angular/cdk/overlay';
 import { ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import {
   inject,
@@ -10,7 +15,7 @@ import {
   PLATFORM_ID,
   type ProviderToken,
 } from '@angular/core';
-import { fromEvent, type Subscription } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import type { ZdOverlayHandle, ZdOverlayOpenConfig, ZdOverlayPlacement } from './overlay-contracts';
@@ -21,13 +26,40 @@ import { ZdOverlayStack } from './overlay-stack';
 
 @Injectable({ providedIn: 'root' })
 export class ZdOverlayCoordinator {
-  private readonly refs = new WeakMap<ZdOverlayHandle, OverlayRef>();
+  private readonly refs = new WeakMap<
+    ZdOverlayHandle,
+    {
+      ref: OverlayRef;
+      positions: Subscription;
+      onPositionChange: ZdOverlayOpenConfig['onPositionChange'];
+    }
+  >();
+
+  contains(handle: ZdOverlayHandle, target: Node | null): boolean {
+    const registration = this.findRegistration(handle as ZdInternalOverlayHandle);
+    return !!registration && this.stack.contains(registration, target);
+  }
+
+  dispatchEscape(handle: ZdOverlayHandle, event: KeyboardEvent): boolean {
+    const registration = this.findRegistration(handle as ZdInternalOverlayHandle);
+    return !!registration && this.stack.handleEscape(registration, event);
+  }
 
   updatePlacement(handle: ZdOverlayHandle, placement: ZdOverlayPlacement): void {
-    if (handle.lifecycle === 'open')
-      this.refs
-        .get(handle)
-        ?.updatePositionStrategy(createZdPositionStrategy(this.overlay, placement));
+    const record = this.refs.get(handle);
+    if (handle.lifecycle === 'open' && record) {
+      const strategy = createZdPositionStrategy(this.overlay, placement);
+      this.observePosition(strategy, record.positions, record.onPositionChange);
+      record.ref.updatePositionStrategy(strategy);
+    }
+  }
+  private observePosition(
+    strategy: PositionStrategy,
+    lifetime: Subscription,
+    callback: ZdOverlayOpenConfig['onPositionChange'],
+  ): void {
+    if (callback && strategy instanceof FlexibleConnectedPositionStrategy)
+      lifetime.add(strategy.positionChanges.subscribe(event => callback(event.connectionPair)));
   }
   private readonly overlay = inject(Overlay);
   private readonly bodyScrollLock = inject(ZdBodyScrollLock);
@@ -48,12 +80,15 @@ export class ZdOverlayCoordinator {
     const portalInjector = needsDirectionProvider
       ? new NonOwningDirectionalityInjector(portalParent, directionality)
       : portalParent;
+    const positions = new Subscription();
+    const strategy = createZdPositionStrategy(this.overlay, config.placement);
+    this.observePosition(strategy, positions, config.onPositionChange);
     const overlayRef = this.overlay.create({
       backdropClass: config.backdropClass ? [...asArray(config.backdropClass)] : undefined,
       hasBackdrop: config.hasBackdrop ?? false,
       panelClass: config.panelClass ? [...asArray(config.panelClass)] : undefined,
       direction: directionality.value,
-      positionStrategy: createZdPositionStrategy(this.overlay, config.placement),
+      positionStrategy: strategy,
       scrollStrategy: createZdScrollStrategy(
         this.overlay,
         this.bodyScrollLock,
@@ -120,6 +155,7 @@ export class ZdOverlayCoordinator {
           ),
         ]);
         return [
+          positions,
           ...(config.captureEscape
             ? [
                 fromEvent<KeyboardEvent>(overlayRef.overlayElement, 'keydown', {
@@ -145,9 +181,14 @@ export class ZdOverlayCoordinator {
           ...boundarySubscriptions,
         ];
       });
-      this.refs.set(handle, overlayRef);
+      this.refs.set(handle, {
+        ref: overlayRef,
+        positions,
+        onPositionChange: config.onPositionChange,
+      });
       return handle;
     } catch (error) {
+      positions.unsubscribe();
       directionSubscription.unsubscribe();
       handle.finalizeClose();
       throw error;

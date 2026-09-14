@@ -7,6 +7,43 @@ function pathEvent(type: string, path: EventTarget[]): MouseEvent {
 }
 
 describe('ZdOverlayStack', () => {
+  it('recognizes nested logical focus boundaries and stops cycles without reparenting lifetimes', () => {
+    const stack = new ZdOverlayStack();
+    const pane = document.createElement('div');
+    const origin = document.createElement('button');
+    const childOrigin = document.createElement('button');
+    pane.appendChild(childOrigin);
+    const parent = stack.register({
+      pane,
+      boundaries: [origin],
+      backdrop: () => null,
+      requestClose: vi.fn(),
+    });
+    const childPane = document.createElement('div');
+    const child = stack.register({
+      pane: childPane,
+      boundaries: [childOrigin],
+      backdrop: () => null,
+      requestClose: vi.fn(),
+    });
+    const grandchild = stack.register({
+      pane: document.createElement('div'),
+      parent: child,
+      backdrop: () => null,
+      requestClose: vi.fn(),
+    });
+    expect(stack.contains(parent, origin)).toBe(true);
+    expect(stack.contains(parent, childPane)).toBe(true);
+    expect(stack.contains(parent, grandchild.pane)).toBe(true);
+    // A safe boundary inside its own pane must not recurse forever.
+    parent.boundaries.add(childOrigin);
+    expect(stack.contains(parent, document.createElement('button'))).toBe(false);
+    expect(stack.contains(parent, null)).toBe(false);
+    stack.unregister(grandchild);
+    stack.unregister(child);
+    stack.unregister(parent);
+    expect(stack.contains(parent, origin)).toBe(false);
+  });
   it('routes one plain Escape to the top surface and keeps a closing surface shielding its parent', () => {
     const stack = new ZdOverlayStack();
     const lowerRequests: string[] = [];
