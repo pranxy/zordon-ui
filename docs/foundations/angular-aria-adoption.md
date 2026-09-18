@@ -333,6 +333,13 @@ Before implementing a component that might use Angular Aria, record:
 - [ ] A fallback/private gap is justified and behavior-tested if Angular Aria cannot cover it.
 - [ ] Minimum/latest Angular compatibility and bundle impact are included in acceptance evidence.
 
+## Theme Controller native decision
+
+Theme Controller (ACT-06) uses native checkbox/toggle, radio, select and button controls with
+scoped Angular signal state. No Aria or CDK widget is required. Persistence, system preference,
+SSR initialization and explicit theme boundaries belong to Zordon; native controls retain keyboard
+semantics. See [ADR 0011](../architecture/0011-theme-controller-scoped-preferences.md).
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)

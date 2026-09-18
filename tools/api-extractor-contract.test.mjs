@@ -219,6 +219,7 @@ test('commits the generated primary API report and exposes check/update scripts'
     [
       'api-extractor-calendar.json',
       'api-extractor-modal.json',
+      'api-extractor-theme-controller.json',
       'api-extractor-fab.json',
       'api-extractor-tooltip.json',
       'api-extractor-swap.json',

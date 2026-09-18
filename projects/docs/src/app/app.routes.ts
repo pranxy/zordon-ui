@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/theme-controller',
+    loadComponent: () =>
+      import('./testing/theme-controller-test-fixture.component').then(
+        module => module.ThemeControllerTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/modal',
     loadComponent: () =>
       import('./testing/modal-test-fixture.component').then(

@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'theme-controller',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/theme-controller-test-fixture.component').then(
+        module => module.ThemeControllerTestFixtureComponent,
+      ),
+  },
+  {
     path: 'modal',
     loadComponent: () =>
       import('../../../docs/src/app/testing/modal-test-fixture.component').then(

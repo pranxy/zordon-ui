@@ -1,5 +1,39 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Theme Controller renders deterministic server choices and restores browser preference after hydration', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/theme-controller');
+    await expect(server.locator('html')).toHaveAttribute('data-theme', 'light');
+    await expect(server.getByTestId('theme-fixture')).toHaveAttribute(
+      'data-zd-theme-ready',
+      'false',
+    );
+    await expect(server.getByRole('combobox', { name: 'Page theme' })).toHaveValue('system');
+    await expect(server.getByRole('radio', { name: 'System', exact: true })).toBeChecked();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.addInitScript(() => localStorage.setItem('zd-theme-fixture', 'light'));
+  await page.goto('/theme-controller');
+  await expect(page.getByTestId('theme-fixture')).toHaveAttribute('data-zd-theme-ready', 'true');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.getByRole('combobox', { name: 'Page theme' })).toHaveValue('light');
+  await page.getByRole('button', { name: 'Use system', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.getByTestId('theme-nested')).toHaveAttribute('data-theme', 'light');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Modal stays closed on the server and hydrates native focus and scroll ownership', async ({
   browser,
   page,

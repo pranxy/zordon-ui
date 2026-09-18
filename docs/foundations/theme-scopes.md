@@ -47,8 +47,10 @@ inherit it:
 To use daisyUI's configured default and `--prefersdark` themes, omit `data-theme` from the configured
 root. `system` is not a special daisyUI theme name and must not be written as
 `data-theme="system"`.
-Preference observation, persistence, cross-tab synchronization, and user controls belong to the
-future Theme Controller component, not this foundation directive.
+Preference observation, persistence, cross-tab synchronization, and native user controls are
+available from [`@pranxy/zordon-ui/theme-controller`](../components/theme-controller.md).
+The controller owns an explicit host or document boundary and resolves system to configured
+light/dark names. This foundation directive remains free of browser state and persistence.
 
 If the application configures another daisyUI root, such as `root: "#app"`, that element—not
 `<html>`—owns the global explicit/absent theme boundary. Variables emitted directly on `#app` can
@@ -130,6 +132,15 @@ context to portaled overlays belongs to the shared overlay infrastructure. With 
   theme resolves a consumer-defined token, and preferred dark applies only without an explicit
   boundary.
 - Keep browser globals, persistence, and system-preference observation out of `ZdTheme`.
+
+## Theme Controller integration
+
+`ZdThemeController` uses the same single-owner `data-theme` boundary contract. Do not apply it and
+`ZdTheme` to the same target. A consumer-configured registry belongs to the controller and does not
+restrict arbitrary names accepted by `ZdTheme`. Existing ordinary theme bindings are unchanged.
+Native controls omit daisyUI's global CSS-only `theme-controller` class to preserve nested scopes.
+See [ADR 0011](../architecture/0011-theme-controller-scoped-preferences.md) for storage, initialization
+and document ownership decisions. Physical accessibility and custom-theme contrast remain pending.
 
 ## Upstream references
 

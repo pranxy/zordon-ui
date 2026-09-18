@@ -7,6 +7,11 @@ const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
 export const apiReports = [
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-theme-controller.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-theme-controller.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-theme-controller.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-modal.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-modal.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-modal.api.md'),

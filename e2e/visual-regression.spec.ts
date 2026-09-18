@@ -9,6 +9,24 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Theme Controller light controls and dark RTL mobile with isolated preview', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/__zordon-tests__/theme-controller');
+  await expect(page.getByTestId('theme-fixture')).toHaveAttribute('data-zd-theme-ready', 'true');
+  await expect(page.getByTestId('theme-fixture')).toHaveScreenshot(
+    'theme-controller--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 1100 });
+  await page.getByRole('button', { name: 'Use dark', exact: true }).click();
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('theme-fixture')).toHaveScreenshot(
+    'theme-controller--dark-rtl-mobile.png',
+  );
+});
+
 test('Modal native light desktop and dark RTL overlay mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/__zordon-tests__/modal');
