@@ -6,6 +6,7 @@
     "paths": {
       "@pranxy/zordon-ui/dropdown": ["projects/components/dropdown/src/public-api.ts"],
       "@pranxy/zordon-ui/swap": ["projects/components/swap/src/public-api.ts"],
+      "@pranxy/zordon-ui/fab": ["projects/components/fab/src/public-api.ts"],
       "@pranxy/zordon-ui/tooltip": ["projects/components/tooltip/src/public-api.ts"],
       "@pranxy/zordon-ui/internal-overlay": [
         "projects/components/internal-overlay/src/public-api.ts"

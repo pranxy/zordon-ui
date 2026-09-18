@@ -218,6 +218,7 @@ test('commits the generated primary API report and exposes check/update scripts'
     apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)).sort(),
     [
       'api-extractor-calendar.json',
+      'api-extractor-fab.json',
       'api-extractor-tooltip.json',
       'api-extractor-swap.json',
       'api-extractor-dropdown.json',

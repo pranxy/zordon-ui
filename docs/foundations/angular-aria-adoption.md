@@ -302,6 +302,14 @@ placement, so this documented gap uses the existing shared CDK overlay bridge. I
 dependency or exposed CDK consumer API. Dropdown and Tooltip exercise shared top-only Escape,
 logical focus boundaries and parent teardown in browser and production SSR tests.
 
+## FAB / Speed Dial on Angular 21
+
+FAB uses a native disclosure button and a named action group with ordinary buttons and links.
+Native Tab order and activation satisfy this pattern; it is not an ARIA menu or toolbar, so no Aria
+primitive is composed. Button owns daisyUI styling and optional descriptive Tooltip labels use the
+existing overlay runtime. FAB itself owns hidden/inert disclosure state, controlled requests,
+outside/focus departure and Escape after Tooltip arbitration, without a new overlay or focus trap.
+
 ## Component readiness checklist
 
 Before implementing a component that might use Angular Aria, record:

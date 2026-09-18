@@ -1,5 +1,44 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('FAB renders native closed disclosure and hydrates actions and Tooltip', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/fab');
+    await expect(server.getByTestId('fab-local').locator('.zd-fab-trigger')).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(server.getByTestId('fab-local').locator('.zd-fab-actions')).toBeHidden();
+    await expect(server.getByRole('button', { name: 'New note' })).toBeVisible();
+    await expect(server.locator('.cdk-overlay-pane')).toHaveCount(0);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/fab');
+  const root = page.getByTestId('fab-local');
+  const trigger = root.locator('.zd-fab-trigger');
+  await trigger.click();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  const draft = root.getByRole('button', { name: 'Draft', exact: true });
+  await expect(draft).toHaveAttribute('data-zd-tooltip-ready', 'true');
+  await draft.focus();
+  await expect(page.getByRole('tooltip')).toHaveText('Create a draft');
+  expect((await runAxeScan()).violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(trigger).toBeFocused();
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  expect(errors).toEqual([]);
+});
+
 test('Tooltip renders closed semantics and hydrates shared Dropdown focus and dismissal', async ({
   browser,
   page,

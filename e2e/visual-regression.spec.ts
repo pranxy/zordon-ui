@@ -9,6 +9,27 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('FAB light desktop flower and dark RTL mobile vertical fallback', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.goto('/__zordon-tests__/fab');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await page.getByTestId('fab-local').locator('.zd-fab-trigger').click();
+  await page.getByRole('button', { name: 'Set controlled' }).click();
+  // Reopen local after the outside control, without stealing focus from an action.
+  await page.getByTestId('fab-local').locator('.zd-fab-trigger').click();
+  await expect(page.getByTestId('fab-flower').locator('.zd-fab-trigger')).toHaveAttribute(
+    'aria-expanded',
+    'true',
+  );
+  await expect(page.getByTestId('fab-examples')).toHaveScreenshot('fab--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1100 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('fab-fixture')).toHaveAttribute('dir', 'rtl');
+  await page.getByTestId('fab-local').locator('.zd-fab-trigger').click();
+  await expect(page.getByTestId('fab-examples')).toHaveScreenshot('fab--dark-rtl-mobile.png');
+});
+
 test('Tooltip colors in light desktop and dark RTL mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.goto('/__zordon-tests__/tooltip');

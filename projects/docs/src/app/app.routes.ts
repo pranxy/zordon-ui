@@ -26,6 +26,11 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/fab',
+    loadComponent: () =>
+      import('./testing/fab-test-fixture.component').then(module => module.FabTestFixtureComponent),
+  },
+  {
     path: '__zordon-tests__/tooltip',
     loadComponent: () =>
       import('./testing/tooltip-test-fixture.component').then(

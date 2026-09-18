@@ -44,10 +44,10 @@ test('Swap handles mixed, disabled, read-only and manual state without hidden fo
   await expect(checkbox).toHaveJSProperty('indeterminate', false);
   await expect(wrapper.locator('[zdSwapOn]')).toBeVisible();
   await page.getByRole('button', { name: 'Toggle read only' }).click();
+  await expect(checkbox).toHaveAttribute('aria-readonly', 'true');
   await checkbox.focus();
   await page.keyboard.press('Space');
   await expect(checkbox).toBeChecked();
-  await expect(checkbox).toHaveAttribute('aria-readonly', 'true');
   await page.getByRole('button', { name: 'Mute', exact: true }).focus();
   await page.keyboard.press('Enter');
   await expect(page.getByTestId('swap-toggle')).toHaveAttribute('aria-pressed', 'false');
