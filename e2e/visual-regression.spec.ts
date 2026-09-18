@@ -9,6 +9,19 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Alert semantic variants in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 1300 });
+  await page.goto('/__zordon-tests__/alert');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await expect(page.getByTestId('alert-matrix')).toHaveScreenshot('alert--light-variants.png');
+  await page.setViewportSize({ width: 360, height: 1000 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('alert-interactive')).toHaveScreenshot(
+    'alert--dark-rtl-mobile.png',
+  );
+});
+
 test('Theme Controller light controls and dark RTL mobile with isolated preview', async ({
   page,
 }) => {

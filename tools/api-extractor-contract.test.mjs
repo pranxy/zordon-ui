@@ -217,6 +217,7 @@ test('commits the generated primary API report and exposes check/update scripts'
   assert.deepEqual(
     apiReports.map(report => report.configPath.split(/[/\\]/).at(-1)).sort(),
     [
+      'api-extractor-alert.json',
       'api-extractor-calendar.json',
       'api-extractor-modal.json',
       'api-extractor-theme-controller.json',

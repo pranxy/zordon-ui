@@ -1,5 +1,36 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Alert renders meaningful native content on the server and hydrates controlled dismissal', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/alert');
+    const alert = server.getByTestId('alert-interactive');
+    await expect(alert).toBeVisible();
+    await expect(alert).toHaveAttribute('role', 'status');
+    await alert.locator('summary').click();
+    await expect(alert.locator('details')).toHaveJSProperty('open', true);
+    await expect(alert.getByRole('button', { name: 'Close update' })).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/alert');
+  const alert = page.getByTestId('alert-interactive');
+  expect((await runAxeScan('[data-testid="alert-interactive"]')).violations).toEqual([]);
+  await page.getByRole('button', { name: 'Accept close: false' }).click();
+  await alert.getByRole('button', { name: 'Close update' }).click();
+  await expect(alert).toBeHidden();
+  await page.getByRole('button', { name: 'Show message' }).click();
+  await expect(alert).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
 test('Theme Controller renders deterministic server choices and restores browser preference after hydration', async ({
   browser,
   page,

@@ -1,0 +1,56 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin "daisyui" {
+  themes: false;
+}
+@source inline("alert alert-info alert-success alert-warning alert-error alert-soft alert-outline alert-dash alert-vertical alert-horizontal");
+:host {
+  display: block;
+  width: min(60rem, calc(100vw - 2rem));
+}
+main {
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+[zdAlertTitle] {
+  display: block;
+}
+p {
+  margin-block: 0.5rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+button {
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 2.75rem;
+}
+summary {
+  cursor: pointer;
+  padding-block: 0.5rem;
+}
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-start: 1rem;
+}
+@media (max-width: 40rem) {
+  .matrix {
+    grid-template-columns: 1fr;
+  }
+}

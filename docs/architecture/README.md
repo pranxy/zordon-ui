@@ -15,6 +15,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0009](0009-shared-overlay-runtime.md)              | One packaged overlay runtime                         | Accepted |
 | [0010](0010-modal-native-and-overlay.md)            | Native Modal and explicit overlay backend            | Accepted |
 | [0011](0011-theme-controller-scoped-preferences.md) | Scoped Theme Controller preferences                  | Accepted |
+| [0012](0012-inline-alert-dismissal.md)              | Inline Alert semantics and controlled dismissal      | Accepted |
 
 ## Applied architecture maps
 

@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/alert": ["projects/components/alert/src/public-api.ts"],
       "@pranxy/zordon-ui/dropdown": ["projects/components/dropdown/src/public-api.ts"],
       "@pranxy/zordon-ui/swap": ["projects/components/swap/src/public-api.ts"],
       "@pranxy/zordon-ui/modal": ["projects/components/modal/src/public-api.ts"],

@@ -340,6 +340,13 @@ scoped Angular signal state. No Aria or CDK widget is required. Persistence, sys
 SSR initialization and explicit theme boundaries belong to Zordon; native controls retain keyboard
 semantics. See [ADR 0011](../architecture/0011-theme-controller-scoped-preferences.md).
 
+## Alert native decision
+
+Alert (FDB-01) uses native projected content, buttons and details/summary. Explicit off/status/alert
+semantics and consumer-accepted dismissal requests need no Angular Aria widget or CDK overlay.
+Its browser-only timer pauses for pointer, focus and hidden-document state. See
+[ADR 0012](../architecture/0012-inline-alert-dismissal.md).
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)
