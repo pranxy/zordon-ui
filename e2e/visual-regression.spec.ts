@@ -9,6 +9,21 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Modal native light desktop and dark RTL overlay mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/__zordon-tests__/modal');
+  await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
+  await page.getByRole('button', { name: 'Open native', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveScreenshot('modal--native-light.png');
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 360, height: 800 });
+  await applyZordonDocumentEnvironment(page, { direction: 'rtl', theme: 'dark' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('modal-fixture')).toHaveAttribute('dir', 'rtl');
+  await page.getByRole('button', { name: 'Open overlay', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveScreenshot('modal--overlay-dark-rtl.png');
+});
+
 test('FAB light desktop flower and dark RTL mobile vertical fallback', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.goto('/__zordon-tests__/fab');

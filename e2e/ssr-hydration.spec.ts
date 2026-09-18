@@ -1,5 +1,44 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Modal stays closed on the server and hydrates native focus and scroll ownership', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/modal');
+    await expect(server.getByRole('button', { name: 'Open native', exact: true })).toBeVisible();
+    await expect(server.locator('dialog,.cdk-overlay-pane')).toHaveCount(0);
+    await expect(server.locator('html')).not.toHaveClass(/cdk-global-scrollblock/);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/modal');
+  const trigger = page.getByRole('button', { name: 'Open native', exact: true });
+  await trigger.click();
+  await expect(page.getByRole('dialog', { name: 'Editor', exact: true })).toBeVisible();
+  await expect(page.getByRole('textbox')).toBeFocused();
+  await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
+  expect((await runAxeScan()).violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await expect(page.locator('html')).not.toHaveClass(/cdk-global-scrollblock/);
+  await page.getByRole('button', { name: 'Open overlay', exact: true }).click();
+  await page.getByRole('button', { name: 'More actions' }).click();
+  await expect(page.getByRole('menuitem')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toHaveCount(0);
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('FAB renders native closed disclosure and hydrates actions and Tooltip', async ({
   browser,
   page,

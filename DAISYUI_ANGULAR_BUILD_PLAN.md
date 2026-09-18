@@ -1,6 +1,6 @@
 # daisyUI Angular Library Build Plan
 
-Last updated: 2026-09-14
+Last updated: 2026-09-18
 Planning baseline: daisyUI 5.7.16 documentation, 68 components
 Implementation status at plan creation: not started
 Scope note: this plan is intentionally independent of the repository's existing component implementation.
@@ -50,7 +50,7 @@ Component matrix columns:
 Overall component progress: **0 / 68 Done**. This count requires every maturity gate, including
 manual assistive-technology, forced-colors, contrast, and reflow review.
 
-Automated delivery progress: **47 / 68** components have verified specification, build, test,
+Automated delivery progress: **48 / 68** components have verified specification, build, test,
 documentation, and visual evidence. Their manual accessibility review remains open.
 
 ## Definition of Ready for a component
@@ -191,7 +191,8 @@ documentation, and visual evidence. Their manual accessibility review remains op
 - [~] Body scroll lock and scrollbar-gutter handling. A private ref-counted CDK block-strategy
   adapter prevents sibling/nested overlays from unlocking underneath each other, preserves CDK's
   scroll-position and classic-gutter fallback, and documents consumer-owned `scrollbar-gutter`.
-  Completion waits for a real blocking component's hydration and physical mobile proof.
+  Modal verifies a real blocking component's ordinary hydration and nested lock lifecycle.
+  Completion still waits for physical mobile proof.
   Dropdown and Tooltip have satisfied the overlay foundation's two-entry shared-identity gate.
 - [~] Directionality and logical placement mapping. CDK `Directionality` is the sole horizontal
   LTR/RTL source; private overlays resolve the content scope, propagate it into portals, and update
@@ -340,7 +341,7 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
 | ACT-01 | Button           | Semantic colors; outline/dash/soft/ghost/link; xs–xl; wide/block/square/circle; active, disabled, loading; icons; native button/link/input modes; pressed and async action states        |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Maturity: Planned. Native directive and typed defaults ship from `@pranxy/zordon-ui/button`; automated browser/SSR/axe/visual evidence is recorded, while manual AT, forced-colors, and Angular 21/22 compatibility remain pending.                               |
 | ACT-02 | Dropdown         | All placements/alignments; click/hover/focus/manual triggers; controlled state; auto-flip; outside/Escape close; focus restoration; arbitrary/menu content; nested menus; close policies |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Public Angular 21 Aria/CDK implementation verified; shared runtime and complete API reports reviewed. Unit/type/package/Chromium/SSR/visual checks pass. Manual accessibility and other compatibility lanes pending. See docs/plans/phase-5-dropdown-progress.md. |
 | ACT-03 | FAB / Speed Dial | Single, vertical, and flower arrangements; labels/tooltips; main/close action; corner/offset configuration; controlled state; keyboard; safe areas                                       |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Native Angular 21 disclosure and Button/Tooltip composition verified. Unit/type/API/package/Chromium/SSR/visual checks pass; manual accessibility and physical safe-area review pending. See docs/plans/phase-5-fab-progress.md.                                  |
-| ACT-04 | Modal            | Declarative and service APIs; native dialog/fallback; placements/sizes/fullscreen; focus trap/restore; backdrop/Escape; scroll; nesting/queue; async confirmation; close guards          |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] | Depends on overlay foundation                                                                                                                                                                                                                                     |
+| ACT-04 | Modal            | Declarative and service APIs; native dialog/fallback; placements/sizes/fullscreen; focus trap/restore; backdrop/Escape; scroll; nesting/queue; async confirmation; close guards          |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Native dialog and CDK overlay backends verified on Angular 21. All automated checks pass; manual accessibility and physical mobile review pending. See docs/plans/phase-5-modal-progress.md.                                                                      |
 | ACT-05 | Swap             | On/off/indeterminate; rotate/flip/custom transition; projected states; checkbox/toggle/manual modes; controlled value; disabled/read-only; reduced motion                                |  [x] |   [x] |   [x] |  [~] |  [x] |    [x] |  [ ] | Native Angular 21 implementation and packaged stylesheet verified. Unit/type/API/package/Chromium/SSR/visual checks pass. Manual accessibility and other compatibility lanes pending. See docs/plans/phase-5-swap-progress.md.                                    |
 | ACT-06 | Theme Controller | Checkbox/toggle/radio/select/button UIs; theme registry; light/dark/system; persistence; cross-tab sync; nested scopes; SSR-safe initialization; change events                           |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |  [ ] | Depends on theme foundation                                                                                                                                                                                                                                       |
 
@@ -540,6 +541,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                                                                                                                                                                                           | Components/phases      | Owner or link                                        |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------------------------- |
+| 2026-09-18 | Added Modal with native and overlay backends, controlled templates, typed refs, guarded async confirmation, nesting/queue, focus restoration and shared scroll locking. All automated checks pass; delivery is 48/68. Manual accessibility and physical mobile review remain pending.                                                                                            | Phase 5 implementation | `docs/plans/phase-5-modal-progress.md`               |
 | 2026-09-14 | Added FAB / Speed Dial with native main/disclosure actions, controlled requests, logical corners, safe-area offsets, responsive flower layout and Button/Tooltip composition. All automated checks pass; delivery is 47/68. Manual accessibility and physical-device review remain pending.                                                                                      | Phase 5 implementation | `docs/plans/phase-5-fab-progress.md`                 |
 | 2026-09-14 | Added Tooltip descriptive and interactive help with hover/focus/touch/manual state, collision-aware arrows and shared Dropdown stacking. All automated checks pass; delivery is 46/68. Overlay shared-identity gate is verified; manual accessibility remains pending.                                                                                                           | Phase 5 implementation | `docs/plans/phase-5-tooltip-progress.md`             |
 | 2026-09-14 | Added native Swap checkbox, controlled toggle-button and manual modes with decorative state parts, read-only guards and packaged reduced-motion styling. Unit coverage, types, API, package, Chromium, SSR and visual checks pass; automated delivery is 45/68. Manual accessibility remains pending; FAB still depends on Tooltip.                                              | Phase 5 implementation | `docs/plans/phase-5-swap-progress.md`                |

@@ -4,9 +4,10 @@ Zordon's private body-lock manager composes public CDK `BlockScrollStrategy` beh
 multiple blocking overlays. It does not expose a consumer service or own application page layout.
 
 This foundation is **Partial**. Source-level nesting, cleanup, and SSR boundaries are implemented
-and tested. Completion requires a real Modal or Drawer to prove hydration and physical mobile
-behavior. Dropdown and Tooltip now satisfy the shared packaged-runtime gate under ADR 0009;
-neither is a blocking component, so this does not complete scroll-lock readiness.
+and tested. Modal now proves ordinary production hydration, nested blocking ownership and final
+lock release through the shared bridge. Physical iOS/Android scroll and keyboard review remains
+required before this foundation is Complete. Dropdown, Tooltip and Modal satisfy shared packaged
+runtime identity under ADRs 0009 and 0010. See [Modal progress](../plans/phase-5-modal-progress.md).
 
 ## Lock ownership and lifecycle
 
@@ -73,18 +74,21 @@ the first blocking component is mobile-ready.
 ## SSR, package, and verification
 
 The coordinator checks the browser platform before creating an overlay, strategy, or lease. Server
-HTML therefore has no lock class, offsets, or overlay DOM. The first component must prove event
-replay opens once after hydration and final close restores document state without mismatch.
+HTML therefore has no lock class, offsets, or overlay DOM. Modal's production SSR tests verify
+closed server output, hydrated opening, nested popup dismissal and final lock release without
+mismatch errors. A deliberately delayed pre-hydration replay boundary and physical mobile behavior
+are not claimed by these ordinary hydration tests.
 
 The runtime now lives in the version-locked `internal-overlay` bridge under ADR 0009, with explicit
 API reporting and package checks for its shared identity. Consumer component APIs expose no CDK
-objects. This packaging evidence does not substitute for a real blocking component's hydration test.
+objects. Modal supplies the real blocking-component hydration evidence; it does not replace physical
+mobile review.
 
 Focused tests cover ref counting, arbitrary release order, repeated lifecycle calls, injector
 destruction, policy mapping, cleanup, server no-op, and event ownership. A real-browser scenario is
 authored for scroll restoration, sibling blockers, background suppression, inner scrolling, layout
-stability, consumer state preservation, and cleanup; it remains an execution gate when browser
-launch is available.
+stability, consumer state preservation, and cleanup. The full Chromium suite and Modal's concrete
+browser/SSR cases pass; human mobile review remains an execution gate.
 
 ## Sources
 

@@ -12,6 +12,8 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0006](0006-packaging-and-public-api.md)           | Packaging, entry points, and public API              | Accepted |
 | [0007](0007-accessibility-ssr-and-localization.md) | Accessibility, SSR, localization, and directionality | Accepted |
 | [0008](0008-angular-aria.md)                       | Angular Aria headless interaction foundation         | Accepted |
+| [0009](0009-shared-overlay-runtime.md)             | One packaged overlay runtime                         | Accepted |
+| [0010](0010-modal-native-and-overlay.md)           | Native Modal and explicit overlay backend            | Accepted |
 
 ## Applied architecture maps
 

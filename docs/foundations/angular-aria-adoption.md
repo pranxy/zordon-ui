@@ -310,6 +310,15 @@ primitive is composed. Button owns daisyUI styling and optional descriptive Tool
 existing overlay runtime. FAB itself owns hidden/inert disclosure state, controlled requests,
 outside/focus departure and Escape after Tooltip arbitration, without a new overlay or focus trap.
 
+## Modal on Angular 21
+
+Modal defaults to native dialog modality, with an explicit shared-CDK overlay backend for content
+that needs portaled Dropdown/Tooltip widgets. No Aria widget is necessary. The browser owns native
+focus/modality; CDK owns fallback focus trapping and the existing bridge owns stack arbitration,
+directionality and ref-counted scroll locking. Zordon owns guarded/controlled close requests,
+queueing, confirmation work and lifecycle cleanup. [ADR 0010](../architecture/0010-modal-native-and-overlay.md)
+records native top-layer composition limits and the contained fallback.
+
 ## Component readiness checklist
 
 Before implementing a component that might use Angular Aria, record:

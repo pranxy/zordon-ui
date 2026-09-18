@@ -1,0 +1,91 @@
+.zd-modal-pane {
+  max-inline-size: 100vw;
+  max-block-size: 100dvh;
+}
+.zd-modal-dialog {
+  opacity: 1;
+  scale: 1;
+  translate: none;
+  transition: none;
+  box-sizing: border-box;
+  inline-size: min(32rem, calc(100vw - 2rem));
+  max-inline-size: calc(100vw - 2rem);
+  max-block-size: calc(100dvh - 2rem);
+  padding: 1.5rem;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box, 1rem);
+  background: var(--color-base-100);
+  color: var(--color-base-content);
+  box-shadow: 0 1rem 3rem #0004;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.zd-modal-dialog[data-native='false'] {
+  position: relative;
+  margin: 1rem;
+  inset: auto;
+}
+.zd-modal-dialog[data-native='true'] {
+  position: fixed;
+  margin: auto;
+  inset: 0;
+}
+.zd-modal-dialog[data-size='sm'] {
+  inline-size: min(24rem, calc(100vw - 2rem));
+}
+.zd-modal-dialog[data-size='lg'] {
+  inline-size: min(48rem, calc(100vw - 2rem));
+}
+.zd-modal-dialog[data-size='full'] {
+  inline-size: 100vw;
+  max-inline-size: 100vw;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  border-radius: 0;
+  padding: max(1.5rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right))
+    max(1.5rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left));
+}
+.zd-modal-dialog:not([data-size='full'])[data-native='true'][data-placement='top'] {
+  margin-block-start: 1rem;
+}
+.zd-modal-dialog:not([data-size='full'])[data-native='true'][data-placement='bottom'] {
+  margin-block-end: 1rem;
+}
+.zd-modal-dialog:not([data-size='full'])[data-native='true'][data-placement='start'] {
+  margin-inline-start: 1rem;
+}
+.zd-modal-dialog:not([data-size='full'])[data-native='true'][data-placement='end'] {
+  margin-inline-end: 1rem;
+}
+.zd-modal-dialog::backdrop,
+.zd-modal-backdrop {
+  background: #0008;
+}
+.zd-modal-dialog :focus-visible,
+.zd-modal-dialog:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+.zd-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: end;
+  margin-block-start: 1.5rem;
+}
+.zd-modal-actions button {
+  padding: 0.5rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: var(--radius-field, 0.5rem);
+}
+@media (prefers-reduced-motion: reduce) {
+  .zd-modal-dialog {
+    animation: none;
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .zd-modal-dialog {
+    border: 2px solid CanvasText;
+  }
+}

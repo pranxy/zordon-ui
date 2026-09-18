@@ -94,6 +94,11 @@ container cleanup. Dropdown and Tooltip extend browser, SSR/hydration, focus, di
 package coverage. Blocking scroll-lock hydration/mobile evidence and human accessibility remain
 separate component gates. See [Tooltip progress](../plans/phase-5-tooltip-progress.md).
 
+Modal now adds a third packaged consumer, native and overlay-mode dismissal, nested blocking leases
+and ordinary production hydration evidence. Its backend boundaries are recorded in
+[ADR 0010](../architecture/0010-modal-native-and-overlay.md). Physical mobile scroll/keyboard and
+human accessibility gates remain open.
+
 ## Sources
 
 - [Angular CDK Overlay API](https://material.angular.dev/cdk/overlay/api)
