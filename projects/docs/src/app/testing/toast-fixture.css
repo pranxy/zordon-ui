@@ -1,0 +1,33 @@
+:host {
+  display: block;
+  width: min(48rem, calc(100vw - 2rem));
+}
+main {
+  padding: 1rem;
+  min-height: 30rem;
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+  border-radius: 1rem;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+p {
+  margin-block: 0.75rem;
+}
+button,
+select {
+  color: inherit;
+  background: var(--color-base-100);
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 2.75rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}

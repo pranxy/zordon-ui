@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/toast',
+    loadComponent: () =>
+      import('./testing/toast-test-fixture.component').then(
+        module => module.ToastTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/skeleton',
     loadComponent: () =>
       import('./testing/skeleton-test-fixture.component').then(

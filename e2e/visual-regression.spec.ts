@@ -9,6 +9,20 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Toast semantic custom and action content in light desktop and dark RTL mobile', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.goto('/__zordon-tests__/toast');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('button', { name: 'Show styled' }).click();
+  await expect(page.locator('.zd-toast-stack')).toHaveScreenshot('toast--light-stack.png');
+  await page.setViewportSize({ width: 360, height: 1000 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.locator('.zd-toast-stack')).toHaveScreenshot('toast--dark-rtl-mobile.png');
+});
 test('Skeleton shapes and compositions in light desktop and dark RTL mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1600 });

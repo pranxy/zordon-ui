@@ -20,6 +20,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0014](0014-native-progress-and-buffer.md)          | Native Progress and decorative buffering             | Accepted |
 | [0015](0015-radial-progress-semantics.md)           | Radial Progress semantics and projected content      | Accepted |
 | [0016](0016-skeleton-artwork-and-busy-regions.md)   | Skeleton artwork and busy regions                    | Accepted |
+| [0017](0017-toast-outlet-and-announcements.md)      | Toast outlet and local announcements                 | Accepted |
 
 ## Applied architecture maps
 

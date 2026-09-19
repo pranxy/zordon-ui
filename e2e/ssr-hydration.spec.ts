@@ -1,5 +1,32 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Toast renders deterministic server notices and hydrates scoped notification lifecycle', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/toast');
+    await expect(server.locator('zd-alert')).toContainText('Server-ready notice');
+    await expect(server.getByRole('status')).toHaveText('');
+    await expect(server.locator('.cdk-live-announcer-element, .cdk-overlay-container')).toHaveCount(
+      0,
+    );
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/toast');
+  await page.getByRole('button', { name: 'Queue five' }).click();
+  await expect(page.locator('zd-alert')).toHaveCount(3);
+  await page.getByRole('button', { name: 'Dismiss notification' }).first().click();
+  await expect(page.getByRole('status')).toHaveText('Queued 4');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
 test('Skeleton renders server busy regions and hydrates consumer-owned content replacement', async ({
   browser,
   page,

@@ -1,0 +1,6 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: toast, alert;
+}
+@source inline('toast toast-top toast-middle toast-bottom toast-start toast-center toast-end alert alert-horizontal alert-info alert-success alert-warning alert-error');

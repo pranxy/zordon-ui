@@ -143,7 +143,7 @@ means the component specification must select that semantic mode explicitly.
 | FDB-03 | Progress         | Native `<progress>` where possible                                                                        |
 | FDB-04 | Radial Progress  | Native progress value plus visual radial presentation                                                     |
 | FDB-05 | Skeleton         | Presentational placeholder plus owning region's busy/name policy                                          |
-| FDB-06 | Toast            | Live-region semantics plus CDK overlay/outlet lifecycle; no Angular Aria family                           |
+| FDB-06 | Toast            | Native local live regions and fixed outlet; packaged Alert timer lifecycle                                |
 | FDB-07 | Tooltip          | Accessible-description relationship plus CDK overlay/positioning; no Angular Aria family                  |
 | INP-01 | Calendar         | Angular Aria Grid for the date grid; Zordon date, locale, form, and overlay logic                         |
 | INP-02 | Checkbox         | Native checkbox input                                                                                     |
@@ -371,6 +371,13 @@ This non-interactive indicator needs no Angular Aria or CDK widget; see ADR 0015
 Skeleton (FDB-05) is decorative, aria-hidden and inert. A separate native-host directive binds
 aria-busy on the consumer region without managing content, focus or announcements. No Angular
 Aria or CDK widget is needed; see ADR 0016.
+
+## Toast outlet decision
+
+Toast (FDB-06) uses a declarative fixed outlet with pre-existing native status/alert regions.
+Alert owns paused timers. The outlet needs neither modal overlay arbitration nor an imperative
+LiveAnnouncer; this follows the native-first announcement contract. See ADR 0017 for top-layer
+limits, lifecycle, focus restoration and consumer responsibilities.
 
 ## Official references
 
