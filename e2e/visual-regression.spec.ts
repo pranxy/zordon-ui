@@ -9,6 +9,21 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Skeleton shapes and compositions in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1600 });
+  await page.goto('/__zordon-tests__/skeleton');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('skeleton-fixture')).toHaveScreenshot(
+    'skeleton--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 2500 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('skeleton-fixture')).toHaveScreenshot(
+    'skeleton--dark-rtl-mobile.png',
+  );
+});
 test('Radial Progress values, sizes and colors in light desktop and dark RTL mobile', async ({
   page,
 }) => {

@@ -366,6 +366,12 @@ Radial Progress (FDB-04) uses one explicit progressbar role for its CSS ring and
 Actual values and accessible text remain separate from normalized geometry and decorative content.
 This non-interactive indicator needs no Angular Aria or CDK widget; see ADR 0015.
 
+## Skeleton native decision
+
+Skeleton (FDB-05) is decorative, aria-hidden and inert. A separate native-host directive binds
+aria-busy on the consumer region without managing content, focus or announcements. No Angular
+Aria or CDK widget is needed; see ADR 0016.
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)

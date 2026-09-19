@@ -1,5 +1,35 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Skeleton renders server busy regions and hydrates consumer-owned content replacement', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/skeleton');
+    await expect(server.getByRole('region', { name: 'Profile', exact: true })).toHaveAttribute(
+      'aria-busy',
+      'true',
+    );
+    await expect(server.getByTestId('skeleton-active')).toHaveAttribute('aria-hidden', 'true');
+    await expect(server.getByRole('status')).toHaveText('Loading profile');
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/skeleton');
+  await page.getByRole('button', { name: 'Finish loading' }).click();
+  await expect(page.getByRole('region', { name: 'Profile', exact: true })).toHaveAttribute(
+    'aria-busy',
+    'false',
+  );
+  await expect(page.getByRole('button', { name: 'Edit profile' })).toBeVisible();
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
 test('Radial Progress renders named server values and hydrates thresholds and unknown totals', async ({
   browser,
   page,

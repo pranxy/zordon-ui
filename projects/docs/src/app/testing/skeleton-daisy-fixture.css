@@ -1,0 +1,6 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: skeleton;
+}
+@source inline('skeleton');

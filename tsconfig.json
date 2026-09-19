@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/skeleton": ["projects/components/skeleton/src/public-api.ts"],
       "@pranxy/zordon-ui/radial-progress": [
         "projects/components/radial-progress/src/public-api.ts"
       ],
