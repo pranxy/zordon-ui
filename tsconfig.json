@@ -4,6 +4,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/radial-progress": [
+        "projects/components/radial-progress/src/public-api.ts"
+      ],
       "@pranxy/zordon-ui/progress": ["projects/components/progress/src/public-api.ts"],
       "@pranxy/zordon-ui/loading": ["projects/components/loading/src/public-api.ts"],
       "@pranxy/zordon-ui/alert": ["projects/components/alert/src/public-api.ts"],

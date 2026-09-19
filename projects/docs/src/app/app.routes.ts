@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/radial-progress',
+    loadComponent: () =>
+      import('./testing/radial-progress-test-fixture.component').then(
+        module => module.RadialProgressTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/progress',
     loadComponent: () =>
       import('./testing/progress-test-fixture.component').then(

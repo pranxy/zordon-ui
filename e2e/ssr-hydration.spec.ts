@@ -1,5 +1,36 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Radial Progress renders named server values and hydrates thresholds and unknown totals', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/radial-progress');
+    await expect(
+      server.getByRole('progressbar', { name: 'Download', exact: true }),
+    ).toHaveAttribute('aria-valuenow', '50');
+    await expect(server.getByRole('progressbar', { name: 'Preparing export' })).not.toHaveAttribute(
+      'aria-valuenow',
+    );
+    await expect(server.getByTestId('radial-projected')).toHaveText('✓Done');
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/radial-progress');
+  await page.getByRole('button', { name: 'Complete', exact: true }).click();
+  await expect(page.getByTestId('radial-completion')).toHaveText('Download complete');
+  await page.getByRole('button', { name: 'Unknown duration' }).click();
+  await expect(
+    page.getByRole('progressbar', { name: 'Download', exact: true }),
+  ).not.toHaveAttribute('aria-valuenow');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
 test('Progress renders native server values and hydrates completion without duplicate semantics', async ({
   browser,
   page,

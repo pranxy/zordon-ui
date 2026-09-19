@@ -9,6 +9,23 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Radial Progress values, sizes and colors in light desktop and dark RTL mobile', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1600 });
+  await page.goto('/__zordon-tests__/radial-progress');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('radial-fixture')).toHaveScreenshot(
+    'radial-progress--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 2500 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('radial-fixture')).toHaveScreenshot(
+    'radial-progress--dark-rtl-mobile.png',
+  );
+});
 test('Progress native values and buffers in light desktop and dark RTL mobile', async ({
   page,
 }) => {

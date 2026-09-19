@@ -219,6 +219,7 @@ test('commits the generated primary API report and exposes check/update scripts'
     [
       'api-extractor-loading.json',
       'api-extractor-progress.json',
+      'api-extractor-radial-progress.json',
       'api-extractor-alert.json',
       'api-extractor-calendar.json',
       'api-extractor-modal.json',

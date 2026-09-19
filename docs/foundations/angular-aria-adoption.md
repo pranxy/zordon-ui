@@ -360,6 +360,12 @@ Progress (FDB-03) wraps one native `<progress>` with validated value/max, requir
 formatted value text and a decorative buffer. Native indeterminate and completion semantics
 need no Angular Aria or CDK widget. See ADR 0014 for state, SSR and motion ownership.
 
+## Radial Progress decision
+
+Radial Progress (FDB-04) uses one explicit progressbar role for its CSS ring and projected center.
+Actual values and accessible text remain separate from normalized geometry and decorative content.
+This non-interactive indicator needs no Angular Aria or CDK widget; see ADR 0015.
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)
