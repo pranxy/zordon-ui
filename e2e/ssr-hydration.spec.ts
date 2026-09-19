@@ -1,5 +1,38 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Accordion renders labelled server panels and hydrates Aria expansion and lazy content', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/accordion');
+    await expect(server.locator('#profile-trigger')).toHaveAttribute('aria-expanded', 'true');
+    await expect(server.locator('#profile-panel')).toBeVisible();
+    await expect(server.locator('#profile-panel')).toHaveAttribute(
+      'aria-labelledby',
+      'profile-trigger',
+    );
+    await expect(server.locator('#billing')).toBeHidden();
+    await expect(server.locator('input[aria-label="Invoice note"]')).toHaveCount(0);
+    await server.locator('summary').filter({ hasText: 'Native second' }).click();
+    await expect(server.locator('details').nth(1)).toHaveAttribute('open', '');
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/accordion');
+  await page.getByRole('button', { name: 'Billing', exact: true }).click();
+  await expect(page.locator('#profile-panel')).toBeHidden();
+  await expect(page.getByRole('textbox', { name: 'Invoice note' })).toBeVisible();
+  await expect(page.locator('#billing-trigger')).toHaveAttribute('aria-controls', 'billing');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Toast renders deterministic server notices and hydrates scoped notification lifecycle', async ({
   browser,
   page,

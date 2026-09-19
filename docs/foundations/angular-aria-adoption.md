@@ -392,3 +392,11 @@ limits, lifecycle, focus restoration and consumer responsibilities.
 - [Toolbar](https://v21.angular.dev/guide/aria/toolbar)
 - [Tree](https://v21.angular.dev/guide/aria/tree)
 - [Angular roadmap](https://v21.angular.dev/roadmap)
+
+## Accordion implementation decision
+
+DSP-01 composes the public Angular Aria Group, Trigger and Panel. Zordon owns lazy view
+creation/preservation, hidden panel styling and input-event boundaries; nested groups use a
+child component template boundary. Native details/radio alternatives stay in Collapse.
+See [ADR 0018](../architecture/0018-accordion-aria-composition.md) and the
+[Accordion guide](../components/accordion.md) for model and composition contracts.

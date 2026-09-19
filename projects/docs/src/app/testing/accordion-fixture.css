@@ -1,0 +1,58 @@
+:host {
+  display: block;
+  width: min(44rem, calc(100vw - 2rem));
+}
+main {
+  max-width: 44rem;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: var(--color-base-content);
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-weight: 600;
+}
+p {
+  margin-block: 0.75rem;
+}
+section {
+  display: grid;
+  gap: 0.75rem;
+  margin-block: 1rem;
+}
+zd-accordion-item,
+details,
+.native-radio {
+  background: var(--color-base-200);
+  border: 1px solid var(--color-base-content);
+}
+label {
+  display: block;
+}
+input {
+  max-width: 100%;
+  padding: 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  background: var(--color-base-100);
+  color: inherit;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.controls button,
+a {
+  padding: 0.65rem;
+  color: inherit;
+  border: 1px solid currentColor;
+  border-radius: 0.4rem;
+  background: var(--color-base-100);
+}
+.custom {
+  float: inline-end;
+}
