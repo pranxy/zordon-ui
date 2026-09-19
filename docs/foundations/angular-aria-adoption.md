@@ -347,6 +347,13 @@ semantics and consumer-accepted dismissal requests need no Angular Aria widget o
 Its browser-only timer pauses for pointer, focus and hidden-document state. See
 [ADR 0012](../architecture/0012-inline-alert-dismissal.md).
 
+## Loading native decision
+
+Loading (FDB-02) uses native status semantics with separately hidden artwork and needs no Angular
+Aria widget or CDK overlay. Its overlay option is only non-blocking positioning. Delayed feedback
+and reduced-motion/forced-color fallback belong to the component. See
+[ADR 0013](../architecture/0013-loading-status-and-motion.md).
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)

@@ -1,5 +1,37 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Loading renders stable server status content and hydrates delayed feedback', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/loading');
+    await expect(server.getByTestId('loading-custom').locator('.zd-loading-status')).toHaveText(
+      'Preparing export',
+    );
+    await expect(server.getByTestId('loading-delayed').locator('.zd-loading-status')).toHaveText(
+      '',
+    );
+    await expect(server.getByTestId('loading-matrix').locator('zd-loading')).toHaveCount(38);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/loading');
+  await page.getByRole('button', { name: 'Start work' }).click();
+  await expect(page.getByTestId('loading-delayed').locator('.zd-loading-status')).toHaveText(
+    'Loading results',
+  );
+  await page.getByRole('button', { name: 'Finish work' }).click();
+  await expect(page.getByTestId('loading-delayed').locator('.zd-loading-status')).toHaveText('');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Alert renders meaningful native content on the server and hydrates controlled dismissal', async ({
   browser,
   page,

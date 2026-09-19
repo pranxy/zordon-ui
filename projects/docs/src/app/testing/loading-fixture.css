@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  width: min(56rem, calc(100vw - 2rem));
+}
+main {
+  padding: 1rem;
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+  border-radius: 1rem;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+h2 {
+  font-weight: 600;
+  margin-block-end: 1rem;
+}
+p {
+  margin-block: 0.75rem;
+}
+button {
+  border: 1px solid currentColor;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 2.75rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.work,
+.overlay-demo {
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-block: 1rem;
+}
+.overlay-demo {
+  position: relative;
+  min-block-size: 10rem;
+}
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-block-start: 1rem;
+}
+.matrix section {
+  padding: 1rem;
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.5rem;
+}
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+}
+.sizes > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+.colors {
+  grid-column: 1 / -1;
+}
+.custom-art {
+  display: inline-block;
+  font-size: 2rem;
+  animation: loading-fixture-turn 2s linear infinite;
+}
+@keyframes loading-fixture-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 40rem) {
+  .matrix {
+    grid-template-columns: 1fr;
+  }
+}

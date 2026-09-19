@@ -9,6 +9,28 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Loading static motion fallback in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1200 });
+  await page.goto('/__zordon-tests__/loading');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('loading-matrix')).toHaveScreenshot(
+    'loading--static-light-matrix.png',
+  );
+  // Fit the tall gallery so the documentation's sticky header stays outside this capture.
+  await page.setViewportSize({ width: 360, height: 2400 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await page.getByRole('button', { name: 'Start work' }).click();
+  await expect(page.getByTestId('loading-delayed')).toHaveAttribute(
+    'data-zd-loading-visible',
+    'true',
+  );
+  await expect(page.getByTestId('loading-fixture')).toHaveScreenshot(
+    'loading--static-dark-rtl.png',
+  );
+});
+
 test('Alert semantic variants in light desktop and dark RTL mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/alert');
