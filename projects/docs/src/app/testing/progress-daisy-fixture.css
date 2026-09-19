@@ -1,0 +1,6 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: progress;
+}
+@source inline('progress progress-neutral progress-primary progress-secondary progress-accent progress-info progress-success progress-warning progress-error');

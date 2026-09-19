@@ -17,6 +17,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0011](0011-theme-controller-scoped-preferences.md) | Scoped Theme Controller preferences                  | Accepted |
 | [0012](0012-inline-alert-dismissal.md)              | Inline Alert semantics and controlled dismissal      | Accepted |
 | [0013](0013-loading-status-and-motion.md)           | Loading status, delay and static motion fallback     | Accepted |
+| [0014](0014-native-progress-and-buffer.md)          | Native Progress and decorative buffering             | Accepted |
 
 ## Applied architecture maps
 

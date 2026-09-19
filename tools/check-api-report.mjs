@@ -7,6 +7,11 @@ const toolsDirectory = dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = resolve(toolsDirectory, '..');
 export const apiReports = [
   {
+    configPath: resolve(toolsDirectory, 'api-extractor-progress.json'),
+    baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-progress.api.md'),
+    candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-progress.api.md'),
+  },
+  {
     configPath: resolve(toolsDirectory, 'api-extractor-loading.json'),
     baselinePath: resolve(workspaceRoot, 'etc/api/zordon-ui-loading.api.md'),
     candidatePath: resolve(workspaceRoot, 'temp/api-extractor/zordon-ui-loading.api.md'),

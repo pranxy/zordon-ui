@@ -9,6 +9,23 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Progress native values and buffers in light desktop and dark RTL mobile', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1500 });
+  await page.goto('/__zordon-tests__/progress');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('progress-fixture')).toHaveScreenshot(
+    'progress--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 1800 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('progress-fixture')).toHaveScreenshot(
+    'progress--dark-rtl-mobile.png',
+  );
+});
 test('Loading static motion fallback in light desktop and dark RTL mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1200 });

@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'progress',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/progress-test-fixture.component').then(
+        module => module.ProgressTestFixtureComponent,
+      ),
+  },
+  {
     path: 'loading',
     loadComponent: () =>
       import('../../../docs/src/app/testing/loading-test-fixture.component').then(

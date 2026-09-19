@@ -1,5 +1,39 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Progress renders native server values and hydrates completion without duplicate semantics', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/progress');
+    await expect(server.getByRole('progressbar', { name: 'Upload', exact: true })).toHaveAttribute(
+      'value',
+      '50',
+    );
+    await expect(server.getByRole('progressbar', { name: 'Preparing export' })).not.toHaveAttribute(
+      'value',
+    );
+    await expect(
+      server.getByTestId('progress-upload').locator('.zd-progress-buffer'),
+    ).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/progress');
+  await page.getByRole('button', { name: 'Complete upload' }).click();
+  await expect(page.getByTestId('progress-completion')).toHaveText('Upload complete');
+  await page.getByRole('button', { name: 'Unknown duration' }).click();
+  await expect(page.getByRole('progressbar', { name: 'Upload', exact: true })).not.toHaveAttribute(
+    'value',
+  );
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
 test('Loading renders stable server status content and hydrates delayed feedback', async ({
   browser,
   page,

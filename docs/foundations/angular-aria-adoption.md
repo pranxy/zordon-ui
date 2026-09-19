@@ -354,6 +354,12 @@ Aria widget or CDK overlay. Its overlay option is only non-blocking positioning.
 and reduced-motion/forced-color fallback belong to the component. See
 [ADR 0013](../architecture/0013-loading-status-and-motion.md).
 
+## Progress native decision
+
+Progress (FDB-03) wraps one native `<progress>` with validated value/max, required naming,
+formatted value text and a decorative buffer. Native indeterminate and completion semantics
+need no Angular Aria or CDK widget. See ADR 0014 for state, SSR and motion ownership.
+
 ## Official references
 
 - [Angular Aria overview](https://v21.angular.dev/guide/aria/overview)
