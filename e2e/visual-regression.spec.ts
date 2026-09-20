@@ -7,6 +7,18 @@ import {
 } from './fixtures/environment';
 import type { ZdTestTheme } from './fixtures/environment';
 
+test('Navbar light desktop and expanded dark RTL mobile navigation', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1100 });
+  await page.goto('/__zordon-tests__/navbar');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('navbar-fixture')).toHaveScreenshot('navbar--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1300 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('navbar-fixture')).toHaveScreenshot('navbar--dark-rtl-mobile.png');
+});
+
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
 test('Menu native lists and Aria hierarchy in light desktop and dark RTL mobile', async ({

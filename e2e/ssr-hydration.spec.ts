@@ -1,5 +1,49 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Navbar renders responsive native links before hydration and accepts mobile state after hydration', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 360, height: 1100 },
+  });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/navbar');
+    const panel = server.getByRole('navigation', { name: 'Mobile destinations' });
+    await expect(panel.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/navbar');
+    await expect(panel.getByRole('link', { name: 'Overview' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await expect(panel.getByRole('link', { name: 'Projects' })).toBeVisible();
+    await expect(server.getByRole('button', { name: 'Menu', exact: true })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.setViewportSize({ width: 360, height: 1100 });
+  await page.goto('/navbar');
+  const toggle = page.getByRole('button', { name: 'Menu', exact: true });
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
+  await page
+    .getByRole('navigation', { name: 'Mobile destinations' })
+    .getByRole('link', { name: 'Projects' })
+    .click();
+  await expect(page).toHaveURL(/section=projects/);
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Menu renders native links and initial expansion before hydration then hydrates Router and Aria Tree', async ({
   browser,
   page,
