@@ -14,6 +14,9 @@ npx playwright install chromium
 npm run test:consumer -- minimum
 npm run test:consumer -- baseline
 npm run test:consumer -- latest
+npm run test:consumer -- minimum --ssr
+npm run test:consumer -- baseline --ssr
+npm run test:consumer -- latest --ssr
 ```
 
 On Linux, use `npx playwright install --with-deps chromium` to install browser system dependencies.
@@ -51,13 +54,22 @@ Each lane:
   expected Zone presence/absence, Button signal updates, native Forms model updates, and controlled
   Aria-backed Tabs keyboard selection and panel rendering. Browser errors fail the run.
 
+With `--ssr`, each lane instead builds production server applications in both zone modes,
+using matching framework/server and CLI/SSR versions. A separate Node process serves each build
+on an ephemeral loopback port. The checks require meaningful server HTML and no-JavaScript
+content, identical IDs and resolved accessible relationships across requests, and reuse of the
+original button, input, tab and panel nodes during hydration. Browser scripts are held until
+the original nodes are captured, then released before checking live interactions. Browser and
+server errors fail the run. Servers and browser contexts close on success or failure.
+
 The fixture intentionally has no consumer theme pipeline. These are package/compiler/runtime
-smoke checks, not a replacement for styling, all-component interactions, SSR/hydration, accessibility,
+smoke checks, not a replacement for styling, all-component interactions, incremental hydration, accessibility,
 or tree-shaking budgets. The **68 typed exports** include the root and internal entry; they are
 not the **68 catalog components**.
 
-Reports and command output are retained under `tmp/consumer-compatibility/<lane>/`. Every run
-creates a fresh isolated workspace; its path is printed and retained for diagnosis. Dependency
+Reports and command output are retained under `tmp/consumer-compatibility/<lane>/`. Runs
+with `--ssr` use `tmp/consumer-ssr/<lane>/`, including server HTML and relationship evidence.
+Every run creates a fresh isolated workspace; its path is printed and retained for diagnosis. Dependency
 resolution uses exact direct pins but current compatible transitives, captured in the report
 lockfile. A later run can expose a transitive regression.
 

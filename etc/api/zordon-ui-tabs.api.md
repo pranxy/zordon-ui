@@ -94,6 +94,8 @@ export class ZdTabs {
     // (undocumented)
     readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
+    protected domId(role: 'tab' | 'panel', id: string): string;
+    // (undocumented)
     readonly items: _angular_core.InputSignal<readonly ZdTabItem[]>;
     // (undocumented)
     readonly label: _angular_core.InputSignal<string>;

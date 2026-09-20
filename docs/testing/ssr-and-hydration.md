@@ -105,6 +105,13 @@ settles once through a controllable completion. This does not prove a pre-hydrat
 server idempotency, cancellation, or the future Button package path; the first action component
 owns those gates under the [async-action foundation](../foundations/async-actions.md).
 
+The [packaged consumer gate](consumer-compatibility.md) adds production SSR and ordinary
+hydration checks in isolated Angular 21.0.0, 21.2.19 and 22.1.7 consumers, with and without Zone.
+It compares consecutive-response IDs, holds browser scripts to capture server nodes, and
+requires those same nodes and accessible relationships after hydration before interaction.
+This covers packaged Button, native Forms, Tabs and the ID generator; it does not establish
+all-component or independently triggered incremental hydration compatibility.
+
 ## Upstream references
 
 - [Angular server-side rendering](https://angular.dev/best-practices/performance/ssr)

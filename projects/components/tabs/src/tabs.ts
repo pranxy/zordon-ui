@@ -21,7 +21,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
-import { ZdClassNames, type ZdOrientation, type ZdSize } from '@pranxy/zordon-ui';
+import { ZdClassNames, ZdIdGenerator, type ZdOrientation, type ZdSize } from '@pranxy/zordon-ui';
 
 export interface ZdTabItem {
   readonly id: string;
@@ -67,7 +67,7 @@ export class ZdTabContent {
 /** Host composition gives accepted attributes precedence over Aria's initial host state. */
 @Directive({
   selector: '[zdTabsTrigger]',
-  hostDirectives: [{ directive: Tab, inputs: ['value', 'disabled'] }],
+  hostDirectives: [{ directive: Tab, inputs: ['value', 'disabled', 'id: zdTabId'] }],
   host: {
     '[attr.aria-selected]': 'zdSelected()',
     '[attr.tabindex]': '(zdReady() ? aria.active() : zdSelected()) ? 0 : -1',
@@ -81,7 +81,7 @@ export class TabsTrigger {
 
 @Directive({
   selector: '[zdTabsPanel]',
-  hostDirectives: [{ directive: TabPanel, inputs: ['value'] }],
+  hostDirectives: [{ directive: TabPanel, inputs: ['value', 'id: zdPanelId'] }],
   host: {
     '[hidden]': '!zdVisible()',
     '[attr.inert]': 'zdVisible() ? null : ""',
@@ -125,6 +125,7 @@ export class TabsPanel {
             type="button"
             zdTabsTrigger
             [value]="item.id"
+            [zdTabId]="domId('tab', item.id)"
             [disabled]="disabled() || !!item.disabled"
             [attr.disabled]="disabled() || item.disabled ? '' : null"
             [class]="tabClass"
@@ -140,7 +141,13 @@ export class TabsPanel {
       </div>
       <div class="zd-panels">
         @for (item of checked(); track item.id) {
-          <div zdTabsPanel [value]="item.id" [zdVisible]="item.id === currentId()" class="zd-panel">
+          <div
+            zdTabsPanel
+            [value]="item.id"
+            [zdPanelId]="domId('panel', item.id)"
+            [zdVisible]="item.id === currentId()"
+            class="zd-panel"
+          >
             @if (
               !lazy() || item.id === currentId() || (preserveContent() && visited().has(item.id))
             ) {
@@ -211,6 +218,7 @@ export class ZdTabs {
     later: label => `Move ${label} later`,
   });
   private readonly names = inject(ZdClassNames);
+  private readonly idNamespace = inject(ZdIdGenerator).next('tabs');
   private readonly route = inject(ActivatedRoute, { optional: true });
   private readonly router = inject(Router, { optional: true });
   private readonly params = toSignal(this.route?.queryParamMap ?? of(convertToParamMap({})), {
@@ -284,6 +292,11 @@ export class ZdTabs {
         this.pendingFocus.set(null);
       }
     });
+  }
+  protected domId(role: 'tab' | 'panel', id: string): string {
+    // Delimited code points preserve arbitrary item keys without collisions or IDREF whitespace.
+    const key = Array.from(id, character => character.codePointAt(0)!.toString(16)).join('_');
+    return `${this.idNamespace}-${role}-${key}`;
   }
   protected selection(): void {
     this.request(

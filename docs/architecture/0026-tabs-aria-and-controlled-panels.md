@@ -34,3 +34,11 @@ This requires SSR/hydration, controlled rejection, manual/automatic keyboard, re
 panel-identity, Router-history and axe evidence. Manual assistive technology, theme contrast,
 physical touch and zoom review remain release gates. Angular/CDK/Aria dependency policy and
 existing coverage/package/build budgets remain unchanged.
+
+The packaged SSR follow-up supplies deterministic IDs through public Aria `id` inputs.
+Aria's default randomized, process-wide sequence changed IDs across server requests and
+hydration. One application-scoped `ZdIdGenerator` namespace per widget and collision-free
+item-key encoding preserve relationships across requests, ordinary hydration and reordering.
+Aria still owns relationship wiring; no private generator is overridden. Widget allocation
+order must match between server and client; independently triggered incremental boundaries
+remain a separate verification gate.

@@ -32,11 +32,15 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Install and verify the packed consumer
         run: npm run test:consumer -- ${{ matrix.lane }}
+      - name: Verify packaged SSR and hydration
+        run: npm run test:consumer -- ${{ matrix.lane }} --ssr
       - name: Upload resolved versions and verification evidence
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: consumer-${{ matrix.lane }}
-          path: tmp/consumer-compatibility/${{ matrix.lane }}/
+          path: |
+            tmp/consumer-compatibility/${{ matrix.lane }}/
+            tmp/consumer-ssr/${{ matrix.lane }}/
           if-no-files-found: error
           retention-days: 14

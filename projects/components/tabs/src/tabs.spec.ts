@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core';
+import { APP_ID, Component, viewChild } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router, provideRouter } from '@angular/router';
@@ -29,6 +29,68 @@ describe('Tabs', () => {
     { id: 'x', label: 'Unavailable', disabled: true },
     { id: 'b', label: 'Beta', content: 'Beta content', closable: true },
   ];
+  function relationships(element: HTMLElement) {
+    const tabs = Array.from(element.querySelectorAll<HTMLElement>('[role="tab"]'));
+    return Object.fromEntries(
+      tabs.map(tab => {
+        const panelId = tab.getAttribute('aria-controls')!;
+        const panel = document.getElementById(panelId)!;
+        expect(tab.id).not.toBe('');
+        expect(panelId).not.toBe('');
+        expect(element.contains(panel)).toBe(true);
+        expect(panel.getAttribute('role')).toBe('tabpanel');
+        expect(panel.getAttribute('aria-labelledby')).toBe(tab.id);
+        expect(panel.textContent!.trim()).toBe(tab.textContent!.trim());
+        return [tab.textContent!.trim(), { tab: tab.id, panel: panelId }];
+      }),
+    );
+  }
+  it('recreates the same tab relationships in fresh applications without colliding between widgets', async () => {
+    const renderApplication = async () => {
+      TestBed.configureTestingModule({ providers: [{ provide: APP_ID, useValue: 'tabs-app' }] });
+      const widgets = [];
+      for (let index = 0; index < 2; index++) {
+        const fixture = TestBed.createComponent(ZdTabs);
+        fixture.componentRef.setInput('items', [{ id: 'a', label: 'Alpha', content: 'Alpha' }]);
+        await fixture.whenStable();
+        widgets.push(relationships(fixture.nativeElement));
+      }
+      const ids = widgets.flatMap(widget =>
+        Object.values(widget).flatMap(pair => Object.values(pair)),
+      );
+      expect(new Set(ids).size).toBe(ids.length);
+      return widgets;
+    };
+    const first = await renderApplication();
+    TestBed.resetTestingModule();
+    expect(await renderApplication()).toEqual(first);
+  });
+  it('keeps item relationships stable through reorder, removal and readdition of arbitrary IDs', async () => {
+    const unusualItems = ['a b', 'a_b', 'a-b', 'a:b', 'é', 'e\u0301', '😀', '1f600'].map(
+      (id, index) => ({ id, label: `Item ${index}`, content: `Item ${index}` }),
+    );
+    const fixture = TestBed.createComponent(ZdTabs);
+    fixture.componentRef.setInput('items', unusualItems);
+    fixture.componentRef.setInput('lazy', false);
+    await fixture.whenStable();
+    const initial = relationships(fixture.nativeElement);
+    const ids = Object.values(initial).flatMap(pair => Object.values(pair));
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(ids.every(id => !/\s/.test(id))).toBe(true);
+    fixture.componentRef.setInput('items', [...unusualItems].reverse());
+    await fixture.whenStable();
+    expect(relationships(fixture.nativeElement)).toEqual(initial);
+    fixture.componentRef.setInput('items', unusualItems.slice(1));
+    await fixture.whenStable();
+    const remaining = relationships(fixture.nativeElement);
+    const { 'Item 0': removed, ...expected } = initial;
+    expect(remaining).toEqual(expected);
+    expect(document.getElementById(removed.tab)).toBeNull();
+    expect(document.getElementById(removed.panel)).toBeNull();
+    fixture.componentRef.setInput('items', unusualItems);
+    await fixture.whenStable();
+    expect(relationships(fixture.nativeElement)).toEqual(initial);
+  });
   it('renders accepted state and rejects optimistic Aria selection until the owner accepts', async () => {
     const fixture = TestBed.createComponent(ZdTabs);
     fixture.componentRef.setInput('items', items);

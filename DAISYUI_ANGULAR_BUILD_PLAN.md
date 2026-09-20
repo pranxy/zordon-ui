@@ -449,6 +449,8 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
       See [consumer compatibility](docs/plans/phase-8-consumer-compatibility-progress.md).
 - [x] Verify the local Linux browser and packaged-consumer gates. See
       [Linux audit evidence and limits](docs/plans/phase-8-browser-audit-progress.md#linux-verification-follow-up).
+- [x] Verify packaged production SSR and ordinary hydration on all three Angular lanes in both
+      zone modes. See [SSR evidence and limits](docs/plans/phase-8-consumer-compatibility-progress.md#packaged-ssr-follow-up).
 - [ ] Verify hosted Linux workflow execution and supported browser products/devices.
 - [ ] Complete the cross-cutting verification matrix and release milestones below.
 
@@ -466,8 +468,9 @@ These are release-level checks in addition to component-level tests.
 - [x] Zone-based and zoneless applications: packaged consumer smoke checks.
 - [x] Development and production builds: all three consumer lanes.
 
-See [consumer verification scope](docs/testing/consumer-compatibility.md); SSR, full component
-behavior across versions, and platform certification remain separate gates.
+See [consumer verification scope](docs/testing/consumer-compatibility.md); ordinary packaged
+SSR/hydration also passes in both zone modes. Full component behavior across versions,
+incremental hydration and platform certification remain separate gates.
 
 - [ ] SSR render and client hydration.
 - [ ] Chrome, Edge, Firefox, Safari, iOS Safari, and Android Chrome in the approved support matrix.

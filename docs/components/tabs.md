@@ -103,7 +103,11 @@ The application owns data caching, form state beyond a view's lifetime, loading 
 
 The panel template renders the accepted initial content during SSR. Interactions require
 hydration; Aria's deferred-content directive is deliberately not used because its creation
-runs after rendering. Aria tab/panel registration still owns relationships. No DOM measurement,
+runs after rendering. Zordon supplies deterministic tab/panel IDs through Aria's public inputs;
+Aria registration owns the relationships. IDs use the application-scoped `ZdIdGenerator` and
+stable item keys. Ordinary hydration requires the same widget allocation order on server and
+client. Independently triggered incremental boundaries remain outside this verified contract.
+No DOM measurement,
 timers, observer or separate keyboard manager is introduced.
 
 ## Closing and reordering
@@ -148,7 +152,8 @@ unchanged. These controls provide accessible reordering; pointer drag-and-drop i
 
 Aria trigger instances are refreshed when their position changes so its registered keyboard
 order matches the rendered order. Panel views remain keyed by stable item ID, retaining state.
-Applications should not cache generated trigger IDs across reorder operations.
+Generated IDs remain stable for each item within the widget across reorder/removal/readdition;
+their spelling remains an implementation detail. Reordering can replace the trigger node.
 
 ## Router and overflow
 
