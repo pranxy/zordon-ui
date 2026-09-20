@@ -9,6 +9,19 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Dock native destinations in light desktop and dark RTL mobile overflow', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.goto('/__zordon-tests__/dock');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('dock-fixture')).toHaveScreenshot('dock--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1200 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await page.getByRole('button', { name: 'Toggle extra items' }).click();
+  await expect(page.getByTestId('dock-fixture')).toHaveScreenshot('dock--dark-rtl-mobile.png');
+});
+
 test('Breadcrumbs collapsed navigation in light desktop and dark RTL mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });

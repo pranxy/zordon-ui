@@ -1,5 +1,44 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Dock renders native server destinations and hydrates route-synchronized current-page state', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/dock');
+    const nav = server.getByRole('navigation', { name: 'Workspace destinations' });
+    await expect(nav.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await expect(nav.getByRole('link', { name: 'Search', exact: true })).toHaveAttribute(
+      'href',
+      /section=search/,
+    );
+    await expect(nav.getByRole('link', { name: 'Settings unavailable' })).not.toHaveAttribute(
+      'href',
+    );
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/dock');
+  const nav = page.getByRole('navigation', { name: 'Workspace destinations' });
+  await nav.getByRole('link', { name: 'Search', exact: true }).click();
+  await expect(page).toHaveURL(/section=search/);
+  await expect(nav.getByRole('link', { name: 'Search', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  await expect(nav.locator('[aria-current]')).toHaveCount(1);
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Breadcrumbs serves native disclosure and structured hierarchy before hydration and preserves Router links', async ({
   browser,
   page,

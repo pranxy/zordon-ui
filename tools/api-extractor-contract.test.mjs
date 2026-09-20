@@ -224,6 +224,7 @@ test('commits the generated primary API report and exposes check/update scripts'
       'api-extractor-toast.json',
       'api-extractor-accordion.json',
       'api-extractor-breadcrumbs.json',
+      'api-extractor-dock.json',
       'api-extractor-alert.json',
       'api-extractor-calendar.json',
       'api-extractor-modal.json',

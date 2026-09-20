@@ -1,0 +1,6 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: dock;
+}
+@source inline('dock dock-xs dock-sm dock-md dock-lg dock-xl dock-active dock-label');

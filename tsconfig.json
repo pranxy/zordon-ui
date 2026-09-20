@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/dock": ["projects/components/dock/src/public-api.ts"],
       "@pranxy/zordon-ui/breadcrumbs": ["projects/components/breadcrumbs/src/public-api.ts"],
       "@pranxy/zordon-ui/accordion": ["projects/components/accordion/src/public-api.ts"],
       "@pranxy/zordon-ui/toast": ["projects/components/toast/src/public-api.ts"],

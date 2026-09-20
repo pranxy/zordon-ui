@@ -130,7 +130,7 @@ means the component specification must select that semantic mode explicitly.
 | DSP-18 | Text Rotate      | Native text with reduced-motion and announcement policy                                                   |
 | DSP-19 | Timeline         | Native ordered/unordered list and time semantics                                                          |
 | NAV-01 | Breadcrumbs      | Native `<nav>`, ordered list and details overflow; see ADR 0019                                           |
-| NAV-02 | Dock             | Native navigation links/buttons; conditional Toolbar only for a true action group                         |
+| NAV-02 | Dock             | Native links and RouterLinkActive; unavailable destinations omit href; no Aria widget (ADR 0020)          |
 | NAV-03 | Link             | Native `<a>` plus Angular Router integration                                                              |
 | NAV-04 | Megamenu         | Native navigation by default; Angular Aria Menubar/Menu only for application commands                     |
 | NAV-05 | Menu             | Angular Aria Menu for commands, Tree for hierarchy, or native navigation links according to approved mode |
