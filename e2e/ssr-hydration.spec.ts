@@ -1,5 +1,41 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Tabs renders selected content and relationships before hydration and hydrates Aria navigation', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/tabs?tab=security');
+    const list = server.getByRole('tablist', { name: 'URL tabs' });
+    const selected = list.getByRole('tab', { name: 'Security' });
+    await expect(selected).toHaveAttribute('aria-selected', 'true');
+    await expect(selected).toHaveAttribute('tabindex', '0');
+    const panelId = await selected.getAttribute('aria-controls');
+    await expect(server.locator(`[id="${panelId}"]`)).toBeVisible();
+    await expect(server.locator(`[id="${panelId}"]`)).toContainText('Security preferences');
+    await expect(server.getByRole('textbox', { name: 'Overview notes' })).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/tabs?tab=security');
+  await expect(page.locator('zd-tabs').first()).toHaveAttribute('data-zd-tabs-ready', 'true');
+  const list = page.getByRole('tablist', { name: 'Workspace' });
+  await list.getByRole('tab', { name: 'Overview' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('heading', { name: 'Activity panel' })).toBeVisible();
+  await expect(list.getByRole('tab', { name: 'Activity' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Steps renders native progress before hydration and hydrates owner-validated wizard progression', async ({
   browser,
   page,

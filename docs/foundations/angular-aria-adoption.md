@@ -400,3 +400,11 @@ creation/preservation, hidden panel styling and input-event boundaries; nested g
 child component template boundary. Native details/radio alternatives stay in Collapse.
 See [ADR 0018](../architecture/0018-accordion-aria-composition.md) and the
 [Accordion guide](../components/accordion.md) for model and composition contracts.
+
+## Tabs implementation decision
+
+NAV-09 composes public Aria Tabs, TabList, Tab and TabPanel for navigation and relationships.
+Zordon owns controlled request restoration, SSR-visible initial templates, lazy/preserved view
+lifecycles, native overflow, close/reorder proposals and Router query selection. Aria TabContent
+is not used because it instantiates after render. Trigger instances refresh on position changes
+while panels remain keyed by ID. See [ADR 0026](../architecture/0026-tabs-aria-and-controlled-panels.md).

@@ -7,6 +7,19 @@ import {
 } from './fixtures/environment';
 import type { ZdTestTheme } from './fixtures/environment';
 
+test('Tabs box border lift panels in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1300 });
+  await page.goto('/__zordon-tests__/tabs?tab=security');
+  await expect(page.locator('zd-tabs').first()).toHaveAttribute('data-zd-tabs-ready', 'true');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('tabs-fixture')).toHaveScreenshot('tabs--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1900 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('tabs-fixture')).toHaveScreenshot('tabs--dark-rtl-mobile.png');
+});
+
 test('Navbar light desktop and expanded dark RTL mobile navigation', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1100 });
