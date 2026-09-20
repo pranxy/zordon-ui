@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@angular/core';
 import { Dir } from '@angular/cdk/bidi';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ZdMegamenu, ZdMegamenuPanel, ZdMegamenuBar } from '@pranxy/zordon-ui/megamenu';
@@ -25,7 +25,11 @@ import {
     ZdDropdownItem,
   ],
   styleUrls: ['./megamenu-fixture.css'],
-  template: `<main data-testid="megamenu-fixture" [dir]="rtl() ? 'rtl' : 'ltr'">
+  template: `<main
+    data-testid="megamenu-fixture"
+    [attr.data-ready]="ready()"
+    [dir]="rtl() ? 'rtl' : 'ltr'"
+  >
     <h1>Megamenu</h1>
     <p>Explore destinations, resources and application commands.</p>
     <div class="controls">
@@ -130,6 +134,10 @@ import {
   </main>`,
 })
 export class MegamenuTestFixtureComponent {
+  readonly ready = signal(false);
+  constructor() {
+    afterNextRender(() => this.ready.set(true));
+  }
   readonly rtl = signal(false);
   readonly full = signal(false);
   readonly present = signal(true);

@@ -144,7 +144,7 @@ const OWNER = new InjectionToken<SurfaceOwner>('Zordon Modal surface owner');
       [attr.open]="owner.native ? null : ''"
       [attr.aria-label]="owner.ref.options.label"
       [attr.aria-description]="owner.ref.options.description ?? null"
-      [attr.aria-modal]="owner.native ? 'true' : null"
+      aria-modal="true"
       [attr.aria-busy]="owner.ref.pending()"
       [attr.data-size]="owner.ref.options.size ?? 'md'"
       [attr.data-placement]="owner.ref.options.placement ?? 'center'"
@@ -154,7 +154,7 @@ const OWNER = new InjectionToken<SurfaceOwner>('Zordon Modal surface owner');
       (cancel)="cancel($event)"
       (close)="nativeClosed()"
       (keydown)="owner.escape($event)"
-      (pointerdown)="pointerOutside = outside($event)"
+      (pointerdown)="rememberPointer($event)"
       (click)="backdrop($event)"
       (submit)="submit($event)"
     >
@@ -194,6 +194,9 @@ class ZdModalSurface {
   protected readonly boxClass = inject(ZdClassNames).daisyUi('modal-box');
   private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
   protected pointerOutside = false;
+  protected rememberPointer(event: MouseEvent): void {
+    this.pointerOutside = this.outside(event);
+  }
   private readonly ready = afterNextRender(() => this.owner.ready(this.dialog().nativeElement));
   protected cancel(event: Event): void {
     event.preventDefault();

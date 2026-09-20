@@ -3,6 +3,7 @@ import {
   Component,
   TemplateRef,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   signal,
   viewChild,
@@ -51,7 +52,11 @@ class DockDaisyStyles {}
           </select></label
         >
         <label
-          >Visibility<select [value]="visibility()" (change)="setVisibility($event)">
+          >Visibility<select
+            [disabled]="!ready()"
+            [value]="visibility()"
+            (change)="setVisibility($event)"
+          >
             <option>always</option>
             <option>mobile</option>
             <option>desktop</option>
@@ -128,6 +133,10 @@ class DockDaisyStyles {}
     </main>`,
 })
 export class DockTestFixtureComponent {
+  readonly ready = signal(false);
+  constructor() {
+    afterNextRender(() => this.ready.set(true));
+  }
   readonly size = signal<ZdDockSize>('md');
   readonly position = signal<ZdDockPosition>('static');
   readonly visibility = signal<ZdDockVisibility>('always');

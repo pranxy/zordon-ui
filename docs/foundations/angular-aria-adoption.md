@@ -408,3 +408,10 @@ Zordon owns controlled request restoration, SSR-visible initial templates, lazy/
 lifecycles, native overflow, close/reorder proposals and Router query selection. Aria TabContent
 is not used because it instantiates after render. Trigger instances refresh on position changes
 while panels remain keyed by ID. See [ADR 0026](../architecture/0026-tabs-aria-and-controlled-panels.md).
+
+## Drawer implementation decision
+
+LYT-02 uses native inline complementary panels and composes the public Modal directive for
+modal navigation. Modal retains CDK focus trapping, shared overlay/scroll ownership and background
+isolation. There is no separate Angular Aria Drawer primitive or duplicate keyboard runtime.
+See [ADR 0027](../architecture/0027-drawer-modal-composition.md) and the [Drawer guide](../components/drawer.md).

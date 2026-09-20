@@ -1,0 +1,89 @@
+zd-drawer {
+  display: block;
+  position: relative;
+  min-inline-size: 0;
+}
+zd-drawer > .zd-drawer-content {
+  min-inline-size: 0;
+}
+.zd-drawer-inline {
+  box-sizing: border-box;
+  padding: 1rem;
+  min-inline-size: 0;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  background: var(--color-base-200, Canvas);
+  color: var(--color-base-content, CanvasText);
+}
+.zd-drawer-inline[hidden] {
+  display: none !important;
+}
+zd-drawer[data-mode='persistent'][data-open='true'] {
+  display: grid;
+  grid-template-columns: minmax(0, min(var(--zd-drawer-width), 45%)) minmax(0, 1fr);
+}
+zd-drawer[data-mode='persistent'][data-side='end'][data-open='true'] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, min(var(--zd-drawer-width), 45%));
+}
+zd-drawer[data-side='end'] > .zd-drawer-inline {
+  order: 1;
+}
+zd-drawer[data-mode='push'] > .zd-drawer-inline {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: min(var(--zd-drawer-width), 45%);
+}
+zd-drawer[data-mode='push'][data-side='end'] > .zd-drawer-inline {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+}
+zd-drawer[data-mode='push'][data-open='true'] > .zd-drawer-content {
+  margin-inline-start: min(var(--zd-drawer-width), 45%);
+}
+zd-drawer[data-mode='push'][data-side='end'][data-open='true'] > .zd-drawer-content {
+  margin-inline-start: 0;
+  margin-inline-end: min(var(--zd-drawer-width), 45%);
+}
+.zd-drawer-pane .zd-modal-dialog[data-size='full'] {
+  inline-size: max-content;
+  max-inline-size: 100vw;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+.zd-drawer-surface {
+  box-sizing: border-box;
+  inline-size: min(var(--zd-drawer-width), 100vw);
+  min-block-size: 100%;
+  overflow-wrap: anywhere;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+}
+.zd-drawer-swipe {
+  display: block;
+  inline-size: 100%;
+  padding: 0.5rem;
+  margin-block-end: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  touch-action: none;
+}
+.zd-drawer-inline :focus-visible,
+.zd-drawer-surface :focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  zd-drawer,
+  .zd-drawer-inline,
+  .zd-drawer-content,
+  .zd-drawer-surface {
+    transition: none !important;
+    animation: none !important;
+  }
+}

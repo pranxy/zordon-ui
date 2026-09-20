@@ -103,7 +103,8 @@ external drawer. Bind accepted panel state, feed toggle requests to that owner, 
 handle backdrop, Escape, focus trapping/restoration, inertness, scroll lock, route closure and
 breakpoint transitions. Add `aria-haspopup="dialog"` only when the actual controlled surface is
 a dialog. No checkbox hack, duplicate overlay stack or Drawer implementation ships here. The
-planned LYT-02 Drawer milestone will verify the concrete Navbar/Drawer pairing; this milestone
+LYT-02 [Drawer milestone](../plans/phase-6-drawer-progress.md) verifies the concrete
+Navbar/Drawer pairing with modal focus, scroll, backdrop and responsive behavior. The original Navbar milestone
 verifies the controlled contract using an inline navigation panel.
 
 ## SSR, migration and evidence

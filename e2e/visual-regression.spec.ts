@@ -7,6 +7,26 @@ import {
 } from './fixtures/environment';
 import type { ZdTestTheme } from './fixtures/environment';
 
+test('Drawer persistent light desktop and modal dark RTL mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1400 });
+  await page.goto('/__zordon-tests__/drawer');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('combobox', { name: 'Mode' }).selectOption('persistent');
+  await expect(page.locator('zd-drawer').first()).toHaveAttribute('data-mode', 'persistent');
+  await page.getByRole('button', { name: 'Navigation drawer' }).click();
+  await expect(page.getByRole('complementary', { name: 'Project navigation' })).toBeVisible();
+  await expect(page.getByTestId('drawer-fixture')).toHaveScreenshot('drawer--light-desktop.png');
+  await page.getByRole('button', { name: 'Close navigation' }).click();
+  await page.getByRole('combobox', { name: 'Mode' }).selectOption('modal');
+  await page.setViewportSize({ width: 360, height: 800 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await page.getByRole('button', { name: 'Navigation drawer' }).click();
+  await expect(page.getByRole('dialog', { name: 'Project navigation' })).toBeVisible();
+  await expect(page).toHaveScreenshot('drawer--dark-rtl-mobile.png');
+});
+
 test('Tabs box border lift panels in light desktop and dark RTL mobile', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1300 });
@@ -84,6 +104,7 @@ test('Megamenu wide light desktop and single-column dark RTL mobile panels', asy
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/megamenu');
+  await expect(page.getByTestId('megamenu-fixture')).toHaveAttribute('data-ready', 'true');
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('button', { name: 'Explore', exact: true }).click();
   await expect(page.locator('zd-megamenu-panel')).toHaveScreenshot('megamenu--light-desktop.png');

@@ -43,8 +43,8 @@ surface contrast. Fixed positioning does not reserve height; owners account for 
 safe areas, stacking and scroll targets. Hidden responsive views remain initialized.
 
 The Drawer integration delivered here is the controlled toggle contract, verified against an inline
-navigation panel. Concrete integration with Drawer focus/scroll/backdrop behavior will be verified
-in LYT-02 after that component exists. No second overlay runtime, Router dependency, viewport
+navigation panel. Concrete integration with Drawer focus/scroll/backdrop behavior is now verified
+in the [LYT-02 Drawer milestone](phase-6-drawer-progress.md). No second overlay runtime, Router dependency, viewport
 observer, roving-tabindex implementation or checkbox workaround is added.
 
 Manual AT, custom theme/transparent contrast, physical touch, high-contrast painting, long labels,

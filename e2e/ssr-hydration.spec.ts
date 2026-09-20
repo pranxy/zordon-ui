@@ -1,5 +1,49 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Drawer renders persistent content before hydration and hydrates modal Navbar navigation', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/drawer');
+    await expect(server.getByRole('complementary', { name: 'Help navigation' })).toBeVisible();
+    await expect(server.getByRole('link', { name: 'Help articles' })).toBeVisible();
+    await expect(server.getByRole('dialog')).toHaveCount(0);
+    await expect(server.getByRole('button', { name: 'Navigation drawer' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await server.goto('/drawer?initialResponsive');
+    await expect(server.getByRole('combobox', { name: 'Mode' })).toHaveValue('responsive');
+    await expect(server.getByRole('complementary', { name: 'Project navigation' })).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/drawer');
+  await expect(page.getByRole('combobox', { name: 'Mode' })).toBeEnabled();
+  const trigger = page.getByRole('button', { name: 'Navigation drawer' });
+  await trigger.click();
+  const dialog = page.getByRole('dialog', { name: 'Project navigation' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toHaveAttribute('aria-modal', 'true');
+  expect((await runAxeScan()).violations).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+  await page.setViewportSize({ width: 360, height: 1000 });
+  await page.goto('/drawer?initialResponsive');
+  await expect(page.getByRole('dialog', { name: 'Project navigation' })).toBeVisible();
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await expect(page.getByRole('complementary', { name: 'Project navigation' })).toBeVisible();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('Tabs renders selected content and relationships before hydration and hydrates Aria navigation', async ({
   browser,
   page,
