@@ -1,0 +1,42 @@
+name: Angular consumer compatibility
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: consumer-compatibility-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  consumer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [minimum, baseline, latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24.15.0
+          cache: npm
+      - run: npm ci
+      - run: npm run build:lib
+      - run: npx playwright install --with-deps chromium
+      - name: Install and verify the packed consumer
+        run: npm run test:consumer -- ${{ matrix.lane }}
+      - name: Upload resolved versions and verification evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: consumer-${{ matrix.lane }}
+          path: tmp/consumer-compatibility/${{ matrix.lane }}/
+          if-no-files-found: error
+          retention-days: 14

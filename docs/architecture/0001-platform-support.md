@@ -11,7 +11,10 @@ The library needs a clear minimum platform so its distributed Angular code can b
 
 - Build and publish v1 with Angular 21 in partial-Ivy mode.
 - Support consuming applications on Angular 21 and Angular 22: peer range `>=21.0.0 <23.0.0`.
-- Test the lowest supported Angular major and the current supported major in CI.
+- Test the lowest supported Angular major and the current supported major in CI. The
+  [packaged consumer matrix](../testing/consumer-compatibility.md) tests exact 21.0.0, 21.2.19
+  and 22.1.7 consumers in both zone modes and build configurations; hosted Linux execution
+  remains a separate verification gate.
 - Use Node versions common to Angular 21 and 22 for development and CI: Node 22.22.3+ or Node 24.15.0+ within those major lines.
 - Support RxJS 7.4 or later within major version 7.
 - Target Tailwind CSS 4 and daisyUI 5. The initial compatibility floor is Tailwind `>=4.1 <5` and daisyUI `>=5.7.16 <6`.

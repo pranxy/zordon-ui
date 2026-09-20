@@ -57,7 +57,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "github-build": "ng build --project docs --base-href https://pranxy.github.io/zordon-ui/",
-    "github-deploy": "npx angular-cli-ghpages --dir=dist/docs/browser --no-silent"
+    "github-deploy": "npx angular-cli-ghpages --dir=dist/docs/browser --no-silent",
+    "test:consumer": "node tools/consumer-compatibility.mjs"
   },
   "private": true,
   "dependencies": {

@@ -1,0 +1,67 @@
+# Packaged Angular consumer compatibility
+
+The consumer gate installs the built npm tarball in a fresh operating-system temporary
+directory outside the repository. It cannot resolve the library through workspace source paths
+or reuse the workspace's Angular installation. No package is published.
+
+## Run the gate
+
+Use Node 24.15.0 or later within major 24, install the repository dependencies, and run:
+
+```sh
+npm run build:lib
+npx playwright install chromium
+npm run test:consumer -- minimum
+npm run test:consumer -- baseline
+npm run test:consumer -- latest
+```
+
+On Linux, use `npx playwright install --with-deps chromium` to install browser system dependencies.
+The root npm script supplies the npm executable used by the isolated install. The consumer
+runner needs registry access and never uses `--force` or `--legacy-peer-deps`.
+
+| Lane     | Angular framework/compiler | CLI/build | TypeScript |
+| -------- | -------------------------- | --------- | ---------- |
+| minimum  | 21.0.0                     | 21.0.0    | 5.9.3      |
+| baseline | 21.2.19                    | 21.2.20   | 5.9.3      |
+| latest   | 22.1.7                     | 22.1.8    | 6.0.3      |
+
+These are exact, reviewed versions in `tools/consumer-compatibility.mjs`, not moving npm tags.
+Review the lanes when the supported framework range or Aria pin changes. Aria **21.2.14**
+requires CDK **21.2.14** and permits Angular core 21 or 22; both remain pinned as a pair in
+every consumer. This does not test Aria/CDK 22. The repository continues to build with Angular 21.
+
+Angular's [version compatibility table](https://angular.dev/reference/versions) defines the
+Node/TypeScript requirements. Its [library compatibility guidance](https://angular.dev/tools/libraries/creating-libraries)
+recommends a consuming framework at least as new as the library build version. The exact
+21.0.0 consumer lane explicitly checks the declared floor against today's 21.2.19-built tarball;
+that result must be re-established after library changes and does not prove every intervening patch.
+
+## Assertions and evidence
+
+Each lane:
+
+- Packs `dist/components` and installs that tarball with `--strict-peer-deps`.
+- Runs `npm ls --all` and records the resolved tree, lockfile and tarball integrity.
+- Imports every typed export, including the internal overlay bridge, with `skipLibCheck: false`
+  and strict Angular template checking. The generated namespace probe keeps their runtime exports
+  reachable. CSS assets and package metadata are excluded from this typed-export count.
+- Builds development and production applications in both explicit zone and zoneless modes.
+- Serves each build on an ephemeral loopback port and runs Chromium checks for bootstrap,
+  expected Zone presence/absence, Button signal updates, native Forms model updates, and controlled
+  Aria-backed Tabs keyboard selection and panel rendering. Browser errors fail the run.
+
+The fixture intentionally has no consumer theme pipeline. These are package/compiler/runtime
+smoke checks, not a replacement for styling, all-component interactions, SSR/hydration, accessibility,
+or tree-shaking budgets. The **68 typed exports** include the root and internal entry; they are
+not the **68 catalog components**.
+
+Reports and command output are retained under `tmp/consumer-compatibility/<lane>/`. Every run
+creates a fresh isolated workspace; its path is printed and retained for diagnosis. Dependency
+resolution uses exact direct pins but current compatible transitives, captured in the report
+lockfile. A later run can expose a transitive regression.
+
+The `Angular consumer compatibility` workflow runs the three lanes independently on Ubuntu for
+pull requests, pushes to master, and manual dispatch. It builds the package on Angular 21 first,
+uses Node 24.15.0, and uploads evidence even when a lane fails. Adding the workflow is not proof
+of a successful hosted run. See the [milestone evidence](../plans/phase-8-consumer-compatibility-progress.md).
