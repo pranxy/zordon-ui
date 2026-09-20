@@ -1,0 +1,153 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+ol.zd-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(8rem, 1fr);
+  list-style: none;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0.25rem;
+}
+.zd-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 2.5rem auto;
+  align-items: start;
+  justify-items: center;
+  text-align: center;
+  min-inline-size: 0;
+  position: relative;
+  --step-bg: var(--color-base-300, ButtonFace);
+  --step-fg: var(--color-base-content, ButtonText);
+}
+.zd-step::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 1.125rem;
+  inset-inline-start: -50%;
+  inline-size: 100%;
+  block-size: 0.25rem;
+  margin: 0;
+  translate: none;
+  border: 0;
+  background: var(--step-bg);
+}
+.zd-step:first-child::before,
+.zd-step::after {
+  display: none;
+}
+.zd-marker {
+  display: grid;
+  place-items: center;
+  grid-column: 1;
+  grid-row: 1;
+  place-self: center;
+  position: relative;
+  z-index: 1;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border: 1px solid var(--step-bg);
+  border-radius: 50%;
+  color: var(--step-fg);
+  background: var(--step-bg);
+  font-weight: 700;
+  overflow: hidden;
+}
+.zd-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  padding: 0.5rem;
+  color: inherit;
+  text-align: inherit;
+  overflow-wrap: anywhere;
+}
+button.zd-body {
+  font: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  min-block-size: 2.75rem;
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+.zd-label {
+  font-weight: 600;
+}
+.zd-description {
+  font-size: 0.875rem;
+}
+.zd-status {
+  font-size: 0.75rem;
+}
+[aria-current='step'] .zd-label {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+[data-disabled='true'] .zd-marker {
+  border-style: dashed;
+}
+:is(button, ol):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+:host[data-orientation='vertical'] ol {
+  grid-auto-flow: row;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+}
+:host[data-orientation='vertical'] .zd-step {
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  grid-template-rows: auto;
+  min-block-size: 5rem;
+  align-items: center;
+  justify-items: start;
+  text-align: start;
+}
+:host[data-orientation='vertical'] .zd-step::before {
+  inset-inline-start: 1.125rem;
+  inset-block-start: -50%;
+  inline-size: 0.25rem;
+  block-size: 100%;
+}
+@media (width < 48rem) {
+  :host[data-responsive='true'] ol {
+    grid-auto-flow: row;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-rows: 1fr;
+  }
+  :host[data-responsive='true'] .zd-step {
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-rows: auto;
+    min-block-size: 5rem;
+    align-items: center;
+    justify-items: start;
+    text-align: start;
+  }
+  :host[data-responsive='true'] .zd-step::before {
+    inset-inline-start: 1.125rem;
+    inset-block-start: -50%;
+    inline-size: 0.25rem;
+    block-size: 100%;
+  }
+}
+@media (forced-colors: active) {
+  .zd-marker {
+    border-color: CanvasText;
+  }
+  .zd-step::before {
+    background: CanvasText;
+  }
+  [aria-current='step'] .zd-marker {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}

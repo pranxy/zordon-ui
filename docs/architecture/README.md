@@ -28,6 +28,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0022](0022-menu-native-navigation-and-aria-tree.md)       | Menu native navigation and Aria Tree                 | Accepted |
 | [0023](0023-navbar-native-layout-and-controlled-panels.md) | Navbar native layout and controlled panels           | Accepted |
 | [0024](0024-pagination-state-and-native-navigation.md)     | Pagination state and native navigation               | Accepted |
+| [0025](0025-steps-native-progress-and-wizard-ownership.md) | Steps native progress and wizard ownership           | Accepted |
 
 ## Applied architecture maps
 

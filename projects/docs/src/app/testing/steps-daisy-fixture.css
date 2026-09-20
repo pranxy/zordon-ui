@@ -1,0 +1,7 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: steps;
+}
+/* Steps owns responsive geometry and markers; compile the daisyUI color modifiers. */
+@source inline('step-neutral step-primary step-secondary step-accent step-info step-success step-warning step-error');

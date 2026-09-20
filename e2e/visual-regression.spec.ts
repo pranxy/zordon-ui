@@ -35,6 +35,21 @@ test('Pagination light desktop and dark RTL mobile ranges', async ({ page }) => 
   );
 });
 
+test('Steps light desktop wizard and dark RTL mobile statuses', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1300 });
+  await page.goto('/__zordon-tests__/steps');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Ada');
+  await page.getByRole('button', { name: 'Continue to delivery' }).click();
+  await expect(page.getByRole('heading', { name: 'Delivery address' })).toBeFocused();
+  await expect(page.getByTestId('steps-fixture')).toHaveScreenshot('steps--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1900 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('steps-fixture')).toHaveScreenshot('steps--dark-rtl-mobile.png');
+});
+
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
 test('Menu native lists and Aria hierarchy in light desktop and dark RTL mobile', async ({

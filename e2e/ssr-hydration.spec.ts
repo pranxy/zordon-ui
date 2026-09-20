@@ -1,5 +1,38 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Steps renders native progress before hydration and hydrates owner-validated wizard progression', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/steps');
+    const wizard = server.getByRole('list', { name: 'Checkout progress' });
+    await expect(wizard.locator('[aria-current]')).toContainText('Details');
+    await expect(wizard.getByRole('button', { name: /^Delivery/ })).toBeDisabled();
+    await expect(server.getByRole('heading', { name: 'Your details' })).toBeVisible();
+    await expect(server.getByRole('list', { name: 'Deployment progress' })).toContainText(
+      'Error · Current',
+    );
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/steps');
+  await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Ada');
+  await page.getByRole('button', { name: 'Continue to delivery' }).click();
+  await expect(page.getByRole('heading', { name: 'Delivery address' })).toBeFocused();
+  const wizard = page.getByRole('list', { name: 'Checkout progress' });
+  await expect(wizard.locator('[aria-current]')).toContainText('Delivery');
+  await wizard.getByRole('button', { name: /^Details/ }).click();
+  await expect(page.getByRole('heading', { name: 'Your details' })).toBeFocused();
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Pagination renders query destinations without JavaScript and hydrates native controls and URL state', async ({
   browser,
   page,

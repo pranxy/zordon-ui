@@ -136,7 +136,7 @@ means the component specification must select that semantic mode explicitly.
 | NAV-05 | Menu             | Native navigation; Aria Tree for selectable hierarchy; Dropdown/Aria Menu for commands (ADR 0022)         |
 | NAV-06 | Navbar           | Native navigation and controlled panel toggle; projected widgets retain Aria (ADR 0023)                   |
 | NAV-07 | Pagination       | Native buttons/Router links, controlled requests and polite status; no Aria widget (ADR 0024)             |
-| NAV-08 | Steps            | Native ordered list/current-step semantics; not Tabs unless it actually controls tab panels               |
+| NAV-08 | Steps            | Native ordered list/current step; controlled buttons and owner-managed wizard panels (ADR 0025)           |
 | NAV-09 | Tabs             | Angular Aria Tabs                                                                                         |
 | FDB-01 | Alert            | Native content with `alert`/`status` chosen by urgency                                                    |
 | FDB-02 | Loading          | Native status/progress semantics and `aria-busy` ownership                                                |

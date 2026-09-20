@@ -1,0 +1,83 @@
+docs-steps-test-fixture {
+  display: block;
+  width: min(60rem, calc(100vw - 2rem));
+}
+docs-steps-test-fixture main {
+  padding: 1rem;
+  border-radius: 1rem;
+  color: var(--color-base-content, CanvasText);
+  background: var(--color-base-100, Canvas);
+}
+docs-steps-test-fixture h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+docs-steps-test-fixture h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+docs-steps-test-fixture h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+docs-steps-test-fixture p {
+  margin-block: 0.75rem;
+}
+docs-steps-test-fixture section {
+  border: 1px solid var(--color-base-300, GrayText);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-block: 1rem;
+}
+docs-steps-test-fixture .controls {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+docs-steps-test-fixture .controls button,
+docs-steps-test-fixture .controls select,
+docs-steps-test-fixture .panel button,
+docs-steps-test-fixture input {
+  color: inherit;
+  background: var(--color-base-100, Canvas);
+  border: 1px solid currentColor;
+  border-radius: 0.4rem;
+  padding: 0.5rem;
+  min-height: 2.5rem;
+}
+docs-steps-test-fixture label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+docs-steps-test-fixture input {
+  max-width: 100%;
+  min-width: 0;
+}
+docs-steps-test-fixture .panel {
+  padding: 1rem;
+  background: var(--color-base-200, ButtonFace);
+  border-radius: 0.4rem;
+  margin-top: 1rem;
+}
+docs-steps-test-fixture form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: end;
+}
+docs-steps-test-fixture output {
+  display: block;
+  margin-top: 0.75rem;
+}
+docs-steps-test-fixture .zd-marker svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+docs-steps-test-fixture h3:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
