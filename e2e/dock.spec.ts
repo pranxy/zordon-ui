@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures/accessibility';
 test('Dock follows Router navigation, manual overrides and native keyboard order while skipping unavailable links', async ({
   page,
+  nativeLinkTab,
 }) => {
   await page.goto('/__zordon-tests__/dock');
   const nav = page.getByRole('navigation', { name: 'Workspace destinations' });
@@ -10,6 +11,10 @@ test('Dock follows Router navigation, manual overrides and native keyboard order
   await expect(home).toHaveAttribute('aria-current', 'page');
   await home.focus();
   await page.keyboard.press('Tab');
+  if (!nativeLinkTab) {
+    await expect(page.getByRole('button', { name: 'Outside action' })).toBeFocused();
+    await search.focus();
+  }
   await expect(search).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/section=search/);
@@ -98,6 +103,7 @@ test('Dock responsive visibility, compact labels and native horizontal overflow 
 });
 test('Dock passes axe and preserves active/focus indicators with reduced motion and forced colors', async ({
   page,
+  nativeLinkTab,
   runAxeScan,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -109,6 +115,10 @@ test('Dock passes axe and preserves active/focus indicators with reduced motion 
   await page.emulateMedia({ forcedColors: 'active' });
   await nav.focus();
   await page.keyboard.press('Tab');
+  if (!nativeLinkTab) {
+    await expect(page.getByRole('button', { name: 'Outside action' })).toBeFocused();
+    await home.focus();
+  }
   await expect(home).toBeFocused();
   expect(await home.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
 });

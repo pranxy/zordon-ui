@@ -1,7 +1,9 @@
 import { expect, test } from './fixtures/accessibility';
 
 test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/__zordon-tests__/browser');
+  await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
   await expect(page.getByTestId('calendar-grid-probe')).toBeVisible();
 });
 

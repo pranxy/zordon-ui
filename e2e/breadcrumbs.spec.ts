@@ -1,6 +1,7 @@
 import { expect, test } from './fixtures/accessibility';
 test('Breadcrumbs preserves hierarchy, current-page semantics and native overflow keyboard behavior', async ({
   page,
+  nativeLinkTab,
 }) => {
   await page.goto('/__zordon-tests__/breadcrumbs');
   const nav = page.getByRole('navigation', { name: 'Workspace path' });
@@ -14,7 +15,12 @@ test('Breadcrumbs preserves hierarchy, current-page semantics and native overflo
   await page.keyboard.press('Enter');
   await expect(nav.getByRole('link', { name: 'All projects', exact: true })).toBeVisible();
   await page.keyboard.press('Tab');
-  await expect(nav.getByRole('link', { name: 'All projects', exact: true })).toBeFocused();
+  if (nativeLinkTab)
+    await expect(nav.getByRole('link', { name: 'All projects', exact: true })).toBeFocused();
+  else {
+    await expect(page.getByRole('textbox', { name: 'Report title' })).toBeFocused();
+    await nav.getByRole('link', { name: 'All projects', exact: true }).focus();
+  }
   await page.keyboard.press('Escape');
   await expect(summary).toBeFocused();
   await expect(nav.locator('details')).not.toHaveAttribute('open');
@@ -78,18 +84,24 @@ test('Breadcrumbs keeps all structured ancestors, supports bounds and keyboard s
 });
 test('Breadcrumbs passes axe with overflow, full accessible labels, reduced motion and forced-color focus', async ({
   page,
+  nativeLinkTab,
   runAxeScan,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/__zordon-tests__/breadcrumbs');
   const nav = page.getByRole('navigation', { name: 'Workspace path' });
-  await nav.locator('summary').click();
-  expect((await runAxeScan()).violations).toEqual([]);
+  await nav.locator('summary').focus();
+  await nav.locator('summary').press('Enter');
   await page.emulateMedia({ forcedColors: 'active' });
   await nav.locator('summary').focus();
   await page.keyboard.press('Tab');
   const link = nav.getByRole('link', { name: 'All projects', exact: true });
+  if (!nativeLinkTab) {
+    await expect(page.getByRole('textbox', { name: 'Report title' })).toBeFocused();
+    await link.focus();
+  }
   await expect(link).toBeFocused();
   expect(await link.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
   expect(await link.evaluate(el => getComputedStyle(el).transitionDuration)).toBe('0s');
+  expect((await runAxeScan()).violations).toEqual([]);
 });

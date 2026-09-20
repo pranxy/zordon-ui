@@ -6,6 +6,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Menu native links track Router state and preserve nested disclosure, names and Tab behavior', async ({
   page,
+  nativeLinkTab,
   runAxeScan,
 }) => {
   const nav = page.getByRole('navigation', { name: 'Workspace navigation' });
@@ -13,6 +14,10 @@ test('Menu native links track Router state and preserve nested disclosure, names
   await expect(home).toHaveAttribute('aria-current', 'page');
   await home.focus();
   await page.keyboard.press('Tab');
+  if (!nativeLinkTab) {
+    await expect(nav.getByRole('button', { name: 'Resources', exact: true })).toBeFocused();
+    await nav.getByRole('link', { name: 'Inbox, 3 unread messages' }).focus();
+  }
   await expect(nav.getByRole('link', { name: 'Inbox, 3 unread messages' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/section=inbox/);
@@ -69,6 +74,7 @@ test('Menu Aria Tree supports expansion, disabled skipping, typeahead and contro
 
 test('Menu sizes, horizontal layout and RTL tree expansion remain contained with reduced motion', async ({
   page,
+  nativeLinkTab,
 }) => {
   const nav = page.getByRole('navigation', { name: 'Workspace navigation' });
   for (const size of ['xs', 'sm', 'md', 'lg', 'xl']) {
@@ -96,6 +102,11 @@ test('Menu sizes, horizontal layout and RTL tree expansion remain contained with
   await page.emulateMedia({ reducedMotion: 'reduce', forcedColors: 'active' });
   await nav.getByRole('link', { name: 'Home', exact: true }).focus();
   await page.keyboard.press('Tab');
+  if (!nativeLinkTab) {
+    await expect(nav.getByRole('button', { name: 'Resources', exact: true })).toBeFocused();
+    await nav.getByRole('link', { name: 'Inbox, 3 unread messages' }).focus();
+  }
+  await expect(nav.getByRole('link', { name: 'Inbox, 3 unread messages' })).toBeFocused();
   expect(
     await nav
       .getByRole('link', { name: 'Inbox, 3 unread messages' })

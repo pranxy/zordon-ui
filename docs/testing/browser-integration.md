@@ -142,6 +142,11 @@ pre-hydration event replay, package, and manual assistive-technology evidence; s
 
 ## Test authoring rules
 
+- Measure native link Tab policy using the `nativeLinkTab` fixture when testing native links.
+  Assert sequential links when included and the actual native exit when bypassed, then verify
+  direct link focus/activation independently. Keep focus-sensitive behavior before iframe-based
+  axe scans. Native fill rendering can require paint evidence instead of unsupported computed
+  pseudo-element styles; see the [keyboard and paint milestone](../plans/phase-8-native-keyboard-progress.md).
 - Compare native pointer focus with a plain native control in the same engine; a click is not
   a portable precondition for focus. Keep keyboard-order and restoration scenarios explicit by
   focusing their starting control and activating it with Enter/Space. Preserve pointer-specific

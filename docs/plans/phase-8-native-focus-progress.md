@@ -2,7 +2,11 @@
 
 **Updated:** 2026-09-20
 
-**Status:** Native pointer-focus milestone verified; remaining WebKit compatibility gates open.
+**Status:** Native pointer-focus milestone verified; local desktop backlog resolved in the follow-up.
+
+**Follow-up:** [Native keyboard and paint verification](phase-8-native-keyboard-progress.md)
+passes the complete local desktop matrix: 589 passed and two existing CDP touch skips. Results
+below record this earlier pointer-focus milestone and its historical backlog.
 
 **Commit:** `test: respect native pointer focus across browser engines`
 
@@ -62,8 +66,9 @@ retain the previous component milestone's results. Full JSON evidence is in igno
 ## Remaining work
 
 Native link Tab behavior and the native Progress pseudo-element observation are separate from
-pointer focus. The next milestone must preserve browser/user keyboard preferences and establish
-observable assertions without adding skips or silently accepting missing values.
+pointer focus. The [follow-up milestone](phase-8-native-keyboard-progress.md) now addresses this
+historical backlog with native-policy assertions, exact paint references and Calendar fixture
+hardening. Broader platform and release gates remain open.
 
 | Remaining scenarios                               | Count | Investigation                                                                                                                                                 |
 | ------------------------------------------------- | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |

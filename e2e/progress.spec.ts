@@ -35,7 +35,6 @@ test('Progress exposes one native value, decorative buffering and resettable com
 
 test('Progress uses actual daisy colors and respects animation opt-out and reduced motion', async ({
   page,
-  browserName,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/__zordon-tests__/progress');
@@ -51,11 +50,45 @@ test('Progress uses actual daisy colors and respects animation opt-out and reduc
   await page.getByRole('button', { name: 'Animation: false' }).click();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(unknown).toHaveCSS('animation-name', 'none');
-  const transition = await unknown.evaluate(
-    (element, pseudo) => getComputedStyle(element, pseudo).transitionDuration,
-    browserName === 'firefox' ? '::-moz-progress-bar' : '::-webkit-progress-value',
+  const upload = page.getByTestId('progress-upload').locator('progress');
+  const referenceStyle = await page.addStyleTag({
+    content: `
+    progress::-webkit-progress-value { transition: none !important; }
+    progress::-moz-progress-bar { transition: none !important; }
+  `,
+  });
+  await page.getByRole('button', { name: 'Complete upload' }).click();
+  await expect(upload).toHaveJSProperty('value', 200);
+  const fullPaint = await upload.screenshot({ animations: 'allow' });
+  await page.getByRole('button', { name: 'Restart upload' }).click();
+  await expect(upload).toHaveJSProperty('value', 50);
+  const partialReference = await upload.screenshot({ animations: 'allow' });
+  expect(partialReference.equals(fullPaint), 'The reference values must paint differently.').toBe(
+    false,
   );
-  expect(transition).toBe('0s');
+  await page.getByRole('button', { name: 'Complete upload' }).click();
+  await expect(upload).toHaveJSProperty('value', 200);
+  await referenceStyle.evaluate(el => (el as HTMLStyleElement).remove());
+  await page.addStyleTag({
+    content: `
+    progress::-webkit-progress-value { transition: width 60s linear; }
+    progress::-moz-progress-bar { transition: width 60s linear; }
+  `,
+  });
+  await page.getByRole('button', { name: 'Restart upload' }).click();
+  await expect(upload).toHaveJSProperty('value', 50);
+  const partialPaint = await upload.screenshot({ animations: 'allow' });
+  expect(
+    partialPaint.equals(partialReference),
+    'Reduced motion must paint the exact partial value immediately.',
+  ).toBe(true);
+  await page.getByRole('button', { name: 'Complete upload' }).click();
+  await expect(upload).toHaveJSProperty('value', 200);
+  const completedPaint = await upload.screenshot({ animations: 'allow' });
+  expect(
+    completedPaint.equals(fullPaint),
+    'Reduced motion must paint the full value immediately despite the slow consumer transition.',
+  ).toBe(true);
 });
 
 test('Progress preserves native meaning in RTL, narrow layouts and forced colors', async ({

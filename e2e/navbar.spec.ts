@@ -7,6 +7,7 @@ test.beforeEach(async ({ page }) => {
 
 test('Navbar preserves native Tab order, Router links and landmark names', async ({
   page,
+  nativeLinkTab,
   runAxeScan,
 }) => {
   const nav = page.getByRole('navigation', { name: 'Workspace navigation' });
@@ -14,8 +15,15 @@ test('Navbar preserves native Tab order, Router links and landmark names', async
   await expect(overview).toHaveAttribute('aria-current', 'page');
   await nav.getByRole('link', { name: 'Zordon' }).focus();
   await page.keyboard.press('Tab');
-  await expect(overview).toBeFocused();
-  await page.keyboard.press('Tab');
+  if (nativeLinkTab) {
+    await expect(overview).toBeFocused();
+    await page.keyboard.press('Tab');
+  } else {
+    expect(await nav.evaluate(el => el.contains(document.activeElement))).toBe(false);
+    await overview.focus();
+    await expect(overview).toBeFocused();
+    await nav.getByRole('link', { name: 'Projects' }).focus();
+  }
   await expect(nav.getByRole('link', { name: 'Projects' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/section=projects/);

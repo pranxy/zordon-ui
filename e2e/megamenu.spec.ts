@@ -93,6 +93,7 @@ test('Megamenu command bar delegates horizontal RTL navigation and menu activati
 
 test('Megamenu full-width and mobile single-column panels stay inside the viewport in RTL', async ({
   page,
+  nativeLinkTab,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.getByRole('button', { name: 'Toggle full width' }).click();
@@ -115,7 +116,16 @@ test('Megamenu full-width and mobile single-column panels stay inside the viewpo
   expect(await panel.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
   await page.emulateMedia({ forcedColors: 'active' });
   await page.keyboard.press('Tab');
+  if (!nativeLinkTab)
+    await expect(panel.getByRole('searchbox', { name: 'Search resources' })).toBeFocused();
   await page.keyboard.press('Shift+Tab');
+  if (!nativeLinkTab) {
+    await expect(panel).toHaveCount(0);
+    const trigger = page.getByRole('button', { name: 'Explore', exact: true });
+    await expect(page.getByRole('button', { name: 'After navigation' })).toBeFocused();
+    await trigger.focus();
+    await trigger.press('ArrowDown');
+  }
   await expect(panel.getByRole('link', { name: 'Components', exact: true })).toBeFocused();
   expect(
     await panel
