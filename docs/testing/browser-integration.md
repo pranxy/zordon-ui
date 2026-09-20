@@ -26,6 +26,31 @@ npm run test:browser:ui
 
 The default gate runs Chromium. The full command runs Chromium, Firefox, and WebKit projects. The dedicated visual project is deliberately excluded from both commands and runs through `test:visual`. CI uses one worker, retries failures twice, retains traces and videos for failures, and publishes the HTML report as an artifact.
 
+## Desktop compatibility audit
+
+Install the engine versions matching the lockfile before running the full matrix:
+
+```sh
+npx playwright install chromium firefox webkit
+npx playwright test --project=chromium --project=firefox --project=webkit --workers=2 --retries=0
+```
+
+The manually dispatched **Browser compatibility audit** workflow runs each engine in an
+independent Linux job, installs its system dependencies, disables retries to expose unstable
+tests, and retains HTML/JSON reports, failure traces, screenshots and videos for 14 days. A failed lane
+remains a failed job; other engines continue so the audit captures the complete matrix. The
+existing Chromium pull-request gate and Windows visual-baseline job remain in place. Dispatching
+the workflow and obtaining Linux evidence are separate from a local Windows run.
+
+Drawer's native swipe-injection scenario uses Chromium CDP and reports an explicit skip in
+Firefox/WebKit. Its ordinary modal, keyboard, nested focus, Router, responsive and axe scenarios
+run in all three engines. That skip does not establish touch support in the other engines;
+physical iOS/Android touch and safe-area review remain required. Playwright WebKit is engine
+evidence, not Safari/iOS product certification, and bundled Chromium does not establish Edge
+or Android Chrome support. See the [Phase 8 audit](../plans/phase-8-browser-audit-progress.md).
+
+## Accessibility and visual evidence
+
 Accessibility scenarios use `@axe-core/playwright` and attach the complete axe JSON result to the Playwright report. The shared fixture runs WCAG 2.0, 2.1, and 2.2 A/AA-tagged rules. Automated results must be paired with the [manual accessibility review template](manual-accessibility-review-template.md).
 
 Theme and responsive screenshot coverage follows the [visual regression testing policy](visual-regression.md). Visual baselines are generated and compared on Windows to avoid cross-platform font-rendering noise.

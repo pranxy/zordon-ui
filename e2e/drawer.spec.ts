@@ -67,7 +67,12 @@ test('Drawer supports responsive persistent and push layouts and logical RTL pla
 
 test('Drawer touch handle ignores inward drags and requests one outward swipe close', async ({
   page,
+  browserName,
 }) => {
+  test.skip(
+    browserName !== 'chromium',
+    'Native touch injection requires Chromium CDP; physical touch remains a release gate.',
+  );
   await page.getByLabel('Accept requests').uncheck();
   await page.getByRole('button', { name: 'Navigation drawer' }).click();
   const dialog = page.getByRole('dialog', { name: 'Project navigation' });

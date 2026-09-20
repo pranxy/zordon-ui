@@ -45,7 +45,7 @@ Component matrix columns:
 | 5     | Actions, disclosure, overlays, and feedback                        |    [~] | Overlay/focus infrastructure and Stage 5 rows are Done        |
 | 6     | Navigation and responsive application layout                       |    [~] | Router integration and Stage 6 rows are Done                  |
 | 7     | Advanced data display and visual effects                           |    [~] | Stage 7 rows are Done                                         |
-| 8     | Hardening, compatibility, and release                              |    [ ] | Release gates pass and v1.0.0 is published                    |
+| 8     | Hardening, compatibility, and release                              |    [~] | Release gates pass and v1.0.0 is published                    |
 
 Overall component progress: **0 / 68 Done**. This count requires every maturity gate, including
 manual assistive-technology, forced-colors, contrast, and reflow review.
@@ -437,6 +437,17 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
 | MCK-03 | Phone Mockup   | Screen slot; dimensions/color/border; portrait/landscape; device details; safe area; responsive scale; optional frame variants                 |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] |                                                                          [ ] | DEFERRED by product decision on 2026-09-06; decorative semantics by default.                                                                                                                                                                                                                                                                                             |
 | MCK-04 | Window Mockup  | Window chrome/content; title/toolbar/actions; active/inactive; dimensions; themes; loading/empty; border/shadow/radius overrides               |  [ ] |   [ ] |   [ ] |  [ ] |  [ ] |    [ ] | DEFERRED by product decision on 2026-09-06; decorative semantics by default. |
 
+## Phase 8 — Hardening, compatibility, and release
+
+- [x] Run the desktop engine audit, add repeatable CI execution, and record failures in
+      [the browser audit tracker](docs/plans/phase-8-browser-audit-progress.md).
+- [ ] Resolve the recorded WebKit failures and verify the Linux audit workflow and supported
+      browser products/devices.
+- [ ] Complete the cross-cutting verification matrix and release milestones below.
+
+The audit starts Phase 8; component maturity remains 0/68 Done and automated delivery remains
+65/68. Manual accessibility and the remaining platform/consumer gates are still open.
+
 ## Cross-cutting verification matrix
 
 These are release-level checks in addition to component-level tests.
@@ -541,6 +552,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                                                                                                                                                                                           | Components/phases      | Owner or link                                        |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------------------------- |
+| 2026-09-20 | Started Phase 8 with a complete Firefox/WebKit audit and manual three-engine CI workflow. Fixed Firefox focus/pseudo-element assertions; its final full lane passes 196 tests with one explicit CDP touch skip. Recorded 19 open WebKit failures for the next hardening milestone. Delivery remains 65/68; release compatibility and manual maturity gates remain open.          | Phase 8 browser audit  | `docs/plans/phase-8-browser-audit-progress.md`       |
 | 2026-09-20 | Added Drawer with controlled modal/persistent/push/responsive layouts, Navbar pairing, Router close, touch/pen swipe and shared nested focus/scroll ownership. Corrected Modal pointer focus, aria-modal and surface fallbacks. Full automated checks pass; delivery is 65/68. Manual accessibility remains pending.                                                             | Phase 6 implementation | `docs/plans/phase-6-drawer-progress.md`              |
 | 2026-09-20 | Added Tabs with public Angular Aria navigation, controlled selection, SSR-visible lazy/preserved panels, close/reorder requests, native overflow and Router query state. Full automated checks pass; delivery is 64/68. Manual accessibility remains pending.                                                                                                                    | Phase 6 implementation | `docs/plans/phase-6-tabs-progress.md`                |
 | 2026-09-20 | Added Steps native ordered progress and controlled wizard buttons with linear prerequisites, complete/current/error/disabled cues, icons/colors and responsive RTL layout. All automated checks pass, including owner validation/focus and SSR; delivery is 63/68. Manual accessibility remains pending.                                                                         | Phase 6 implementation | `docs/plans/phase-6-steps-progress.md`               |

@@ -35,6 +35,7 @@ test('Progress exposes one native value, decorative buffering and resettable com
 
 test('Progress uses actual daisy colors and respects animation opt-out and reduced motion', async ({
   page,
+  browserName,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/__zordon-tests__/progress');
@@ -51,7 +52,8 @@ test('Progress uses actual daisy colors and respects animation opt-out and reduc
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(unknown).toHaveCSS('animation-name', 'none');
   const transition = await unknown.evaluate(
-    element => getComputedStyle(element, '::-webkit-progress-value').transitionDuration,
+    (element, pseudo) => getComputedStyle(element, pseudo).transitionDuration,
+    browserName === 'firefox' ? '::-moz-progress-bar' : '::-webkit-progress-value',
   );
   expect(transition).toBe('0s');
 });

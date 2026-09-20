@@ -121,7 +121,9 @@ test('Accordion keeps labelled relationships, focus, RTL layout and reduced moti
   expect((await runAxeScan()).violations).toEqual([]);
   await page.emulateMedia({ forcedColors: 'active' });
   await profile.focus();
-  await page.keyboard.press('Home');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Shift+Tab');
+  await expect(profile).toBeFocused();
   await expect(profile).toBeVisible();
   expect(await profile.evaluate(el => getComputedStyle(el).outlineStyle)).toBe('solid');
 });
