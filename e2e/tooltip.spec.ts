@@ -80,7 +80,11 @@ test('Tooltip and Dropdown share top-only Escape, logical focus boundaries and p
   await expect(trigger).toBeFocused();
   await trigger.click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await page.getByRole('button', { name: 'Toggle presence' }).click();
+  // Activate lifecycle teardown without hit-testing or moving focus away from the open overlays.
+  await page
+    .getByRole('button', { name: 'Toggle presence' })
+    .evaluate(button => (button as HTMLButtonElement).click());
+  await expect(trigger).not.toBeAttached();
   await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
 });
 

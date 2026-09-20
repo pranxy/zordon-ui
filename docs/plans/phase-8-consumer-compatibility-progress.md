@@ -2,9 +2,14 @@
 
 **Updated:** 2026-09-20
 
-**Status:** Local Angular consumer matrix verified; Linux execution and broader release gates open.
+**Status:** Local Windows and Linux consumer matrices verified; hosted execution and broader release gates open.
 
 **Commit:** `test: verify packaged Angular 21 and 22 consumers`
+
+**Linux follow-up:** The same minimum, baseline and latest lanes now pass all 12 build/browser
+combinations on Ubuntu 26.04 with Node 24.15.0. See
+[Linux audit evidence and environment limits](phase-8-browser-audit-progress.md#linux-verification-follow-up).
+Hosted workflow execution remains unverified. The original Windows evidence below is retained.
 
 The desktop browser milestone verified the workspace application. This milestone checks the
 distributed package in independent Angular installations so source aliases and shared workspace
@@ -42,13 +47,12 @@ unchanged; the earlier full component browser matrix, unit coverage and visual e
 applicable and were not rerun for this tooling-only change.
 
 Evidence is in ignored `tmp/consumer-compatibility/{minimum,baseline,latest}/`, with top-level
-logs in `tmp/consumer-*.log`. The three tarball integrity values agree. The local Ubuntu WSL
-installation has no Linux Node executable; neither the new hosted consumer workflow nor the
-existing Linux desktop audit has been executed here. Linux verification remains open.
+logs in `tmp/consumer-*.log`. The three tarball integrity values agree. The Linux follow-up
+above supplies native Linux evidence; hosted workflow execution remains open.
 
 ## Remaining work
 
-Next: verify the Linux workflows, then expand packaged consumer verification to SSR and hydration.
+Next: expand packaged consumer verification to SSR and hydration, and verify hosted Linux workflows.
 The current smoke fixture does not establish full component behavior on each Angular version,
 all styling combinations, delayed/incremental hydration, physical/branded-browser coverage,
 or manual assistive-technology approval. Those remain release gates.

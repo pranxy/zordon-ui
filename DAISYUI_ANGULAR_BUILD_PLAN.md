@@ -447,7 +447,9 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
       See [native keyboard and paint verification](docs/plans/phase-8-native-keyboard-progress.md).
 - [x] Verify packaged Angular 21/22 consumers in development/production and zone/zoneless modes.
       See [consumer compatibility](docs/plans/phase-8-consumer-compatibility-progress.md).
-- [ ] Verify the Linux audit workflow and supported browser products/devices.
+- [x] Verify the local Linux browser and packaged-consumer gates. See
+      [Linux audit evidence and limits](docs/plans/phase-8-browser-audit-progress.md#linux-verification-follow-up).
+- [ ] Verify hosted Linux workflow execution and supported browser products/devices.
 - [ ] Complete the cross-cutting verification matrix and release milestones below.
 
 The audit starts Phase 8; component maturity remains 0/68 Done and automated delivery remains
@@ -561,6 +563,7 @@ Add newest entries first.
 
 | Date       | Change                                                                                                                                                                                                                                                                                                                                                                           | Components/phases       | Owner or link                                           |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------------------------------------- |
+| 2026-09-20 | Verified local Ubuntu browser and packaged-consumer gates. Fixed one Tooltip teardown-test hit-target assumption; the full WebKit rerun passes. Preserved initial failure evidence and verified a teardown negative control. Hosted Actions, packaged SSR/hydration and manual/device gates remain open.                                                                         | Phase 8 Linux audit     | `docs/plans/phase-8-browser-audit-progress.md`          |
 | 2026-09-20 | Verified isolated Angular 21.0.0, 21.2.19 and 22.1.7 tarball consumers: all 68 typed exports compile, strict peers resolve, and 12 development/production zone/zoneless build and browser combinations pass. Added independent Ubuntu CI lanes; Linux execution remains open.                                                                                                    | Phase 8 consumers       | `docs/plans/phase-8-consumer-compatibility-progress.md` |
 | 2026-09-20 | Verified the local desktop matrix: 589 passes and two existing CDP touch skips, with no retries or runner errors. Native keyboard-policy assertions and exact Progress paint references pass; a deliberate paint mutation fails as intended. Calendar fixture hardening passed 20 WebKit stress repetitions. Platform and manual release gates remain open.                      | Phase 8 native keyboard | `docs/plans/phase-8-native-keyboard-progress.md`        |
 | 2026-09-20 | Corrected ten native pointer-focus test assumptions across Button/CDK, Drawer, FAB, Modal and Toast. Full desktop matrix: Chromium 197 passes, Firefox 196 passes/one skip, WebKit 186 passes/ten failures/one skip. Remaining WebKit work is nine original link/Progress cases plus an intermittent Calendar fixture toggle.                                                    | Phase 8 native focus    | `docs/plans/phase-8-native-focus-progress.md`           |

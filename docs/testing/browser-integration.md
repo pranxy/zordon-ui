@@ -42,6 +42,13 @@ remains a failed job; other engines continue so the audit captures the complete 
 existing Chromium pull-request gate and Windows visual-baseline job remain in place. Dispatching
 the workflow and obtaining Linux evidence are separate from a local Windows run.
 
+For normal Linux setup, use `npx playwright install --with-deps chromium firefox webkit`.
+Set `CI=true` for a dedicated server and `.only` rejection, and keep `--retries=0` for the audit.
+When running engines in separate commands, preserve each report before the next run or set
+distinct JSON, HTML and test-output paths. The
+[local Linux follow-up](../plans/phase-8-browser-audit-progress.md#linux-verification-follow-up)
+records its environment differences; it does not substitute for a hosted workflow result.
+
 Drawer's native swipe-injection scenario uses Chromium CDP and reports an explicit skip in
 Firefox/WebKit. Its ordinary modal, keyboard, nested focus, Router, responsive and axe scenarios
 run in all three engines. That skip does not establish touch support in the other engines;

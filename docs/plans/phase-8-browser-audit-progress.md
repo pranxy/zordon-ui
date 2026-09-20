@@ -6,6 +6,106 @@
 
 **Commit:** `test: establish desktop browser compatibility audit`
 
+## Linux verification follow-up
+
+**Status:** Partial — local checks verified; hosted execution and platform gates remain open.
+**Updated:** 2026-09-20.
+**ADRs:** [Platform support](../architecture/0001-platform-support.md),
+[accessibility and SSR](../architecture/0007-accessibility-ssr-and-localization.md).
+**Follow-up commit:** `test: verify Linux compatibility and isolate teardown checks`
+
+This commit-sized follow-up runs the existing desktop and packaged-consumer gates on native
+Linux. Hosted Actions execution, branded/physical browsers and packaged SSR/hydration remain
+separate pending work. It does not widen the current release claim.
+
+| Task   | Acceptance                                                                          | Status   | Evidence                                                                                                                        |
+| ------ | ----------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| LIN-01 | Isolate the committed source with Linux Node 24.15.0 and a fresh locked install     | Verified | Revision `0323250`; Ubuntu 26.04 x64 WSL; checksum-verified Node distribution; fresh `npm ci` and production library build pass |
+| LIN-02 | Run all three tarball consumer lanes without peer overrides                         | Verified | All 12 build/browser combinations pass; 68 typed exports per consumer; Node 24.15.0                                             |
+| LIN-03 | Run the desktop engine suites without retries; investigate failures                 | Verified | Initial failure diagnosed; final per-engine evidence verifies 589 enabled scenarios and two existing skips                      |
+| LIN-04 | Reconcile evidence, complete independent review and account for temporary resources | Verified | Independent review Clear; negative control and restoration verified; owned workspace, links and registration removed            |
+
+**Next action:** Packaged SSR/hydration verification; hosted workflow execution remains open.
+**Reviews:** Independent [Linux verification review](phase-8-linux-review.md) is Clear. Parent
+accepted the test correction and cleanup guidance; no material findings remain.
+**Deviations:** Local Ubuntu is 26.04, not a claim of identical hosted-runner execution.
+**Resources:** The isolated Linux workspace (including its Node runtime, consumers and extracted
+libraries) was removed after preserving reports. All 1,406 temporary WebKit library links were
+removed, and no owned process remained. Downloaded browser/npm caches are retained for reuse;
+raw evidence and setup scripts remain under ignored `tmp/`. See `tmp/linux-evidence/cleanup.json`.
+No Git worktree, branch, commit or remote workflow dispatch was created.
+
+### Local Linux environment and limits
+
+The source was copied with `git archive 0323250`, with no Windows `node_modules`, path aliases
+to the owner checkout, or dependency-manifest edits. The Node 24.15.0 Linux archive was checked
+against its distribution SHA-256 manifest. The clean install added 956 packages; the production
+library build and all 84 tooling tests pass on Linux. Git blob hashes for all 1,376 tracked
+files match the committed source, with zero mismatches.
+
+Ubuntu's browser libraries were downloaded from its package repositories and extracted into
+the verification workspace, without a system-wide installation. Chromium and Firefox launch
+with `LD_LIBRARY_PATH` pointing at those libraries. WebKit's bundled launcher replaces that
+variable, so its previously missing libraries were linked into the bundle's `sys/lib` directory;
+existing bundle files and the launcher were preserved.
+
+Playwright's dlopen preflight checks the system `ldconfig` cache, which cannot see these local
+libraries. Direct `ctypes.CDLL` checks successfully load `libGLESv2.so.2` and `libx264.so.165`.
+After those checks, the desktop run uses `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1`.
+That bypass applies only to the installation preflight: real browser startup, actions and all
+test assertions still execute. WebKit 26.5 launched and handled a native button interaction.
+This local arrangement is **not** verification of the workflow's `install --with-deps` step.
+
+The local audit uses `CI=true`, two workers, no retries and failure traces. Hosted workflows
+use standard system libraries and one worker per engine. Browser versions match the locked
+Playwright 1.62.1 downloads: Chromium 151.0.7922.34, Firefox 153.0 and WebKit 26.5. Hosted Actions
+execution, fonts/media capability outside the tested scenarios and physical products remain
+unverified. No repository skip, assertion or browser configuration was relaxed for this run.
+
+Linux consumer reports, resolved lockfiles and command logs are copied to
+`tmp/linux-evidence/consumer/{minimum,baseline,latest}/`. Setup, build and runner logs are
+retained as `tmp/linux-*.log`; desktop results are `tmp/linux-evidence/browser-audit.json`.
+
+### Tooltip teardown correction
+
+The initial full Linux run completed all 591 scenarios: Chromium 197 passes, Firefox 196 passes
+and one skip, WebKit 195 passes, one failure and one skip. There were no retries or runner
+errors. In the Tooltip/Dropdown lifecycle case, the open tooltip physically covered the
+fixture's **Toggle presence** button. Playwright's hit-tested click could not reach that
+button; the failure trace identifies the tooltip body as the intercepting element.
+
+The final lifecycle step now calls the fixture button's native `HTMLButtonElement.click()`
+through locator evaluation. This invokes its existing Angular owner-destruction handler without
+moving focus or requiring a particular spatial relationship to an open overlay. Earlier real
+pointer and keyboard interactions are unchanged. The test still requires the open dialog before
+destruction and zero overlay panes afterward, and now also requires the owner's trigger to be
+detached. This is an explicit lifecycle test, not evidence of a physical click through an overlay.
+
+All 18 Tooltip cases pass across the three Windows engines after the correction. A bounded
+negative control changed only the disposable Linux fixture's toggle handler to a no-op; the
+corrected test failed at the trigger-detached assertion as intended. The fixture was restored
+before the final WebKit run. A second 1,376-file integrity check confirms that only the intended
+Tooltip test differs from `0323250`, exactly matching the owner checkout, and that the fixture
+mutation is absent. Browser type checking and lint pass.
+
+Initial failure JSON and `initial-browser-artifacts.tar.gz` remain under `tmp/linux-evidence/`.
+The full WebKit rerun is recorded separately as `webkit-final.json`; Windows and negative-control
+logs are `tmp/linux-tooltip-windows.log` and `tmp/linux-tooltip-negative.log`.
+
+The corrected full WebKit lane passes **196 tests with one existing CDP touch skip**, without
+retries, flaky outcomes or runner errors. Chromium and Firefox retain their full initial-lane
+results; their corrected lifecycle case is also checked in a separate Linux follow-up. Together
+these runs verify all **589 enabled desktop scenarios**, with the same **two declared skips**.
+This is combined evidence after a correction, not a claim that the initial 591-scenario run passed.
+
+| Engine   | Full lane passes | Declared skips | Evidence                                          |
+| -------- | ---------------: | -------------: | ------------------------------------------------- |
+| Chromium |              197 |              0 | Initial full audit plus corrected lifecycle check |
+| Firefox  |              196 |              1 | Initial full audit plus corrected lifecycle check |
+| WebKit   |              196 |              1 | Full corrected rerun                              |
+
+## Earlier audit record
+
 **Follow-up:** The [native focus milestone](phase-8-native-focus-progress.md) resolves ten of the
 original WebKit failures. [Native keyboard and paint verification](phase-8-native-keyboard-progress.md)
 addresses the remaining local backlog and records 589 passes with two existing CDP touch skips.
@@ -85,10 +185,10 @@ timing, or implementation defects. The local backlog is now addressed in
 | Progress: reduced-motion native fill transition                             |     1 | WebKit returns an empty computed transition duration for its native fill pseudo-element. Establish an observable assertion without silently accepting an empty value. |
 
 Native pointer-focus and keyboard-policy checks, Progress paint verification and Calendar fixture
-hardening now pass the local desktop matrix. Continue with Angular consumer compatibility and
-Linux CI verification, followed by the remaining platform and manual release gates.
+hardening pass the Windows desktop matrix. Packaged Angular consumers also pass locally on
+Windows and Linux; hosted CI, packaged SSR/hydration, platform and manual release gates remain.
 
 Physical Safari/iOS, Edge and Android Chrome, manual assistive technology, custom-theme
-contrast, high zoom, Angular version lanes, zone/zoneless consumer builds and delayed/incremental
+contrast, high zoom, full component behavior across Angular versions and delayed/incremental
 hydration remain separate release gates. Overall delivery remains **65/68 automated** and
 **0/68 Done**. No dependency ranges, bundle limits or coverage thresholds are changed.

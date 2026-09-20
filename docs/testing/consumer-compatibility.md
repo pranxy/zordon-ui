@@ -65,3 +65,5 @@ The `Angular consumer compatibility` workflow runs the three lanes independently
 pull requests, pushes to master, and manual dispatch. It builds the package on Angular 21 first,
 uses Node 24.15.0, and uploads evidence even when a lane fails. Adding the workflow is not proof
 of a successful hosted run. See the [milestone evidence](../plans/phase-8-consumer-compatibility-progress.md).
+The [Linux follow-up](../plans/phase-8-browser-audit-progress.md#linux-verification-follow-up)
+also verifies the three lanes locally on Ubuntu 26.04 and records its isolated dependency setup.
