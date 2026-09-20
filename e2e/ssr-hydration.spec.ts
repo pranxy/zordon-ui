@@ -1,5 +1,48 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Menu renders native links and initial expansion before hydration then hydrates Router and Aria Tree', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/menu');
+    const nav = server.getByRole('navigation', { name: 'Workspace navigation' });
+    await expect(nav.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute(
+      'href',
+      '/menu',
+    );
+    await expect(nav.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
+    await expect(nav.getByRole('link', { name: 'Guide', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'Settings unavailable' })).not.toHaveAttribute(
+      'href',
+    );
+    await expect(server.getByRole('tree', { name: 'Project files' })).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/menu');
+  await page.getByRole('link', { name: 'Inbox, 3 unread messages' }).click();
+  await expect(page).toHaveURL(/section=inbox/);
+  const projects = page.getByRole('treeitem', { name: 'Projects', exact: true });
+  await projects.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(projects).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('treeitem', { name: 'Alpha, No issues', exact: true })).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Space');
+  await expect(page.getByLabel('Selected files')).toHaveText('alpha');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Megamenu renders stable closed triggers and native navigation then hydrates wide Router panels', async ({
   browser,
   page,

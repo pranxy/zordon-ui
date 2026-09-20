@@ -9,6 +9,21 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Menu native lists and Aria hierarchy in light desktop and dark RTL mobile', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1300 });
+  await page.goto('/__zordon-tests__/menu');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('button', { name: 'Toggle tree group' }).click();
+  await expect(page.getByTestId('menu-fixture')).toHaveScreenshot('menu--light-desktop.png');
+  await page.setViewportSize({ width: 360, height: 1800 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('menu-fixture')).toHaveScreenshot('menu--dark-rtl-mobile.png');
+});
+
 test('Megamenu wide light desktop and single-column dark RTL mobile panels', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });

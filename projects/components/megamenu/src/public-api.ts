@@ -6,7 +6,7 @@ export {
   ZdDropdownPanel,
   ZdDropdownMenu,
   ZdDropdownItem,
-  type ZdDropdownCloseReason,
-  type ZdDropdownSide,
-  type ZdDropdownAlign,
+  ZdDropdownCloseReason,
+  ZdDropdownSide,
+  ZdDropdownAlign,
 } from '@pranxy/zordon-ui/dropdown';

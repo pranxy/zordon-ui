@@ -2,29 +2,30 @@
 
 These records define the v1 architecture for `@pranxy/zordon-ui`. They are intentionally based on the product goals and current platform guidance rather than the legacy component implementations in this repository.
 
-| ADR                                                 | Decision                                             | Status   |
-| --------------------------------------------------- | ---------------------------------------------------- | -------- |
-| [0001](0001-platform-support.md)                    | Platform and compatibility policy                    | Accepted |
-| [0002](0002-component-api-and-composition.md)       | Component API and composition conventions            | Accepted |
-| [0003](0003-styling-and-theming.md)                 | daisyUI styling, theming, and customization          | Accepted |
-| [0004](0004-overlays-and-angular-cdk.md)            | Overlay infrastructure and Angular CDK               | Accepted |
-| [0005](0005-forms.md)                               | Angular Forms integration                            | Accepted |
-| [0006](0006-packaging-and-public-api.md)            | Packaging, entry points, and public API              | Accepted |
-| [0007](0007-accessibility-ssr-and-localization.md)  | Accessibility, SSR, localization, and directionality | Accepted |
-| [0008](0008-angular-aria.md)                        | Angular Aria headless interaction foundation         | Accepted |
-| [0009](0009-shared-overlay-runtime.md)              | One packaged overlay runtime                         | Accepted |
-| [0010](0010-modal-native-and-overlay.md)            | Native Modal and explicit overlay backend            | Accepted |
-| [0011](0011-theme-controller-scoped-preferences.md) | Scoped Theme Controller preferences                  | Accepted |
-| [0012](0012-inline-alert-dismissal.md)              | Inline Alert semantics and controlled dismissal      | Accepted |
-| [0013](0013-loading-status-and-motion.md)           | Loading status, delay and static motion fallback     | Accepted |
-| [0014](0014-native-progress-and-buffer.md)          | Native Progress and decorative buffering             | Accepted |
-| [0015](0015-radial-progress-semantics.md)           | Radial Progress semantics and projected content      | Accepted |
-| [0016](0016-skeleton-artwork-and-busy-regions.md)   | Skeleton artwork and busy regions                    | Accepted |
-| [0017](0017-toast-outlet-and-announcements.md)      | Toast outlet and local announcements                 | Accepted |
-| [0018](0018-accordion-aria-composition.md)          | Accordion Aria composition                           | Accepted |
-| [0019](0019-breadcrumbs-native-navigation.md)       | Breadcrumbs native navigation                        | Accepted |
-| [0020](0020-dock-native-navigation.md)              | Dock native navigation and placement                 | Accepted |
-| [0021](0021-megamenu-dropdown-composition.md)       | Megamenu Dropdown composition and Aria command bar   | Accepted |
+| ADR                                                  | Decision                                             | Status   |
+| ---------------------------------------------------- | ---------------------------------------------------- | -------- |
+| [0001](0001-platform-support.md)                     | Platform and compatibility policy                    | Accepted |
+| [0002](0002-component-api-and-composition.md)        | Component API and composition conventions            | Accepted |
+| [0003](0003-styling-and-theming.md)                  | daisyUI styling, theming, and customization          | Accepted |
+| [0004](0004-overlays-and-angular-cdk.md)             | Overlay infrastructure and Angular CDK               | Accepted |
+| [0005](0005-forms.md)                                | Angular Forms integration                            | Accepted |
+| [0006](0006-packaging-and-public-api.md)             | Packaging, entry points, and public API              | Accepted |
+| [0007](0007-accessibility-ssr-and-localization.md)   | Accessibility, SSR, localization, and directionality | Accepted |
+| [0008](0008-angular-aria.md)                         | Angular Aria headless interaction foundation         | Accepted |
+| [0009](0009-shared-overlay-runtime.md)               | One packaged overlay runtime                         | Accepted |
+| [0010](0010-modal-native-and-overlay.md)             | Native Modal and explicit overlay backend            | Accepted |
+| [0011](0011-theme-controller-scoped-preferences.md)  | Scoped Theme Controller preferences                  | Accepted |
+| [0012](0012-inline-alert-dismissal.md)               | Inline Alert semantics and controlled dismissal      | Accepted |
+| [0013](0013-loading-status-and-motion.md)            | Loading status, delay and static motion fallback     | Accepted |
+| [0014](0014-native-progress-and-buffer.md)           | Native Progress and decorative buffering             | Accepted |
+| [0015](0015-radial-progress-semantics.md)            | Radial Progress semantics and projected content      | Accepted |
+| [0016](0016-skeleton-artwork-and-busy-regions.md)    | Skeleton artwork and busy regions                    | Accepted |
+| [0017](0017-toast-outlet-and-announcements.md)       | Toast outlet and local announcements                 | Accepted |
+| [0018](0018-accordion-aria-composition.md)           | Accordion Aria composition                           | Accepted |
+| [0019](0019-breadcrumbs-native-navigation.md)        | Breadcrumbs native navigation                        | Accepted |
+| [0020](0020-dock-native-navigation.md)               | Dock native navigation and placement                 | Accepted |
+| [0021](0021-megamenu-dropdown-composition.md)        | Megamenu Dropdown composition and Aria command bar   | Accepted |
+| [0022](0022-menu-native-navigation-and-aria-tree.md) | Menu native navigation and Aria Tree                 | Accepted |
 
 ## Applied architecture maps
 

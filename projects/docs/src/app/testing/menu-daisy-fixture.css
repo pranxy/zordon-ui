@@ -1,0 +1,7 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: menu;
+}
+/* The component owns list layout and interaction styling; compile only its visual modifiers. */
+@source inline('menu-xs menu-sm menu-md menu-lg menu-xl menu-title menu-active');

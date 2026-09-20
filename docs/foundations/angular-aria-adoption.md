@@ -133,7 +133,7 @@ means the component specification must select that semantic mode explicitly.
 | NAV-02 | Dock             | Native links and RouterLinkActive; unavailable destinations omit href; no Aria widget (ADR 0020)          |
 | NAV-03 | Link             | Native `<a>` plus Angular Router integration                                                              |
 | NAV-04 | Megamenu         | Native navigation via Dropdown; opt-in Aria MenuBar/Menu for commands (ADR 0021)                          |
-| NAV-05 | Menu             | Angular Aria Menu for commands, Tree for hierarchy, or native navigation links according to approved mode |
+| NAV-05 | Menu             | Native navigation; Aria Tree for selectable hierarchy; Dropdown/Aria Menu for commands (ADR 0022)         |
 | NAV-06 | Navbar           | Native `<nav>`; conditional Toolbar only for a related action subset                                      |
 | NAV-07 | Pagination       | Native navigation landmark with links/buttons                                                             |
 | NAV-08 | Steps            | Native ordered list/current-step semantics; not Tabs unless it actually controls tab panels               |
