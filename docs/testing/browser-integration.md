@@ -142,6 +142,11 @@ pre-hydration event replay, package, and manual assistive-technology evidence; s
 
 ## Test authoring rules
 
+- Compare native pointer focus with a plain native control in the same engine; a click is not
+  a portable precondition for focus. Keep keyboard-order and restoration scenarios explicit by
+  focusing their starting control and activating it with Enter/Space. Preserve pointer-specific
+  assertions, including native input focus inside modal surfaces. See the
+  [native focus milestone](../plans/phase-8-native-focus-progress.md).
 - Prefer accessible roles, names, labels, and public component harnesses over CSS implementation selectors.
 - Use `data-testid` only for test-fixture boundaries or elements without an appropriate user-facing locator.
 - Test public behavior rather than private Angular state.

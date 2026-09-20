@@ -6,6 +6,10 @@
 
 **Commit:** `test: establish desktop browser compatibility audit`
 
+**Follow-up:** The [native focus milestone](phase-8-native-focus-progress.md) resolves ten of the
+original WebKit failures. Its final matrix records nine remaining original cases and one new
+intermittent Calendar fixture failure. The initial audit results below remain historical evidence.
+
 This first Phase 8 milestone exercises the existing component suite in the configured desktop
 engines and makes the audit repeatable in CI. It does not widen platform support or mark the
 component accessibility reviews complete.
@@ -59,10 +63,11 @@ and screenshots retain the preceding component milestone's evidence rather than 
 Final logs are in ignored `tmp/phase8-firefox-final.json`, `tmp/phase8-chromium-final.log` and
 `tmp/phase8-portability-focused.log`. No commit, workflow dispatch or publication was performed.
 
-## Open WebKit backlog
+## Initial WebKit backlog
 
-These are failing assertions awaiting classification as test assumptions, fixture timing, or
-implementation defects. They remain enabled and cause the audit job to fail.
+These were the initial failing assertions awaiting classification as test assumptions, fixture
+timing, or implementation defects. The current remaining work is tracked in the
+[native focus milestone](phase-8-native-focus-progress.md#remaining-work).
 
 | Scenarios                                                                   | Count | Observed failure / next investigation                                                                                                                                 |
 | --------------------------------------------------------------------------- | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -78,10 +83,9 @@ implementation defects. They remain enabled and cause the audit job to fail.
 | Megamenu: responsive full-width panel                                       |     1 | Expected Components link is missing at the focus assertion; inspect focus-opening policy and fixture readiness.                                                       |
 | Progress: reduced-motion native fill transition                             |     1 | WebKit returns an empty computed transition duration for its native fill pseudo-element. Establish an observable assertion without silently accepting an empty value. |
 
-Start the next hardening milestone with native WebKit focus characterization and the shared
-keyboard/focus assumptions, then rerun these exact scenarios. Keep the native Progress rendering
-query as a separate observation problem. Do not suppress failures or approve compatibility by
-expanding skips.
+Native pointer-focus characterization and its test corrections are now verified. Continue with
+native link keyboard policy, Progress rendering observability and the intermittent Calendar
+fixture toggle. Do not suppress failures or approve compatibility by expanding skips.
 
 Physical Safari/iOS, Edge and Android Chrome, manual assistive technology, custom-theme
 contrast, high zoom, Angular version lanes, zone/zoneless consumer builds and delayed/incremental

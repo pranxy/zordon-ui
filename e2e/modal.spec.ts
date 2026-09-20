@@ -8,7 +8,8 @@ test('Modal native focus, Escape, form close, nesting and scroll lock', async ({
   runAxeScan,
 }) => {
   const opener = page.getByRole('button', { name: 'Open native', exact: true });
-  await opener.click();
+  await opener.focus();
+  await opener.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Editor', exact: true });
   await expect(dialog).toBeVisible();
   await expect(dialog).toHaveJSProperty('open', true);

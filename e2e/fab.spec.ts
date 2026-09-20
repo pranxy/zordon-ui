@@ -28,7 +28,8 @@ test('FAB retains native disclosure, action cancellation, keyboard order and Too
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
   await root.getByRole('link').click();
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-  await root.getByRole('button', { name: 'Draft', exact: true }).click();
+  await root.getByRole('button', { name: 'Draft', exact: true }).focus();
+  await root.getByRole('button', { name: 'Draft', exact: true }).press('Enter');
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   await expect(trigger).toBeFocused();
   await expect(page.getByRole('status')).toHaveText('draft');
@@ -50,7 +51,8 @@ test('FAB controlled requests, disabled state, teardown and Tab departure remain
   await page.getByRole('button', { name: 'Accept controlled' }).click();
   await trigger.click();
   await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-  await flower.getByRole('button', { name: 'Email', exact: true }).click();
+  await flower.getByRole('button', { name: 'Email', exact: true }).focus();
+  await flower.getByRole('button', { name: 'Email', exact: true }).press('Enter');
   await expect(trigger).toBeFocused();
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   await page.getByRole('button', { name: 'Toggle disabled' }).click();

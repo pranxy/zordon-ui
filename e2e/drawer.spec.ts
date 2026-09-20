@@ -10,7 +10,8 @@ test('Drawer composes Navbar toggle, modal isolation, rejection, focus and neste
 }) => {
   await page.getByLabel('Accept requests').uncheck();
   const trigger = page.getByRole('button', { name: 'Navigation drawer' });
-  await trigger.click();
+  await trigger.focus();
+  await trigger.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Project navigation' });
   await expect(dialog).toBeVisible();
   await expect(page.locator('html')).toHaveClass(/cdk-global-scrollblock/);
@@ -20,7 +21,12 @@ test('Drawer composes Navbar toggle, modal isolation, rejection, focus and neste
   await expect(dialog).toBeVisible();
   expect((await runAxeScan()).violations).toEqual([]);
   await page.bringToFront();
-  await dialog.getByRole('button', { name: 'Open nested drawer' }).click();
+  const search = dialog.getByRole('textbox', { name: 'Search navigation' });
+  await search.click();
+  await expect(search).toBeFocused();
+  const nestedTrigger = dialog.getByRole('button', { name: 'Open nested drawer' });
+  await nestedTrigger.focus();
+  await nestedTrigger.press('Enter');
   const nested = page.getByRole('dialog', { name: 'Nested tools' });
   await expect(nested.getByRole('button', { name: 'Close nested tools' })).toBeFocused();
   await page.keyboard.press('Escape');
@@ -30,14 +36,15 @@ test('Drawer composes Navbar toggle, modal isolation, rejection, focus and neste
 });
 test('Drawer accepts backdrop and navigation close and restores the trigger', async ({ page }) => {
   const trigger = page.getByRole('button', { name: 'Navigation drawer' });
-  await trigger.click();
+  await trigger.focus();
+  await trigger.press('Enter');
   await expect(page.getByRole('dialog', { name: 'Project navigation' })).toBeVisible();
   await page.locator('.zd-modal-backdrop').click({ position: { x: 1000, y: 300 } });
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.locator('html')).not.toHaveClass(/cdk-global-scrollblock/);
   await expect(page.locator('docs-root')).not.toHaveAttribute('inert');
   await expect(trigger).toBeFocused();
-  await trigger.click();
+  await trigger.press('Enter');
   await page.getByRole('link', { name: 'Settings destination' }).click();
   await expect(page).toHaveURL(/section=settings/);
   await expect(page.getByRole('dialog')).toHaveCount(0);

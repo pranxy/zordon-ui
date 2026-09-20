@@ -54,7 +54,7 @@ test('moves focus in deterministic keyboard order', async ({ page }) => {
   const first = page.getByTestId('focus-first');
   const second = page.getByTestId('focus-second');
 
-  await first.click();
+  await first.focus();
   await expect(first).toBeFocused();
 
   await page.keyboard.press('Tab');
@@ -74,10 +74,13 @@ test('keeps native Button hosts semantic while guarding only loading and disable
   const reset = page.getByTestId('button-reset');
   const nativeValue = page.getByTestId('button-native-value');
 
+  const nativeButton = page.getByTestId('focus-first');
+  await nativeButton.click();
+  const nativePointerFocus = await nativeButton.evaluate(el => el === document.activeElement);
   await expect(pressed).toHaveAttribute('aria-pressed', 'false');
   await pressed.click();
   await expect(pressed).toHaveAttribute('aria-pressed', 'true');
-  await expect(pressed).toBeFocused();
+  expect(await pressed.evaluate(el => el === document.activeElement)).toBe(nativePointerFocus);
 
   await expect(disabledLink).toHaveAttribute('href', '#button-link-target');
   await expect(disabledLink).toHaveAttribute('aria-disabled', 'true');
@@ -845,7 +848,11 @@ test('captures, wraps, monitors, and restores focus with supported CDK primitive
   const disable = page.getByTestId('focus-trap-disable');
   const close = page.getByTestId('focus-trap-close');
 
-  await trigger.click();
+  const nativeButton = page.getByTestId('focus-first');
+  await nativeButton.click();
+  const nativePointerFocus = await nativeButton.evaluate(el => el === document.activeElement);
+  await trigger.focus();
+  await trigger.press('Enter');
   await expect(region).toBeVisible();
   await expect(initial).toBeFocused();
   await expect(initial).toHaveClass(/cdk-program-focused/);
@@ -858,14 +865,20 @@ test('captures, wraps, monitors, and restores focus with supported CDK primitive
   await expect(first).toBeFocused();
 
   await initial.click();
-  await expect(initial).toHaveClass(/cdk-mouse-focused/);
+  if (nativePointerFocus) await expect(initial).toHaveClass(/cdk-mouse-focused/);
+  else {
+    await expect(initial).not.toBeFocused();
+    await expect(initial).not.toHaveClass(/cdk-focused/);
+  }
 
-  await add.click();
+  await add.focus();
+  await add.press('Enter');
   await expect(dynamic).toBeVisible();
   await page.keyboard.press('Tab');
   await expect(dynamic).toBeFocused();
 
-  await disable.click();
+  await disable.focus();
+  await disable.press('Enter');
   await expect(dynamic).toBeDisabled();
   await add.focus();
   await page.keyboard.press('Tab');

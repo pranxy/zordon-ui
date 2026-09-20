@@ -6,13 +6,15 @@ test('Toast queues, promotes, deduplicates and announces visible messages withou
   await page.goto('/__zordon-tests__/toast');
   const outlet = page.getByRole('region', { name: 'Notifications' });
   await expect(outlet.getByRole('status')).toHaveText('');
-  await page.getByRole('button', { name: 'Queue five' }).click();
+  await page.getByRole('button', { name: 'Queue five' }).focus();
+  await page.getByRole('button', { name: 'Queue five' }).press('Enter');
   await expect(page.getByTestId('toast-count')).toHaveText('Stored: 5');
   await expect(outlet.locator('zd-alert')).toHaveCount(3);
   await expect(page.getByRole('button', { name: 'Queue five' })).toBeFocused();
   await expect(outlet.getByRole('status')).toContainText('Queued 3');
   await expect(outlet.getByRole('status')).not.toContainText('Queued 4');
-  await outlet.getByRole('button', { name: 'Dismiss notification' }).first().click();
+  await outlet.getByRole('button', { name: 'Dismiss notification' }).first().focus();
+  await outlet.getByRole('button', { name: 'Dismiss notification' }).first().press('Enter');
   await expect(outlet.locator('zd-alert').last()).toContainText('Queued 4');
   await expect(outlet.getByRole('status')).toHaveText('Queued 4');
   await expect(page.getByRole('button', { name: 'Queue five' })).toBeFocused();
@@ -47,16 +49,19 @@ test('Toast custom content and actions retain one announcement path and report r
   runAxeScan,
 }) => {
   await page.goto('/__zordon-tests__/toast');
-  await page.getByRole('button', { name: 'Show styled' }).click();
+  await page.getByRole('button', { name: 'Show styled' }).focus();
+  await page.getByRole('button', { name: 'Show styled' }).press('Enter');
   await expect(page.locator('zd-alert strong')).toHaveText('Scheduled job');
   await expect(page.locator('zd-alert[role]')).toHaveCount(0);
-  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await page.getByRole('button', { name: 'Undo', exact: true }).focus();
+  await page.getByRole('button', { name: 'Undo', exact: true }).press('Enter');
   await expect(page.getByTestId('toast-actions')).toHaveText('Actions: 1');
   await expect(page.locator('zd-alert')).toHaveCount(2);
   await expect(page.getByRole('button', { name: 'Show styled' })).toBeFocused();
   await page.getByRole('button', { name: 'Clear notices' }).click();
   await page.getByRole('button', { name: 'Fail action' }).click();
-  await page.getByRole('button', { name: 'Retry request', exact: true }).click();
+  await page.getByRole('button', { name: 'Retry request', exact: true }).focus();
+  await page.getByRole('button', { name: 'Retry request', exact: true }).press('Enter');
   await expect(page.getByRole('alert')).toHaveText('Request failed; retry is available');
   await expect(page.getByRole('button', { name: 'Retry request', exact: true })).toBeFocused();
   expect((await runAxeScan()).violations).toEqual([]);
