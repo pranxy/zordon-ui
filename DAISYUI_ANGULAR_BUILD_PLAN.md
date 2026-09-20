@@ -451,6 +451,8 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
       [Linux audit evidence and limits](docs/plans/phase-8-browser-audit-progress.md#linux-verification-follow-up).
 - [x] Verify packaged production SSR and ordinary hydration on all three Angular lanes in both
       zone modes. See [SSR evidence and limits](docs/plans/phase-8-consumer-compatibility-progress.md#packaged-ssr-follow-up).
+- [x] Verify the six packaged SSR/hydration combinations on native Linux with Node 24.15.0.
+      See [Linux SSR evidence](docs/plans/phase-8-consumer-compatibility-progress.md#linux-ssr-verification).
 - [ ] Verify hosted Linux workflow execution and supported browser products/devices.
 - [ ] Complete the cross-cutting verification matrix and release milestones below.
 

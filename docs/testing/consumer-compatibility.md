@@ -79,3 +79,8 @@ uses Node 24.15.0, and uploads evidence even when a lane fails. Adding the workf
 of a successful hosted run. See the [milestone evidence](../plans/phase-8-consumer-compatibility-progress.md).
 The [Linux follow-up](../plans/phase-8-browser-audit-progress.md#linux-verification-follow-up)
 also verifies the three lanes locally on Ubuntu 26.04 and records its isolated dependency setup.
+The [Linux SSR follow-up](../plans/phase-8-consumer-compatibility-progress.md#linux-ssr-verification)
+verifies all six production SSR/hydration combinations on Ubuntu 26.04 x64 under WSL2 with
+Node 24.15.0 and native Chromium. It uses an archived committed source tree, fresh native
+dependencies and locally extracted browser libraries; it does not certify the hosted runner's
+system-dependency installation or physical browser products.

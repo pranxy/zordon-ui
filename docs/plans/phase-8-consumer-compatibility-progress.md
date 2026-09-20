@@ -2,8 +2,8 @@
 
 **Updated:** 2026-09-20
 
-**Status:** Local CSR verified on Windows/Linux and packaged SSR verified on Windows;
-hosted execution, Linux SSR and broader release gates remain open.
+**Status:** Local CSR and packaged SSR verified on Windows/Linux;
+hosted execution and broader release gates remain open.
 
 **Commit:** `test: verify packaged Angular 21 and 22 consumers`
 
@@ -13,6 +13,42 @@ combinations on Ubuntu 26.04 with Node 24.15.0. See
 Hosted workflow execution remains unverified. The original Windows evidence below is retained.
 
 ## Packaged SSR follow-up
+
+### Linux SSR verification
+
+**Status:** Complete. **Baseline:** `75caaeb`.
+**Commit:** `test: verify packaged SSR and hydration on Linux`
+**Scope:** Run the existing six packaged SSR cases in an isolated Ubuntu workspace with
+Node 24.15.0 and native dependencies. Parent owns runtime setup, evidence and cleanup;
+an independent reviewer checks the final evidence. No hosted workflow dispatch is included.
+
+| Task    | Acceptance                                                                      | Status   |
+| ------- | ------------------------------------------------------------------------------- | -------- |
+| LSSR-01 | Verify committed source and isolated native Linux runtime/install/build         | Verified |
+| LSSR-02 | All three Angular lanes pass SSR/hydration in both zone modes                   | Verified |
+| LSSR-03 | Review evidence, document environment limits and remove owned runtime resources | Verified |
+
+**Environment:** Ubuntu 26.04 x64 under WSL2, Node 24.15.0, npm 11.12.1 and
+Playwright 1.62.1 Chromium 151.0.7922.34. All 1,381 archived source files match the baseline;
+Node checksum, fresh `npm ci`, native library build and all 86 tooling tests pass.
+`libnss3`, `libnspr4` and `libasound2t64` were extracted locally and exposed with
+`LD_LIBRARY_PATH`; no system packages were changed or browser checks disabled.
+This local environment does not establish hosted Ubuntu workflow execution or physical devices.
+**Results:** All six production build/browser combinations pass: Angular 21.0.0, 21.2.19 and
+22.1.7, each in zone and zoneless mode. Each lane installs strict peers and checks all 68 typed
+exports. Server/no-JavaScript content, repeated-request IDs, original-node reuse, stable
+relationships and hydrated interactions pass with no browser/server errors. All lanes use
+the same Linux-built tarball. No source or test correction was necessary.
+**Evidence:** `tmp/linux-ssr-evidence/` contains source integrity, environment and Node checksum,
+install/build/tooling logs, three lane reports, lockfiles, command logs and exit statuses.
+**Next action:** Hosted workflow and platform/manual release evidence.
+**Resources:** Removed the task-owned workspace, three isolated consumers, Node runtime and
+extracted libraries after review. No owned processes remain. Existing browser/user npm caches
+and repository evidence/scripts are retained; see `tmp/linux-ssr-evidence/cleanup.json`.
+**Reviews:** [Independent Linux SSR review](phase-8-linux-ssr-review.md): Clear.
+No source changes, new skips, retries, dependency changes or gate relaxations were needed.
+
+### Windows SSR verification
 
 **Status:** Verified; commit-ready. **Baseline:** `4d64c79`.
 **ADRs:** [Platform](../architecture/0001-platform-support.md),
@@ -29,7 +65,7 @@ Hosted workflow execution remains unverified. The original Windows evidence belo
 
 **Scope:** Ordinary full-page hydration of the packaged Button, native Forms and Aria-backed Tabs
 fixture, plus the library ID generator. Incremental boundaries, broader component behavior,
-Linux execution of the new SSR cases, hosted workflows and manual/device gates remain separate.
+Hosted workflows and manual/device gates remain separate. Linux execution is verified above.
 **Confirmed defect:** The baseline tarball changes Tab/TabPanel IDs from counters 0/1 to 2/3
 across consecutive server responses. Preserved evidence: `tmp/consumer-ssr/tabs-before-fix/`.
 The initial loopback-host setup failure is retained separately. The server now allows only
@@ -38,7 +74,7 @@ the runner's loopback host through `NG_ALLOWED_HOSTS`.
 Aria still owns the reciprocal links and navigation. Fresh applications, multiple widgets,
 reordering, removal/readdition and Unicode/punctuation keys have focused DOM regression coverage.
 The generated API report changes only a protected helper; no public inputs or outputs changed.
-**Next action:** Linux verification of the new SSR gate, followed by hosted/platform release evidence.
+**Next action:** Hosted/platform release evidence; the Linux follow-up is recorded above.
 **Reviews:** Setup scout, sequential runner/Tabs writers and a fresh independent reviewer completed.
 [Implementation review](phase-8-consumer-ssr-review.md): Clear, no material findings.
 **Resources:** Eight task-owned consumer workspaces removed after review; reports, lockfiles,
@@ -107,7 +143,7 @@ above supplies native Linux evidence; hosted workflow execution remains open.
 
 ## Remaining work
 
-Next: verify hosted Linux workflows and the new SSR cases on Linux.
+Next: verify hosted Linux workflows and supported browser products/devices.
 The current smoke fixture does not establish full component behavior on each Angular version,
 all styling combinations, delayed/incremental hydration, physical/branded-browser coverage,
 or manual assistive-technology approval. Those remain release gates.
