@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  width: min(64rem, calc(100vw - 2rem));
+  box-sizing: border-box;
+  padding: 1rem;
+}
+main {
+  max-width: 64rem;
+  margin: auto;
+}
+.controls,
+nav,
+nav > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.controls {
+  margin-block: 1rem;
+}
+button,
+select,
+input {
+  font: inherit;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 0.375rem;
+  background: var(--color-base-100);
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+nav {
+  padding: 1rem;
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.5rem;
+}
+nav > a {
+  padding: 0.5rem;
+}
+section {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+section h2 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+section p {
+  margin: 0;
+}
+section a {
+  padding: 0.5rem;
+  text-decoration: underline;
+}
+section label {
+  display: grid;
+  gap: 0.5rem;
+}
+section input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+[aria-disabled='true'] {
+  opacity: 0.65;
+  padding: 0.5rem;
+}
+.current {
+  font-weight: 700;
+  text-decoration-thickness: 3px;
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+zd-megamenu-bar {
+  margin-bottom: 1rem;
+}

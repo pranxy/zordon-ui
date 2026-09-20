@@ -24,6 +24,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0018](0018-accordion-aria-composition.md)          | Accordion Aria composition                           | Accepted |
 | [0019](0019-breadcrumbs-native-navigation.md)       | Breadcrumbs native navigation                        | Accepted |
 | [0020](0020-dock-native-navigation.md)              | Dock native navigation and placement                 | Accepted |
+| [0021](0021-megamenu-dropdown-composition.md)       | Megamenu Dropdown composition and Aria command bar   | Accepted |
 
 ## Applied architecture maps
 

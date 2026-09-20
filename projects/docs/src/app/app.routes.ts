@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/megamenu',
+    loadComponent: () =>
+      import('./testing/megamenu-test-fixture.component').then(
+        module => module.MegamenuTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/dock',
     loadComponent: () =>
       import('./testing/dock-test-fixture.component').then(

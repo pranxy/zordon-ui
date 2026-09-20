@@ -2,6 +2,13 @@ import { type Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'megamenu',
+    loadComponent: () =>
+      import('../../../docs/src/app/testing/megamenu-test-fixture.component').then(
+        module => module.MegamenuTestFixtureComponent,
+      ),
+  },
+  {
     path: 'dock',
     loadComponent: () =>
       import('../../../docs/src/app/testing/dock-test-fixture.component').then(

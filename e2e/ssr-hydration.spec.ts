@@ -1,5 +1,38 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Megamenu renders stable closed triggers and native navigation then hydrates wide Router panels', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/megamenu');
+    await expect(server.getByRole('link', { name: 'Overview' })).toHaveAttribute(
+      'href',
+      '/megamenu',
+    );
+    await expect(server.getByRole('button', { name: 'Explore', exact: true })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(server.locator('.cdk-overlay-pane')).toHaveCount(0);
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/megamenu');
+  await page.getByRole('button', { name: 'Explore', exact: true }).click();
+  await expect(page.getByRole('region', { name: 'Explore destinations' })).toBeVisible();
+  expect((await runAxeScan()).violations).toEqual([]);
+  await page.getByRole('link', { name: 'Components', exact: true }).click();
+  await expect(page).toHaveURL(/section=components/);
+  await expect(page.locator('.cdk-overlay-pane')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
 test('Dock renders native server destinations and hydrates route-synchronized current-page state', async ({
   browser,
   page,

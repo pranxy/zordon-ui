@@ -9,6 +9,21 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Megamenu wide light desktop and single-column dark RTL mobile panels', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.goto('/__zordon-tests__/megamenu');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('button', { name: 'Explore', exact: true }).click();
+  await expect(page.locator('zd-megamenu-panel')).toHaveScreenshot('megamenu--light-desktop.png');
+  await page.keyboard.press('Escape');
+  await page.setViewportSize({ width: 360, height: 1000 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await page.getByRole('button', { name: 'Explore', exact: true }).click();
+  await expect(page.locator('zd-megamenu-panel')).toHaveScreenshot('megamenu--dark-rtl-mobile.png');
+});
+
 test('Dock native destinations in light desktop and dark RTL mobile overflow', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
