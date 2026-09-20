@@ -1,0 +1,52 @@
+docs-pagination-test-fixture {
+  display: block;
+  width: min(60rem, calc(100vw - 2rem));
+}
+docs-pagination-test-fixture main {
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--color-base-100, Canvas);
+  color: var(--color-base-content, CanvasText);
+}
+docs-pagination-test-fixture h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+docs-pagination-test-fixture h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+docs-pagination-test-fixture p {
+  margin-block: 0.75rem;
+}
+docs-pagination-test-fixture section {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-base-300, GrayText);
+  border-radius: 0.5rem;
+}
+docs-pagination-test-fixture .controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+}
+docs-pagination-test-fixture .controls button,
+docs-pagination-test-fixture .controls select {
+  padding: 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 0.4rem;
+  color: inherit;
+  background: var(--color-base-100, Canvas);
+  min-height: 2.5rem;
+}
+docs-pagination-test-fixture .controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+docs-pagination-test-fixture output {
+  display: block;
+  margin-top: 0.75rem;
+}

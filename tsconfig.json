@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "@pranxy/zordon-ui/pagination": ["projects/components/pagination/src/public-api.ts"],
       "@pranxy/zordon-ui/navbar": ["projects/components/navbar/src/public-api.ts"],
       "@pranxy/zordon-ui/menu": ["projects/components/menu/src/public-api.ts"],
       "@pranxy/zordon-ui/megamenu": ["projects/components/megamenu/src/public-api.ts"],

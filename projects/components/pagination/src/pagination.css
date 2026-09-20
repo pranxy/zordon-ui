@@ -1,0 +1,86 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+.zd-pages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-inline-size: 100%;
+}
+a,
+button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 2.5rem;
+  min-block-size: 2.5rem;
+  color: inherit;
+  text-decoration: none;
+}
+.zd-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 2rem;
+}
+.zd-arrow {
+  display: inline-block;
+}
+.zd-arrow:dir(rtl) {
+  transform: scaleX(-1);
+}
+[aria-current='page'] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  font-weight: 700;
+}
+[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: default;
+}
+label {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+select {
+  min-block-size: 2.5rem;
+  color: inherit;
+  background: var(--color-base-100, Canvas);
+  border: 1px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+}
+:is(a, button, select):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+p {
+  margin-block: 0.5rem 0;
+}
+@media (forced-colors: active) {
+  [aria-current='page'] {
+    outline: 2px solid Highlight;
+    outline-offset: -5px;
+  }
+  [aria-disabled='true'],
+  :disabled {
+    color: GrayText;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  a,
+  button {
+    transition: none;
+    animation: none;
+  }
+}

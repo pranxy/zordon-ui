@@ -1,5 +1,41 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Pagination renders query destinations without JavaScript and hydrates native controls and URL state', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/pagination?page=3&limit=25&filter=active');
+    const nav = server.getByRole('navigation', { name: 'URL pages' });
+    await expect(nav.locator('[aria-current]')).toHaveText('3');
+    await expect(nav.getByRole('combobox')).toHaveValue('25');
+    await expect(nav.getByRole('link', { name: 'Next page' })).toHaveAttribute(
+      'href',
+      '/pagination?page=4&limit=25&filter=active',
+    );
+    await nav.getByRole('link', { name: 'Next page' }).click();
+    await expect(server).toHaveURL(/page=4/);
+    await expect(nav.locator('[aria-current]')).toHaveText('4');
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/pagination?page=3&limit=25&filter=active');
+  const nav = page.getByRole('navigation', { name: 'URL pages' });
+  await nav.getByRole('combobox').selectOption('50');
+  await expect(page).toHaveURL(/page=1&limit=50&filter=active/);
+  await expect(nav.locator('[aria-current]')).toHaveText('1');
+  const controlled = page.getByRole('navigation', { name: 'Result pages' });
+  await controlled.getByRole('button', { name: 'Next page' }).click();
+  await expect(controlled.locator('[aria-current]')).toHaveText('6');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Navbar renders responsive native links before hydration and accepts mobile state after hydration', async ({
   browser,
   page,

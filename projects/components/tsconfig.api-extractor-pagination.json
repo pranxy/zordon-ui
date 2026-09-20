@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.lib.prod.json",
+  "compilerOptions": {
+    "baseUrl": "../..",
+    "paths": {
+      "@pranxy/zordon-ui": ["dist/components/types/pranxy-zordon-ui.d.ts"],
+      "@pranxy/zordon-ui/button": ["dist/components/types/pranxy-zordon-ui-button.d.ts"],
+      "@pranxy/zordon-ui/join": ["dist/components/types/pranxy-zordon-ui-join.d.ts"]
+    }
+  },
+  "files": [
+    "../../dist/components/types/pranxy-zordon-ui-pagination.d.ts",
+    "../../dist/components/types/pranxy-zordon-ui.d.ts"
+  ]
+}

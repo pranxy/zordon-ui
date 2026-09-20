@@ -19,6 +19,22 @@ test('Navbar light desktop and expanded dark RTL mobile navigation', async ({ pa
   await expect(page.getByTestId('navbar-fixture')).toHaveScreenshot('navbar--dark-rtl-mobile.png');
 });
 
+test('Pagination light desktop and dark RTL mobile ranges', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1300 });
+  await page.goto('/__zordon-tests__/pagination?page=5&limit=10');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await expect(page.getByTestId('pagination-fixture')).toHaveScreenshot(
+    'pagination--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 1800 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await expect(page.getByTestId('pagination-fixture')).toHaveScreenshot(
+    'pagination--dark-rtl-mobile.png',
+  );
+});
+
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
 test('Menu native lists and Aria hierarchy in light desktop and dark RTL mobile', async ({

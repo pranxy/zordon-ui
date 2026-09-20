@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/pagination',
+    loadComponent: () =>
+      import('./testing/pagination-test-fixture.component').then(
+        module => module.PaginationTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/navbar',
     loadComponent: () =>
       import('./testing/navbar-test-fixture.component').then(

@@ -1,0 +1,7 @@
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: button, join;
+}
+/* The base button is already md; Pagination owns current/disabled state styling. */
+@source inline('btn btn-xs btn-sm btn-lg btn-xl join join-item');
