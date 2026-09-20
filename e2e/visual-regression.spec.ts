@@ -9,6 +9,24 @@ import type { ZdTestTheme } from './fixtures/environment';
 
 const fixtureSelector = '[data-testid="browser-test-fixture"]';
 
+test('Breadcrumbs collapsed navigation in light desktop and dark RTL mobile', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.setViewportSize({ width: 1280, height: 1000 });
+  await page.goto('/__zordon-tests__/breadcrumbs');
+  await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
+  await page.getByRole('navigation', { name: 'Workspace path' }).locator('summary').click();
+  await expect(page.getByTestId('breadcrumbs-fixture')).toHaveScreenshot(
+    'breadcrumbs--light-desktop.png',
+  );
+  await page.setViewportSize({ width: 360, height: 1200 });
+  await applyZordonDocumentEnvironment(page, { theme: 'dark', direction: 'rtl' });
+  await page.getByRole('button', { name: 'Toggle direction' }).click();
+  await page.getByRole('navigation', { name: 'Workspace path' }).locator('summary').click();
+  await expect(page.getByTestId('breadcrumbs-fixture')).toHaveScreenshot(
+    'breadcrumbs--dark-rtl-mobile.png',
+  );
+});
+
 test('Accordion grouped and native disclosure in light desktop and dark RTL mobile', async ({
   page,
 }) => {

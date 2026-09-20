@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  width: min(52rem, calc(100vw - 2rem));
+}
+main {
+  padding: 1rem;
+  color: var(--color-base-content);
+  background: var(--color-base-100);
+  border-radius: 1rem;
+  min-height: 28rem;
+}
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+p {
+  margin-block: 1rem;
+}
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block: 1rem;
+}
+button,
+input {
+  color: inherit;
+  background: var(--color-base-100);
+  border: 1px solid currentColor;
+  border-radius: 0.4rem;
+  padding: 0.65rem;
+  min-height: 2.75rem;
+}
+zd-breadcrumbs {
+  margin-block: 2rem;
+}
+.destination {
+  padding: 1rem;
+  border: 1px solid currentColor;
+  margin-block: 2rem;
+}

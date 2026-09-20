@@ -26,6 +26,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/breadcrumbs',
+    loadComponent: () =>
+      import('./testing/breadcrumbs-test-fixture.component').then(
+        module => module.BreadcrumbsTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/accordion',
     loadComponent: () =>
       import('./testing/accordion-test-fixture.component').then(

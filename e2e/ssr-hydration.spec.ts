@@ -1,5 +1,38 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Breadcrumbs serves native disclosure and structured hierarchy before hydration and preserves Router links', async ({
+  browser,
+  page,
+  runAxeScan,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/breadcrumbs');
+    const nav = server.getByRole('navigation', { name: 'Workspace path' });
+    await expect(nav.locator('[aria-current="page"]')).toHaveCount(1);
+    await expect(server.locator('zd-breadcrumbs [itemprop="position"]')).toHaveCount(6);
+    await nav.locator('summary').click();
+    await expect(nav.getByRole('link', { name: 'All projects', exact: true })).toBeVisible();
+    await expect(nav.getByRole('link', { name: 'All projects', exact: true })).toHaveAttribute(
+      'href',
+      /crumb=projects/,
+    );
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/breadcrumbs');
+  const nav = page.getByRole('navigation', { name: 'Workspace path' });
+  await nav.locator('summary').click();
+  await nav.getByRole('link', { name: 'All projects', exact: true }).click();
+  await expect(page).toHaveURL(/crumb=projects/);
+  await expect(nav.locator('details')).not.toHaveAttribute('open');
+  expect((await runAxeScan()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});
+
 test('Accordion renders labelled server panels and hydrates Aria expansion and lazy content', async ({
   browser,
   page,

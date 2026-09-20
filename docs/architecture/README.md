@@ -22,6 +22,7 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0016](0016-skeleton-artwork-and-busy-regions.md)   | Skeleton artwork and busy regions                    | Accepted |
 | [0017](0017-toast-outlet-and-announcements.md)      | Toast outlet and local announcements                 | Accepted |
 | [0018](0018-accordion-aria-composition.md)          | Accordion Aria composition                           | Accepted |
+| [0019](0019-breadcrumbs-native-navigation.md)       | Breadcrumbs native navigation                        | Accepted |
 
 ## Applied architecture maps
 
