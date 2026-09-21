@@ -76,7 +76,9 @@ lockfile. A later run can expose a transitive regression.
 The `Angular consumer compatibility` workflow runs the three lanes independently on Ubuntu for
 pull requests, pushes to master, and manual dispatch. It builds the package on Angular 21 first,
 uses Node 24.15.0, and uploads evidence even when a lane fails. Adding the workflow is not proof
-of a successful hosted run. See the [milestone evidence](../plans/phase-8-consumer-compatibility-progress.md).
+of a successful hosted run. The [run for commit c1d050f](https://github.com/pranxy/zordon-ui/actions/runs/35539741448)
+passed all three lanes, including both CSR and SSR steps and artifact uploads. See the
+[hosted evidence and limits](../plans/phase-8-consumer-compatibility-progress.md#hosted-verification).
 The [Linux follow-up](../plans/phase-8-browser-audit-progress.md#linux-verification-follow-up)
 also verifies the three lanes locally on Ubuntu 26.04 and records its isolated dependency setup.
 The [Linux SSR follow-up](../plans/phase-8-consumer-compatibility-progress.md#linux-ssr-verification)

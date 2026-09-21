@@ -2,17 +2,68 @@
 
 **Updated:** 2026-09-20
 
-**Status:** Local CSR and packaged SSR verified on Windows/Linux;
-hosted execution and broader release gates remain open.
+**Status:** Local Windows/Linux consumers and hosted push workflows verified;
+the separate hosted browser audit and broader release gates remain open.
 
 **Commit:** `test: verify packaged Angular 21 and 22 consumers`
 
 **Linux follow-up:** The same minimum, baseline and latest lanes now pass all 12 build/browser
 combinations on Ubuntu 26.04 with Node 24.15.0. See
 [Linux audit evidence and environment limits](phase-8-browser-audit-progress.md#linux-verification-follow-up).
-Hosted workflow execution remains unverified. The original Windows evidence below is retained.
+Hosted push-workflow evidence is recorded below. The original Windows evidence is retained.
 
 ## Packaged SSR follow-up
+
+### Hosted verification
+
+**Status:** Complete. **Baseline:** `c1d050f`.
+**Commit:** `docs: record hosted compatibility verification`
+**Scope:** Inspect existing push-triggered Actions runs for this exact commit; no workflow is
+dispatched. Parent collects run/job/artifact metadata and resolves observed failures; a fresh
+reviewer checks evidence and scope. Existing platform and manual release gates remain open.
+
+| Task    | Acceptance                                                              | Status   |
+| ------- | ----------------------------------------------------------------------- | -------- |
+| HOST-01 | Verify all three hosted consumer lanes execute CSR and SSR successfully | Verified |
+| HOST-02 | Verify main CI and distinguish independently unrun platform gates       | Verified |
+| HOST-03 | Record source-linked evidence and independently review closure          | Verified |
+
+**Next action:** Separate hosted three-engine browser audit, then product/device and manual gates.
+**Resources:** Read-only GitHub API inspection completed; metadata and observation script retained
+under `tmp/hosted-evidence/` and `tmp/hosted-verification.ps1`. The observer exited successfully;
+no server, checkout or external action was created.
+**Reviews:** Workflow scope scout and [independent evidence review](phase-8-hosted-review.md)
+complete; Clear with no material findings. No source or workflow corrections were needed.
+
+The [hosted consumer run](https://github.com/pranxy/zordon-ui/actions/runs/35539741448)
+passed on the exact baseline, attempt 1. Every lane passed native dependency installation,
+library build, Chromium/system dependency installation, CSR verification, SSR/hydration
+verification and evidence upload. This establishes the configured 12 CSR and 6 SSR
+build/browser combinations; it does not establish every component's behavior on every version.
+
+| Lane     | Hosted job                                                                               | CSR  | SSR/hydration | Evidence upload |
+| -------- | ---------------------------------------------------------------------------------------- | ---- | ------------- | --------------- |
+| minimum  | [21.0.0](https://github.com/pranxy/zordon-ui/actions/runs/35539741448/job/106155137712)  | Pass | Pass          | Pass            |
+| baseline | [21.2.19](https://github.com/pranxy/zordon-ui/actions/runs/35539741448/job/106155137606) | Pass | Pass          | Pass            |
+| latest   | [22.1.7](https://github.com/pranxy/zordon-ui/actions/runs/35539741448/job/106155137563)  | Pass | Pass          | Pass            |
+
+The [main CI run](https://github.com/pranxy/zordon-ui/actions/runs/35539741409) also passed
+on the exact baseline, attempt 1, with every step successful:
+
+| Job                                                                                                        | Verified scope                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Ubuntu build-and-test](https://github.com/pranxy/zordon-ui/actions/runs/35539741409/job/106155137294)     | Formatting/lint, build/API/tooling/budgets/package dry run, coverage/types, Chromium browser/SSR and documentation tests/build/performance/accessibility/links |
+| [Ubuntu prefix-floor](https://github.com/pranxy/zordon-ui/actions/runs/35539741409/job/106155137447)       | Tailwind 4.1.0 class-prefix compatibility                                                                                                                      |
+| [Windows visual regression](https://github.com/pranxy/zordon-ui/actions/runs/35539741409/job/106155137486) | Existing Chromium visual comparisons                                                                                                                           |
+
+GitHub reports three consumer artifacts and two CI report artifacts, all nonempty and
+unexpired at inspection. Run/job/step/artifact metadata was checked against the exact SHA;
+archive contents were not downloaded. Workflow sources retain these artifacts for 14 days.
+
+The separate manual three-engine browser audit has no hosted runs as of this inspection.
+Main CI permits Playwright retries, so run success alone is not zero-retry evidence. Windows
+visual CI is distinct from Linux browser integration. Physical/browser-product, manual AT,
+broader component/version and incremental-hydration gates remain open.
 
 ### Linux SSR verification
 
@@ -41,7 +92,7 @@ relationships and hydrated interactions pass with no browser/server errors. All 
 the same Linux-built tarball. No source or test correction was necessary.
 **Evidence:** `tmp/linux-ssr-evidence/` contains source integrity, environment and Node checksum,
 install/build/tooling logs, three lane reports, lockfiles, command logs and exit statuses.
-**Next action:** Hosted workflow and platform/manual release evidence.
+**Next action:** See hosted verification above for completed push workflows and remaining gates.
 **Resources:** Removed the task-owned workspace, three isolated consumers, Node runtime and
 extracted libraries after review. No owned processes remain. Existing browser/user npm caches
 and repository evidence/scripts are retained; see `tmp/linux-ssr-evidence/cleanup.json`.
@@ -64,8 +115,8 @@ No source changes, new skips, retries, dependency changes or gate relaxations we
 | SSR-04 | Run the six SSR combinations, affected existing checks, independent review and resource cleanup                        | Verified | All checks below pass; independent review Clear; eight owned consumer workspaces removed                         |
 
 **Scope:** Ordinary full-page hydration of the packaged Button, native Forms and Aria-backed Tabs
-fixture, plus the library ID generator. Incremental boundaries, broader component behavior,
-Hosted workflows and manual/device gates remain separate. Linux execution is verified above.
+fixture, plus the library ID generator. Incremental boundaries and broader component behavior
+remain separate. Hosted and Linux execution are verified above; manual/device gates remain open.
 **Confirmed defect:** The baseline tarball changes Tab/TabPanel IDs from counters 0/1 to 2/3
 across consecutive server responses. Preserved evidence: `tmp/consumer-ssr/tabs-before-fix/`.
 The initial loopback-host setup failure is retained separately. The server now allows only
@@ -74,7 +125,7 @@ the runner's loopback host through `NG_ALLOWED_HOSTS`.
 Aria still owns the reciprocal links and navigation. Fresh applications, multiple widgets,
 reordering, removal/readdition and Unicode/punctuation keys have focused DOM regression coverage.
 The generated API report changes only a protected helper; no public inputs or outputs changed.
-**Next action:** Hosted/platform release evidence; the Linux follow-up is recorded above.
+**Next action:** See hosted verification above for remaining platform release evidence.
 **Reviews:** Setup scout, sequential runner/Tabs writers and a fresh independent reviewer completed.
 [Implementation review](phase-8-consumer-ssr-review.md): Clear, no material findings.
 **Resources:** Eight task-owned consumer workspaces removed after review; reports, lockfiles,
@@ -139,11 +190,11 @@ applicable and were not rerun for this tooling-only change.
 
 Evidence is in ignored `tmp/consumer-compatibility/{minimum,baseline,latest}/`, with top-level
 logs in `tmp/consumer-*.log`. The three tarball integrity values agree. The Linux follow-up
-above supplies native Linux evidence; hosted workflow execution remains open.
+above supplies native Linux evidence; hosted push-workflow results are recorded above.
 
 ## Remaining work
 
-Next: verify hosted Linux workflows and supported browser products/devices.
+Next: verify the separate hosted three-engine audit and supported browser products/devices.
 The current smoke fixture does not establish full component behavior on each Angular version,
 all styling combinations, delayed/incremental hydration, physical/branded-browser coverage,
 or manual assistive-technology approval. Those remain release gates.

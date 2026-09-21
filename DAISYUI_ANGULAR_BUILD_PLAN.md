@@ -453,7 +453,11 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
       zone modes. See [SSR evidence and limits](docs/plans/phase-8-consumer-compatibility-progress.md#packaged-ssr-follow-up).
 - [x] Verify the six packaged SSR/hydration combinations on native Linux with Node 24.15.0.
       See [Linux SSR evidence](docs/plans/phase-8-consumer-compatibility-progress.md#linux-ssr-verification).
-- [ ] Verify hosted Linux workflow execution and supported browser products/devices.
+- [x] Verify hosted Linux consumer workflow execution: all three CSR/SSR lanes pass on `c1d050f`.
+      See [hosted evidence](docs/plans/phase-8-consumer-compatibility-progress.md#hosted-verification).
+- [x] Verify main hosted CI on `c1d050f`: Ubuntu build/test and prefix-floor jobs plus Windows visuals pass.
+- [ ] Verify the separate hosted three-engine browser audit.
+- [ ] Verify supported browser products/devices.
 - [ ] Complete the cross-cutting verification matrix and release milestones below.
 
 The audit starts Phase 8; component maturity remains 0/68 Done and automated delivery remains
