@@ -457,6 +457,8 @@ Exit gate: **7 / 7 rows Done**, including performance and reduced-motion checks.
       See [hosted evidence](docs/plans/phase-8-consumer-compatibility-progress.md#hosted-verification).
 - [x] Verify main hosted CI on `c1d050f`: Ubuntu build/test and prefix-floor jobs plus Windows visuals pass.
 - [ ] Verify the separate hosted three-engine browser audit.
+      First run passed Chromium/Firefox but exposed a WebKit Filter test scroll race;
+      see [the correction and rerun status](docs/plans/phase-8-browser-audit-progress.md#hosted-filter-reset-investigation).
 - [ ] Verify supported browser products/devices.
 - [ ] Complete the cross-cutting verification matrix and release milestones below.
 

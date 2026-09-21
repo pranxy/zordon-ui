@@ -588,6 +588,9 @@ test('keeps Radio grouping, keyboard navigation, and native state ownership whil
 test('keeps Filter selection and reset behavior native while applying documented classes', async ({
   page,
 }) => {
+  // Focus-driven smooth scrolling can move Reset between pointer down and up in WebKit.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.locator('html')).toHaveCSS('scroll-behavior', 'auto');
   const filter = page.getByTestId('filter-example');
   const all = page.getByTestId('filter-all');
   const open = page.getByTestId('filter-open');
@@ -600,6 +603,7 @@ test('keeps Filter selection and reset behavior native while applying documented
   await expect(open).toBeChecked();
   await page.getByTestId('filter-reset').click();
   await expect(all).toBeChecked();
+  await expect(open).not.toBeChecked();
 });
 
 test('keeps Range bounds, keyboard behavior, and values native while applying documented classes', async ({

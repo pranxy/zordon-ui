@@ -8,6 +8,59 @@
 
 ## Linux verification follow-up
 
+### Hosted Filter reset investigation
+
+**Status:** Local correction verified; hosted rerun pending. **Updated:** 2026-09-21.
+**Baseline:** Hosted run on `c1d050f`; checkout `75cd510` changes only evidence docs.
+**Run:** [35569201338](https://github.com/pranxy/zordon-ui/actions/runs/35569201338).
+Chromium and Firefox jobs passed. WebKit reported 195 passes, one existing skip and one
+Filter reset failure, without retries. Earlier source-map/SSR-handler warnings do not identify
+the reset failure's cause.
+
+| Task      | Acceptance                                                                             | Status   |
+| --------- | -------------------------------------------------------------------------------------- | -------- |
+| FILTER-01 | Inspect native reset ownership and reproduce/characterize the failure                  | Verified |
+| FILTER-02 | Make only evidence-supported corrections while retaining native interaction assertions | Verified |
+| FILTER-03 | Verify affected engines, independent review and owned-resource cleanup                 | Verified |
+
+The original test passed 15 Windows WebKit repetitions but failed twice in 20 isolated Linux
+repetitions. A minimal native-event probe reproduced the failure after eight passes. At the
+same pointer coordinate `(90, 407)`, Reset received `pointerdown`/`mousedown`, All received
+`pointerup`/`mouseup`, and their containing form received `click`. No `reset` event occurred.
+Failure screenshots show the surrounding page moving during the click. The docs stylesheet
+sets smooth scrolling on `html`; focusing Open initiates scrolling down the long fixture page.
+The Filter directives themselves only compose classes.
+
+The test now requests reduced motion and verifies `html` uses `scroll-behavior: auto` before
+focusing Open. This uses the docs' existing reduced-motion CSS, as the Calendar probe already
+does. It retains keyboard Space selection, a real pointer click on Reset and the assertion
+that All becomes checked; it also requires Open to become unchecked. There is no synthetic
+reset, forced click, sleep, retry increase, or production behavior change. This is a native
+selection/reset contract check with deterministic scrolling, not smooth-scroll coverage.
+
+**Validation:** Corrected Windows Chromium/Firefox/WebKit cases all pass (three tests).
+Browser type checking, lint and changed-file formatting pass. Corrected Linux WebKit passes
+all 40 stress repetitions and the full suite (196 passes, one existing skip), with zero retries.
+**Environment:** Isolated archive of `c1d050f`, fresh locked install and library build,
+Ubuntu 26.04 x64 WSL, checksum-verified Node 24.15.0, Playwright 1.62.1. Browser libraries
+were locally extracted; `PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1` bypasses installation
+preflight only. Real browser actions/assertions execute with `CI=true`, one worker and zero
+retries. This does not verify hosted system-library installation.
+**Evidence:** Ignored `tmp/filter-linux-evidence/` contains source/environment metadata,
+`before.log`, original failure traces in `before-artifacts.tar.gz`, `probe3.log`, and
+`failed-native-events.json`. Windows results are in `tmp/filter-fixed-windows.log`.
+**Next action:** Commit, push and rerun the hosted
+Browser compatibility audit on the updated revision.
+**Resources:** Source-integrity verification confirms only the intended test differs from
+`c1d050f`, exactly matching this checkout; the diagnostic probe was removed. The isolated
+Linux workspace and all 1,406 owned browser-library links were removed, with no owned process
+remaining. Download caches and ignored diagnostic evidence are retained. See
+`tmp/filter-linux-evidence/final-integrity.json` and `cleanup.json`.
+**Reviews:** Read-only source scout and independent [final review](phase-8-filter-reset-review.md)
+are Clear. Parent accepted the correction; no material findings remain.
+
+### Prior Linux verification
+
 **Status:** Partial — local checks verified; hosted execution and platform gates remain open.
 **Updated:** 2026-09-20.
 **ADRs:** [Platform support](../architecture/0001-platform-support.md),
