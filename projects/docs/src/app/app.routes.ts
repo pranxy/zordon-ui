@@ -33,6 +33,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: '__zordon-tests__/ui',
+    loadComponent: () =>
+      import('./testing/ui-gallery.component').then(module => module.UiGalleryComponent),
+  },
+  {
     path: '__zordon-tests__/tabs',
     loadComponent: () =>
       import('./testing/tabs-test-fixture.component').then(

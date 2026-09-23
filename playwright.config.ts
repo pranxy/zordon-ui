@@ -6,6 +6,7 @@ const dedicatedSuites = [
   '**/docs-*.spec.ts',
   '**/ssr-hydration.spec.ts',
   '**/visual-regression.spec.ts',
+  '**/visual-docs-site.spec.ts',
 ];
 
 export default defineConfig({
@@ -43,7 +44,7 @@ export default defineConfig({
     },
     {
       name: 'visual-chromium',
-      testMatch: '**/visual-regression.spec.ts',
+      testMatch: ['**/visual-regression.spec.ts', '**/visual-docs-site.spec.ts'],
       use: { ...devices['Desktop Chrome'] },
     },
   ],

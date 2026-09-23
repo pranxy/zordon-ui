@@ -19,6 +19,23 @@ Start each component's selection with the
 public visual boundary is represented, grouped, or inapplicable, and keeps forced-colors,
 keyboard/focus, screen-reader, mobile, and SSR evidence outside ordinary screenshot claims.
 
+## Documentation site
+
+`e2e/visual-docs-site.spec.ts` runs in the same `visual-chromium` project and protects the
+documentation-site design system (`projects/docs/DESIGN_SYSTEM.md`):
+
+- the `/__zordon-tests__/ui` gallery, which renders every `docs-*` component and variant, in light
+  desktop, dark desktop, and light mobile;
+- the Get started, Components, and Button templates above the fold in light desktop and dark mobile;
+- the Button playground after choosing inputs, and a filtered catalogue.
+
+The spec pins the site fonts to Arial and Courier New, so a locally installed Inter or IBM Plex
+cannot change the rendering. It sets the theme through the site's own saved preference, so the theme
+switch label matches the screenshot.
+
+After an intended design change, regenerate only these baselines on Windows with
+`npx playwright test --project=visual-chromium e2e/visual-docs-site.spec.ts --update-snapshots`.
+
 ## Commands
 
 ```sh
