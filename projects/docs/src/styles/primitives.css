@@ -219,6 +219,17 @@
   font-weight: var(--docs-weight-bold);
 }
 
+/* Surface for consumer-owned overlay panels (e.g. a Dropdown in content mode). */
+.docs-popover {
+  min-inline-size: 14rem;
+  padding: var(--docs-space-4);
+  border: 1px solid var(--docs-border);
+  border-radius: var(--docs-radius-lg);
+  background: var(--docs-surface);
+  color: var(--docs-text);
+  box-shadow: var(--docs-shadow);
+}
+
 /* Compact text button used in the utility bar (GitHub, search, theme). */
 .docs-utility-action {
   display: inline-flex;

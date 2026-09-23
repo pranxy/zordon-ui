@@ -45,7 +45,8 @@ describe('derived navigation', () => {
       path: '/components/button',
       maturity: 'planned',
     });
-    expect(nav?.groups[0]?.items.slice(1).every(item => item.path === undefined)).toBe(true);
+    const linked = nav?.groups[0]?.items.filter(item => item.path).map(item => item.label);
+    expect(linked).toEqual(['Button', 'Dropdown']);
     expect(nav?.groups[1]?.items.map(item => item.count)).toEqual([19, 9, 7, 15, 8, 4]);
   });
 

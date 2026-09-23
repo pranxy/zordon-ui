@@ -1,4 +1,8 @@
-import { playgroundAttributes, type PlaygroundControl } from './playground.component';
+import {
+  playgroundAttributes,
+  playgroundCode,
+  type PlaygroundControl,
+} from './playground.component';
 import { inlineCodeSegments } from '../page/inline-code.component';
 
 const controls: readonly PlaygroundControl[] = [
@@ -15,6 +19,26 @@ describe('playground snippet', () => {
     expect(
       playgroundAttributes(controls, { color: 'default', variant: 'soft', loading: true }),
     ).toBe(' variant="soft" loading');
+  });
+});
+
+describe('playground code', () => {
+  const values = { color: 'secondary', variant: 'solid', loading: true };
+
+  it('wraps a single element', () => {
+    expect(
+      playgroundCode({ element: 'kbd', directive: 'zdKbd', content: 'K' }, controls, values),
+    ).toBe('<kbd zdKbd color="secondary" loading>K</kbd>');
+  });
+
+  it('passes attributes to a template snippet', () => {
+    expect(
+      playgroundCode(
+        { render: attributes => `<div zdDropdown${attributes}></div>` },
+        controls,
+        values,
+      ),
+    ).toBe('<div zdDropdown color="secondary" loading></div>');
   });
 });
 

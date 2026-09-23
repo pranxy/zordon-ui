@@ -1,4 +1,4 @@
-import type { DocsMaturity } from '../site-catalog';
+import { sitePages, type DocsMaturity } from '../site-catalog';
 
 /**
  * The 68-component v1 catalogue index, used by navigation (eagerly loaded, so keep it small).
@@ -34,14 +34,14 @@ export const componentCategories: readonly ComponentCategory[] = [
 
 type EntryInput = readonly [id: string, name: string, maturity?: DocsMaturity];
 
+/** Components with a reference page at /components/<id> in the page catalogue. */
+const referencePaths = new Set<string>(sitePages.map(page => page.path));
+
 function group(category: ComponentCategory, entries: readonly EntryInput[]): CatalogueEntry[] {
-  return entries.map(([id, name, maturity = 'planned']) => ({
-    id,
-    name,
-    category,
-    maturity,
-    ...(id === 'button' ? { path: '/components/button' } : {}),
-  }));
+  return entries.map(([id, name, maturity = 'planned']) => {
+    const path = `/components/${id}`;
+    return { id, name, category, maturity, ...(referencePaths.has(path) ? { path } : {}) };
+  });
 }
 
 export const catalogueEntries: readonly CatalogueEntry[] = [

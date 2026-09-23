@@ -9,6 +9,8 @@ const publicRoutes = [
   },
   { path: '/components', heading: 'Components', body: /component catalogue/i },
   { path: '/components/button', heading: 'Button', body: /native action element/i },
+  { path: '/components/dropdown', heading: 'Dropdown', body: /anchored panel/i },
+  { path: '/components/kbd', heading: 'Kbd', body: /keys and shortcuts/i },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',
@@ -228,6 +230,71 @@ test('Button enhancement reserves its layout at desktop and mobile widths', asyn
       }
     });
   }
+});
+
+test('Dropdown and Kbd references expose their contracts in server-rendered HTML', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+
+  try {
+    await page.goto('/components/dropdown');
+    await expect(page.getByText('preview', { exact: true }).first()).toBeVisible();
+    await expect(
+      page.locator('pre code').filter({ hasText: '@pranxy/zordon-ui/dropdown' }).first(),
+    ).toBeVisible();
+    // Closed triggers only: no overlay markup is rendered on the server.
+    await expect(page.getByRole('button', { name: 'Actions ▾' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(page.getByRole('menu')).toHaveCount(0);
+    for (const table of ['Dropdown root inputs', 'Dropdown outputs and methods']) {
+      await expect(page.getByRole('table', { name: table })).toBeVisible();
+    }
+
+    await page.goto('/components/kbd');
+    await expect(page.locator('kbd.kbd.kbd-xl').first()).toHaveText('Esc');
+    await expect(page.getByRole('table', { name: 'Kbd inputs' }).getByRole('rowheader')).toHaveText(
+      ['size'],
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test('Dropdown menu opens by keyboard, selects, and restores focus', async ({ page }) => {
+  await page.goto('/components/dropdown');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+
+  const trigger = page.getByRole('button', { name: 'Actions ▾' });
+  await trigger.focus();
+  await page.keyboard.press('ArrowDown');
+  const menu = page.getByRole('menu', { name: 'Document actions' });
+  await expect(menu).toBeVisible();
+  await expect(menu.getByRole('menuitem', { name: 'Rename' })).toBeFocused();
+
+  await page.keyboard.press('ArrowDown');
+  await expect(menu.getByRole('menuitem', { name: 'Duplicate' })).toBeFocused();
+  await page.keyboard.press('Enter');
+
+  await expect(menu).toBeHidden();
+  await expect(page.getByText('Last action: duplicate')).toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test('Dropdown playground snippet follows placement inputs', async ({ page }) => {
+  await page.goto('/components/dropdown');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+
+  const controls = page.getByRole('form', { name: 'Dropdown controls' });
+  await controls.getByRole('group', { name: 'side' }).getByRole('radio', { name: 'top' }).check();
+  await controls.getByRole('group', { name: 'align' }).getByRole('radio', { name: 'end' }).check();
+
+  await expect(page.locator('pre[aria-label="playground.html code"]')).toContainText(
+    '<div zdDropdown mode="menu" side="top" align="end" (selected)="apply($event)">',
+  );
 });
 
 test('an unknown route remains a server-rendered, recoverable noindex 404', async ({ browser }) => {

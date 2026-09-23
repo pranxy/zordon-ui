@@ -6,6 +6,8 @@ const routeMatrix = [
   { path: '/', heading: 'Zordon UI', status: 200 },
   { path: '/docs/getting-started', heading: 'Get started with Zordon UI', status: 200 },
   { path: '/components/button', heading: 'Button', status: 200 },
+  { path: '/components/dropdown', heading: 'Dropdown', status: 200 },
+  { path: '/components/kbd', heading: 'Kbd', status: 200 },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',

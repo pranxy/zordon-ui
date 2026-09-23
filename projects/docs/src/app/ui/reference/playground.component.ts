@@ -35,12 +35,32 @@ export interface PlaygroundBooleanControl {
 
 export type PlaygroundControl = PlaygroundChoiceControl | PlaygroundBooleanControl;
 
-export interface PlaygroundSnippet {
+/** A single element: `<element directive …attributes>content</element>`. */
+export interface PlaygroundElementSnippet {
   /** Host element, e.g. "button". */
   readonly element: string;
   /** Directive attribute, e.g. "zdButton". */
   readonly directive: string;
   readonly content: string;
+}
+
+/** Multi-element markup; receives the serialised attributes (each with a leading space). */
+export interface PlaygroundTemplateSnippet {
+  readonly render: (attributes: string) => string;
+}
+
+export type PlaygroundSnippet = PlaygroundElementSnippet | PlaygroundTemplateSnippet;
+
+/** Builds the snippet shown under the playground. */
+export function playgroundCode(
+  snippet: PlaygroundSnippet,
+  controls: readonly PlaygroundControl[],
+  values: PlaygroundValues,
+): string {
+  const attributes = playgroundAttributes(controls, values);
+  if ('render' in snippet) return snippet.render(attributes);
+  const { element, directive, content } = snippet;
+  return `<${element} ${directive}${attributes}>${content}</${element}>`;
 }
 
 /** Marks the template that renders the live preview; its context is the current values. */
@@ -235,11 +255,9 @@ export class DocsPlaygroundComponent {
       (control): control is PlaygroundBooleanControl => control.kind === 'boolean',
     ),
   );
-  protected readonly code = computed(() => {
-    const { element, directive, content } = this.snippet();
-    const attributes = playgroundAttributes(this.controls(), this.values());
-    return `<${element} ${directive}${attributes}>${content}</${element}>`;
-  });
+  protected readonly code = computed(() =>
+    playgroundCode(this.snippet(), this.controls(), this.values()),
+  );
 
   protected set(key: string, value: PlaygroundValue): void {
     this.values.update(current => ({ ...current, [key]: value }));

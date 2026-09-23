@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-23 (gallery and visual suite added)
+- **Updated:** 2026-09-23 (Dropdown and Kbd reference pages added)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -16,6 +16,21 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | T05 | Playground and catalogue                       | Verified    | `docs-playground` (schema-driven, real `ZdButton`), 68-entry catalogue with URL category filter; `component-catalogue.spec.ts`, playground e2e                                                                                     |
 | T06 | Migrate Get started, Components, Button        | Verified    | All three pages plus Home, Resources, Styling, Typed vocabularies and 404 are composed from `app/ui`; content corrections applied; manual side-by-side review in light/dark at 1440/390                                            |
 | T07 | Guardrails and handover                        | In progress | Design-system check + CI step; `e2e/visual-docs-site.spec.ts` (gallery × 3, pages × 6, playground, catalogue) stable across repeated runs. **Windows baselines not yet generated**; CI's visual job fails until they are committed |
+
+## Component reference pages
+
+| Page     | Status   | Evidence                                                                                                                                                     |
+| -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Button   | Verified | Original template page                                                                                                                                       |
+| Dropdown | Verified | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e |
+| Kbd      | Verified | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                              |
+
+Built with the "add a component page" recipe and no new site components. Two reusable additions: the
+playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
+panels. Catalogue cards and side navigation now link any component that has a `/components/<id>`
+page. Compiling daisyUI's `menu` class for Dropdown adds about 8.5 kB of CSS; the initial bundle is
+445 KiB, under the 450 KiB warning. The existing visual baselines are unaffected (checked against a
+pre-change render); the new pages are not yet in the visual suite.
 
 ## Validation run (2026-09-23)
 

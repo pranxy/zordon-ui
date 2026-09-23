@@ -23,6 +23,11 @@ describe('component catalogue', () => {
     expect(Object.keys(componentSummaries).sort()).toEqual([...ids].sort());
   });
 
+  it('links exactly the components that have a reference page', () => {
+    const linked = catalogueEntries.filter(entry => entry.path).map(entry => entry.id);
+    expect(linked).toEqual(['button', 'dropdown', 'kbd']);
+  });
+
   it('links only to reference pages that exist', () => {
     const paths = new Set<string>(sitePages.map(page => page.path));
     for (const entry of catalogueEntries) {

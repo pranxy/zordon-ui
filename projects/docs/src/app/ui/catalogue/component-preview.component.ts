@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         <span class="btn primary">Save changes</span><span class="btn outline">Cancel</span>
       }
       @case ('dropdown') {
-        <div class="menu">
+        <div class="menu-sketch">
           <span class="btn outline sm">Theme ▾</span>
           <div class="list"><b>Light</b><span>Dark</span><span>System</span></div>
         </div>
@@ -274,7 +274,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       background: var(--docs-surface);
     }
 
-    .menu {
+    .menu-sketch {
       display: grid;
       gap: 0.25rem;
       justify-items: center;

@@ -19,3 +19,30 @@ test('representative docs route has no serious accessibility violations at deskt
     expect(materialViolations).toEqual([]);
   }
 });
+
+test('component reference pages have no serious accessibility violations, including open panels', async ({
+  page,
+  runAxeScan,
+}) => {
+  const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
+    results.violations.filter(
+      violation => violation.impact === 'critical' || violation.impact === 'serious',
+    );
+
+  for (const path of ['/components/button', '/components/dropdown', '/components/kbd']) {
+    await test.step(path, async () => {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto(path);
+      await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+      expect(material(await runAxeScan())).toEqual([]);
+    });
+  }
+
+  await test.step('open Dropdown menu', async () => {
+    await page.goto('/components/dropdown');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Actions ▾' }).click();
+    await expect(page.getByRole('menu', { name: 'Document actions' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+});

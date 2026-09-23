@@ -6,6 +6,9 @@ type PageLoader = NonNullable<Route['loadComponent']>;
 
 const pageLoaders = {
   'button': () => import('./pages/button.component').then(module => module.ButtonPageComponent),
+  'dropdown': () =>
+    import('./pages/dropdown.component').then(module => module.DropdownPageComponent),
+  'kbd': () => import('./pages/kbd.component').then(module => module.KbdPageComponent),
   'components': () =>
     import('./pages/components.component').then(module => module.ComponentsPageComponent),
   'home': () => import('./pages/home.component').then(module => module.DocsHomeComponent),

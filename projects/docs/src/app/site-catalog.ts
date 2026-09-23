@@ -115,7 +115,7 @@ export const buttonPage = defineSitePage({
   breadcrumbLabel: 'Button',
   parentId: componentsPage.id,
   previousId: componentsPage.id,
-  nextId: 'typed-vocabularies',
+  nextId: 'dropdown',
   sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/button.md',
   tableOfContents: [
     { id: 'page-title', label: 'Overview' },
@@ -134,6 +134,64 @@ export const buttonPage = defineSitePage({
   ],
 });
 
+export const dropdownPage = defineSitePage({
+  id: 'dropdown',
+  path: '/components/dropdown',
+  title: 'Dropdown | Zordon UI',
+  description:
+    'Dropdown opens an anchored menu or content panel from a native button, with keyboard support and dismissal policies.',
+  section: 'components',
+  indexable: true,
+  maturity: 'preview',
+  breadcrumbLabel: 'Dropdown',
+  parentId: componentsPage.id,
+  previousId: buttonPage.id,
+  nextId: 'kbd',
+  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/dropdown.md',
+  tableOfContents: [
+    { id: 'page-title', label: 'Overview' },
+    { id: 'install', label: 'Install and import' },
+    { id: 'playground', label: 'Playground' },
+    { id: 'examples', label: 'Examples' },
+    { id: 'action-menu', label: 'Action menu', level: 2 },
+    { id: 'nested-menus', label: 'Nested menus', level: 2 },
+    { id: 'content-panel', label: 'Content panel', level: 2 },
+    { id: 'controlled', label: 'Controlled state', level: 2 },
+    { id: 'api', label: 'API' },
+    { id: 'accessibility', label: 'Accessibility' },
+    { id: 'customization', label: 'Customization' },
+    { id: 'ssr', label: 'SSR' },
+  ],
+});
+
+export const kbdPage = defineSitePage({
+  id: 'kbd',
+  path: '/components/kbd',
+  title: 'Kbd | Zordon UI',
+  description: 'Kbd applies daisyUI keycap styling to a native kbd element for keys and shortcuts.',
+  section: 'components',
+  indexable: true,
+  maturity: 'preview',
+  breadcrumbLabel: 'Kbd',
+  parentId: componentsPage.id,
+  previousId: dropdownPage.id,
+  nextId: 'typed-vocabularies',
+  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/kbd.md',
+  tableOfContents: [
+    { id: 'page-title', label: 'Overview' },
+    { id: 'install', label: 'Install and import' },
+    { id: 'playground', label: 'Playground' },
+    { id: 'examples', label: 'Examples' },
+    { id: 'size', label: 'Size', level: 2 },
+    { id: 'in-text', label: 'In running text', level: 2 },
+    { id: 'combinations', label: 'Key combinations', level: 2 },
+    { id: 'api', label: 'API' },
+    { id: 'accessibility', label: 'Accessibility' },
+    { id: 'customization', label: 'Customization' },
+    { id: 'ssr', label: 'SSR' },
+  ],
+});
+
 export const typedVocabulariesPage = defineSitePage({
   id: 'typed-vocabularies',
   path: '/foundations/typed-vocabularies',
@@ -144,7 +202,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: buttonPage.id,
+  previousId: kbdPage.id,
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
@@ -213,6 +271,8 @@ export const sitePages = [
   gettingStartedPage,
   componentsPage,
   buttonPage,
+  dropdownPage,
+  kbdPage,
   typedVocabulariesPage,
   stylingAndThemingPage,
   resourcesPage,
