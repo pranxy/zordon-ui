@@ -1,97 +1,120 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  afterNextRender,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ZdButton } from '@pranxy/zordon-ui/button';
 
-import { DocsPageHeaderComponent } from './shared/page-header.component';
+import {
+  catalogueEntries,
+  componentCategories,
+  maturityCounts,
+} from '../content/component-catalogue';
+import {
+  DocsCalloutComponent,
+  DocsCatalogueComponent,
+  DocsFeatureGridComponent,
+  DocsHeroComponent,
+  DocsMetaGridComponent,
+  DocsSectionComponent,
+  type DocsFeature,
+  type DocsMetaItem,
+} from '../ui';
 
-interface ComponentSummary {
-  readonly category: 'Actions';
-  readonly description: string;
-  readonly maturity: 'planned';
-  readonly name: string;
-  readonly path: string;
-}
+const counts = maturityCounts();
 
-const componentSummaries: readonly ComponentSummary[] = [
+const heroStats: readonly DocsMetaItem[] = [
+  { label: 'Components', value: String(catalogueEntries.length), suffix: 'in v1' },
+  { label: 'Categories', value: String(componentCategories.length) },
+  { label: 'Preview', value: String(counts.preview) },
+  { label: 'Stable', value: String(counts.stable) },
+  { label: 'Angular', value: '21' },
+];
+
+const commitments: readonly DocsFeature[] = [
   {
-    category: 'Actions',
-    name: 'Button',
-    path: '/components/button',
-    maturity: 'planned',
-    description:
-      'Applies daisyUI Button appearance and controlled state to native action elements.',
+    title: 'Native-first components',
+    body: 'Angular behaviour and typed APIs without replacing correct platform semantics.',
+  },
+  {
+    title: 'Documented foundations',
+    body: 'Shared typed contracts keep component APIs consistent and customization predictable.',
+  },
+  {
+    title: 'Consumer-owned themes',
+    body: 'Applications keep control of Tailwind CSS, daisyUI themes, and style overrides.',
   },
 ];
 
 @Component({
   selector: 'docs-components-page',
-  imports: [DocsPageHeaderComponent, RouterLink],
+  imports: [
+    DocsCalloutComponent,
+    DocsCatalogueComponent,
+    DocsFeatureGridComponent,
+    DocsHeroComponent,
+    DocsMetaGridComponent,
+    DocsSectionComponent,
+    RouterLink,
+    ZdButton,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <article class="docs-page" aria-labelledby="page-title">
-      <docs-page-header
-        eyebrow="Catalogue"
-        heading="Components"
-        description="Browse the Zordon UI component catalogue by category and maturity. Planned components are documented honestly and are not presented as supported APIs."
-      />
+    <article class="docs-prose" aria-labelledby="page-title">
+      <docs-hero
+        eyebrow="Catalogue · Angular + daisyUI"
+        [heading]="total + ' components. One system.'"
+        description="Angular-native state, forms, and accessibility layered onto daisyUI styling. Browse the component catalogue by category and maturity; planned components are listed honestly, never presented as supported APIs."
+      >
+        <a
+          docsHeroActions
+          zdButton
+          color="primary"
+          href="/docs/getting-started"
+          routerLink="/docs/getting-started"
+          >Get started</a
+        >
+        <a docsHeroActions zdButton variant="outline" href="#component-catalogue">
+          Browse components
+        </a>
+        <span docsHeroActions class="docs-muted progress">
+          {{ counts.stable }} of {{ total }} stable · v1 in progress
+        </span>
+        <docs-meta-grid docsHeroMeta variant="stats" [items]="heroStats" />
+      </docs-hero>
 
-      <section class="docs-page-section" aria-labelledby="component-catalogue">
-        <h2 id="component-catalogue">Component catalogue</h2>
-        <div class="docs-hydration-slot docs-filter-slot">
-          @if (enhanced()) {
-            <label class="docs-field">
-              Filter components
-              <input type="search" [value]="query()" (input)="updateQuery($event)" />
-            </label>
-          } @else {
-            <div class="docs-control-placeholder" aria-hidden="true"><span></span></div>
-          }
-        </div>
-        @for (group of visibleGroups(); track group.category) {
-          <section class="docs-page-section" [attr.aria-labelledby]="group.category + '-category'">
-            <h3 [id]="group.category + '-category'">{{ group.category }}</h3>
-            <ul class="docs-card-grid">
-              @for (component of group.components; track component.path) {
-                <li class="docs-card">
-                  <span class="docs-maturity">{{ component.maturity }}</span>
-                  <h4>
-                    <a [routerLink]="component.path">{{ component.name }}</a>
-                  </h4>
-                  <p>{{ component.description }}</p>
-                </li>
-              }
-            </ul>
-          </section>
-        } @empty {
-          <p>No components match that filter.</p>
-        }
-      </section>
+      <docs-section
+        id="why-native"
+        eyebrow="Why native"
+        heading="Three commitments the API is built on"
+      >
+        <docs-feature-grid [items]="commitments" [columns]="3" [numbered]="true" />
+      </docs-section>
+
+      <docs-section
+        id="component-catalogue"
+        eyebrow="Catalogue"
+        heading="Component catalogue"
+        description="All {{
+          total
+        }} components planned for v1. Maturity is stated on every card and is never dressed up."
+      >
+        <docs-catalogue />
+        <docs-callout variant="note">
+          <strong>planned</strong> has no usable public API yet. <strong>preview</strong> is usable
+          for evaluation, but feedback may still change the API. <strong>stable</strong> carries the
+          repository's compatibility commitment. See the
+          <a routerLink="/resources">project resources</a> for the maturity policy.
+        </docs-callout>
+      </docs-section>
     </article>
+  `,
+  styles: `
+    .progress {
+      font-size: var(--docs-text-sm);
+    }
   `,
 })
 export class ComponentsPageComponent {
-  protected readonly enhanced = signal(false);
-  protected readonly query = signal('');
-  protected readonly visibleGroups = computed(() => {
-    const query = this.query().trim().toLocaleLowerCase();
-    const components = componentSummaries.filter(component =>
-      `${component.name} ${component.description} ${component.maturity} ${component.category}`
-        .toLocaleLowerCase()
-        .includes(query),
-    );
-    return components.length === 0 ? [] : [{ category: 'Actions' as const, components }];
-  });
-
-  constructor() {
-    afterNextRender(() => this.enhanced.set(true));
-  }
-
-  protected updateQuery(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
-  }
+  protected readonly counts = counts;
+  protected readonly total = catalogueEntries.length;
+  protected readonly heroStats = heroStats;
+  protected readonly commitments = commitments;
 }

@@ -6,8 +6,8 @@ const FONT_EXTENSIONS = new Set(['.eot', '.otf', '.ttf', '.woff', '.woff2']);
 const IMAGE_EXTENSIONS = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 
 const defaultBudgets = {
-  initialWarningBytes: 360 * 1024,
-  initialErrorBytes: 410 * 1024,
+  initialWarningBytes: 450 * 1024,
+  initialErrorBytes: 470 * 1024,
   maximumImageBytes: 100 * 1024,
   maximumTotalImageBytes: 200 * 1024,
   maximumEmbeddedImageCharacters: 4 * 1024,

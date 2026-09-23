@@ -87,7 +87,7 @@ test('Button reference exposes its planned contract in server-rendered HTML', as
       'zdDisabled',
     ]);
 
-    for (const section of ['Accessibility', 'Customization', 'SSR', 'Related']) {
+    for (const section of ['Playground', 'Examples', 'Accessibility', 'Customization', 'SSR']) {
       await expect(
         page.getByRole('heading', { level: 2, name: section, exact: true }),
       ).toBeVisible();
@@ -115,18 +115,31 @@ test('representative templates expose their distinguishing content without JavaS
     await expect(page.getByText(/Coverage status:/)).toBeVisible();
 
     await page.goto('/docs/getting-started');
-    for (const heading of [
-      'Prerequisites',
-      'Configure the application',
-      'Use your first component',
-    ]) {
+    for (const heading of ['Manual setup', 'Troubleshooting', 'Next steps']) {
       await expect(
         page.getByRole('heading', { level: 2, name: heading, exact: true }),
       ).toBeVisible();
     }
+    for (const step of [
+      'Install packages',
+      'Configure the application',
+      'Use your first component',
+    ]) {
+      await expect(page.getByRole('heading', { level: 3, name: step, exact: true })).toBeVisible();
+    }
+    await expect(page.locator('pre code').filter({ hasText: 'npm install' })).toBeVisible();
 
     await page.goto('/components');
     await expect(page.getByRole('heading', { name: 'Actions', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Button', exact: true }).first()).toHaveAttribute(
+      'href',
+      '/components/button',
+    );
+    await expect(page.locator('docs-component-card')).toHaveCount(68);
+
+    await page.goto('/components?category=data-input');
+    await expect(page.getByRole('heading', { name: 'Data input', exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Actions', exact: true })).toHaveCount(0);
 
     await page.goto('/resources');
     for (const link of ['Roadmap and status', 'Changelog and releases', 'Contributing']) {
@@ -143,26 +156,35 @@ test('Button code copy reports success after hydration', async ({ context, page 
 
   await page.getByRole('button', { name: 'Copy import code' }).click();
 
-  await expect(page.getByRole('status')).toContainText(/Copied/i);
+  await expect(page.getByRole('status').filter({ hasText: /Copied/i })).toBeVisible();
 });
 
-test('Button playground resets changed controls to their initial state', async ({ page }) => {
+test('Button playground updates the live button and snippet, then resets', async ({ page }) => {
   await page.goto('/components/button');
+  await expect(page.getByRole('button', { name: 'Copy import code' })).toBeVisible();
 
-  const color = page.getByRole('combobox', { name: 'Button color' });
-  const variant = page.getByRole('combobox', { name: 'Button variant' });
-  const initialColor = await color.inputValue();
-  const initialVariant = await variant.inputValue();
+  const controls = page.getByRole('form', { name: 'Button controls' });
+  const color = controls.getByRole('group', { name: 'color' });
+  const variant = controls.getByRole('group', { name: 'variant' });
+  const snippet = page.locator('pre[aria-label="playground.html code"]');
 
-  await color.selectOption({ label: 'Primary' });
-  await variant.selectOption({ label: 'Outline' });
-  await expect(color).not.toHaveValue(initialColor);
-  await expect(variant).not.toHaveValue(initialVariant);
+  await expect(color.getByRole('radio', { name: 'primary' })).toBeChecked();
+  await expect(snippet).toHaveText('<button zdButton color="primary">Save changes</button>');
 
-  await page.getByRole('button', { name: 'Reset playground' }).click();
+  await color.getByRole('radio', { name: 'secondary' }).check();
+  await variant.getByRole('radio', { name: 'outline' }).check();
+  await expect(snippet).toHaveText(
+    '<button zdButton color="secondary" variant="outline">Save changes</button>',
+  );
+  const preview = page.locator('docs-playground').getByRole('button', { name: 'Save changes' });
+  await expect(preview).toHaveClass(/btn-secondary/);
+  await expect(preview).toHaveClass(/btn-outline/);
 
-  await expect(color).toHaveValue(initialColor);
-  await expect(variant).toHaveValue(initialVariant);
+  await controls.getByRole('button', { name: 'Reset playground' }).click();
+
+  await expect(color.getByRole('radio', { name: 'primary' })).toBeChecked();
+  await expect(variant.getByRole('radio', { name: 'solid' })).toBeChecked();
+  await expect(snippet).toHaveText('<button zdButton color="primary">Save changes</button>');
 });
 
 test('Button enhancement reserves its layout at desktop and mobile widths', async ({ browser }) => {
@@ -179,7 +201,7 @@ test('Button enhancement reserves its layout at desktop and mobile widths', asyn
       try {
         await staticPage.goto('/components/button');
         await hydratedPage.goto('/components/button');
-        await expect(hydratedPage.getByRole('combobox', { name: 'Button color' })).toBeVisible();
+        await expect(hydratedPage.getByRole('button', { name: 'Copy import code' })).toBeVisible();
 
         const staticApiPosition = await staticPage
           .getByRole('heading', { level: 2, name: 'API', exact: true })

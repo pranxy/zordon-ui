@@ -54,7 +54,7 @@ test('mobile navigation disclosure reaches the getting-started page', async ({ p
   await expect(
     inlineTableOfContents
       .getByRole('navigation', { name: 'On this page' })
-      .getByRole('link', { name: 'What comes next' }),
+      .getByRole('link', { name: 'Next steps' }),
   ).toBeVisible();
 });
 
@@ -66,11 +66,11 @@ test('getting-started exposes breadcrumb and in-page navigation', async ({ page 
   await expect(breadcrumb).toContainText('Get started');
 
   const tableOfContents = page.getByRole('navigation', { name: 'On this page' });
-  const sectionLink = tableOfContents.getByRole('link', { name: 'What comes next' });
+  const sectionLink = tableOfContents.getByRole('link', { name: 'Next steps' });
   await expect(sectionLink).toBeVisible();
   await sectionLink.click();
-  await expect(page).toHaveURL('/docs/getting-started#what-comes-next');
-  await expect(page.getByRole('heading', { name: 'What comes next' })).toBeVisible();
+  await expect(page).toHaveURL('/docs/getting-started#next-steps');
+  await expect(page.getByRole('heading', { level: 2, name: 'Next steps' })).toBeVisible();
 });
 
 test('search filters catalogue links and restores trigger focus when dismissed', async ({

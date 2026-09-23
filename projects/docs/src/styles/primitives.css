@@ -1,0 +1,239 @@
+/*
+ * Base element rules and the small set of global primitives from DESIGN_SYSTEM.md §2.
+ * Anything with behaviour or repeated structure is a `docs-*` component instead.
+ */
+
+/* ---------- Base (in the base layer so daisyUI components still win) ---------- */
+
+@layer base {
+  :root {
+    font-family: var(--docs-font-sans);
+    background: var(--docs-surface);
+    color: var(--docs-text);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-block-size: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-block-size: 100%;
+    margin: 0;
+    background: var(--docs-surface);
+    color: var(--docs-text);
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--docs-accent-strong);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    scroll-margin-block-start: var(--docs-scroll-margin);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--docs-accent) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--docs-accent);
+    outline-offset: 3px;
+  }
+
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+/* ---------- Typography primitives ---------- */
+
+.docs-eyebrow {
+  margin: 0;
+  color: var(--docs-muted-text);
+  font-size: var(--docs-text-eyebrow);
+  font-weight: var(--docs-weight-black);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.docs-eyebrow--accent {
+  color: var(--docs-accent-strong);
+}
+
+.docs-eyebrow--strong {
+  color: var(--docs-text);
+}
+
+.docs-lead {
+  margin: 0;
+  max-inline-size: var(--docs-measure);
+  color: var(--docs-muted-text);
+  font-size: var(--docs-text-body);
+  line-height: 1.6;
+}
+
+.docs-muted {
+  color: var(--docs-muted-text);
+}
+
+.docs-code-inline,
+.docs-prose :not(pre) > code {
+  color: var(--docs-text);
+  font-family: var(--docs-font-mono);
+  font-size: 0.9em;
+}
+
+.docs-prose {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--docs-space-section);
+  min-inline-size: 0;
+  max-inline-size: var(--docs-content);
+  line-height: 1.6;
+}
+
+.docs-prose h2,
+.docs-prose h3,
+.docs-prose h4 {
+  margin: 0;
+}
+
+.docs-prose h2 {
+  font-size: var(--docs-text-h2);
+  font-weight: var(--docs-weight-black);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.docs-prose h3 {
+  font-size: var(--docs-text-h3);
+  font-weight: var(--docs-weight-heading);
+  letter-spacing: -0.01em;
+}
+
+.docs-prose h4 {
+  font-size: var(--docs-text-h4);
+  font-weight: var(--docs-weight-heading);
+}
+
+.docs-prose p {
+  margin: 0;
+}
+
+/* Inline links inside running text (not buttons, cards, or navigation). */
+.docs-prose p a:not([class]) {
+  color: var(--docs-accent-strong);
+  font-weight: var(--docs-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* ---------- Surface and layout primitives ---------- */
+
+.docs-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap, var(--docs-space-2));
+}
+
+.docs-visually-hidden {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Navigation links (applied by the docsNavLink directive) ---------- */
+
+.docs-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--docs-space-2);
+  border-radius: var(--docs-radius-md);
+  color: var(--docs-muted-text);
+  font-size: var(--docs-text-body);
+  font-weight: var(--docs-weight-semibold);
+  transition:
+    background var(--docs-duration) var(--docs-ease),
+    color var(--docs-duration) var(--docs-ease);
+}
+
+.docs-nav-link:hover,
+.docs-nav-link.active {
+  background: var(--docs-subtle);
+  color: var(--docs-accent-strong);
+}
+
+.docs-nav-link--primary {
+  padding: 0.625rem 0.875rem;
+}
+
+.docs-nav-link--side {
+  padding: 0.5rem 0.75rem;
+}
+
+.docs-nav-link--menu {
+  padding: 0.75rem;
+  color: var(--docs-text);
+}
+
+.docs-nav-link--menu.active {
+  font-weight: var(--docs-weight-bold);
+}
+
+/* Compact text button used in the utility bar (GitHub, search, theme). */
+.docs-utility-action {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--docs-space-2);
+  min-block-size: 2rem;
+  padding-inline: 0.625rem;
+  border: 0;
+  border-radius: var(--docs-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.docs-utility-action:hover {
+  background: var(--docs-subtle);
+  color: var(--docs-text);
+}

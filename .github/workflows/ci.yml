@@ -111,6 +111,9 @@ jobs:
       - name: Check documentation performance policy
         run: npm run check:docs:performance
 
+      - name: Check documentation design-system rules
+        run: npm run check:docs:design-system
+
       - name: Run documentation SSR and crawlability checks
         run: npm run test:docs:ssr:built
 

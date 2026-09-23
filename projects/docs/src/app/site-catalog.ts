@@ -4,6 +4,8 @@ export type DocsSection = 'components' | 'docs' | 'foundations' | 'guides' | 're
 export interface DocsTableOfContentsItem {
   readonly id: string;
   readonly label: string;
+  /** 2 nests the entry under the preceding level-1 entry. */
+  readonly level?: 1 | 2;
 }
 
 export interface DocsSitePage {
@@ -20,6 +22,8 @@ export interface DocsSitePage {
   readonly path: string;
   readonly previousId?: string;
   readonly section: DocsSection;
+  /** Label inside its section's side navigation; defaults to the title without the site suffix. */
+  readonly sectionLabel?: string;
   readonly sourceUrl?: string;
   readonly tableOfContents?: readonly DocsTableOfContentsItem[];
   readonly title: string;
@@ -57,14 +61,18 @@ export const gettingStartedPage = defineSitePage({
   nextId: 'components',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/getting-started.component.ts',
+  sectionLabel: 'Installation',
   tableOfContents: [
-    { id: 'page-title', label: 'Get started' },
-    { id: 'prerequisites', label: 'Prerequisites' },
-    { id: 'install', label: 'Install' },
-    { id: 'configure', label: 'Configure styling' },
-    { id: 'configure-application', label: 'Configure the application' },
-    { id: 'first-component', label: 'Use your first component' },
-    { id: 'what-comes-next', label: 'What comes next' },
+    { id: 'requirements', label: 'Requirements' },
+    { id: 'manual-setup', label: 'Manual setup' },
+    { id: 'step-install', label: 'Install packages', level: 2 },
+    { id: 'step-postcss', label: 'Register PostCSS', level: 2 },
+    { id: 'step-styles', label: 'Load styles', level: 2 },
+    { id: 'step-provide', label: 'Configure the application', level: 2 },
+    { id: 'step-first', label: 'First component', level: 2 },
+    { id: 'run', label: 'Run it' },
+    { id: 'troubleshooting', label: 'Troubleshooting' },
+    { id: 'next-steps', label: 'Next steps' },
   ],
 });
 
@@ -82,7 +90,18 @@ export const componentsPage = defineSitePage({
   nextId: 'button',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/projects/docs/src/app/pages/components.component.ts',
-  tableOfContents: [{ id: 'component-catalogue', label: 'Component catalogue' }],
+  tableOfContents: [
+    { id: 'page-title', label: 'Overview' },
+    { id: 'why-native', label: 'Why native' },
+    { id: 'component-catalogue', label: 'Component catalogue' },
+    { id: 'cat-actions', label: 'Actions', level: 2 },
+    { id: 'cat-data-display', label: 'Data display', level: 2 },
+    { id: 'cat-navigation', label: 'Navigation', level: 2 },
+    { id: 'cat-feedback', label: 'Feedback', level: 2 },
+    { id: 'cat-data-input', label: 'Data input', level: 2 },
+    { id: 'cat-layout', label: 'Layout', level: 2 },
+    { id: 'cat-mockups', label: 'Mockups', level: 2 },
+  ],
 });
 
 export const buttonPage = defineSitePage({
@@ -99,15 +118,19 @@ export const buttonPage = defineSitePage({
   nextId: 'typed-vocabularies',
   sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/button.md',
   tableOfContents: [
-    { id: 'page-title', label: 'Button' },
+    { id: 'page-title', label: 'Overview' },
     { id: 'install', label: 'Install and import' },
-    { id: 'example', label: 'Live example' },
+    { id: 'playground', label: 'Playground' },
+    { id: 'examples', label: 'Examples' },
+    { id: 'color', label: 'Color', level: 2 },
+    { id: 'variant', label: 'Variant', level: 2 },
+    { id: 'size', label: 'Size', level: 2 },
+    { id: 'loading', label: 'Loading state', level: 2 },
+    { id: 'links', label: 'Links', level: 2 },
     { id: 'api', label: 'API' },
-    { id: 'variants', label: 'Variants' },
     { id: 'accessibility', label: 'Accessibility' },
     { id: 'customization', label: 'Customization' },
     { id: 'ssr', label: 'SSR' },
-    { id: 'related', label: 'Related' },
   ],
 });
 
@@ -125,6 +148,7 @@ export const typedVocabulariesPage = defineSitePage({
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
+  sectionLabel: 'Typed vocabularies',
   tableOfContents: [
     { id: 'page-title', label: 'Typed vocabularies' },
     { id: 'public-types', label: 'Public types' },
@@ -178,6 +202,7 @@ export const notFoundPage = defineSitePage({
   path: '/404',
   title: 'Page not found | Zordon UI',
   description: 'The requested Zordon UI documentation page does not exist.',
+  breadcrumbLabel: 'Page not found',
   section: 'system',
   httpStatus: 404,
   indexable: false,

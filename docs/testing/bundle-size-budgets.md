@@ -6,7 +6,13 @@ Zordon UI applies separate size gates to the documentation application and the p
 
 The Angular application builder enforces its `initial` and `anyComponentStyle` budgets from `angular.json`. These measure the complete documentation application and are intentionally independent from the library package budgets.
 
-The documentation application has a 360 KiB initial warning threshold and a 410 KiB error threshold. The error threshold was calibrated against a measured 400.47 KiB production bundle (103.28 KiB estimated transfer size), leaving limited headroom while keeping the existing warning visible. These thresholds must not be raised without a new measurement and documented rationale.
+The documentation application has a 450 KiB initial warning threshold and a 470 KiB error threshold.
+
+- **Original calibration:** 360 KiB warning / 410 KiB error, against a measured 400.47 KiB production bundle (103.28 KiB estimated transfer size).
+- **2026-09-23 re-measurement:** the site design system (`projects/docs/DESIGN_SYSTEM.md`) replaced the single shell component with composable shell components (utility bar, primary and mobile navigation, side navigation with maturity dots and legend, nested table of contents, breadcrumbs, card pager) plus global design tokens and primitives. The production initial bundle measured 444.77 kB (434.3 KiB) with a 118.51 kB estimated transfer size. Framework code is unchanged (about 339 kB); site code grew from about 16 kB to 43 kB and global CSS from 50.5 kB to 62.5 kB. The search dialog is deferred until idle and component-card summaries load only with the catalogue page to limit the increase.
+- **Rationale:** the warning sits just above the measurement so any further growth is visible, and the error leaves about 25 kB of headroom for the remaining shell work.
+
+These thresholds must not be raised without a new measurement and documented rationale.
 
 ## Library entry points
 

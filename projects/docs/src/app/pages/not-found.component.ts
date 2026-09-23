@@ -1,35 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ZdButton } from '@pranxy/zordon-ui/button';
+
+import { DocsPageHeaderComponent } from '../ui';
 
 @Component({
   selector: 'docs-not-found',
-  imports: [RouterLink],
+  imports: [DocsPageHeaderComponent, RouterLink, ZdButton],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section aria-labelledby="page-title">
-      <p class="eyebrow">404</p>
-      <h1 id="page-title">Page not found</h1>
-      <p>The address does not point to a Zordon UI documentation page.</p>
-      <div class="actions">
-        <a routerLink="/">Return home</a>
-        <a routerLink="/components">Browse components</a>
-      </div>
-    </section>
-  `,
-  styles: `
-    section {
-      max-inline-size: 42rem;
-    }
-
-    .eyebrow {
-      font-weight: 700;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+    <article class="docs-prose" aria-labelledby="page-title">
+      <docs-page-header
+        eyebrow="404"
+        heading="Page not found"
+        description="The address does not point to a Zordon UI documentation page."
+      >
+        <div class="docs-cluster">
+          <a zdButton color="primary" href="/" routerLink="/">Return home</a>
+          <a zdButton variant="outline" href="/components" routerLink="/components"
+            >Browse components</a
+          >
+        </div>
+      </docs-page-header>
+    </article>
   `,
 })
 export class NotFoundComponent {}

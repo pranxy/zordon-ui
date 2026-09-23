@@ -1,242 +1,314 @@
-import { ChangeDetectionStrategy, Component, afterNextRender, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
 import { ZdButton, type ZdButtonVariant, type ZdColor } from '@pranxy/zordon-ui/button';
+import type { ZdSize } from '@pranxy/zordon-ui';
 
-import { DocsCodeExampleComponent } from './shared/code-example.component';
-import { DocsPageHeaderComponent } from './shared/page-header.component';
+import {
+  accessibilityNotes,
+  buttonFacts,
+  colorsCode,
+  exampleColors,
+  exampleSizes,
+  exampleVariants,
+  importCode,
+  inputColumns,
+  inputRows,
+  keyboardColumns,
+  keyboardRows,
+  linksCode,
+  loadingFiles,
+  playgroundControls,
+  sizesCode,
+  themingCode,
+  themingColumns,
+  themingRows,
+  typesCode,
+  variantsCode,
+} from '../content/button.content';
+import {
+  DocsApiTableComponent,
+  DocsCalloutComponent,
+  DocsCodeBlockComponent,
+  DocsExampleComponent,
+  DocsFeatureGridComponent,
+  DocsMetaGridComponent,
+  DocsPageHeaderComponent,
+  DocsPlaygroundComponent,
+  DocsPlaygroundPreviewDirective,
+  DocsSectionComponent,
+  type PlaygroundValues,
+} from '../ui';
 
-interface ButtonApiItem {
-  readonly defaultValue: string;
-  readonly input: string;
-  readonly meaning: string;
-  readonly type: string;
-}
-
-const importCode = `import { ZdButton } from '@pranxy/zordon-ui/button';`;
-const basicExample = `<button zdButton color="primary">Save changes</button>`;
-
-const buttonApi: readonly ButtonApiItem[] = [
-  {
-    input: 'color',
-    type: 'ZdColor | undefined',
-    defaultValue: 'undefined',
-    meaning: 'Adds one supported daisyUI semantic color.',
-  },
-  {
-    input: 'variant',
-    type: 'ZdButtonVariant | undefined',
-    defaultValue: 'undefined',
-    meaning: 'Adds outline, dash, soft, ghost, or link appearance.',
-  },
-  {
-    input: 'size',
-    type: 'ZdSize | undefined',
-    defaultValue: 'undefined',
-    meaning: 'Adds one size from xs through xl.',
-  },
-  {
-    input: 'layout',
-    type: 'ZdButtonLayout | undefined',
-    defaultValue: 'undefined',
-    meaning: 'Adds one exclusive wide, block, square, or circle layout.',
-  },
-  {
-    input: 'active',
-    type: 'boolean',
-    defaultValue: 'false',
-    meaning: 'Applies visual active presentation without creating toggle semantics.',
-  },
-  {
-    input: 'pressed',
-    type: 'boolean | null | undefined',
-    defaultValue: 'undefined',
-    meaning: 'Reflects controlled aria-pressed state for a real toggle.',
-  },
-  {
-    input: 'loading',
-    type: 'boolean',
-    defaultValue: 'false',
-    meaning: 'Applies pending presentation and guards accepted activation.',
-  },
-  {
-    input: 'zdDisabled',
-    type: 'boolean',
-    defaultValue: 'false',
-    meaning: 'Guards activation for linked anchor hosts and reflects aria-disabled.',
-  },
-];
+type SaveState = 'idle' | 'saving' | 'saved';
 
 @Component({
   selector: 'docs-button-page',
-  imports: [DocsCodeExampleComponent, DocsPageHeaderComponent, RouterLink, ZdButton],
+  imports: [
+    DocsApiTableComponent,
+    DocsCalloutComponent,
+    DocsCodeBlockComponent,
+    DocsExampleComponent,
+    DocsFeatureGridComponent,
+    DocsMetaGridComponent,
+    DocsPageHeaderComponent,
+    DocsPlaygroundComponent,
+    DocsPlaygroundPreviewDirective,
+    DocsSectionComponent,
+    TitleCasePipe,
+    ZdButton,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <article class="docs-page" aria-labelledby="page-title">
+    <article class="docs-prose" aria-labelledby="page-title">
       <docs-page-header
-        eyebrow="Component reference"
+        eyebrow="Actions"
         heading="Button"
-        description="Button applies documented daisyUI appearance and controlled state to an existing native action element. It preserves native button, link, input, form, and event semantics."
         maturity="planned"
-        sourceUrl="https://github.com/pranxy/zordon-ui/blob/master/docs/components/button.md"
-      />
+        description="A directive, not a wrapper. zdButton applies daisyUI button styling and controlled state to the native action element you already write, so forms, focus and keyboard behave exactly as the platform intends."
+      >
+        <docs-meta-grid [items]="facts" />
+      </docs-page-header>
 
-      <aside class="docs-callout">
-        <strong>Planned maturity.</strong> The entry point is implemented, but its remaining
-        browser, assistive-technology, visual, and public API gates are not yet complete. Treat this
+      <docs-callout variant="note">
+        <strong>Planned maturity.</strong> The entry point is implemented, but manual
+        assistive-technology review and the remaining release gates are not complete. Treat this
         page as an implementation contract, not a Stable release claim.
-      </aside>
+      </docs-callout>
 
-      <section class="docs-page-section" aria-labelledby="install">
-        <h2 id="install">Install and import</h2>
-        <p>Import the standalone native-host directive from its component entry point.</p>
-        <docs-code-example
-          label="TypeScript import"
+      <docs-section id="install" heading="Install and import">
+        <docs-code-block
+          label="Import"
+          language="ts"
           copyLabel="Copy import code"
           [code]="importCode"
         />
-        <docs-code-example label="Basic use" [code]="basicExample" />
-      </section>
+      </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="example">
-        <h2 id="example">Live example</h2>
-        <p>The server renders the native button and its deterministic daisyUI classes.</p>
-        <div class="docs-callout">
-          <button zdButton [color]="color()" [variant]="variant()">Save changes</button>
-        </div>
-        <div class="docs-hydration-slot">
-          @if (enhanced()) {
-            <div class="docs-form-row" aria-label="Button playground">
-              <label class="docs-field">
-                Button color
-                <select [value]="color() ?? ''" (change)="updateColor($event)">
-                  <option value="">Default</option>
-                  <option value="primary">Primary</option>
-                  <option value="secondary">Secondary</option>
-                </select>
-              </label>
-              <label class="docs-field">
-                Button variant
-                <select [value]="variant() ?? ''" (change)="updateVariant($event)">
-                  <option value="">Default</option>
-                  <option value="outline">Outline</option>
-                  <option value="ghost">Ghost</option>
-                </select>
-              </label>
-              <button class="docs-secondary-action" type="button" (click)="resetPlayground()">
-                Reset playground
-              </button>
-            </div>
-          } @else {
-            <div class="docs-control-placeholder" aria-hidden="true">
-              <span></span><span></span><span></span>
-            </div>
-          }
-        </div>
-      </section>
-
-      <section class="docs-page-section" aria-labelledby="api">
-        <h2 id="api">API</h2>
-        <div class="docs-table-wrap">
-          <table class="docs-table">
-            <thead>
-              <tr>
-                <th>Input</th>
-                <th>Type</th>
-                <th>Default</th>
-                <th>Contract</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (item of api; track item.input) {
-                <tr>
-                  <th scope="row">
-                    <code>{{ item.input }}</code>
-                  </th>
-                  <td>
-                    <code>{{ item.type }}</code>
-                  </td>
-                  <td>
-                    <code>{{ item.defaultValue }}</code>
-                  </td>
-                  <td>{{ item.meaning }}</td>
-                </tr>
+      <docs-section
+        id="playground"
+        heading="Playground"
+        description="Every input, live. The snippet underneath is exactly what you would paste."
+      >
+        <docs-playground
+          label="Button"
+          [controls]="controls"
+          [snippet]="{ element: 'button', directive: 'zdButton', content: 'Save changes' }"
+        >
+          <ng-template docsPlaygroundPreview let-values>
+            <button
+              zdButton
+              type="button"
+              [color]="color(values)"
+              [variant]="variant(values)"
+              [size]="size(values)"
+              [loading]="values['loading'] === true"
+              [disabled]="values['disabled'] === true"
+            >
+              @if (values['loading'] === true) {
+                <span class="loading loading-spinner loading-xs" aria-hidden="true"></span>
               }
-            </tbody>
-          </table>
-        </div>
-      </section>
+              Save changes
+            </button>
+          </ng-template>
+        </docs-playground>
+      </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="variants">
-        <h2 id="variants">Variants</h2>
-        <p>
-          Color, variant, size, and layout are independent typed inputs. Omitting one preserves the
-          ordinary daisyUI Button appearance or an application-level default.
-        </p>
-      </section>
+      <docs-section id="examples" heading="Examples">
+        <docs-section
+          id="color"
+          level="3"
+          heading="Color"
+          description="Colors are daisyUI roles, not hex values, so they follow whichever theme the application loads. Omit color for the base button."
+        >
+          <docs-example label="colors.html" [code]="colorsCode">
+            <button zdButton type="button">Default</button>
+            @for (color of colors; track color) {
+              <button zdButton type="button" [color]="color">{{ color | titlecase }}</button>
+            }
+          </docs-example>
+        </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="accessibility">
-        <h2 id="accessibility">Accessibility</h2>
-        <p>
-          Use a native <code>button</code>, linked <code>a</code>, or supported button-like
-          <code>input</code>. Consumers provide the accessible name. Icon-only buttons require an
-          explicit label, and visual <code>active</code> state never substitutes for
-          <code>aria-pressed</code>.
-        </p>
-      </section>
+        <docs-section
+          id="variant"
+          level="3"
+          heading="Variant"
+          description="One input replaces daisyUI's mutually exclusive modifier classes, so btn-outline and btn-ghost can't be combined by accident."
+        >
+          <docs-example label="variants.html" [code]="variantsCode">
+            <button zdButton type="button" color="primary">Solid</button>
+            @for (variant of variants; track variant) {
+              <button
+                zdButton
+                type="button"
+                [color]="variant === 'ghost' ? undefined : 'primary'"
+                [variant]="variant"
+              >
+                {{ variant | titlecase }}
+              </button>
+            }
+          </docs-example>
+        </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="customization">
-        <h2 id="customization">Customization</h2>
-        <p>
-          Zordon UI adds complete daisyUI class tokens without replacing consumer classes, styles,
-          CSS variables, or nested <code>data-theme</code> scopes. Prefixes are immutable build-time
-          configuration.
-        </p>
-      </section>
+        <docs-section
+          id="size"
+          level="3"
+          heading="Size"
+          description="Heights match Input, Select and the other data-input controls of the same size, so rows align without overrides."
+        >
+          <docs-example label="sizes.html" [code]="sizesCode">
+            @for (size of sizes; track size) {
+              <button zdButton type="button" color="primary" [size]="size">{{ size }}</button>
+            }
+          </docs-example>
+        </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="ssr">
-        <h2 id="ssr">SSR</h2>
-        <p>
-          Button renders deterministic native markup with no generated IDs or browser-only initial
-          state. Hydration attaches the activation guard without changing the server-owned class or
-          ARIA contract.
-        </p>
-      </section>
+        <docs-section
+          id="loading"
+          level="3"
+          heading="Loading state"
+          description="Bind loading to a signal. Activation is guarded and aria-disabled is set, but focus stays on the button, unlike disabled, which drops it. Try it."
+        >
+          <docs-example label="save-button" [files]="loadingFiles">
+            <button
+              zdButton
+              type="button"
+              color="primary"
+              [loading]="saveState() === 'saving'"
+              (click)="save()"
+            >
+              @if (saveState() === 'saving') {
+                <span class="loading loading-spinner loading-xs" aria-hidden="true"></span>
+                Saving…
+              } @else {
+                Save changes
+              }
+            </button>
+            <span class="status" role="status">{{ saveLabel() }}</span>
+          </docs-example>
+        </docs-section>
 
-      <section class="docs-page-section" aria-labelledby="related">
-        <h2 id="related">Related</h2>
-        <ul class="docs-link-list">
-          <li><a routerLink="/foundations/typed-vocabularies">Typed foundation vocabularies</a></li>
-          <li><a routerLink="/guides/styling-and-theming">Styling and theming</a></li>
-          <li><a routerLink="/components">Component catalogue</a></li>
-        </ul>
-      </section>
+        <docs-section
+          id="links"
+          level="3"
+          heading="Links that look like buttons"
+          description="Navigation stays an anchor. Anchors have no native disabled state, so zdDisabled guards activation and sets aria-disabled instead."
+        >
+          <docs-example label="links.html" [code]="linksCode">
+            <a zdButton color="primary" href="/components">Open catalogue</a>
+            <a zdButton color="primary" href="/resources" [zdDisabled]="true">Upgrade plan</a>
+          </docs-example>
+        </docs-section>
+      </docs-section>
+
+      <docs-section
+        id="api"
+        heading="API"
+        description="ZdButton is a standalone directive. All inputs are signal inputs; booleans accept bare attributes."
+      >
+        <docs-section id="inputs" level="3" heading="Inputs">
+          <docs-api-table caption="Button inputs" [columns]="inputColumns" [rows]="inputRows" />
+        </docs-section>
+        <docs-section id="outputs" level="3" heading="Outputs">
+          <docs-callout variant="empty">
+            None. The host is a real button, so bind (click), (focus) and friends directly.
+            Activation is guarded while loading.
+          </docs-callout>
+        </docs-section>
+        <docs-section id="types" level="3" heading="Types">
+          <docs-code-block label="@pranxy/zordon-ui" language="ts" [code]="typesCode" />
+        </docs-section>
+      </docs-section>
+
+      <docs-section
+        id="accessibility"
+        heading="Accessibility"
+        description="Native semantics do most of the work. Zordon only adds what the platform can't express."
+      >
+        <docs-feature-grid [items]="accessibilityNotes" />
+        <docs-api-table caption="Keyboard" [columns]="keyboardColumns" [rows]="keyboardRows" />
+      </docs-section>
+
+      <docs-section
+        id="customization"
+        heading="Customization"
+        description="Zordon ships no button CSS of its own. Your classes, styles and data-theme scopes are kept. daisyUI's component variables work at any scope, but they are daisyUI internals and can change between daisyUI releases."
+      >
+        <docs-api-table
+          caption="Button CSS variables"
+          [columns]="themingColumns"
+          [rows]="themingRows"
+        />
+        <docs-code-block label="styles.css" language="css" [code]="themingCode" />
+      </docs-section>
+
+      <docs-section
+        id="ssr"
+        heading="SSR"
+        description="Button renders deterministic native markup with no generated IDs or browser-only initial state. Hydration attaches the activation guard without changing the server-owned classes or ARIA."
+      />
     </article>
+  `,
+  styles: `
+    .status {
+      color: var(--docs-muted-text);
+      font-family: var(--docs-font-mono);
+      font-size: 0.75rem;
+    }
   `,
 })
 export class ButtonPageComponent {
+  private timer: ReturnType<typeof setTimeout> | undefined;
+
+  protected readonly facts = buttonFacts;
   protected readonly importCode = importCode;
-  protected readonly basicExample = basicExample;
-  protected readonly api = buttonApi;
-  protected readonly enhanced = signal(false);
-  protected readonly color = signal<ZdColor | undefined>(undefined);
-  protected readonly variant = signal<ZdButtonVariant | undefined>(undefined);
+  protected readonly controls = playgroundControls;
+  protected readonly colors = exampleColors;
+  protected readonly colorsCode = colorsCode;
+  protected readonly variants = exampleVariants;
+  protected readonly variantsCode = variantsCode;
+  protected readonly sizes = exampleSizes;
+  protected readonly sizesCode = sizesCode;
+  protected readonly loadingFiles = loadingFiles;
+  protected readonly linksCode = linksCode;
+  protected readonly inputColumns = inputColumns;
+  protected readonly inputRows = inputRows;
+  protected readonly typesCode = typesCode;
+  protected readonly accessibilityNotes = accessibilityNotes;
+  protected readonly keyboardColumns = keyboardColumns;
+  protected readonly keyboardRows = keyboardRows;
+  protected readonly themingColumns = themingColumns;
+  protected readonly themingRows = themingRows;
+  protected readonly themingCode = themingCode;
+
+  protected readonly saveState = signal<SaveState>('idle');
+  protected readonly saveLabel = signal('Idle');
 
   constructor() {
-    afterNextRender(() => this.enhanced.set(true));
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.timer));
   }
 
-  protected updateColor(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.color.set(value === '' ? undefined : (value as ZdColor));
+  protected color(values: PlaygroundValues): ZdColor | undefined {
+    const value = values['color'];
+    return value === 'default' ? undefined : (value as ZdColor);
   }
 
-  protected updateVariant(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.variant.set(value === '' ? undefined : (value as ZdButtonVariant));
+  protected variant(values: PlaygroundValues): ZdButtonVariant | undefined {
+    const value = values['variant'];
+    return value === 'solid' ? undefined : (value as ZdButtonVariant);
   }
 
-  protected resetPlayground(): void {
-    this.color.set(undefined);
-    this.variant.set(undefined);
+  protected size(values: PlaygroundValues): ZdSize {
+    return values['size'] as ZdSize;
+  }
+
+  protected save(): void {
+    if (this.saveState() === 'saving') return;
+    this.saveState.set('saving');
+    this.saveLabel.set('Saving…');
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.saveState.set('saved');
+      this.saveLabel.set('Saved');
+    }, 1500);
   }
 }
