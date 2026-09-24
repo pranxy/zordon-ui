@@ -1,8 +1,22 @@
 # Zordon UI documentation site — design system
 
-> **Status:** Implemented (first pass, 2026-09-23) — derived from the mockups in `docs/html/` (Get Started, Components, Button, Components Board). See [As built](#as-built-2026-09-23) for deviations.
+> **Status:** Implemented (first pass, 2026-09-23) — derived from the [Claude Design mockups](#design-source) (Get Started, Components, Button, Components Board). See [As built](#as-built-2026-09-23) for deviations.
 > **Scope:** The documentation website (`projects/docs`) only. This is not the library's public styling API.
 > **Implementation plan:** [`.plans/docs-site-design-system.md`](../../.plans/docs-site-design-system.md)
+
+## Design source
+
+The mockups live in Claude Design, not in this repository:
+[Zordon documentation site mockups](https://claude.ai/design/p/f4d8f1ff-7317-4763-9029-31911e3d4113?file=Zordon+Components+Board.dc.html).
+
+- **Files:** `Zordon Get Started.dc.html`, `Zordon Components.dc.html`, `Zordon Button.dc.html` and
+  `Zordon Components Board.dc.html`. The board imports `support.js` and `Zordon Components.dc.html`.
+- **Access:** the link opens only for people the project is shared with.
+- **Agents:** connect the `claude_design` MCP server (`https://api.anthropic.com/v1/design/mcp`,
+  sign in with `/design-login`) and import the project from the link above. The whole project is readable.
+- **Version:** the site was built from the 2026-09-23 state of the design. Later design changes are
+  not reflected until someone compares them against the site. Where the design and the codebase
+  disagree, the codebase wins (see [Content corrections](#content-corrections)).
 
 ## Why this exists
 
