@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import {
   applyZordonDocumentEnvironment,
   prepareZordonTestEnvironment,
+  waitForZordonHydration,
   ZORDON_TEST_MEDIA_PROFILES,
   type ZdTestViewport,
 } from './fixtures/environment';
@@ -33,7 +34,7 @@ async function openDocsPage(
   await page.addStyleTag({ content: PINNED_FONTS });
   // The search dialog is deferred until the hydrated app is idle, so its presence means every
   // post-hydration enhancement (copy buttons, saved preferences) has already rendered.
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await waitForZordonHydration(page);
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
   await applyZordonDocumentEnvironment(page, { theme, direction: 'ltr' });
   await page.evaluate(() => document.fonts.ready);

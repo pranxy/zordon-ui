@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 import {
   applyZordonDocumentEnvironment,
   prepareZordonTestEnvironment,
+  waitForZordonHydration,
   ZORDON_TEST_MEDIA_PROFILES,
 } from './fixtures/environment';
 import type { ZdTestTheme } from './fixtures/environment';
@@ -11,6 +12,7 @@ test('Drawer persistent light desktop and modal dark RTL mobile', async ({ page 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1400 });
   await page.goto('/__zordon-tests__/drawer');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('combobox', { name: 'Mode' }).selectOption('persistent');
   await expect(page.locator('zd-drawer').first()).toHaveAttribute('data-mode', 'persistent');
@@ -31,6 +33,7 @@ test('Tabs box border lift panels in light desktop and dark RTL mobile', async (
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/tabs?tab=security');
+  await waitForZordonHydration(page);
   await expect(page.locator('zd-tabs').first()).toHaveAttribute('data-zd-tabs-ready', 'true');
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('tabs-fixture')).toHaveScreenshot('tabs--light-desktop.png');
@@ -44,6 +47,7 @@ test('Navbar light desktop and expanded dark RTL mobile navigation', async ({ pa
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.goto('/__zordon-tests__/navbar');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('navbar-fixture')).toHaveScreenshot('navbar--light-desktop.png');
   await page.setViewportSize({ width: 360, height: 1300 });
@@ -56,6 +60,7 @@ test('Pagination light desktop and dark RTL mobile ranges', async ({ page }) => 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/pagination?page=5&limit=10');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('pagination-fixture')).toHaveScreenshot(
     'pagination--light-desktop.png',
@@ -72,6 +77,7 @@ test('Steps light desktop wizard and dark RTL mobile statuses', async ({ page })
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/steps');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('textbox', { name: 'Name', exact: true }).fill('Ada');
   await page.getByRole('button', { name: 'Continue to delivery' }).click();
@@ -91,6 +97,7 @@ test('Menu native lists and Aria hierarchy in light desktop and dark RTL mobile'
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/menu');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('button', { name: 'Toggle tree group' }).click();
   await expect(page.getByTestId('menu-fixture')).toHaveScreenshot('menu--light-desktop.png');
@@ -104,6 +111,7 @@ test('Megamenu wide light desktop and single-column dark RTL mobile panels', asy
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/megamenu');
+  await waitForZordonHydration(page);
   await expect(page.getByTestId('megamenu-fixture')).toHaveAttribute('data-ready', 'true');
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('button', { name: 'Explore', exact: true }).click();
@@ -120,6 +128,7 @@ test('Dock native destinations in light desktop and dark RTL mobile overflow', a
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/dock');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('dock-fixture')).toHaveScreenshot('dock--light-desktop.png');
   await page.setViewportSize({ width: 360, height: 1200 });
@@ -133,6 +142,7 @@ test('Breadcrumbs collapsed navigation in light desktop and dark RTL mobile', as
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/breadcrumbs');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('navigation', { name: 'Workspace path' }).locator('summary').click();
   await expect(page.getByTestId('breadcrumbs-fixture')).toHaveScreenshot(
@@ -153,6 +163,7 @@ test('Accordion grouped and native disclosure in light desktop and dark RTL mobi
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1800 });
   await page.goto('/__zordon-tests__/accordion');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('accordion-fixture')).toHaveScreenshot(
     'accordion--light-desktop.png',
@@ -172,6 +183,7 @@ test('Toast semantic custom and action content in light desktop and dark RTL mob
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/toast');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await page.getByRole('button', { name: 'Show styled' }).click();
   await expect(page.locator('.zd-toast-stack')).toHaveScreenshot('toast--light-stack.png');
@@ -184,6 +196,7 @@ test('Skeleton shapes and compositions in light desktop and dark RTL mobile', as
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1600 });
   await page.goto('/__zordon-tests__/skeleton');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('skeleton-fixture')).toHaveScreenshot(
     'skeleton--light-desktop.png',
@@ -201,6 +214,7 @@ test('Radial Progress values, sizes and colors in light desktop and dark RTL mob
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1600 });
   await page.goto('/__zordon-tests__/radial-progress');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('radial-fixture')).toHaveScreenshot(
     'radial-progress--light-desktop.png',
@@ -218,6 +232,7 @@ test('Progress native values and buffers in light desktop and dark RTL mobile', 
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1500 });
   await page.goto('/__zordon-tests__/progress');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('progress-fixture')).toHaveScreenshot(
     'progress--light-desktop.png',
@@ -233,6 +248,7 @@ test('Loading static motion fallback in light desktop and dark RTL mobile', asyn
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.setViewportSize({ width: 1280, height: 1200 });
   await page.goto('/__zordon-tests__/loading');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { theme: 'light', direction: 'ltr' });
   await expect(page.getByTestId('loading-matrix')).toHaveScreenshot(
     'loading--static-light-matrix.png',
@@ -254,6 +270,7 @@ test('Loading static motion fallback in light desktop and dark RTL mobile', asyn
 test('Alert semantic variants in light desktop and dark RTL mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1300 });
   await page.goto('/__zordon-tests__/alert');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await expect(page.getByTestId('alert-matrix')).toHaveScreenshot('alert--light-variants.png');
   await page.setViewportSize({ width: 360, height: 1000 });
@@ -270,6 +287,7 @@ test('Theme Controller light controls and dark RTL mobile with isolated preview'
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.emulateMedia({ colorScheme: 'light' });
   await page.goto('/__zordon-tests__/theme-controller');
+  await waitForZordonHydration(page);
   await expect(page.getByTestId('theme-fixture')).toHaveAttribute('data-zd-theme-ready', 'true');
   await expect(page.getByTestId('theme-fixture')).toHaveScreenshot(
     'theme-controller--light-desktop.png',
@@ -285,6 +303,7 @@ test('Theme Controller light controls and dark RTL mobile with isolated preview'
 test('Modal native light desktop and dark RTL overlay mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/__zordon-tests__/modal');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await page.getByRole('button', { name: 'Open native', exact: true }).click();
   await expect(page.getByRole('dialog')).toHaveScreenshot('modal--native-light.png');
@@ -300,6 +319,7 @@ test('Modal native light desktop and dark RTL overlay mobile', async ({ page }) 
 test('FAB light desktop flower and dark RTL mobile vertical fallback', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.goto('/__zordon-tests__/fab');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await page.getByTestId('fab-local').locator('.zd-fab-trigger').click();
   await page.getByRole('button', { name: 'Set controlled' }).click();
@@ -321,6 +341,7 @@ test('FAB light desktop flower and dark RTL mobile vertical fallback', async ({ 
 test('Tooltip colors in light desktop and dark RTL mobile', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1100 });
   await page.goto('/__zordon-tests__/tooltip');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await expect(page.getByTestId('tooltip-plain')).toHaveAttribute('data-zd-tooltip-ready', 'true');
   await page.getByRole('button', { name: 'Show colors' }).click();
@@ -337,6 +358,7 @@ test('Tooltip colors in light desktop and dark RTL mobile', async ({ page }) => 
 test('Swap light desktop and dark RTL mobile states', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 1000 });
   await page.goto('/__zordon-tests__/swap');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await expect(page.getByTestId('swap-fixture')).toHaveScreenshot('swap--light-desktop.png');
   await page.getByRole('button', { name: 'Toggle mixed' }).click();
@@ -349,6 +371,7 @@ test('Swap light desktop and dark RTL mobile states', async ({ page }) => {
 
 test('Dropdown light menu and dark RTL nested mobile panels', async ({ page }) => {
   await page.goto('/__zordon-tests__/dropdown');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await expect(page.getByTestId('dropdown-menu-root')).toHaveAttribute(
     'data-zd-dropdown-ready',
@@ -374,6 +397,7 @@ test('Dropdown light menu and dark RTL nested mobile panels', async ({ page }) =
 
 test('Calendar light desktop, dark RTL mobile, and popup', async ({ page }) => {
   await page.goto('/__zordon-tests__/calendar');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme: 'light' });
   await expect(page.getByTestId('calendar-single')).toHaveScreenshot('calendar--light-desktop.png');
   await page.setViewportSize({ width: 360, height: 800 });
@@ -401,6 +425,7 @@ const mobileThemes = [
 
 async function prepareFixture(page: Page, theme: ZdTestTheme): Promise<void> {
   await page.goto('/__zordon-tests__/browser');
+  await waitForZordonHydration(page);
   await applyZordonDocumentEnvironment(page, { direction: 'ltr', theme });
   await page.addStyleTag({
     content: `

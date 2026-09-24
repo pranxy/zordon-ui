@@ -1,0 +1,9 @@
+/*
+ * Applied by Playwright while taking visual snapshots (see playwright.config.ts).
+ * The docs site header is sticky, so it would otherwise cover the top of any element
+ * scrolled into view for a locator screenshot, by an amount that depends on scroll timing.
+ * At scroll 0 a static header renders exactly like the sticky one.
+ */
+.site-header {
+  position: static !important;
+}

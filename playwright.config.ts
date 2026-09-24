@@ -46,10 +46,11 @@ export default defineConfig({
       name: 'visual-chromium',
       testMatch: ['**/visual-regression.spec.ts', '**/visual-docs-site.spec.ts'],
       use: { ...devices['Desktop Chrome'] },
+      expect: { toHaveScreenshot: { stylePath: './e2e/fixtures/screenshot.css' } },
     },
   ],
   webServer: {
-    command: `node ./node_modules/@angular/cli/bin/ng.js serve docs --configuration development --host 127.0.0.1 --port ${port}`,
+    command: `node ./node_modules/@angular/cli/bin/ng.js serve docs --configuration development --no-hmr --host 127.0.0.1 --port ${port}`,
     url: baseURL,
     reuseExistingServer: !process.env['CI'],
     timeout: 240_000,

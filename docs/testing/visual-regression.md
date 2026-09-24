@@ -57,6 +57,11 @@ canonical desktop/mobile viewport, reduced-motion, light/dark/custom theme, and 
 not take standard color snapshots under forced-colors emulation; those scenarios require semantic
 browser assertions and the component's manual high-contrast review.
 
+Two harness rules keep the docs-hosted fixtures deterministic:
+
+- The Playwright web server runs `ng serve --no-hmr`. With HMR, Angular loads every `@defer` block eagerly, so the shell's deferred search dialog no longer signals that hydration finished. Specs call `waitForZordonHydration(page)` after every navigation, so clicks reach Angular instead of the server-rendered markup.
+- `e2e/fixtures/screenshot.css` is applied to every visual snapshot and makes the sticky site header static; otherwise it covers the top of element screenshots by a scroll-dependent amount.
+
 The pixel tolerance absorbs small anti-aliasing differences; it is not intended to hide layout or theme regressions. A legitimate platform expansion should create and maintain an explicit platform-specific baseline rather than loosening the global tolerance.
 
 ## Failure workflow

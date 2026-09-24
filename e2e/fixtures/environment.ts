@@ -64,3 +64,11 @@ export async function applyZordonDocumentEnvironment(
     element.setAttribute('dir', value.direction);
   }, environment);
 }
+
+/**
+ * Waits until the docs app has hydrated. The shell defers its search dialog until the hydrated
+ * app is idle, so its presence means clicks reach Angular instead of the server-rendered markup.
+ */
+export async function waitForZordonHydration(page: Page): Promise<void> {
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+}
