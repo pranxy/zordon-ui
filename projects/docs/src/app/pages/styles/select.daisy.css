@@ -1,0 +1,7 @@
+/* daisyUI's select and ghost classes, compiled only for the Select page. The generic rule is large, so the modifiers are in select-modifiers.daisy.css (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: select;
+}
+@source inline('select select-ghost');

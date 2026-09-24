@@ -1,0 +1,7 @@
+/* daisyUI classes Range emits, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: range;
+}
+@source inline('range range-neutral range-primary range-secondary range-accent range-info range-success range-warning range-error range-xs range-sm range-md range-lg range-xl range-vertical');

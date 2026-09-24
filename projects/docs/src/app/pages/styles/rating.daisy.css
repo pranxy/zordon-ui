@@ -1,0 +1,7 @@
+/* daisyUI classes Rating and Mask emit, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: rating, mask;
+}
+@source inline('rating rating-xs rating-sm rating-md rating-lg rating-xl rating-half rating-hidden mask mask-star-2 mask-half-1 mask-half-2');

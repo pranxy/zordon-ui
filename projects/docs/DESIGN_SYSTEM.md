@@ -1,22 +1,8 @@
 # Zordon UI documentation site — design system
 
-> **Status:** Implemented (first pass, 2026-09-23) — derived from the [Claude Design mockups](#design-source) (Get Started, Components, Button, Components Board). See [As built](#as-built-2026-09-23) for deviations.
+> **Status:** Implemented (first pass, 2026-09-23) — derived from the mockups in `docs/html/` (Get Started, Components, Button, Components Board). See [As built](#as-built-2026-09-23) for deviations.
 > **Scope:** The documentation website (`projects/docs`) only. This is not the library's public styling API.
 > **Implementation plan:** [`.plans/docs-site-design-system.md`](../../.plans/docs-site-design-system.md)
-
-## Design source
-
-The mockups live in Claude Design, not in this repository:
-[Zordon documentation site mockups](https://claude.ai/design/p/f4d8f1ff-7317-4763-9029-31911e3d4113?file=Zordon+Components+Board.dc.html).
-
-- **Files:** `Zordon Get Started.dc.html`, `Zordon Components.dc.html`, `Zordon Button.dc.html` and
-  `Zordon Components Board.dc.html`. The board imports `support.js` and `Zordon Components.dc.html`.
-- **Access:** the link opens only for people the project is shared with.
-- **Agents:** connect the `claude_design` MCP server (`https://api.anthropic.com/v1/design/mcp`,
-  sign in with `/design-login`) and import the project from the link above. The whole project is readable.
-- **Version:** the site was built from the 2026-09-23 state of the design. Later design changes are
-  not reflected until someone compares them against the site. Where the design and the codebase
-  disagree, the codebase wins (see [Content corrections](#content-corrections)).
 
 ## Why this exists
 
@@ -188,15 +174,16 @@ library component.
 
 ### 3.4 Component-reference building blocks
 
-| Component           | Replaces                                                                                     | Inputs / behaviour                                                                                                                                                                                                                                             | Lib                    |
-| ------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| `docs-playground`   | Button playground: preview, controls panel and generated snippet                             | `controls: PlaygroundControl[]` (typed schema: `choice`, `boolean`) and a `render` template that receives the current values. **Renders the real library component** (the mockup re-implements button styling in JS). It generates the snippet from the schema | —                      |
-| `docs-chip-group`   | Playground choices (with optional colour dot) **and** catalogue category chips (with counts) | `options: { value, label, count?, swatch? }[]`, `value` (model), `selectedStyle: 'inverse' \| 'accent'`                                                                                                                                                        | — (native radios)      |
-| `docs-api-table`    | Inputs table, theming-variables table, keyboard table                                        | `columns`, `rows`, cell templates (`name`, `type`, `default`, `description`)                                                                                                                                                                                   | `zdKbd`                |
-| `docs-feature-grid` | Joined bordered grids: accessibility 2×2, "Three commitments" with 01/02/03                  | `items: { title, body, index? }[]`, `columns`                                                                                                                                                                                                                  | —                      |
-| `docs-link-card`    | "Next steps" cards                                                                           | `eyebrow`, `title`, `description`, `link`                                                                                                                                                                                                                      | —                      |
-| `docs-steps`        | Numbered vertical rail for installation, with optional per-step "done" tracking              | `steps: { id, title, body }[]`, `trackProgress`; each step projects content                                                                                                                                                                                    | —                      |
-| `docs-faq`          | Troubleshooting accordion                                                                    | `items: { question, answer }[]`; native `<details>` fallback                                                                                                                                                                                                   | — (native `<details>`) |
+| Component             | Replaces                                                                                     | Inputs / behaviour                                                                                                                                                                                                                                             | Lib                    |
+| --------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `docs-playground`     | Button playground: preview, controls panel and generated snippet                             | `controls: PlaygroundControl[]` (typed schema: `choice`, `boolean`) and a `render` template that receives the current values. **Renders the real library component** (the mockup re-implements button styling in JS). It generates the snippet from the schema | —                      |
+| `docs-chip-group`     | Playground choices (with optional colour dot) **and** catalogue category chips (with counts) | `options: { value, label, count?, swatch? }[]`, `value` (model), `selectedStyle: 'inverse' \| 'accent'`                                                                                                                                                        | — (native radios)      |
+| `docs-api-table`      | Inputs table, theming-variables table, keyboard table                                        | `columns`, `rows`, cell templates (`name`, `type`, `default`, `description`)                                                                                                                                                                                   | `zdKbd`                |
+| `docs-feature-grid`   | Joined bordered grids: accessibility 2×2, "Three commitments" with 01/02/03                  | `items: { title, body, index? }[]`, `columns`                                                                                                                                                                                                                  | —                      |
+| `docs-link-card`      | "Next steps" cards                                                                           | `eyebrow`, `title`, `description`, `link`                                                                                                                                                                                                                      | —                      |
+| `docs-steps`          | Numbered vertical rail for installation, with optional per-step "done" tracking              | `steps: { id, title, body }[]`, `trackProgress`; each step projects content                                                                                                                                                                                    | —                      |
+| `docs-faq`            | Troubleshooting accordion                                                                    | `items: { question, answer }[]`; native `<details>` fallback                                                                                                                                                                                                   | — (native `<details>`) |
+| `docs-reference-page` | The repeated reference-page skeleton (added after the first pages)                           | `reference: DocsReference` (header facts, notice, install code, API tables, types, accessibility notes and keyboard table, customization, SSR); projects the playground (`docsReferencePlayground`) and the examples                                           | —                      |
 
 ### 3.5 Catalogue
 
@@ -259,18 +246,26 @@ library component.
    previous/next and its example sub-sections; the shared outline is added for you), keep the
    previous/next chain intact, and add a loader to `app.routes.ts`. The catalogue card and side
    navigation link to it automatically.
-2. Put the page's copy, API rows and snippets in `content/<component>.content.ts`, mirroring the library source.
-3. Compose the page from `app/ui` only: `docs-page-header` + `docs-meta-grid`, `docs-playground`,
-   `docs-section` + `docs-example`, `docs-api-table`, `docs-feature-grid`, with `.docs-stack` and
-   `.docs-cluster` for layout. Small, page-local example styling (a demo surface, a status line) is
-   fine in the page's `styles`; anything reused belongs in `app/ui`.
+2. Put the page's copy, API rows and snippets in `content/<component>.content.ts`, mirroring the
+   library source. Describe everything except the playground and examples as one `DocsReference`
+   object. Native form controls share their vocabulary (colors, sizes, playground controls, API
+   rows, notices) through `content/form-controls.content.ts`.
+3. Render it with `docs-reference-page`, which owns the header, maturity notice, install, API,
+   accessibility, customization and SSR sections in the order the outline expects. Project the
+   playground with `docsReferencePlayground`; everything else projected becomes the examples,
+   usually level-3 `docs-section` + `docs-example` blocks whose ids match the page's outline. Lay
+   examples out with `.docs-stack`, `.docs-cluster`, `.docs-choice` (a label around a checkbox,
+   radio or toggle), `.docs-field` (a labelled text field) and `.docs-status` (a live status line).
+   Small, page-local example styling is fine in the page's `styles`; anything reused belongs in
+   `app/ui` or the primitives. The Preview pages built before this component still spell the
+   sections out; migrate them when they next change.
 4. If the component emits daisyUI classes the global stylesheet does not compile, compile them for
    that page only: a stylesheet in `pages/styles/<name>.daisy.css`
    (`@import 'tailwindcss/utilities' source(none)`, `@plugin 'daisyui' { themes: false; include: … }`
    and an `@source inline(…)` list) loaded by a template-less, unencapsulated component rendered at
    the top of the page. This keeps them out of the initial bundle. Keep each stylesheet under the
    component-style budget; split a large rule (such as the generic `menu`, shared in
-   `menu-base.daisy.css`) into its own file.
+   `menu-base.daisy.css`, or the generic `select`) into its own file.
 5. Add the route to the e2e route lists and the accessibility loop, then run `npm run test:docs:ssr`,
    which includes the design-system check.
 

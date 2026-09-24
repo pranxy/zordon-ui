@@ -1,0 +1,7 @@
+/* daisyUI classes Checkbox emits, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: checkbox;
+}
+@source inline('checkbox checkbox-neutral checkbox-primary checkbox-secondary checkbox-accent checkbox-info checkbox-success checkbox-warning checkbox-error checkbox-xs checkbox-sm checkbox-md checkbox-lg checkbox-xl');

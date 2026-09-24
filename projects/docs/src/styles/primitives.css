@@ -164,6 +164,37 @@
   gap: var(--gap, var(--docs-space-3));
 }
 
+/* Example status line: the live value or state an example reports. */
+.docs-status {
+  margin: 0;
+  color: var(--docs-muted-text);
+  font-family: var(--docs-font-mono);
+  font-size: 0.75rem;
+}
+
+/* A label around a checkbox, radio or toggle and its text. */
+.docs-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--docs-space-2);
+  font-size: var(--docs-text-sm);
+}
+
+/* A labelled text field: label, control, then help or error text. */
+.docs-field {
+  display: grid;
+  gap: 0.35rem;
+  inline-size: min(100%, 20rem);
+  font-size: var(--docs-text-sm);
+  font-weight: var(--docs-weight-semibold);
+}
+
+.docs-field > :is(small, p) {
+  margin: 0;
+  color: var(--docs-muted-text);
+  font-weight: normal;
+}
+
 .docs-cluster {
   display: flex;
   flex-wrap: wrap;

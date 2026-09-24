@@ -1,0 +1,7 @@
+/* daisyUI classes Radio emits, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: radio;
+}
+@source inline('radio radio-neutral radio-primary radio-secondary radio-accent radio-info radio-success radio-warning radio-error radio-xs radio-sm radio-md radio-lg radio-xl');

@@ -18,6 +18,17 @@ const pageLoaders = {
   'menu': () => import('./pages/menu.component').then(module => module.MenuPageComponent),
   'calendar': () =>
     import('./pages/calendar.component').then(module => module.CalendarPageComponent),
+  'checkbox': () =>
+    import('./pages/checkbox.component').then(module => module.CheckboxPageComponent),
+  'radio': () => import('./pages/radio.component').then(module => module.RadioPageComponent),
+  'range': () => import('./pages/range.component').then(module => module.RangePageComponent),
+  'rating': () => import('./pages/rating.component').then(module => module.RatingPageComponent),
+  'select': () => import('./pages/select.component').then(module => module.SelectPageComponent),
+  'text-input': () =>
+    import('./pages/text-input.component').then(module => module.TextInputPageComponent),
+  'textarea': () =>
+    import('./pages/textarea.component').then(module => module.TextareaPageComponent),
+  'toggle': () => import('./pages/toggle.component').then(module => module.TogglePageComponent),
   'kbd': () => import('./pages/kbd.component').then(module => module.KbdPageComponent),
   'components': () =>
     import('./pages/components.component').then(module => module.ComponentsPageComponent),

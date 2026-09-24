@@ -17,6 +17,14 @@ const publicRoutes = [
   { path: '/components/megamenu', heading: 'Megamenu', body: /multi-column surface/i },
   { path: '/components/menu', heading: 'Menu', body: /selectable Angular Aria tree/i },
   { path: '/components/calendar', heading: 'Calendar', body: /civil YYYY-MM-DD strings/i },
+  { path: '/components/checkbox', heading: 'Checkbox', body: /native checkbox you already write/i },
+  { path: '/components/radio', heading: 'Radio', body: /native radio inputs/i },
+  { path: '/components/range', heading: 'Range', body: /native range input/i },
+  { path: '/components/rating', heading: 'Rating', body: /laid out as daisyUI stars/i },
+  { path: '/components/select', heading: 'Select', body: /native select/i },
+  { path: '/components/text-input', heading: 'Text Input', body: /native input of any text type/i },
+  { path: '/components/textarea', heading: 'Textarea', body: /native textarea/i },
+  { path: '/components/toggle', heading: 'Toggle', body: /styled as a daisyUI switch/i },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',
@@ -406,6 +414,79 @@ test('Megamenu opens a panel of real links and a keyboard command bar', async ({
   await expect(menu.getByRole('menuitem', { name: 'Undo' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByText('Last command: undo')).toBeVisible();
+});
+
+test('Checkbox, Radio and Toggle examples bind native state through Angular Forms', async ({
+  page,
+}) => {
+  await page.goto('/components/checkbox');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const all = page.getByRole('checkbox', { name: 'All toppings' });
+  expect(await all.evaluate(input => (input as HTMLInputElement).indeterminate)).toBe(true);
+  await all.check();
+  expect(await all.evaluate(input => (input as HTMLInputElement).indeterminate)).toBe(false);
+  await expect(page.getByRole('checkbox', { name: 'Olives' })).toBeChecked();
+  await page.getByRole('checkbox', { name: 'I accept the terms' }).check();
+  await expect(page.locator('#terms-help')).toContainText('Valid');
+
+  await page.goto('/components/radio');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('radio', { name: 'Team' }).check();
+  await expect(page.getByText('Plan: team')).toBeVisible();
+
+  await page.goto('/components/toggle');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('checkbox', { name: 'Weekly digest' }).check();
+  await expect(page.getByText('On: Email notifications, Weekly digest')).toBeVisible();
+});
+
+test('text controls report validation, counts and selections', async ({ page }) => {
+  await page.goto('/components/text-input');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const email = page.getByRole('textbox', { name: 'Work email' });
+  await email.fill('ada');
+  await email.blur();
+  await expect(email).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.locator('#email-help')).toContainText('Enter an email address');
+  await email.fill('ada@example.com');
+  await expect(email).not.toHaveAttribute('aria-invalid', 'true');
+
+  await page.goto('/components/textarea');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('textbox', { name: 'Summary' }).fill('Hello');
+  await expect(page.locator('#summary-count')).toHaveText('5 of 140 characters');
+
+  await page.goto('/components/select');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('combobox', { name: 'Region' }).selectOption('us-east');
+  await expect(page.getByText('Region: us-east')).toBeVisible();
+  expect(
+    await page
+      .getByRole('option', { name: 'Milan (full)' })
+      .evaluate(option => (option as HTMLOptionElement).disabled),
+  ).toBe(true);
+  await page.getByRole('listbox', { name: 'Channels' }).selectOption(['SMS', 'Push']);
+  await expect(page.getByText('Channels: SMS, Push')).toBeVisible();
+});
+
+test('Range and Rating stay native radio and slider controls', async ({ page }) => {
+  await page.goto('/components/range');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const volume = page.getByRole('slider', { name: 'Volume' });
+  await volume.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(page.locator('output[for="volume"]')).toHaveText('41%');
+  await expect(volume).toHaveAttribute('aria-valuetext', '41 percent');
+
+  await page.goto('/components/rating');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const delivery = page.getByRole('group', { name: 'How was your delivery?' });
+  await delivery.getByRole('radio', { name: '5 stars' }).check();
+  await expect(page.getByText('Rating: 5 of 5')).toBeVisible();
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByText('Rating: 4 of 5')).toBeVisible();
+  await delivery.getByRole('radio', { name: 'No rating' }).check();
+  await expect(page.getByText('Rating: 0 of 5')).toBeVisible();
 });
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {

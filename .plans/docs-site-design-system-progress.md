@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-24 (Swap, Carousel, Collapse, Megamenu, Menu and Calendar reference pages added)
+- **Updated:** 2026-09-24 (Data input pages: Checkbox, Radio, Range, Rating, Select, Text Input, Textarea, Toggle)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -19,17 +19,25 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
 ## Component reference pages
 
-| Page     | Status   | Evidence                                                                                                                                                     |
-| -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Button   | Verified | Original template page                                                                                                                                       |
-| Dropdown | Verified | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e |
-| Kbd      | Verified | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                              |
-| Swap     | Verified | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                       |
-| Carousel | Verified | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                |
-| Collapse | Verified | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                        |
-| Megamenu | Verified | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe   |
-| Menu     | Verified | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks   |
-| Calendar | Verified | Playground (mode/week start/readOnly/disabled); bounds, range, popup, Forms, day template; SSR today, range/popup/Forms e2e, open-popup axe check            |
+| Page       | Status                  | Evidence                                                                                                                                                     |
+| ---------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Button     | Verified                | Original template page                                                                                                                                       |
+| Dropdown   | Verified                | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e |
+| Kbd        | Verified                | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                              |
+| Swap       | Verified                | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                       |
+| Carousel   | Verified                | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                |
+| Collapse   | Verified                | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                        |
+| Megamenu   | Verified                | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe   |
+| Menu       | Verified                | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks   |
+| Calendar   | Verified                | Playground (mode/week start/readOnly/disabled); bounds, range, popup, Forms, day template; SSR today, range/popup/Forms e2e, open-popup axe check            |
+| Checkbox   | Verified (Planned page) | Playground (color/size/disabled); colors, sizes, mixed state, Reactive Forms; indeterminate, terms validity and axe checks in e2e                            |
+| Radio      | Verified (Planned page) | Playground; radio group with Reactive Forms, colors, sizes; selection and axe checks in e2e                                                                  |
+| Range      | Verified (Planned page) | Playground (incl. vertical); value with output and aria-valuetext, ticks, colors, sizes, vertical; keyboard and axe checks                                   |
+| Rating     | Verified (Planned page) | Playground (size/disabled); star rating with Forms and clear, half stars, sizes; selection/keyboard/clear and axe checks                                     |
+| Select     | Verified (Planned page) | Playground (color/size/ghost/disabled); optgroups with Forms, multiple, colors, sizes; selection and axe checks                                              |
+| Text Input | Verified (Planned page) | Playground (color/size/ghost/disabled); validation, input types, colors, sizes; aria-invalid flow and axe checks                                             |
+| Textarea   | Verified (Planned page) | Playground; character count, colors, sizes; count and axe checks                                                                                             |
+| Toggle     | Verified (Planned page) | Playground; settings list with FormGroup, colors, sizes; state and axe checks                                                                                |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -59,6 +67,27 @@ pre-change render); the new pages are not yet in the visual suite.
   but it sets item spacing: without it the Menu fixture's baseline changes.
 - The Swap visual test is flaky before and after this change (3 of 4 runs failed at HEAD on Linux).
 
+**Data input round (2026-09-24).** Eight Planned-maturity pages, labelled like Button as an
+implementation contract rather than a Stable claim.
+
+- `docs-reference-page` renders the standard sections from a typed `DocsReference`; pages add only
+  their playground and examples. `content/form-controls.content.ts` shares colors, sizes, controls,
+  API rows and notices. New primitives: `.docs-choice`, `.docs-field`, `.docs-status`.
+- Per-page daisyUI stylesheets as before; the generic `select` rule is 11 kB, so Select splits its
+  modifiers into a second file.
+- Vertical Range needs a size container: daisyUI measures the fill in `cqh`, which otherwise falls
+  back to the viewport.
+- Rating: axe's WCAG 2.2 target-size rule fails daisyUI's defaults (8 px clear option, 14 px half
+  stars at `lg`, `xs`/`sm` stars). The page widens the clear option, uses a 3rem `--size` for half
+  stars and shows the small sizes as display-only, and documents all three.
+- **Library follow-ups:** `ZdTextInput`/`ZdTextarea` name an input `style` and `ZdSelect`/`ZdTextInput`
+  name one `size`, which shadow the native attributes (a static `style="…"` no longer compiles under
+  strict templates; a native select's `size` rows cannot be set). Select's ghost is a boolean `ghost`
+  while Text Input and Textarea use `style="ghost"`.
+- **Budget:** the initial bundle is 452.7 kB, over Angular's 450 kB (450,000-byte) warning but under
+  the site policy's 450 KiB. Each page adds about 0.4 kB to the eager page catalogue (mostly its
+  outline); see the proposal to load outlines per route before the next batches.
+
 ## Validation run (2026-09-24)
 
 | Check                                         | Result                                                                                                  |
@@ -66,11 +95,11 @@ pre-change render); the new pages are not yet in the visual suite.
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 40 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 33 / 33 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 36 / 36 pass                                                                                            |
 | Visual suite vs. pre-change render            | 83 / 84 match; Swap is flaky at HEAD too                                                                |
-| `npm run check:docs:links`                    | Pass (15 sitemap routes, 22 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 449.2 kB initial (budget re-measured; see `docs/testing/bundle-size-budgets.md`)                |
-| `npm run check:docs:design-system`            | Pass (89 files)                                                                                         |
+| `npm run check:docs:links`                    | Pass (23 sitemap routes, 30 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 452.7 kB initial (Angular build warns above 450,000 bytes; see the Data input notes)            |
+| `npm run check:docs:design-system`            | Pass (116 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

@@ -25,7 +25,7 @@ test('component reference pages have no serious accessibility violations, includ
   runAxeScan,
 }) => {
   // One axe scan per reference page plus the open states.
-  test.setTimeout(120_000);
+  test.setTimeout(180_000);
   const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
     results.violations.filter(
       violation => violation.impact === 'critical' || violation.impact === 'serious',
@@ -41,6 +41,14 @@ test('component reference pages have no serious accessibility violations, includ
     '/components/megamenu',
     '/components/menu',
     '/components/calendar',
+    '/components/checkbox',
+    '/components/radio',
+    '/components/range',
+    '/components/rating',
+    '/components/select',
+    '/components/text-input',
+    '/components/textarea',
+    '/components/toggle',
   ]) {
     await test.step(path, async () => {
       await page.setViewportSize({ width: 1280, height: 900 });

@@ -1,0 +1,7 @@
+/* daisyUI classes Text Input emits, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: input;
+}
+@source inline('input input-neutral input-primary input-secondary input-accent input-info input-success input-warning input-error input-xs input-sm input-md input-lg input-xl input-ghost');

@@ -31,6 +31,12 @@ export {
   type PlaygroundSnippet,
   type PlaygroundValues,
 } from './reference/playground.component';
+export {
+  DocsReferencePageComponent,
+  type DocsReference,
+  type DocsReferenceCode,
+  type DocsReferenceTable,
+} from './reference/reference-page.component';
 
 export { DocsCatalogueComponent } from './catalogue/catalogue.component';
 export { DocsComponentCardComponent } from './catalogue/component-card.component';

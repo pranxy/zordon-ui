@@ -35,6 +35,14 @@ describe('component catalogue', () => {
       'megamenu',
       'menu',
       'calendar',
+      'checkbox',
+      'radio',
+      'range',
+      'rating',
+      'select',
+      'text-input',
+      'textarea',
+      'toggle',
     ]);
   });
 

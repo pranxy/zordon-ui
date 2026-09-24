@@ -1,0 +1,7 @@
+/* daisyUI classes Toggle emits, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: toggle;
+}
+@source inline('toggle toggle-neutral toggle-primary toggle-secondary toggle-accent toggle-info toggle-success toggle-warning toggle-error toggle-xs toggle-sm toggle-md toggle-lg toggle-xl');

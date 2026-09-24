@@ -274,13 +274,138 @@ export const calendarPage = defineComponentPage({
     'Calendar provides inline or popup date selection with single, multiple and range modes.',
   maturity: 'preview',
   previousId: 'menu',
-  nextId: 'typed-vocabularies',
+  nextId: 'checkbox',
   examples: [
     ['bounds', 'Bounds and unavailable days'],
     ['range', 'Range'],
     ['popup', 'Popup'],
     ['forms', 'Forms'],
     ['day-template', 'Custom day content'],
+  ],
+});
+
+export const checkboxPage = defineComponentPage({
+  id: 'checkbox',
+  label: 'Checkbox',
+  description:
+    'Checkbox adds daisyUI styling to a native checkbox, keeping its state, keyboard and Forms behaviour.',
+  maturity: 'planned',
+  previousId: 'calendar',
+  nextId: 'radio',
+  examples: [
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+    ['indeterminate', 'Mixed state'],
+    ['forms', 'Reactive Forms'],
+  ],
+});
+
+export const radioPage = defineComponentPage({
+  id: 'radio',
+  label: 'Radio',
+  description:
+    'Radio adds daisyUI styling to native radio inputs, which keep their grouping, arrow keys and Forms behaviour.',
+  maturity: 'planned',
+  previousId: 'checkbox',
+  nextId: 'range',
+  examples: [
+    ['group', 'Radio group'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const rangePage = defineComponentPage({
+  id: 'range',
+  label: 'Range',
+  description:
+    'Range adds daisyUI styling to a native range input, including sizes, colors and a vertical layout.',
+  maturity: 'planned',
+  previousId: 'radio',
+  nextId: 'rating',
+  examples: [
+    ['value', 'Showing the value'],
+    ['ticks', 'Steps and ticks'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+    ['vertical', 'Vertical'],
+  ],
+});
+
+export const ratingPage = defineComponentPage({
+  id: 'rating',
+  label: 'Rating',
+  description:
+    'Rating lays out a native radio group as daisyUI stars, with sizes, half stars and a clear option.',
+  maturity: 'planned',
+  previousId: 'range',
+  nextId: 'select',
+  examples: [
+    ['stars', 'Star rating'],
+    ['half', 'Half stars'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const selectPage = defineComponentPage({
+  id: 'select',
+  label: 'Select',
+  description:
+    'Select adds daisyUI styling to a native select, which keeps its options, keyboard and Forms behaviour.',
+  maturity: 'planned',
+  previousId: 'rating',
+  nextId: 'text-input',
+  examples: [
+    ['forms', 'Groups and Forms'],
+    ['multiple', 'Multiple selection'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const textInputPage = defineComponentPage({
+  id: 'text-input',
+  label: 'Text Input',
+  description:
+    'Text Input adds daisyUI styling to a native input of any text type, with colors, sizes and a ghost style.',
+  maturity: 'planned',
+  previousId: 'select',
+  nextId: 'textarea',
+  examples: [
+    ['validation', 'Validation'],
+    ['types', 'Input types'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const textareaPage = defineComponentPage({
+  id: 'textarea',
+  label: 'Textarea',
+  description:
+    'Textarea adds daisyUI styling to a native textarea, with colors, sizes and a ghost style.',
+  maturity: 'planned',
+  previousId: 'text-input',
+  nextId: 'toggle',
+  examples: [
+    ['character-count', 'Character count'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const togglePage = defineComponentPage({
+  id: 'toggle',
+  label: 'Toggle',
+  description:
+    'Toggle styles a native checkbox as a daisyUI switch, keeping its checked state and Forms behaviour.',
+  maturity: 'planned',
+  previousId: 'textarea',
+  nextId: 'typed-vocabularies',
+  examples: [
+    ['settings', 'Settings list'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
   ],
 });
 
@@ -294,7 +419,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: 'calendar',
+  previousId: 'toggle',
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
@@ -371,6 +496,14 @@ export const sitePages = [
   megamenuPage,
   menuPage,
   calendarPage,
+  checkboxPage,
+  radioPage,
+  rangePage,
+  ratingPage,
+  selectPage,
+  textInputPage,
+  textareaPage,
+  togglePage,
   typedVocabulariesPage,
   stylingAndThemingPage,
   resourcesPage,
