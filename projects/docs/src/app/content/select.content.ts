@@ -15,8 +15,10 @@ import {
   nativeCustomization,
   nativeSsr,
   plannedNotice,
-  sizeControl,
-  sizeRow,
+  ghostVariantControl,
+  ghostVariantRow,
+  zdSizeControl,
+  zdSizeRow,
   sizesCode,
   tailwindSource,
 } from './form-controls.content';
@@ -39,10 +41,10 @@ export const selectReference: DocsReference = {
     importCode: `import { ZdSelect } from '@pranxy/zordon-ui/select';`,
     stylesCode: tailwindSource(modifierClasses('select', { extra: ['select-ghost'] })),
   },
-  playgroundDescription: 'Color, size and ghost. The picker is the browser’s own.',
+  playgroundDescription: 'Color, size and the ghost variant. The picker is the browser’s own.',
   api: {
     description:
-      'ZdSelect is a standalone directive with three optional signal inputs. Searchable, async or tagging choices are a different component, not this directive.',
+      'ZdSelect is a standalone directive with three optional signal inputs. Native attributes, including `size` for visible rows, stay yours. Searchable, async or tagging choices are a different component, not this directive.',
     tables: [
       {
         id: 'inputs',
@@ -51,24 +53,14 @@ export const selectReference: DocsReference = {
         columns: apiColumns,
         rows: [
           colorRow('ZdSelectColor', 'select'),
-          {
-            ...sizeRow('ZdSelectSize', 'select'),
-            note: 'replaces native size',
-            description:
-              'Adds `select-<size>`, `xs` to `xl`. It takes the name of the native `size` attribute (visible rows), so set the height of a multiple select with CSS instead.',
-          },
-          {
-            name: 'ghost',
-            type: 'boolean',
-            default: 'false',
-            description:
-              'Adds `select-ghost`: no border or background until focus. Accepts a bare attribute.',
-          },
+          zdSizeRow('ZdSelectSize', 'select', 'sets the number of visible rows'),
+          ghostVariantRow('ZdSelectVariant', 'select'),
         ],
       },
     ],
     typesLabel: '@pranxy/zordon-ui/select',
-    typesCode: colorAndSizeTypes('ZdSelect'),
+    typesCode: `${colorAndSizeTypes('ZdSelect')}
+export type ZdSelectVariant = 'ghost';`,
   },
   accessibility: {
     description: 'A native select is fully accessible, including on touch devices.',
@@ -107,12 +99,10 @@ export const selectReference: DocsReference = {
   ssr: nativeSsr,
 };
 
-const ghostControl: PlaygroundControl = { kind: 'boolean', key: 'ghost', defaultValue: false };
-
 export const selectPlaygroundControls: readonly PlaygroundControl[] = [
   colorControl,
-  sizeControl,
-  ghostControl,
+  zdSizeControl,
+  ghostVariantControl,
   disabledControl,
 ];
 
@@ -168,14 +158,12 @@ export const formsFiles = [
 export const channels = ['Email', 'SMS', 'Push', 'Slack'] as const;
 
 export const multipleCode = `<label for="channels">Channels</label>
-<select id="channels" zdSelect multiple class="channels" [formControl]="channels">
+<select id="channels" zdSelect multiple size="4" [formControl]="channels">
   @for (channel of channels; track channel) {
     <option [value]="channel">{{ channel }}</option>
   }
 </select>
-<!-- Ctrl or Cmd + click, or Shift + arrows, selects several.
-     zdSelect's size input replaces the native size attribute, so give the list a height in CSS:
-     .channels { block-size: 6.5rem; } -->`;
+<!-- Ctrl or Cmd + click, or Shift + arrows, selects several. size="4" is the native rows attribute. -->`;
 
 export const selectColorsCode = colorsCode(
   color =>
@@ -183,5 +171,6 @@ export const selectColorsCode = colorsCode(
 );
 
 export const selectSizesCode = sizesCode(
-  size => `<select zdSelect size="${size}" aria-label="${size}"><option>${size}</option></select>`,
+  size =>
+    `<select zdSelect zdSize="${size}" aria-label="${size}"><option>${size}</option></select>`,
 );

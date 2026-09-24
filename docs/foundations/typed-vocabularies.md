@@ -17,7 +17,7 @@ const orientation: ZdOrientation = 'horizontal';
 | ------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | `ZdColor`           | `neutral`, `primary`, `secondary`, `accent`, `info`, `success`, `warning`, `error` | daisyUI semantic component colors; base and content theme tokens are not component modifiers |
 | `ZdSize`            | `xs`, `sm`, `md`, `lg`, `xl`                                                       | recurring daisyUI component sizes                                                            |
-| `ZdStyle`           | `outline`, `dash`, `soft`, `ghost`, `border`                                       | reusable treatments; every component exposes only its supported subset                       |
+| `ZdVariant`         | `outline`, `dash`, `soft`, `ghost`, `border`                                       | reusable treatments; every component exposes only its supported subset                       |
 | `ZdShape`           | `square`, `circle`                                                                 | basic cross-component shapes                                                                 |
 | `ZdInlinePlacement` | `start`, `center`, `end`                                                           | horizontal inline alignment that follows LTR or RTL direction                                |
 | `ZdBlockPlacement`  | `top`, `middle`, `bottom`                                                          | block-axis placement                                                                         |
@@ -34,9 +34,9 @@ Shared does not mean universally accepted. A component narrows the common type t
 daisyUI implementation supports:
 
 ```ts
-import type { ZdStyle } from '@pranxy/zordon-ui';
+import type { ZdVariant } from '@pranxy/zordon-ui';
 
-type AlertStyle = Extract<ZdStyle, 'outline' | 'dash' | 'soft'>;
+type AlertVariant = Extract<ZdVariant, 'outline' | 'dash' | 'soft'>;
 ```
 
 Button's `link`, Tabs' `box` and `lift`, Mask's rich shapes, Loading's animation names, and similar

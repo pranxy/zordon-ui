@@ -3,7 +3,7 @@ import { booleanAttribute, computed, Directive, inject, input } from '@angular/c
 import { ZdClassNames } from '@pranxy/zordon-ui';
 
 export type ZdCardSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ZdCardStyle = 'border' | 'dash';
+export type ZdCardVariant = 'border' | 'dash';
 
 @Directive({
   selector: '[zdCard]',
@@ -15,15 +15,15 @@ export class ZdCard {
   readonly size = input<ZdCardSize | undefined, ZdCardSize | undefined>(undefined, {
     transform: resolveCardSize,
   });
-  readonly style = input<ZdCardStyle | undefined, ZdCardStyle | undefined>(undefined, {
-    transform: resolveCardStyle,
+  readonly variant = input<ZdCardVariant | undefined, ZdCardVariant | undefined>(undefined, {
+    transform: resolveCardVariant,
   });
 
   private readonly classNames = inject(ZdClassNames);
   protected readonly hostClasses = computed(() =>
     [
       this.classNames.daisyUi('card'),
-      this.style() === undefined ? undefined : this.classNames.daisyUi(`card-${this.style()}`),
+      this.variant() === undefined ? undefined : this.classNames.daisyUi(`card-${this.variant()}`),
       this.size() === undefined ? undefined : this.classNames.daisyUi(`card-${this.size()}`),
       this.side() ? this.classNames.daisyUi('card-side') : undefined,
       this.imageFull() ? this.classNames.daisyUi('image-full') : undefined,
@@ -58,10 +58,10 @@ export function resolveCardSize(value: unknown): ZdCardSize | undefined {
   );
 }
 
-export function resolveCardStyle(value: unknown): ZdCardStyle | undefined {
+export function resolveCardVariant(value: unknown): ZdCardVariant | undefined {
   if (value === undefined) return undefined;
   if (value === 'border' || value === 'dash') return value;
   throw new RangeError(
-    `Zordon UI Card style must be border, dash, or undefined; received ${String(value)}.`,
+    `Zordon UI Card variant must be border, dash, or undefined; received ${String(value)}.`,
   );
 }

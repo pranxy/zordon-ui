@@ -28,9 +28,9 @@ export class ZdFilterItem {
     // (undocumented)
     readonly size: i0.InputSignal<ZdFilterSize | undefined>;
     // (undocumented)
-    readonly style: i0.InputSignal<ZdFilterStyle | undefined>;
+    readonly variant: i0.InputSignal<ZdFilterVariant | undefined>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdFilterItem, "input[type=\"radio\"][zdFilterItem], input[type=\"checkbox\"][zdFilterItem], input[type=\"reset\"][zdFilterItem]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdFilterItem, "input[type=\"radio\"][zdFilterItem], input[type=\"checkbox\"][zdFilterItem], input[type=\"reset\"][zdFilterItem]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ZdFilterItem, never>;
 }
@@ -49,7 +49,7 @@ export class ZdFilterReset {
 export type ZdFilterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public (undocumented)
-export type ZdFilterStyle = 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
+export type ZdFilterVariant = 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 
 // (No @packageDocumentation comment for this package)
 

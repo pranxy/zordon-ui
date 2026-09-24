@@ -8,6 +8,7 @@ import {
   controlSizes,
   flagOf,
   sizeOf,
+  variantOf,
   themeColors,
 } from '../content/form-controls.content';
 import {
@@ -66,8 +67,8 @@ class SelectDaisyStylesComponent {}
             <select
               zdSelect
               [color]="colorOf(values)"
-              [size]="sizeOf(values)"
-              [ghost]="flagOf(values, 'ghost')"
+              [zdSize]="sizeOf(values, 'zdSize')"
+              [variant]="variantOf(values)"
               [disabled]="flagOf(values, 'disabled')"
             >
               <option value="development">Development</option>
@@ -118,7 +119,7 @@ class SelectDaisyStylesComponent {}
           <div class="docs-stack">
             <label class="docs-field">
               Channels
-              <select zdSelect multiple class="channels" [formControl]="chosenChannels">
+              <select zdSelect multiple size="4" [formControl]="chosenChannels">
                 @for (channel of channels; track channel) {
                   <option [value]="channel">{{ channel }}</option>
                 }
@@ -157,7 +158,7 @@ class SelectDaisyStylesComponent {}
         <docs-example label="sizes.html" [code]="sizesCode">
           <div class="docs-stack">
             @for (size of sizes; track size) {
-              <select zdSelect [size]="size" [attr.aria-label]="size">
+              <select zdSelect [zdSize]="size" [attr.aria-label]="size">
                 <option>{{ size }}</option>
               </select>
             }
@@ -172,10 +173,6 @@ class SelectDaisyStylesComponent {}
       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
       gap: var(--docs-space-3);
       inline-size: 100%;
-    }
-
-    .channels {
-      block-size: 6.5rem;
     }
   `,
 })
@@ -193,6 +190,7 @@ export class SelectPageComponent {
   protected readonly sizesCode = selectSizesCode;
   protected readonly colorOf = colorOf;
   protected readonly sizeOf = sizeOf;
+  protected readonly variantOf = variantOf;
   protected readonly flagOf = flagOf;
 
   protected readonly region = new FormControl('eu-west', { nonNullable: true });

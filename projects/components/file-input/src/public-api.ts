@@ -2,5 +2,5 @@ export {
   ZdFileInput,
   type ZdFileInputColor,
   type ZdFileInputSize,
-  type ZdFileInputStyle,
+  type ZdFileInputVariant,
 } from './file-input';

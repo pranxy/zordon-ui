@@ -25,7 +25,7 @@ import { ZdFilter, ZdFilterItem, ZdFilterReset } from './filter';
         value="pro"
         aria-label="Pro plans"
       />
-      <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" />
+      <input type="reset" zdFilterItem variant="ghost" value="Reset" />
     </form>
   `,
 })

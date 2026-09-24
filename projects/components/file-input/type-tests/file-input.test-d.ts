@@ -1,13 +1,13 @@
 import type {
   ZdFileInputColor,
   ZdFileInputSize,
-  ZdFileInputStyle,
+  ZdFileInputVariant,
 } from '@pranxy/zordon-ui/file-input';
 
 const color: ZdFileInputColor = 'primary';
 const size: ZdFileInputSize = 'lg';
-const style: ZdFileInputStyle = 'ghost';
+const variant: ZdFileInputVariant = 'ghost';
 
 void color;
 void size;
-void style;
+void variant;

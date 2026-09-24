@@ -14,7 +14,7 @@ import { ZdAlert } from '@pranxy/zordon-ui/alert';
   template: `
     <zd-alert
       color="info"
-      style="soft"
+      variant="soft"
       announcement="polite"
       dismissible
       dismissLabel="Close update"
@@ -42,7 +42,7 @@ export class UpdateMessage {
 | Input/output/method | Default         | Contract                                                                                |
 | ------------------- | --------------- | --------------------------------------------------------------------------------------- |
 | `color`             | Unset           | `info`, `success`, `warning`, `error`; unset keeps neutral daisyUI styling.             |
-| `style`             | Unset           | `soft`, `outline`, `dash`; unset uses filled styling.                                   |
+| `variant`           | Unset           | `soft`, `outline`, `dash`; unset uses filled styling.                                   |
 | `direction`         | `responsive`    | `horizontal`, `vertical`, or column below 40rem/row at 40rem and above.                 |
 | `announcement`      | `off`           | `off` has no live-region role; `polite` uses status; `assertive` uses alert.            |
 | `open`              | `true`          | Consumer-owned visibility. Closed content is hidden and inert but remains instantiated. |
@@ -53,7 +53,7 @@ export class UpdateMessage {
 | `dismissRequested`  | —               | Reason: `close-button`, `timeout`, or `api`. Emitted before openChange.                 |
 | `dismiss()`         | —               | Requests close with reason api; optionally pass another declared reason.                |
 
-`ZdAlertColor`, `ZdAlertStyle`, `ZdAlertDirection`, `ZdAlertAnnouncement` and
+`ZdAlertColor`, `ZdAlertVariant`, `ZdAlertDirection`, `ZdAlertAnnouncement` and
 `ZdAlertDismissReason` are exported types. The template export is `zdAlert`.
 
 ## Anatomy and composition

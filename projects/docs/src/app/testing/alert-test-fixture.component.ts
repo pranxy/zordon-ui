@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import {
   ZdAlert,
   type ZdAlertColor,
-  type ZdAlertStyle,
+  type ZdAlertVariant,
   type ZdAlertDismissReason,
 } from '@pranxy/zordon-ui/alert';
 
@@ -47,10 +47,10 @@ import {
       <p data-testid="alert-event">Last close: {{ last() ?? 'none' }}; actions: {{ actions() }}</p>
       <div data-testid="alert-matrix" class="matrix">
         @for (color of colors; track color) {
-          @for (style of styles; track style ?? 'solid') {
-            <zd-alert [color]="color" [style]="style" direction="horizontal"
+          @for (variant of variants; track variant ?? 'solid') {
+            <zd-alert [color]="color" [variant]="variant" direction="horizontal"
               ><span zdAlertIcon>●</span
-              ><strong zdAlertTitle>{{ color }} · {{ style ?? 'solid' }}</strong
+              ><strong zdAlertTitle>{{ color }} · {{ variant ?? 'solid' }}</strong
               ><span>Account notification</span></zd-alert
             >
           }
@@ -66,7 +66,12 @@ import {
 })
 export class AlertTestFixtureComponent {
   readonly colors: readonly ZdAlertColor[] = ['info', 'success', 'warning', 'error'];
-  readonly styles: readonly (ZdAlertStyle | undefined)[] = [undefined, 'soft', 'outline', 'dash'];
+  readonly variants: readonly (ZdAlertVariant | undefined)[] = [
+    undefined,
+    'soft',
+    'outline',
+    'dash',
+  ];
   readonly direction = signal<'ltr' | 'rtl'>('ltr');
   readonly show = signal(true);
   readonly accept = signal(false);

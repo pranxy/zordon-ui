@@ -7,7 +7,7 @@ import type {
   ZdPlacement,
   ZdShape,
   ZdSize,
-  ZdStyle,
+  ZdVariant,
 } from '../src/public-api';
 
 type Equal<Left, Right> =
@@ -24,7 +24,7 @@ export type VocabularyContract = [
     >
   >,
   Expect<Equal<ZdSize, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>>,
-  Expect<Equal<ZdStyle, 'outline' | 'dash' | 'soft' | 'ghost' | 'border'>>,
+  Expect<Equal<ZdVariant, 'outline' | 'dash' | 'soft' | 'ghost' | 'border'>>,
   Expect<Equal<ZdShape, 'square' | 'circle'>>,
   Expect<Equal<ZdInlinePlacement, 'start' | 'center' | 'end'>>,
   Expect<Equal<ZdBlockPlacement, 'top' | 'middle' | 'bottom'>>,
@@ -38,7 +38,7 @@ export const invalidColor: ZdColor = 'base-100';
 // @ts-expect-error Larger responsive breakpoints are not component sizes.
 export const invalidSize: ZdSize = '2xl';
 // @ts-expect-error Button's link treatment is component-specific.
-export const invalidStyle: ZdStyle = 'link';
+export const invalidVariant: ZdVariant = 'link';
 // @ts-expect-error Mask-specific shapes do not widen the shared shape contract.
 export const invalidShape: ZdShape = 'squircle';
 // @ts-expect-error Physical horizontal sides are intentionally not shared RTL-safe placements.

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { provideZordonUi } from '@pranxy/zordon-ui';
 
-import { resolveBadgeColor, resolveBadgeSize, resolveBadgeStyle, ZdBadge } from './badge';
+import { resolveBadgeColor, resolveBadgeSize, resolveBadgeVariant, ZdBadge } from './badge';
 
 @Component({
   imports: [ZdBadge],
@@ -13,7 +13,7 @@ import { resolveBadgeColor, resolveBadgeSize, resolveBadgeStyle, ZdBadge } from 
     type="button"
     [color]="color()"
     [size]="size()"
-    [style]="style()"
+    [variant]="variant()"
   >
     New
   </button>`,
@@ -21,7 +21,7 @@ import { resolveBadgeColor, resolveBadgeSize, resolveBadgeStyle, ZdBadge } from 
 class TestBadgeHost {
   readonly color = signal<'success' | undefined>(undefined);
   readonly size = signal<'xl' | undefined>(undefined);
-  readonly style = signal<'soft' | undefined>(undefined);
+  readonly variant = signal<'soft' | undefined>(undefined);
 }
 
 describe('ZdBadge', () => {
@@ -31,7 +31,7 @@ describe('ZdBadge', () => {
     fixture.detectChanges();
     fixture.componentInstance.color.set('success');
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('soft');
+    fixture.componentInstance.variant.set('soft');
     fixture.detectChanges();
 
     const badge = fixture.nativeElement.querySelector('[zdBadge]') as HTMLButtonElement;
@@ -49,11 +49,11 @@ describe('ZdBadge', () => {
     fixture.detectChanges();
     fixture.componentInstance.color.set('success');
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('soft');
+    fixture.componentInstance.variant.set('soft');
     fixture.detectChanges();
     fixture.componentInstance.color.set(undefined);
     fixture.componentInstance.size.set(undefined);
-    fixture.componentInstance.style.set(undefined);
+    fixture.componentInstance.variant.set(undefined);
     fixture.detectChanges();
 
     const badge = fixture.nativeElement.querySelector('[zdBadge]') as HTMLButtonElement;
@@ -72,7 +72,7 @@ describe('ZdBadge', () => {
     fixture.detectChanges();
     fixture.componentInstance.color.set('success');
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('soft');
+    fixture.componentInstance.variant.set('soft');
     fixture.detectChanges();
 
     const badge = fixture.nativeElement.querySelector('[zdBadge]') as HTMLButtonElement;
@@ -84,6 +84,6 @@ describe('ZdBadge', () => {
   it('rejects unknown candidate values', () => {
     expect(() => resolveBadgeColor('brand')).toThrowError(/Badge color/);
     expect(() => resolveBadgeSize('2xl')).toThrowError(/Badge size/);
-    expect(() => resolveBadgeStyle('solid')).toThrowError(/Badge style/);
+    expect(() => resolveBadgeVariant('solid')).toThrowError(/Badge variant/);
   });
 });

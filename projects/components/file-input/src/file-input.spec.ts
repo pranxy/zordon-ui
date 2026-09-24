@@ -6,7 +6,7 @@ import { ZdFileInput } from './file-input';
 @Component({
   imports: [ZdFileInput],
   template:
-    '<label><input type="file" zdFileInput color="primary" size="lg" [style]="\'ghost\'" accept="image/png" multiple> Upload images</label>',
+    '<label><input type="file" zdFileInput color="primary" size="lg" variant="ghost" accept="image/png" multiple> Upload images</label>',
 })
 class StyledHost {}
 

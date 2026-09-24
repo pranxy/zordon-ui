@@ -19,11 +19,11 @@ native radio used as an All/reset option outside a form.
     aria-label="All"
   />
   <input type="radio" zdFilterItem color="primary" name="status" value="open" aria-label="Open" />
-  <input type="reset" zdFilterItem [style]="'ghost'" value="Reset" />
+  <input type="reset" zdFilterItem variant="ghost" value="Reset" />
 </form>
 ```
 
-`color` accepts the daisyUI semantic colors; `size` accepts `xs` through `xl`; `style` accepts
+`color` accepts the daisyUI semantic colors; `size` accepts `xs` through `xl`; `variant` accepts
 `outline`, `dash`, `soft`, `ghost`, and `link`.
 
 Native controls own selected value, reset behavior, keyboard navigation, disabled state, validation,

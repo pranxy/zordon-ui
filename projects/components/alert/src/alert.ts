@@ -17,7 +17,7 @@ import {
 import { ZdClassNames } from '@pranxy/zordon-ui';
 
 export type ZdAlertColor = 'info' | 'success' | 'warning' | 'error';
-export type ZdAlertStyle = 'soft' | 'outline' | 'dash';
+export type ZdAlertVariant = 'soft' | 'outline' | 'dash';
 export type ZdAlertDirection = 'horizontal' | 'vertical' | 'responsive';
 export type ZdAlertAnnouncement = 'off' | 'polite' | 'assertive';
 export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';
@@ -113,7 +113,7 @@ export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';
 })
 export class ZdAlert {
   readonly color = input<ZdAlertColor>();
-  readonly style = input<ZdAlertStyle>();
+  readonly variant = input<ZdAlertVariant>();
   readonly direction = input<ZdAlertDirection>('responsive');
   /** Off by default: static messages must not interrupt screen-reader users. */
   readonly announcement = input<ZdAlertAnnouncement>('off');
@@ -148,7 +148,7 @@ export class ZdAlert {
     [
       this.names.daisyUi('alert'),
       this.color() && this.names.daisyUi(`alert-${this.color()}`),
-      this.style() && this.names.daisyUi(`alert-${this.style()}`),
+      this.variant() && this.names.daisyUi(`alert-${this.variant()}`),
       this.direction() !== 'responsive' && this.names.daisyUi(`alert-${this.direction()}`),
     ]
       .filter(Boolean)

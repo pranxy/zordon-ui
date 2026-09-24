@@ -46,7 +46,7 @@ describe('Alert', () => {
     expect(element.className).toBe('d-alert');
     expect(element.hasAttribute('role')).toBe(false);
     fixture.componentRef.setInput('color', 'warning');
-    fixture.componentRef.setInput('style', 'soft');
+    fixture.componentRef.setInput('variant', 'soft');
     fixture.componentRef.setInput('direction', 'vertical');
     fixture.componentRef.setInput('announcement', 'polite');
     fixture.detectChanges();

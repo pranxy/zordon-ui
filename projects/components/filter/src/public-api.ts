@@ -4,5 +4,5 @@ export {
   ZdFilterReset,
   type ZdFilterColor,
   type ZdFilterSize,
-  type ZdFilterStyle,
+  type ZdFilterVariant,
 } from './filter';

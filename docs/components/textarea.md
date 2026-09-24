@@ -3,7 +3,9 @@
 **Component ID:** INP-12  
 **Entry point:** `@pranxy/zordon-ui/textarea`
 
-`ZdTextarea` styles a native `<textarea>` with daisyUI colors, sizes, and ghost styling.
+`ZdTextarea` styles a native `<textarea>` with daisyUI colors, sizes, and the ghost variant.
+
+Inputs: `color`, `size` (`xs`–`xl`) and `variant` (`ghost`).
 
 ```html
 <label for="notes">Release notes</label>

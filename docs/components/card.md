@@ -19,7 +19,7 @@ handlers, ARIA state, navigation, disabled state, loading state, expanded state,
 behavior.
 
 ```html
-<article zdCard size="lg" style="border" class="bg-base-100 shadow-sm">
+<article zdCard size="lg" variant="border" class="bg-base-100 shadow-sm">
   <figure>
     <img src="/images/launch.jpg" alt="A launch vehicle on its pad" />
   </figure>
@@ -59,15 +59,15 @@ variables. These are exact-version daisyUI implementation details and are not Zo
 
 ## Planned public API
 
-| Directive         | Input       | Type                                                | Intrinsic default | Contract                                   |
-| ----------------- | ----------- | --------------------------------------------------- | ----------------- | ------------------------------------------ |
-| `[zdCard]`        | `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| undefined` | upstream medium   | Adds one optional `card-*` size candidate. |
-| `[zdCard]`        | `style`     | `'border' \| 'dash' \| undefined`                   | none              | Adds one optional documented border style. |
-| `[zdCard]`        | `side`      | `boolean \| undefined`                              | `false`           | Adds/removes `card-side`.                  |
-| `[zdCard]`        | `imageFull` | `boolean \| undefined`                              | `false`           | Adds/removes `image-full`.                 |
-| `[zdCardBody]`    | —           | —                                                   | —                 | Adds `card-body`; no inputs.               |
-| `[zdCardTitle]`   | —           | —                                                   | —                 | Adds `card-title`; no inputs.              |
-| `[zdCardActions]` | —           | —                                                   | —                 | Adds `card-actions`; no inputs.            |
+| Directive         | Input       | Type                                                | Intrinsic default | Contract                                     |
+| ----------------- | ----------- | --------------------------------------------------- | ----------------- | -------------------------------------------- |
+| `[zdCard]`        | `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| undefined` | upstream medium   | Adds one optional `card-*` size candidate.   |
+| `[zdCard]`        | `variant`   | `'border' \| 'dash' \| undefined`                   | none              | Adds one optional documented border variant. |
+| `[zdCard]`        | `side`      | `boolean \| undefined`                              | `false`           | Adds/removes `card-side`.                    |
+| `[zdCard]`        | `imageFull` | `boolean \| undefined`                              | `false`           | Adds/removes `image-full`.                   |
+| `[zdCardBody]`    | —           | —                                                   | —                 | Adds `card-body`; no inputs.                 |
+| `[zdCardTitle]`   | —           | —                                                   | —                 | Adds `card-title`; no inputs.                |
+| `[zdCardActions]` | —           | —                                                   | —                 | Adds `card-actions`; no inputs.              |
 
 Unsupported input values reject rather than create an uncompiled runtime class. `undefined` removes
 an optional input’s corresponding candidate. Explicitly combining `side` and `imageFull` is
@@ -107,7 +107,7 @@ radius, gaps, action alignment, and responsive candidates without new Angular in
 <article
   zdCard
   size="sm"
-  style="dash"
+  variant="dash"
   [side]="isWide()"
   class="w-full bg-base-100 shadow-sm sm:card-side"
   [style.max-inline-size.rem]="32"
@@ -158,7 +158,7 @@ image.
 ### Consumer-owned selectable composition
 
 ```html
-<label zdCard style="border" class="bg-base-100">
+<label zdCard variant="border" class="bg-base-100">
   <input type="radio" name="plan" value="standard" />
   <div zdCardBody>
     <h2 zdCardTitle>Standard</h2>

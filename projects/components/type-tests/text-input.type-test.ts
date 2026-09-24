@@ -1,12 +1,12 @@
 import type {
   ZdTextInputColor,
   ZdTextInputSize,
-  ZdTextInputStyle,
+  ZdTextInputVariant,
 } from '@pranxy/zordon-ui/text-input';
 
 const color: ZdTextInputColor = 'primary';
 const size: ZdTextInputSize = 'lg';
-const style: ZdTextInputStyle = 'ghost';
+const variant: ZdTextInputVariant = 'ghost';
 void color;
 void size;
-void style;
+void variant;

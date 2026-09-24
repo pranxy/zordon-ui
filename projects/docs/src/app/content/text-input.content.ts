@@ -11,14 +11,14 @@ import {
   colorsCode,
   controlFacts,
   disabledControl,
-  ghostStyleControl,
-  ghostStyleRow,
+  ghostVariantControl,
+  ghostVariantRow,
   modifierClasses,
   nativeCustomization,
   nativeSsr,
   plannedNotice,
-  sizeControl,
-  sizeRow,
+  zdSizeControl,
+  zdSizeRow,
   sizesCode,
   tailwindSource,
 } from './form-controls.content';
@@ -41,9 +41,10 @@ export const textInputReference: DocsReference = {
     importCode: `import { ZdTextInput } from '@pranxy/zordon-ui/text-input';`,
     stylesCode: tailwindSource(modifierClasses('input', { extra: ['input-ghost'] })),
   },
-  playgroundDescription: 'Color, size and the ghost style. The field is real; type in it.',
+  playgroundDescription: 'Color, size and the ghost variant. The field is real; type in it.',
   api: {
-    description: 'ZdTextInput is a standalone directive with three optional signal inputs.',
+    description:
+      'ZdTextInput is a standalone directive with three optional signal inputs. Native attributes, including `size` and `style`, stay yours.',
     tables: [
       {
         id: 'inputs',
@@ -52,19 +53,14 @@ export const textInputReference: DocsReference = {
         columns: apiColumns,
         rows: [
           colorRow('ZdTextInputColor', 'input'),
-          {
-            ...sizeRow('ZdTextInputSize', 'input'),
-            note: 'replaces native size',
-            description:
-              'Adds `input-<size>`, `xs` to `xl`. It takes the name of the native `size` attribute (width in characters); set widths with CSS.',
-          },
-          ghostStyleRow('ZdTextInputStyle', 'input'),
+          zdSizeRow('ZdTextInputSize', 'input', 'sets the width in characters'),
+          ghostVariantRow('ZdTextInputVariant', 'input'),
         ],
       },
     ],
     typesLabel: '@pranxy/zordon-ui/text-input',
     typesCode: `${colorAndSizeTypes('ZdTextInput')}
-export type ZdTextInputStyle = 'ghost';`,
+export type ZdTextInputVariant = 'ghost';`,
   },
   accessibility: {
     description: 'A native input is already accessible. Labels, help and errors are yours.',
@@ -95,8 +91,8 @@ export type ZdTextInputStyle = 'ghost';`,
 
 export const textInputPlaygroundControls: readonly PlaygroundControl[] = [
   colorControl,
-  sizeControl,
-  ghostStyleControl,
+  zdSizeControl,
+  ghostVariantControl,
   disabledControl,
 ];
 
@@ -150,5 +146,5 @@ export const textInputColorsCode = colorsCode(
 );
 
 export const textInputSizesCode = sizesCode(
-  size => `<input zdTextInput size="${size}" aria-label="${size}" placeholder="${size}" />`,
+  size => `<input zdTextInput zdSize="${size}" aria-label="${size}" placeholder="${size}" />`,
 );

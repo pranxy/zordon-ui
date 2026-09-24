@@ -8,7 +8,7 @@ import {
   controlSizes,
   flagOf,
   sizeOf,
-  styleOf,
+  variantOf,
   themeColors,
 } from '../content/form-controls.content';
 import {
@@ -67,7 +67,7 @@ class TextareaDaisyStylesComponent {}
               rows="3"
               [color]="colorOf(values)"
               [size]="sizeOf(values)"
-              [style]="styleOf(values)"
+              [variant]="variantOf(values)"
               [disabled]="flagOf(values, 'disabled')"
             ></textarea>
           </label>
@@ -159,7 +159,7 @@ export class TextareaPageComponent {
   protected readonly sizesCode = textareaSizesCode;
   protected readonly colorOf = colorOf;
   protected readonly sizeOf = sizeOf;
-  protected readonly styleOf = styleOf;
+  protected readonly variantOf = variantOf;
   protected readonly flagOf = flagOf;
 
   protected readonly summary = new FormControl('', { nonNullable: true });

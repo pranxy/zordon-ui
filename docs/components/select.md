@@ -3,11 +3,13 @@
 **Component ID:** INP-10  
 **Entry point:** `@pranxy/zordon-ui/select`
 
-`ZdSelect` styles a native `<select>`. It supports daisyUI colors, sizes, and ghost styling while leaving option data and selection to the browser.
+`ZdSelect` styles a native `<select>`. It supports daisyUI colors, sizes, and the ghost variant while leaving option data and selection to the browser.
+
+Inputs: `color`; `zdSize` (`xs`–`xl`), prefixed because the native `size` attribute sets the number of visible rows and stays available; and `variant` (`ghost`).
 
 ```html
 <label for="environment">Deployment environment</label>
-<select id="environment" zdSelect color="primary" size="lg">
+<select id="environment" zdSelect color="primary" zdSize="lg">
   <option value="development">Development</option>
   <option value="production">Production</option>
 </select>

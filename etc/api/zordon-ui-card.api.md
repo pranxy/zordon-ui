@@ -17,9 +17,9 @@ export class ZdCard {
     // (undocumented)
     readonly size: i0.InputSignalWithTransform<ZdCardSize | undefined, ZdCardSize | undefined>;
     // (undocumented)
-    readonly style: i0.InputSignalWithTransform<ZdCardStyle | undefined, ZdCardStyle | undefined>;
+    readonly variant: i0.InputSignalWithTransform<ZdCardVariant | undefined, ZdCardVariant | undefined>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdCard, "[zdCard]", never, { "imageFull": { "alias": "imageFull"; "required": false; "isSignal": true; }; "side": { "alias": "side"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdCard, "[zdCard]", never, { "imageFull": { "alias": "imageFull"; "required": false; "isSignal": true; }; "side": { "alias": "side"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ZdCard, never>;
 }
@@ -48,9 +48,6 @@ export class ZdCardBody {
 export type ZdCardSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public (undocumented)
-export type ZdCardStyle = 'border' | 'dash';
-
-// @public (undocumented)
 export class ZdCardTitle {
     // (undocumented)
     protected readonly hostClass: string;
@@ -59,6 +56,9 @@ export class ZdCardTitle {
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ZdCardTitle, never>;
 }
+
+// @public (undocumented)
+export type ZdCardVariant = 'border' | 'dash';
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,9 +1,9 @@
-import type { ZdFilterColor, ZdFilterSize, ZdFilterStyle } from '@pranxy/zordon-ui/filter';
+import type { ZdFilterColor, ZdFilterSize, ZdFilterVariant } from '@pranxy/zordon-ui/filter';
 
 const color: ZdFilterColor = 'primary';
 const size: ZdFilterSize = 'lg';
-const style: ZdFilterStyle = 'ghost';
+const variant: ZdFilterVariant = 'ghost';
 
 void color;
 void size;
-void style;
+void variant;

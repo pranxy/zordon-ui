@@ -12,7 +12,7 @@ export type ZdBadgeColor =
   | 'warning'
   | 'error';
 export type ZdBadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ZdBadgeStyle = 'outline' | 'dash' | 'soft' | 'ghost';
+export type ZdBadgeVariant = 'outline' | 'dash' | 'soft' | 'ghost';
 
 @Directive({
   selector: '[zdBadge]',
@@ -25,8 +25,8 @@ export class ZdBadge {
   readonly size = input<ZdBadgeSize | undefined, ZdBadgeSize | undefined>(undefined, {
     transform: resolveBadgeSize,
   });
-  readonly style = input<ZdBadgeStyle | undefined, ZdBadgeStyle | undefined>(undefined, {
-    transform: resolveBadgeStyle,
+  readonly variant = input<ZdBadgeVariant | undefined, ZdBadgeVariant | undefined>(undefined, {
+    transform: resolveBadgeVariant,
   });
 
   private readonly classNames = inject(ZdClassNames);
@@ -34,7 +34,7 @@ export class ZdBadge {
     [
       this.classNames.daisyUi('badge'),
       this.color() === undefined ? undefined : this.classNames.daisyUi(`badge-${this.color()}`),
-      this.style() === undefined ? undefined : this.classNames.daisyUi(`badge-${this.style()}`),
+      this.variant() === undefined ? undefined : this.classNames.daisyUi(`badge-${this.variant()}`),
       this.size() === undefined ? undefined : this.classNames.daisyUi(`badge-${this.size()}`),
     ]
       .filter((token): token is string => typeof token === 'string')
@@ -71,12 +71,12 @@ export function resolveBadgeSize(value: unknown): ZdBadgeSize | undefined {
   );
 }
 
-export function resolveBadgeStyle(value: unknown): ZdBadgeStyle | undefined {
+export function resolveBadgeVariant(value: unknown): ZdBadgeVariant | undefined {
   if (value === undefined) return undefined;
   if (value === 'outline' || value === 'dash' || value === 'soft' || value === 'ghost') {
     return value;
   }
   throw new RangeError(
-    `Zordon UI Badge style must be outline, dash, soft, ghost, or undefined; received ${String(value)}.`,
+    `Zordon UI Badge variant must be outline, dash, soft, ghost, or undefined; received ${String(value)}.`,
   );
 }

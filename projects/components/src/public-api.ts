@@ -25,5 +25,5 @@ export type {
   ZdPlacement,
   ZdShape,
   ZdSize,
-  ZdStyle,
+  ZdVariant,
 } from './types/vocabularies';

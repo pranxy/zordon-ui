@@ -15,9 +15,9 @@ export class ZdFileInput {
     // (undocumented)
     readonly size: _angular_core.InputSignal<ZdFileInputSize | undefined>;
     // (undocumented)
-    readonly style: _angular_core.InputSignal<"ghost" | undefined>;
+    readonly variant: _angular_core.InputSignal<"ghost" | undefined>;
     // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdFileInput, "input[type=\"file\"][zdFileInput]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdFileInput, "input[type=\"file\"][zdFileInput]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdFileInput, never>;
 }
@@ -29,7 +29,7 @@ export type ZdFileInputColor = 'neutral' | 'primary' | 'secondary' | 'accent' | 
 export type ZdFileInputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public (undocumented)
-export type ZdFileInputStyle = 'ghost';
+export type ZdFileInputVariant = 'ghost';
 
 // (No @packageDocumentation comment for this package)
 

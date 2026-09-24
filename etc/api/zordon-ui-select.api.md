@@ -11,13 +11,12 @@ export class ZdSelect {
     // (undocumented)
     readonly color: _angular_core.InputSignal<ZdSelectColor | undefined>;
     // (undocumented)
-    readonly ghost: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
     protected readonly hostClasses: _angular_core.Signal<string>;
     // (undocumented)
-    readonly size: _angular_core.InputSignal<ZdSelectSize | undefined>;
+    readonly variant: _angular_core.InputSignal<"ghost" | undefined>;
+    readonly zdSize: _angular_core.InputSignal<ZdSelectSize | undefined>;
     // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdSelect, "select[zdSelect]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "ghost": { "alias": "ghost"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdSelect, "select[zdSelect]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "zdSize": { "alias": "zdSize"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdSelect, never>;
 }
@@ -27,6 +26,9 @@ export type ZdSelectColor = 'neutral' | 'primary' | 'secondary' | 'accent' | 'in
 
 // @public (undocumented)
 export type ZdSelectSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+// @public (undocumented)
+export type ZdSelectVariant = 'ghost';
 
 // (No @packageDocumentation comment for this package)
 

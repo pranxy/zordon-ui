@@ -72,9 +72,6 @@ export type ZdShape = 'square' | 'circle';
 export type ZdSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public
-export type ZdStyle = 'outline' | 'dash' | 'soft' | 'ghost' | 'border';
-
-// @public
 export class ZdTheme {
     readonly theme: i0.InputSignalWithTransform<string | null, string | null | undefined>;
     // (undocumented)
@@ -82,6 +79,9 @@ export class ZdTheme {
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ZdTheme, never>;
 }
+
+// @public
+export type ZdVariant = 'outline' | 'dash' | 'soft' | 'ghost' | 'border';
 
 // (No @packageDocumentation comment for this package)
 

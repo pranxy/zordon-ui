@@ -82,7 +82,7 @@ test('tracks the built Badge secondary declaration surface with its own report',
   assert.match(report, /export class ZdBadge/);
   assert.match(report, /export type ZdBadgeColor/);
   assert.match(report, /export type ZdBadgeSize/);
-  assert.match(report, /export type ZdBadgeStyle/);
+  assert.match(report, /export type ZdBadgeVariant/);
   assert.doesNotMatch(report, /resolveBadge/);
 });
 

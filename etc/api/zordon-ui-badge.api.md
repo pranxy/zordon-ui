@@ -15,9 +15,9 @@ export class ZdBadge {
     // (undocumented)
     readonly size: _angular_core.InputSignalWithTransform<ZdBadgeSize | undefined, ZdBadgeSize | undefined>;
     // (undocumented)
-    readonly style: _angular_core.InputSignalWithTransform<ZdBadgeStyle | undefined, ZdBadgeStyle | undefined>;
+    readonly variant: _angular_core.InputSignalWithTransform<ZdBadgeVariant | undefined, ZdBadgeVariant | undefined>;
     // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdBadge, "[zdBadge]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdBadge, "[zdBadge]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdBadge, never>;
 }
@@ -29,7 +29,7 @@ export type ZdBadgeColor = 'neutral' | 'primary' | 'secondary' | 'accent' | 'inf
 export type ZdBadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public (undocumented)
-export type ZdBadgeStyle = 'outline' | 'dash' | 'soft' | 'ghost';
+export type ZdBadgeVariant = 'outline' | 'dash' | 'soft' | 'ghost';
 
 // (No @packageDocumentation comment for this package)
 

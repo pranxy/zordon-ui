@@ -5,7 +5,7 @@ import { provideZordonUi } from '@pranxy/zordon-ui';
 
 import {
   resolveCardSize,
-  resolveCardStyle,
+  resolveCardVariant,
   ZdCard,
   ZdCardActions,
   ZdCardBody,
@@ -20,7 +20,7 @@ import {
     [imageFull]="imageFull()"
     [side]="side()"
     [size]="size()"
-    [style]="style()"
+    [variant]="variant()"
   >
     <figure><img alt="Card media" src="/card.png" /></figure>
     <div zdCardBody class="consumer-body">
@@ -33,7 +33,7 @@ class TestCardHost {
   readonly imageFull = signal(false);
   readonly side = signal(false);
   readonly size = signal<'xl' | undefined>(undefined);
-  readonly style = signal<'dash' | undefined>(undefined);
+  readonly variant = signal<'dash' | undefined>(undefined);
 }
 
 describe('ZdCard', () => {
@@ -44,7 +44,7 @@ describe('ZdCard', () => {
     fixture.componentInstance.imageFull.set(true);
     fixture.componentInstance.side.set(true);
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('dash');
+    fixture.componentInstance.variant.set('dash');
     fixture.detectChanges();
 
     const card = fixture.nativeElement.querySelector('[zdCard]') as HTMLElement;
@@ -72,12 +72,12 @@ describe('ZdCard', () => {
     fixture.componentInstance.imageFull.set(true);
     fixture.componentInstance.side.set(true);
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('dash');
+    fixture.componentInstance.variant.set('dash');
     fixture.detectChanges();
     fixture.componentInstance.imageFull.set(false);
     fixture.componentInstance.side.set(false);
     fixture.componentInstance.size.set(undefined);
-    fixture.componentInstance.style.set(undefined);
+    fixture.componentInstance.variant.set(undefined);
     fixture.detectChanges();
 
     const card = fixture.nativeElement.querySelector('[zdCard]') as HTMLElement;
@@ -97,7 +97,7 @@ describe('ZdCard', () => {
     fixture.componentInstance.imageFull.set(true);
     fixture.componentInstance.side.set(true);
     fixture.componentInstance.size.set('xl');
-    fixture.componentInstance.style.set('dash');
+    fixture.componentInstance.variant.set('dash');
     fixture.detectChanges();
 
     const card = fixture.nativeElement.querySelector('[zdCard]') as HTMLElement;
@@ -120,6 +120,6 @@ describe('ZdCard', () => {
 
   it('rejects unknown Card candidate values', () => {
     expect(() => resolveCardSize('2xl')).toThrowError(/Card size/);
-    expect(() => resolveCardStyle('solid')).toThrowError(/Card style/);
+    expect(() => resolveCardVariant('solid')).toThrowError(/Card variant/);
   });
 });

@@ -5,7 +5,7 @@ import { ZdClassNames } from '@pranxy/zordon-ui';
 export type ZdFileInputColor =
   'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
 export type ZdFileInputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ZdFileInputStyle = 'ghost';
+export type ZdFileInputVariant = 'ghost';
 
 @Directive({
   selector: 'input[type="file"][zdFileInput]',
@@ -14,7 +14,7 @@ export type ZdFileInputStyle = 'ghost';
 export class ZdFileInput {
   readonly color = input<ZdFileInputColor | undefined>();
   readonly size = input<ZdFileInputSize | undefined>();
-  readonly style = input<ZdFileInputStyle | undefined>();
+  readonly variant = input<ZdFileInputVariant | undefined>();
 
   private readonly classNames = inject(ZdClassNames);
 
@@ -23,7 +23,7 @@ export class ZdFileInput {
       this.classNames.daisyUi('file-input'),
       this.color() && this.classNames.daisyUi(`file-input-${this.color()}`),
       this.size() && this.classNames.daisyUi(`file-input-${this.size()}`),
-      this.style() && this.classNames.daisyUi(`file-input-${this.style()}`),
+      this.variant() && this.classNames.daisyUi(`file-input-${this.variant()}`),
     ]
       .filter(Boolean)
       .join(' '),

@@ -376,7 +376,13 @@ class ScrollLockPanelComponent {}
       <section aria-labelledby="select-heading" class="grid gap-3" data-testid="select-contract">
         <h2 id="select-heading" class="text-xl font-semibold">Native Select behavior</h2>
         <label for="select-example">Deployment environment</label>
-        <select id="select-example" zdSelect color="primary" size="lg" data-testid="select-example">
+        <select
+          id="select-example"
+          zdSelect
+          color="primary"
+          zdSize="lg"
+          data-testid="select-example"
+        >
           <option value="development">Development</option>
           <option selected value="staging">Staging</option>
           <option value="production">Production</option>
@@ -403,7 +409,7 @@ class ScrollLockPanelComponent {}
           id="text-input-example"
           zdTextInput
           color="primary"
-          size="lg"
+          zdSize="lg"
           type="email"
           value="person@example.com"
           data-testid="text-input-example"
@@ -933,7 +939,7 @@ Initial release note</textarea>
           <input
             type="reset"
             zdFilterItem
-            [style]="'ghost'"
+            variant="ghost"
             value="Reset"
             data-testid="filter-reset"
           />
@@ -1030,7 +1036,7 @@ Initial release note</textarea>
           zdBadge
           color="success"
           size="xl"
-          [style]="'soft'"
+          variant="soft"
           class="text-base-content"
           role="status"
           data-testid="badge-status"
@@ -1041,7 +1047,7 @@ Initial release note</textarea>
           zdBadge
           color="primary"
           size="xs"
-          [style]="'outline'"
+          variant="outline"
           type="button"
           disabled
           data-testid="badge-action"
@@ -1052,7 +1058,7 @@ Initial release note</textarea>
           zdBadge
           color="error"
           size="sm"
-          [style]="'dash'"
+          variant="dash"
           class="text-base-content"
           data-testid="badge-dash"
         >
@@ -1064,7 +1070,7 @@ Initial release note</textarea>
         <p class="flex items-center gap-2">
           <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
           <span>Payment failed</span>
-          <span zdBadge color="neutral" [style]="'ghost'" data-testid="badge-ghost">Retrying</span>
+          <span zdBadge color="neutral" variant="ghost" data-testid="badge-ghost">Retrying</span>
         </p>
       </section>
 
@@ -1073,7 +1079,7 @@ Initial release note</textarea>
         <article
           zdCard
           size="xl"
-          [style]="'border'"
+          variant="border"
           class="max-w-md bg-base-100 shadow-sm"
           data-testid="card-article"
         >
@@ -1094,7 +1100,7 @@ Initial release note</textarea>
         <label
           zdCard
           size="xs"
-          [style]="'dash'"
+          variant="dash"
           side
           class="max-w-md bg-base-100"
           data-testid="card-selectable"

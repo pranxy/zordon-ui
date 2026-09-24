@@ -1,1 +1,1 @@
-export { ZdBadge, type ZdBadgeColor, type ZdBadgeSize, type ZdBadgeStyle } from './badge';
+export { ZdBadge, type ZdBadgeColor, type ZdBadgeSize, type ZdBadgeVariant } from './badge';

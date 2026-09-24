@@ -10,12 +10,12 @@ import { ZdTextInput } from './text-input';
     <input
       zdTextInput
       color="primary"
-      size="lg"
-      [style]="'ghost'"
+      zdSize="lg"
+      variant="ghost"
       type="email"
       [formControl]="email"
     />
-    <input zdTextInput type="password" />
+    <input zdTextInput type="password" size="12" style="inline-size: 10rem" />
   `,
 })
 class Host {
@@ -41,5 +41,15 @@ describe('ZdTextInput', () => {
     expect(
       (fixture.nativeElement.querySelectorAll('[zdTextInput]')[1] as HTMLInputElement).type,
     ).toBe('password');
+  });
+
+  it('leaves the native size and style attributes to the platform', () => {
+    TestBed.configureTestingModule({ imports: [Host] });
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const password = fixture.nativeElement.querySelectorAll('[zdTextInput]')[1] as HTMLInputElement;
+    expect(password.size).toBe(12);
+    expect(password.style.inlineSize).toBe('10rem');
+    expect(password.className).toBe('input');
   });
 });

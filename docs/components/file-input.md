@@ -24,7 +24,7 @@
 
 - `color`: `neutral`, `primary`, `secondary`, `accent`, `info`, `success`, `warning`, or `error`.
 - `size`: `xs`, `sm`, `md`, `lg`, or `xl`.
-- `style`: `ghost`.
+- `variant`: `ghost`.
 
 The directive always applies `file-input`. It does not replace browser file selection, modify the
 selected `FileList`, or create hidden inputs.

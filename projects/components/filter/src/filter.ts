@@ -5,7 +5,7 @@ import { ZdClassNames } from '@pranxy/zordon-ui';
 export type ZdFilterColor =
   'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
 export type ZdFilterSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-export type ZdFilterStyle = 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
+export type ZdFilterVariant = 'outline' | 'dash' | 'soft' | 'ghost' | 'link';
 
 @Directive({ selector: '[zdFilter]', host: { '[class]': 'hostClass' } })
 export class ZdFilter {
@@ -21,7 +21,7 @@ export class ZdFilter {
 export class ZdFilterItem {
   readonly color = input<ZdFilterColor | undefined>();
   readonly size = input<ZdFilterSize | undefined>();
-  readonly style = input<ZdFilterStyle | undefined>();
+  readonly variant = input<ZdFilterVariant | undefined>();
 
   private readonly classNames = inject(ZdClassNames);
   protected readonly hostClasses = computed(() =>
@@ -29,7 +29,7 @@ export class ZdFilterItem {
       this.classNames.daisyUi('btn'),
       this.color() && this.classNames.daisyUi(`btn-${this.color()}`),
       this.size() && this.classNames.daisyUi(`btn-${this.size()}`),
-      this.style() && this.classNames.daisyUi(`btn-${this.style()}`),
+      this.variant() && this.classNames.daisyUi(`btn-${this.variant()}`),
     ]
       .filter(Boolean)
       .join(' '),

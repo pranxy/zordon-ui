@@ -17,7 +17,7 @@ separately specified control. Badge never adds a role, label, focus behavior, ev
 ARIA state, or live announcement.
 
 ```html
-<span zdBadge color="success" style="soft">Paid</span>
+<span zdBadge color="success" variant="soft">Paid</span>
 
 <button zdBadge color="primary" size="sm" type="button" (click)="removeFilter()">
   Filter: new ×
@@ -46,11 +46,11 @@ exact-version-only variables. They are not Zordon APIs.
 
 ## Planned public API
 
-| Input   | Type                                                                                                            | Intrinsic default | Contract                                                                 |
-| ------- | --------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------ |
-| `color` | `'neutral' \| 'primary' \| 'secondary' \| 'accent' \| 'info' \| 'success' \| 'warning' \| 'error' \| undefined` | none              | Adds one optional `badge-*` color candidate.                             |
-| `style` | `'outline' \| 'dash' \| 'soft' \| 'ghost' \| undefined`                                                         | none              | Adds one optional documented style candidate.                            |
-| `size`  | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| undefined`                                                             | upstream medium   | Adds one optional size candidate; omission leaves the daisyUI base size. |
+| Input     | Type                                                                                                            | Intrinsic default | Contract                                                                 |
+| --------- | --------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------ |
+| `color`   | `'neutral' \| 'primary' \| 'secondary' \| 'accent' \| 'info' \| 'success' \| 'warning' \| 'error' \| undefined` | none              | Adds one optional `badge-*` color candidate.                             |
+| `variant` | `'outline' \| 'dash' \| 'soft' \| 'ghost' \| undefined`                                                         | none              | Adds one optional documented variant candidate.                          |
+| `size`    | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| undefined`                                                             | upstream medium   | Adds one optional size candidate; omission leaves the daisyUI base size. |
 
 Unsupported values reject rather than create an uncompiled runtime class. `undefined` removes the
 corresponding modifier. There are no models, outputs, methods, application defaults, Forms
@@ -84,7 +84,7 @@ colors, or `sm:`/other responsive candidates without new Angular inputs.
 <span
   zdBadge
   color="warning"
-  style="outline"
+  variant="outline"
   class="rounded-full px-3 sm:badge-lg"
   [style.max-inline-size.rem]="12"
 >

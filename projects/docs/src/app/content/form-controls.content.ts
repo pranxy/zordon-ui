@@ -96,8 +96,8 @@ export function colorOf(values: PlaygroundValues): ThemeColor | undefined {
   return value === 'default' ? undefined : (value as ThemeColor);
 }
 
-export function sizeOf(values: PlaygroundValues): ControlSize {
-  return values['size'] as ControlSize;
+export function sizeOf(values: PlaygroundValues, key = 'size'): ControlSize {
+  return values[key] as ControlSize;
 }
 
 export function flagOf(values: PlaygroundValues, key: string): boolean {
@@ -129,26 +129,42 @@ export function sizeRow(typeName: string, base: string): DocsTableRow {
   };
 }
 
-/** Text Input and Textarea name their ghost switch `style`, like the native attribute. */
-export function ghostStyleRow(typeName: string, base: string): DocsTableRow {
+/** The ghost treatment of Text Input, Textarea, Select and File Input. */
+export function ghostVariantRow(typeName: string, base: string): DocsTableRow {
   return {
-    name: 'style',
+    name: 'variant',
     type: typeName,
     default: 'undefined',
-    description: `\`ghost\` adds \`${base}-ghost\`: no border or background until focus. The input shares its name with the native \`style\` attribute, so with strict templates a static \`style="…"\` on the same element does not compile; use \`[style.*]\` bindings or classes for inline styles.`,
+    description: `\`ghost\` adds \`${base}-ghost\`: no border or background until focus.`,
   };
 }
 
-export const ghostStyleControl: PlaygroundControl = {
+/**
+ * Size for controls whose host element has a native `size` attribute. The input is prefixed so the
+ * attribute keeps its platform meaning.
+ */
+export function zdSizeRow(typeName: string, base: string, nativeMeaning: string): DocsTableRow {
+  return {
+    name: 'zdSize',
+    type: typeName,
+    default: 'undefined',
+    note: 'prefixed',
+    description: `Adds \`${base}-<size>\`, \`xs\` to \`xl\`. Prefixed because the native \`size\` attribute ${nativeMeaning}, and it stays available.`,
+  };
+}
+
+export const ghostVariantControl: PlaygroundControl = {
   kind: 'choice',
-  key: 'style',
+  key: 'variant',
   options: options(['default', 'ghost']),
   defaultValue: 'default',
   omit: ['default'],
 };
 
-export function styleOf(values: PlaygroundValues): 'ghost' | undefined {
-  return values['style'] === 'ghost' ? 'ghost' : undefined;
+export const zdSizeControl: PlaygroundControl = { ...sizeControl, key: 'zdSize' };
+
+export function variantOf(values: PlaygroundValues): 'ghost' | undefined {
+  return values['variant'] === 'ghost' ? 'ghost' : undefined;
 }
 
 export function colorAndSizeTypes(prefix: string): string {

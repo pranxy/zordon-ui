@@ -11,8 +11,8 @@ import {
   colorsCode,
   controlFacts,
   disabledControl,
-  ghostStyleControl,
-  ghostStyleRow,
+  ghostVariantControl,
+  ghostVariantRow,
   modifierClasses,
   nativeCustomization,
   nativeSsr,
@@ -42,7 +42,7 @@ export const textareaReference: DocsReference = {
     stylesCode: tailwindSource(modifierClasses('textarea', { extra: ['textarea-ghost'] })),
   },
   playgroundDescription:
-    'Color, size and the ghost style. Type in it, or drag the corner to resize.',
+    'Color, size and the ghost variant. Type in it, or drag the corner to resize.',
   api: {
     description: 'ZdTextarea is a standalone directive with three optional signal inputs.',
     tables: [
@@ -54,13 +54,13 @@ export const textareaReference: DocsReference = {
         rows: [
           colorRow('ZdTextareaColor', 'textarea'),
           sizeRow('ZdTextareaSize', 'textarea'),
-          ghostStyleRow('ZdTextareaStyle', 'textarea'),
+          ghostVariantRow('ZdTextareaVariant', 'textarea'),
         ],
       },
     ],
     typesLabel: '@pranxy/zordon-ui/textarea',
     typesCode: `${colorAndSizeTypes('ZdTextarea')}
-export type ZdTextareaStyle = 'ghost';`,
+export type ZdTextareaVariant = 'ghost';`,
   },
   accessibility: {
     description: 'A native textarea is already accessible. Labels, limits and errors are yours.',
@@ -101,7 +101,7 @@ export type ZdTextareaStyle = 'ghost';`,
 export const textareaPlaygroundControls: readonly PlaygroundControl[] = [
   colorControl,
   sizeControl,
-  ghostStyleControl,
+  ghostVariantControl,
   disabledControl,
 ];
 

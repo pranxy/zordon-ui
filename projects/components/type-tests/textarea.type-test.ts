@@ -1,7 +1,11 @@
-import type { ZdTextareaColor, ZdTextareaSize, ZdTextareaStyle } from '@pranxy/zordon-ui/textarea';
+import type {
+  ZdTextareaColor,
+  ZdTextareaSize,
+  ZdTextareaVariant,
+} from '@pranxy/zordon-ui/textarea';
 const color: ZdTextareaColor = 'primary';
 const size: ZdTextareaSize = 'lg';
-const style: ZdTextareaStyle = 'ghost';
+const variant: ZdTextareaVariant = 'ghost';
 void color;
 void size;
-void style;
+void variant;

@@ -7,7 +7,7 @@ import { ZdTextarea } from './textarea';
 @Component({
   imports: [ReactiveFormsModule, ZdTextarea],
   template:
-    '<textarea zdTextarea color="primary" size="lg" [style]="\'ghost\'" rows="4" maxlength="280" [formControl]="notes"></textarea>',
+    '<textarea zdTextarea color="primary" size="lg" variant="ghost" rows="4" maxlength="280" [formControl]="notes"></textarea>',
 })
 class Host {
   readonly notes = new FormControl('Initial note', { nonNullable: true });

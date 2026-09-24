@@ -80,10 +80,11 @@ implementation contract rather than a Stable claim.
 - Rating: axe's WCAG 2.2 target-size rule fails daisyUI's defaults (8 px clear option, 14 px half
   stars at `lg`, `xs`/`sm` stars). The page widens the clear option, uses a 3rem `--size` for half
   stars and shows the small sizes as display-only, and documents all three.
-- **Library follow-ups:** `ZdTextInput`/`ZdTextarea` name an input `style` and `ZdSelect`/`ZdTextInput`
-  name one `size`, which shadow the native attributes (a static `style="…"` no longer compiles under
-  strict templates; a native select's `size` rows cannot be set). Select's ghost is a boolean `ghost`
-  while Text Input and Textarea use `style="ghost"`.
+- **Resolved (native attribute names):** inputs no longer reuse native attribute names. `style`
+  became `variant` on Alert, Badge, Card, File Input, Filter, Text Input and Textarea; Select and
+  Text Input use `zdSize`; Select's `ghost` became `variant`; `ZdStyle` became `ZdVariant`.
+  `tools/check-native-attribute-inputs.mjs` (in `npm run test:tooling`) enforces the rule, and
+  docs/contributing/api-review.md records it.
 - **Budget:** the initial bundle is 452.7 kB, over Angular's 450 kB (450,000-byte) warning but under
   the site policy's 450 KiB. Each page adds about 0.4 kB to the eager page catalogue (mostly its
   outline); see the proposal to load outlines per route before the next batches.

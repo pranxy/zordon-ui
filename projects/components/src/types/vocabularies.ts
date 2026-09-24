@@ -9,7 +9,7 @@ export type ZdSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
  * Reusable visual treatments that occur across multiple daisyUI components.
  * Components narrow this union to the treatments they actually support.
  */
-export type ZdStyle = 'outline' | 'dash' | 'soft' | 'ghost' | 'border';
+export type ZdVariant = 'outline' | 'dash' | 'soft' | 'ghost' | 'border';
 
 /** Basic shapes shared by multiple components. Rich mask shapes remain Mask-specific. */
 export type ZdShape = 'square' | 'circle';

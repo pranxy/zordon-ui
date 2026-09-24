@@ -620,7 +620,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             <input
               type="reset"
               zdFilterItem
-              [style]="'ghost'"
+              variant="ghost"
               value="Reset"
               data-testid="filter-reset"
               [attr.style]="'min-height: 44px; min-width: 44px'"
@@ -689,7 +689,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             id="select-example"
             zdSelect
             color="primary"
-            size="lg"
+            zdSize="lg"
             data-testid="select-example"
           >
             <option value="development">Development</option>
@@ -709,7 +709,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             id="text-input-example"
             zdTextInput
             color="primary"
-            size="lg"
+            zdSize="lg"
             type="email"
             value="person@example.com"
             data-testid="text-input-example"
@@ -822,7 +822,7 @@ Initial release note</textarea>
             zdBadge
             color="success"
             size="xl"
-            [style]="'soft'"
+            variant="soft"
             role="status"
             data-testid="badge-status"
           >
@@ -832,23 +832,23 @@ Initial release note</textarea>
             zdBadge
             color="primary"
             size="xs"
-            [style]="'outline'"
+            variant="outline"
             type="button"
             disabled
             data-testid="badge-action"
           >
             Remove filter
           </button>
-          <span zdBadge color="error" size="sm" [style]="'dash'" data-testid="badge-dash"
+          <span zdBadge color="error" size="sm" variant="dash" data-testid="badge-dash"
             >Attention</span
           >
           <span zdBadge color="error" size="xs" aria-hidden="true" data-testid="badge-dot"></span>
-          <span zdBadge color="neutral" [style]="'ghost'" data-testid="badge-ghost">Retrying</span>
+          <span zdBadge color="neutral" variant="ghost" data-testid="badge-ghost">Retrying</span>
         </section>
 
         <section aria-labelledby="card-heading" data-testid="card-contract">
           <h2 id="card-heading">Hydrated native Card</h2>
-          <article zdCard size="xl" [style]="'border'" data-testid="card-article">
+          <article zdCard size="xl" variant="border" data-testid="card-article">
             <figure>
               <img
                 alt="Purple geometric launch illustration"
@@ -861,7 +861,7 @@ Initial release note</textarea>
               <div zdCardActions><button type="button">View report</button></div>
             </div>
           </article>
-          <label zdCard size="xs" [style]="'dash'" side data-testid="card-selectable">
+          <label zdCard size="xs" variant="dash" side data-testid="card-selectable">
             <input name="ssr-plan" type="radio" value="standard" />
             <div zdCardBody>
               <h3 zdCardTitle>Standard plan</h3>

@@ -35,9 +35,9 @@ export class ZdAlert {
     // (undocumented)
     readonly openChange: _angular_core.OutputEmitterRef<boolean>;
     // (undocumented)
-    readonly style: _angular_core.InputSignal<ZdAlertStyle | undefined>;
+    readonly variant: _angular_core.InputSignal<ZdAlertVariant | undefined>;
     // (undocumented)
-    static ɵcmp: _angular_core.ɵɵComponentDeclaration<ZdAlert, "zd-alert", ["zdAlert"], { "color": { "alias": "color"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; "direction": { "alias": "direction"; "required": false; "isSignal": true; }; "announcement": { "alias": "announcement"; "required": false; "isSignal": true; }; "open": { "alias": "open"; "required": false; "isSignal": true; }; "dismissible": { "alias": "dismissible"; "required": false; "isSignal": true; }; "dismissLabel": { "alias": "dismissLabel"; "required": false; "isSignal": true; }; "autoDismiss": { "alias": "autoDismiss"; "required": false; "isSignal": true; }; }, { "openChange": "openChange"; "dismissRequested": "dismissRequested"; }, never, ["[zdAlertIcon]", "[zdAlertTitle]", "*", "[zdAlertDetails]", "[zdAlertActions]"], true, never>;
+    static ɵcmp: _angular_core.ɵɵComponentDeclaration<ZdAlert, "zd-alert", ["zdAlert"], { "color": { "alias": "color"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; "direction": { "alias": "direction"; "required": false; "isSignal": true; }; "announcement": { "alias": "announcement"; "required": false; "isSignal": true; }; "open": { "alias": "open"; "required": false; "isSignal": true; }; "dismissible": { "alias": "dismissible"; "required": false; "isSignal": true; }; "dismissLabel": { "alias": "dismissLabel"; "required": false; "isSignal": true; }; "autoDismiss": { "alias": "autoDismiss"; "required": false; "isSignal": true; }; }, { "openChange": "openChange"; "dismissRequested": "dismissRequested"; }, never, ["[zdAlertIcon]", "[zdAlertTitle]", "*", "[zdAlertDetails]", "[zdAlertActions]"], true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdAlert, never>;
 }
@@ -55,7 +55,7 @@ export type ZdAlertDirection = 'horizontal' | 'vertical' | 'responsive';
 export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';
 
 // @public (undocumented)
-export type ZdAlertStyle = 'soft' | 'outline' | 'dash';
+export type ZdAlertVariant = 'soft' | 'outline' | 'dash';
 
 // (No @packageDocumentation comment for this package)
 

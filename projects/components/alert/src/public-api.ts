@@ -1,7 +1,7 @@
 export {
   ZdAlert,
   type ZdAlertColor,
-  type ZdAlertStyle,
+  type ZdAlertVariant,
   type ZdAlertDirection,
   type ZdAlertAnnouncement,
   type ZdAlertDismissReason,

@@ -27,7 +27,7 @@ const rows: readonly DocsTableRow[] = [
     values: 'neutral · primary · secondary · accent · info · success · warning · error',
   },
   { type: 'ZdSize', values: 'xs · sm · md · lg · xl' },
-  { type: 'ZdStyle', values: 'outline · dash · soft · ghost · border' },
+  { type: 'ZdVariant', values: 'outline · dash · soft · ghost · border' },
   { type: 'ZdShape', values: 'square · circle' },
   { type: 'ZdOrientation', values: 'horizontal · vertical' },
   { type: 'ZdDensity', values: 'compact · comfortable · spacious' },

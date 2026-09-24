@@ -13,11 +13,10 @@ export class ZdTextInput {
     // (undocumented)
     protected readonly hostClasses: _angular_core.Signal<string>;
     // (undocumented)
-    readonly size: _angular_core.InputSignal<ZdTextInputSize | undefined>;
+    readonly variant: _angular_core.InputSignal<"ghost" | undefined>;
+    readonly zdSize: _angular_core.InputSignal<ZdTextInputSize | undefined>;
     // (undocumented)
-    readonly style: _angular_core.InputSignal<"ghost" | undefined>;
-    // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdTextInput, "input[zdTextInput]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "style": { "alias": "style"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdTextInput, "input[zdTextInput]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "zdSize": { "alias": "zdSize"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdTextInput, never>;
 }
@@ -29,7 +28,7 @@ export type ZdTextInputColor = 'neutral' | 'primary' | 'secondary' | 'accent' | 
 export type ZdTextInputSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 // @public (undocumented)
-export type ZdTextInputStyle = 'ghost';
+export type ZdTextInputVariant = 'ghost';
 
 // (No @packageDocumentation comment for this package)
 

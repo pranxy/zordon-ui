@@ -14,7 +14,7 @@ import {
   controlSizes,
   flagOf,
   sizeOf,
-  styleOf,
+  variantOf,
   themeColors,
 } from '../content/form-controls.content';
 import {
@@ -73,8 +73,8 @@ class TextInputDaisyStylesComponent {}
               zdTextInput
               autocomplete="name"
               [color]="colorOf(values)"
-              [size]="sizeOf(values)"
-              [style]="styleOf(values)"
+              [zdSize]="sizeOf(values, 'zdSize')"
+              [variant]="variantOf(values)"
               [disabled]="flagOf(values, 'disabled')"
             />
           </label>
@@ -153,7 +153,7 @@ class TextInputDaisyStylesComponent {}
         <docs-example label="sizes.html" [code]="sizesCode">
           <div class="docs-stack">
             @for (size of sizes; track size) {
-              <input zdTextInput [size]="size" [attr.aria-label]="size" [placeholder]="size" />
+              <input zdTextInput [zdSize]="size" [attr.aria-label]="size" [placeholder]="size" />
             }
           </div>
         </docs-example>
@@ -182,7 +182,7 @@ export class TextInputPageComponent {
   protected readonly sizesCode = textInputSizesCode;
   protected readonly colorOf = colorOf;
   protected readonly sizeOf = sizeOf;
-  protected readonly styleOf = styleOf;
+  protected readonly variantOf = variantOf;
   protected readonly flagOf = flagOf;
 
   protected readonly email = new FormControl('', {

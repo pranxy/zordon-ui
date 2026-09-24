@@ -4,5 +4,5 @@ export {
   ZdCardBody,
   ZdCardTitle,
   type ZdCardSize,
-  type ZdCardStyle,
+  type ZdCardVariant,
 } from './card';
