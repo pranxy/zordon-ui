@@ -120,6 +120,19 @@ describe('Drawer', () => {
       vi.unstubAllGlobals();
     }
   });
+  it('keeps the desktop mode when the environment has no matchMedia', async () => {
+    vi.stubGlobal('matchMedia', undefined);
+    try {
+      const f = TestBed.createComponent(ZdDrawer);
+      f.componentRef.setInput('mode', 'responsive');
+      f.componentRef.setInput('desktopMode', 'push');
+      await f.whenStable();
+      expect(f.componentInstance.effectiveMode()).toBe('push');
+      f.destroy();
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
   it('closes only on successful Router navigation when enabled and still open', async () => {
     const events = new Subject<NavigationStart | NavigationEnd>();
     TestBed.configureTestingModule({ providers: [{ provide: Router, useValue: { events } }] });
