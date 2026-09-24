@@ -39,7 +39,7 @@ import {
     ZdDropdownItem,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./menu-daisy-fixture.css', './menu-fixture.css'],
+  styleUrls: ['./menu-base-fixture.css', './menu-daisy-fixture.css', './menu-fixture.css'],
   template: `<main data-testid="menu-fixture" [dir]="rtl() ? 'rtl' : 'ltr'">
     <h1>Menu</h1>
     <p>Native destinations and a selectable Aria hierarchy.</p>

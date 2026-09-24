@@ -24,12 +24,24 @@ test('component reference pages have no serious accessibility violations, includ
   page,
   runAxeScan,
 }) => {
+  // One axe scan per reference page plus the open states.
+  test.setTimeout(120_000);
   const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
     results.violations.filter(
       violation => violation.impact === 'critical' || violation.impact === 'serious',
     );
 
-  for (const path of ['/components/button', '/components/dropdown', '/components/kbd']) {
+  for (const path of [
+    '/components/button',
+    '/components/dropdown',
+    '/components/swap',
+    '/components/carousel',
+    '/components/collapse',
+    '/components/kbd',
+    '/components/megamenu',
+    '/components/menu',
+    '/components/calendar',
+  ]) {
     await test.step(path, async () => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await page.goto(path);
@@ -43,6 +55,22 @@ test('component reference pages have no serious accessibility violations, includ
     await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
     await page.getByRole('button', { name: 'Actions ▾' }).click();
     await expect(page.getByRole('menu', { name: 'Document actions' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+
+  await test.step('open Megamenu panel', async () => {
+    await page.goto('/components/megamenu');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Components ▾' }).first().click();
+    await expect(page.getByRole('region', { name: 'Components', exact: true })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+
+  await test.step('open Calendar popup', async () => {
+    await page.goto('/components/calendar');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Departure date: Choose date' }).click();
+    await expect(page.getByRole('dialog', { name: 'Departure date' })).toBeVisible();
     expect(material(await runAxeScan())).toEqual([]);
   });
 });

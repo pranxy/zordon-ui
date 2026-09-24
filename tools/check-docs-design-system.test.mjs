@@ -25,3 +25,10 @@ test('rejects --zd-* and --color-* definitions but allows their use', () => {
     [],
   );
 });
+
+test('allows library token overrides inside content code samples only', () => {
+  const sample = '  --zd-calendar-day-size: 2.75rem;';
+  assert.deepEqual(designSystemViolations('app/content/calendar.content.ts', sample), []);
+  assert.equal(designSystemViolations('app/pages/calendar.component.ts', sample).length, 1);
+  assert.equal(designSystemViolations('app/content/x.content.ts', 'color: #fff;').length, 1);
+});

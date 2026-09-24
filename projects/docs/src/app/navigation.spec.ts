@@ -46,7 +46,7 @@ describe('derived navigation', () => {
       maturity: 'planned',
     });
     const linked = nav?.groups[0]?.items.filter(item => item.path).map(item => item.label);
-    expect(linked).toEqual(['Button', 'Dropdown']);
+    expect(linked).toEqual(['Button', 'Dropdown', 'Swap']);
     expect(nav?.groups[1]?.items.map(item => item.count)).toEqual([19, 9, 7, 15, 8, 4]);
   });
 

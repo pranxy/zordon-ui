@@ -158,6 +158,12 @@
 
 /* ---------- Surface and layout primitives ---------- */
 
+.docs-stack {
+  display: grid;
+  align-content: start;
+  gap: var(--gap, var(--docs-space-3));
+}
+
 .docs-cluster {
   display: flex;
   flex-wrap: wrap;

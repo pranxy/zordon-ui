@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 /**
  * A top-level article section (`h2`) or sub-section (`level="3"`) with an optional intro.
- * The `id` is the anchor used by the page's table of contents.
+ * The `id` is the anchor used by the page's table of contents. It belongs on the heading only,
+ * so the static attribute Angular would otherwise leave on the host is removed.
  */
 @Component({
   selector: 'docs-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[class]': "'level-' + level()" },
+  host: { '[class]': "'level-' + level()", '[attr.id]': 'null' },
   template: `
     <section [attr.aria-labelledby]="id()">
       <div class="intro">

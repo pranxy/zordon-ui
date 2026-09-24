@@ -25,7 +25,17 @@ describe('component catalogue', () => {
 
   it('links exactly the components that have a reference page', () => {
     const linked = catalogueEntries.filter(entry => entry.path).map(entry => entry.id);
-    expect(linked).toEqual(['button', 'dropdown', 'kbd']);
+    expect(linked).toEqual([
+      'button',
+      'dropdown',
+      'swap',
+      'carousel',
+      'collapse',
+      'kbd',
+      'megamenu',
+      'menu',
+      'calendar',
+    ]);
   });
 
   it('links only to reference pages that exist', () => {

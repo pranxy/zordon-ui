@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, signal } from '@angular/core';
 import { ZdButton } from '@pranxy/zordon-ui/button';
 import {
   ZdDropdown,
@@ -47,6 +47,15 @@ import {
 
 type DropdownTrigger = 'click' | 'hover' | 'focus';
 
+/** Loads the daisyUI classes Dropdown emits, only while this page is in use. */
+@Component({
+  selector: 'docs-dropdown-daisy-styles',
+  template: '',
+  styleUrl: './styles/menu-base.daisy.css',
+  encapsulation: ViewEncapsulation.None,
+})
+class DropdownDaisyStylesComponent {}
+
 @Component({
   selector: 'docs-dropdown-page',
   imports: [
@@ -60,6 +69,7 @@ type DropdownTrigger = 'click' | 'hover' | 'focus';
     DocsPlaygroundComponent,
     DocsPlaygroundPreviewDirective,
     DocsSectionComponent,
+    DropdownDaisyStylesComponent,
     TitleCasePipe,
     ZdButton,
     ZdDropdown,
@@ -70,6 +80,7 @@ type DropdownTrigger = 'click' | 'hover' | 'focus';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <docs-dropdown-daisy-styles />
     <article class="docs-prose" aria-labelledby="page-title">
       <docs-page-header
         eyebrow="Actions"

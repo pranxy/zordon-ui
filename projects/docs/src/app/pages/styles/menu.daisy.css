@@ -1,0 +1,8 @@
+/* daisyUI size, title and active modifiers Menu emits, compiled only for its page (see
+   DESIGN_SYSTEM.md). The generic menu rule is in menu-base.daisy.css. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: menu;
+}
+@source inline('menu-xs menu-sm menu-md menu-lg menu-xl menu-title menu-active');

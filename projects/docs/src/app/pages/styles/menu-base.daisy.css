@@ -1,0 +1,8 @@
+/* daisyUI's generic menu rule, emitted by Dropdown menus and Menu. Compiled only for the pages
+   that render them (see DESIGN_SYSTEM.md); modifiers live in separate stylesheets. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: menu;
+}
+@source inline('menu');

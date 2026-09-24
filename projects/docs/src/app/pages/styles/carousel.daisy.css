@@ -1,0 +1,7 @@
+/* daisyUI classes emitted by Carousel, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: carousel;
+}
+@source inline('carousel carousel-item carousel-horizontal carousel-vertical carousel-start carousel-center carousel-end');

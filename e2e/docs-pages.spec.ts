@@ -11,6 +11,12 @@ const publicRoutes = [
   { path: '/components/button', heading: 'Button', body: /native action element/i },
   { path: '/components/dropdown', heading: 'Dropdown', body: /anchored panel/i },
   { path: '/components/kbd', heading: 'Kbd', body: /keys and shortcuts/i },
+  { path: '/components/swap', heading: 'Swap', body: /native checkbox or toggle button/i },
+  { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
+  { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
+  { path: '/components/megamenu', heading: 'Megamenu', body: /multi-column surface/i },
+  { path: '/components/menu', heading: 'Menu', body: /selectable Angular Aria tree/i },
+  { path: '/components/calendar', heading: 'Calendar', body: /civil YYYY-MM-DD strings/i },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',
@@ -295,6 +301,134 @@ test('Dropdown playground snippet follows placement inputs', async ({ page }) =>
   await expect(page.locator('pre[aria-label="playground.html code"]')).toContainText(
     '<div zdDropdown mode="menu" side="top" align="end" (selected)="apply($event)">',
   );
+});
+
+test('Preview references render their native state on the server', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+
+  try {
+    await page.goto('/components/collapse');
+    // Native details work without JavaScript.
+    const shipping = page.locator('details', { hasText: 'Shipping' });
+    await expect(shipping).toHaveAttribute('open', '');
+    await expect(shipping.getByText('Orders ship within two business days.')).toBeVisible();
+
+    await page.goto('/components/menu');
+    const navigation = page.getByRole('navigation', { name: 'Example navigation' });
+    await expect(navigation.getByRole('button', { name: 'Components' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    await expect(navigation.getByRole('link', { name: 'Dropdown' })).toHaveAttribute(
+      'href',
+      '/components/dropdown',
+    );
+
+    await page.goto('/components/megamenu');
+    await expect(page.getByRole('button', { name: 'Components ▾' }).first()).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
+    await expect(page.locator('zd-megamenu-panel')).toHaveCount(0);
+
+    await page.goto('/components/calendar');
+    await expect(
+      page
+        .getByRole('grid', { name: 'Delivery date' })
+        .getByRole('button', { name: /September 14/ }),
+    ).toHaveAttribute('aria-current', 'date');
+  } finally {
+    await context.close();
+  }
+});
+
+test('Swap, Collapse and Carousel examples respond to the platform controls', async ({ page }) => {
+  await page.goto('/components/swap');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const mute = page.getByRole('button', { name: 'Mute', exact: true });
+  await expect(mute).toHaveAttribute('aria-pressed', 'false');
+  await mute.click();
+  await expect(mute).toHaveAttribute('aria-pressed', 'true');
+
+  await page.goto('/components/collapse');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const refund = page.locator('details', { hasText: 'When is my refund issued?' });
+  await refund.locator('summary').click();
+  await expect(refund).toHaveAttribute('open', '');
+
+  await page.goto('/components/carousel');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const track = page.getByRole('region', { name: 'Theme colours with controls' });
+  const before = await track.evaluate(element => element.scrollLeft);
+  await page.getByRole('button', { name: 'Next' }).click();
+  await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(before);
+});
+
+test('Menu groups and the selectable tree update their models', async ({ page }) => {
+  await page.goto('/components/menu');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+
+  const group = page
+    .getByRole('navigation', { name: 'Example navigation' })
+    .getByRole('button', { name: 'Components' });
+  await group.click();
+  await expect(group).toHaveAttribute('aria-expanded', 'false');
+
+  const tree = page.getByRole('tree', { name: 'Project files' });
+  await tree.getByRole('treeitem', { name: 'README.md' }).click();
+  await expect(page.getByText('Selected: readme')).toBeVisible();
+  await expect(tree.getByRole('treeitem', { name: 'README.md' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+});
+
+test('Megamenu opens a panel of real links and a keyboard command bar', async ({ page }) => {
+  await page.goto('/components/megamenu');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+
+  const trigger = page.getByRole('button', { name: 'Components ▾' }).first();
+  await trigger.click();
+  const panel = page.getByRole('region', { name: 'Components', exact: true });
+  await expect(panel.getByRole('link', { name: 'Calendar' })).toHaveAttribute(
+    'href',
+    '/components/calendar',
+  );
+  await page.keyboard.press('Escape');
+  await expect(panel).toBeHidden();
+  await expect(trigger).toBeFocused();
+
+  const bar = page.getByRole('menubar', { name: 'Editor commands' });
+  await bar.getByRole('menuitem', { name: 'Edit' }).focus();
+  await page.keyboard.press('ArrowDown');
+  const menu = page.getByRole('menu', { name: 'Edit' });
+  await expect(menu.getByRole('menuitem', { name: 'Undo' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByText('Last command: undo')).toBeVisible();
+});
+
+test('Calendar selects ranges, popup dates and form values', async ({ page }) => {
+  await page.goto('/components/calendar');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+
+  const stay = page.getByRole('grid', { name: 'Stay' });
+  await stay.getByRole('button', { name: /September 10/ }).click();
+  await stay.getByRole('button', { name: /September 13/ }).click();
+  await expect(page.getByText('Stay: 2026-09-10 → 2026-09-13')).toBeVisible();
+
+  const choose = page.getByRole('button', { name: 'Departure date: Choose date' });
+  await choose.click();
+  const dialog = page.getByRole('dialog', { name: 'Departure date' });
+  await dialog.getByRole('button', { name: /September 20/ }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByText('Departure: 2026-09-20')).toBeVisible();
+  await expect(choose).toBeFocused();
+
+  const arrival = page.getByRole('grid', { name: 'Arrival date' });
+  await expect(page.locator('#arrival-help')).toContainText('Choose an arrival date.');
+  await arrival.getByRole('button', { name: /September 15/ }).click();
+  await expect(page.locator('#arrival-help')).toContainText('Valid');
 });
 
 test('an unknown route remains a server-rendered, recoverable noindex 404', async ({ browser }) => {

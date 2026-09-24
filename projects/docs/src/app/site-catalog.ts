@@ -33,6 +33,45 @@ function defineSitePage<const T extends DocsSitePage>(page: T): T & DocsSitePage
   return page;
 }
 
+/** Sections every component reference page has, in order, around its own examples. */
+function defineComponentPage<const Id extends string>(page: {
+  readonly id: Id;
+  readonly label: string;
+  readonly description: string;
+  readonly maturity: DocsMaturity;
+  readonly previousId: string;
+  readonly nextId: string;
+  readonly examples: readonly (readonly [id: string, label: string])[];
+}): DocsSitePage & { readonly id: Id } {
+  const entry = (id: string, label: string, level?: 2): DocsTableOfContentsItem =>
+    level ? { id, label, level } : { id, label };
+  return {
+    id: page.id,
+    path: `/components/${page.id}`,
+    title: `${page.label} | Zordon UI`,
+    description: page.description,
+    section: 'components',
+    indexable: true,
+    maturity: page.maturity,
+    breadcrumbLabel: page.label,
+    parentId: 'components',
+    previousId: page.previousId,
+    nextId: page.nextId,
+    sourceUrl: `https://github.com/pranxy/zordon-ui/blob/master/docs/components/${page.id}.md`,
+    tableOfContents: [
+      entry('page-title', 'Overview'),
+      entry('install', 'Install and import'),
+      entry('playground', 'Playground'),
+      entry('examples', 'Examples'),
+      ...page.examples.map(([id, label]) => entry(id, label, 2)),
+      entry('api', 'API'),
+      entry('accessibility', 'Accessibility'),
+      entry('customization', 'Customization'),
+      entry('ssr', 'SSR'),
+    ],
+  };
+}
+
 export const homePage = defineSitePage({
   id: 'home',
   path: '/',
@@ -104,91 +143,144 @@ export const componentsPage = defineSitePage({
   ],
 });
 
-export const buttonPage = defineSitePage({
+export const buttonPage = defineComponentPage({
   id: 'button',
-  path: '/components/button',
-  title: 'Button | Zordon UI',
+  label: 'Button',
   description: 'Button applies daisyUI appearance to a native action element.',
-  section: 'components',
-  indexable: true,
   maturity: 'planned',
-  breadcrumbLabel: 'Button',
-  parentId: componentsPage.id,
   previousId: componentsPage.id,
   nextId: 'dropdown',
-  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/button.md',
-  tableOfContents: [
-    { id: 'page-title', label: 'Overview' },
-    { id: 'install', label: 'Install and import' },
-    { id: 'playground', label: 'Playground' },
-    { id: 'examples', label: 'Examples' },
-    { id: 'color', label: 'Color', level: 2 },
-    { id: 'variant', label: 'Variant', level: 2 },
-    { id: 'size', label: 'Size', level: 2 },
-    { id: 'loading', label: 'Loading state', level: 2 },
-    { id: 'links', label: 'Links', level: 2 },
-    { id: 'api', label: 'API' },
-    { id: 'accessibility', label: 'Accessibility' },
-    { id: 'customization', label: 'Customization' },
-    { id: 'ssr', label: 'SSR' },
+  examples: [
+    ['color', 'Color'],
+    ['variant', 'Variant'],
+    ['size', 'Size'],
+    ['loading', 'Loading state'],
+    ['links', 'Links'],
   ],
 });
 
-export const dropdownPage = defineSitePage({
+export const dropdownPage = defineComponentPage({
   id: 'dropdown',
-  path: '/components/dropdown',
-  title: 'Dropdown | Zordon UI',
+  label: 'Dropdown',
   description:
     'Dropdown opens an anchored menu or content panel from a native button, with keyboard support and dismissal policies.',
-  section: 'components',
-  indexable: true,
   maturity: 'preview',
-  breadcrumbLabel: 'Dropdown',
-  parentId: componentsPage.id,
   previousId: buttonPage.id,
-  nextId: 'kbd',
-  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/dropdown.md',
-  tableOfContents: [
-    { id: 'page-title', label: 'Overview' },
-    { id: 'install', label: 'Install and import' },
-    { id: 'playground', label: 'Playground' },
-    { id: 'examples', label: 'Examples' },
-    { id: 'action-menu', label: 'Action menu', level: 2 },
-    { id: 'nested-menus', label: 'Nested menus', level: 2 },
-    { id: 'content-panel', label: 'Content panel', level: 2 },
-    { id: 'controlled', label: 'Controlled state', level: 2 },
-    { id: 'api', label: 'API' },
-    { id: 'accessibility', label: 'Accessibility' },
-    { id: 'customization', label: 'Customization' },
-    { id: 'ssr', label: 'SSR' },
+  nextId: 'swap',
+  examples: [
+    ['action-menu', 'Action menu'],
+    ['nested-menus', 'Nested menus'],
+    ['content-panel', 'Content panel'],
+    ['controlled', 'Controlled state'],
   ],
 });
 
-export const kbdPage = defineSitePage({
+export const kbdPage = defineComponentPage({
   id: 'kbd',
-  path: '/components/kbd',
-  title: 'Kbd | Zordon UI',
+  label: 'Kbd',
   description: 'Kbd applies daisyUI keycap styling to a native kbd element for keys and shortcuts.',
-  section: 'components',
-  indexable: true,
   maturity: 'preview',
-  breadcrumbLabel: 'Kbd',
-  parentId: componentsPage.id,
-  previousId: dropdownPage.id,
+  previousId: 'collapse',
+  nextId: 'megamenu',
+  examples: [
+    ['size', 'Size'],
+    ['in-text', 'In running text'],
+    ['combinations', 'Key combinations'],
+  ],
+});
+
+export const swapPage = defineComponentPage({
+  id: 'swap',
+  label: 'Swap',
+  description:
+    'Swap shows on, off and indeterminate states around a native checkbox or toggle button.',
+  maturity: 'preview',
+  previousId: 'dropdown',
+  nextId: 'carousel',
+  examples: [
+    ['checkbox', 'Checkbox'],
+    ['toggle-button', 'Toggle button'],
+    ['indeterminate', 'Indeterminate'],
+    ['effects', 'Effects'],
+  ],
+});
+
+export const carouselPage = defineComponentPage({
+  id: 'carousel',
+  label: 'Carousel',
+  description:
+    'Carousel applies daisyUI scroll-snap layout to a native scroll container and its items.',
+  maturity: 'preview',
+  previousId: 'swap',
+  nextId: 'collapse',
+  examples: [
+    ['controls', 'Previous and next'],
+    ['peek', 'Partial items'],
+    ['vertical', 'Vertical'],
+  ],
+});
+
+export const collapsePage = defineComponentPage({
+  id: 'collapse',
+  label: 'Collapse',
+  description:
+    'Collapse styles a native disclosure with daisyUI title, content and indicator classes.',
+  maturity: 'preview',
+  previousId: 'carousel',
+  nextId: 'kbd',
+  examples: [
+    ['details', 'Native details'],
+    ['indicators', 'Indicators'],
+    ['forced-state', 'Forced state'],
+    ['group', 'Several disclosures'],
+  ],
+});
+
+export const megamenuPage = defineComponentPage({
+  id: 'megamenu',
+  label: 'Megamenu',
+  description:
+    'Megamenu opens a responsive multi-column navigation panel, or an application command bar, from native buttons.',
+  maturity: 'preview',
+  previousId: 'kbd',
+  nextId: 'menu',
+  examples: [
+    ['site-navigation', 'Site navigation'],
+    ['full-width', 'Full width on hover'],
+    ['command-bar', 'Command bar'],
+  ],
+});
+
+export const menuPage = defineComponentPage({
+  id: 'menu',
+  label: 'Menu',
+  description:
+    'Menu renders native navigation lists with groups, or a selectable tree built on Angular Aria.',
+  maturity: 'preview',
+  previousId: 'megamenu',
+  nextId: 'calendar',
+  examples: [
+    ['navigation', 'Navigation'],
+    ['horizontal', 'Horizontal'],
+    ['tree', 'Selectable tree'],
+    ['decorations', 'Badges and shortcuts'],
+  ],
+});
+
+export const calendarPage = defineComponentPage({
+  id: 'calendar',
+  label: 'Calendar',
+  description:
+    'Calendar provides inline or popup date selection with single, multiple and range modes.',
+  maturity: 'preview',
+  previousId: 'menu',
   nextId: 'typed-vocabularies',
-  sourceUrl: 'https://github.com/pranxy/zordon-ui/blob/master/docs/components/kbd.md',
-  tableOfContents: [
-    { id: 'page-title', label: 'Overview' },
-    { id: 'install', label: 'Install and import' },
-    { id: 'playground', label: 'Playground' },
-    { id: 'examples', label: 'Examples' },
-    { id: 'size', label: 'Size', level: 2 },
-    { id: 'in-text', label: 'In running text', level: 2 },
-    { id: 'combinations', label: 'Key combinations', level: 2 },
-    { id: 'api', label: 'API' },
-    { id: 'accessibility', label: 'Accessibility' },
-    { id: 'customization', label: 'Customization' },
-    { id: 'ssr', label: 'SSR' },
+  examples: [
+    ['bounds', 'Bounds and unavailable days'],
+    ['range', 'Range'],
+    ['popup', 'Popup'],
+    ['forms', 'Forms'],
+    ['day-template', 'Custom day content'],
   ],
 });
 
@@ -202,7 +294,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: kbdPage.id,
+  previousId: 'calendar',
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
@@ -272,7 +364,13 @@ export const sitePages = [
   componentsPage,
   buttonPage,
   dropdownPage,
+  swapPage,
+  carouselPage,
+  collapsePage,
   kbdPage,
+  megamenuPage,
+  menuPage,
+  calendarPage,
   typedVocabulariesPage,
   stylingAndThemingPage,
   resourcesPage,

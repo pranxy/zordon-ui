@@ -72,4 +72,37 @@ describe('documentation site catalogue', () => {
       resourcesPage.path,
     ]);
   });
+
+  it('gives every component page the shared reference outline around its examples', () => {
+    const componentPages = sitePages.filter(page => page.path.startsWith('/components/'));
+    expect(componentPages.length).toBeGreaterThan(0);
+    for (const page of componentPages) {
+      const topLevel = (page.tableOfContents ?? [])
+        .filter(entry => entry.level === undefined)
+        .map(entry => entry.id);
+      expect(topLevel, page.id).toEqual([
+        'page-title',
+        'install',
+        'playground',
+        'examples',
+        'api',
+        'accessibility',
+        'customization',
+        'ssr',
+      ]);
+      expect(page.path, page.id).toBe(`/components/${page.id}`);
+      expect(page.parentId, page.id).toBe(componentsPage.id);
+    }
+  });
+
+  it('chains component pages into one previous/next sequence', () => {
+    const componentPages = sitePages.filter(page => page.path.startsWith('/components/'));
+    for (const [index, page] of componentPages.entries()) {
+      const next = componentPages[index + 1];
+      if (next) {
+        expect(page.nextId, page.id).toBe(next.id);
+        expect(next.previousId, next.id).toBe(page.id);
+      }
+    }
+  });
 });

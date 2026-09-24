@@ -1,0 +1,7 @@
+/* daisyUI classes emitted by Collapse, compiled only for this page (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: collapse;
+}
+@source inline('collapse collapse-title collapse-content collapse-arrow collapse-plus collapse-open collapse-close');

@@ -220,7 +220,9 @@ library component.
 
 **Deviations from the proposal, and why**
 
-- **Dogfooding.** Only `ZdButton`, `ZdKbd` and `ZdIdGenerator` are used. Tabs, Accordion, Table,
+- **Dogfooding.** The shell uses only `ZdButton`, `ZdKbd` and `ZdIdGenerator`. Reference pages also
+  render the component they document (Dropdown, Swap, Carousel, Collapse, Megamenu, Menu, Calendar)
+  in their examples, never in the shell. Tabs, Accordion, Table,
   Filter, Breadcrumbs, Modal, Badge and the Theme Controller were left native: their daisyUI visuals
   differ from the mockups (for example the dark code-frame tabs), or they add initial-bundle weight to
   the shell. Revisit each one once its visuals can be matched with supported hooks.
@@ -232,20 +234,31 @@ library component.
   set is kept for integrations).
 - **Catalogue previews** are decorative CSS sketches (`aria-hidden`, no JavaScript), not live
   components. Components without a sketch show a named placeholder.
-- **Not implemented yet:** the fast-path callout (waits for `ng add`), per-step "done" tracking in
-  `docs-steps`, and a `/__zordon-tests__/ui` gallery route.
+- **Not implemented yet:** the fast-path callout (waits for `ng add`) and per-step "done" tracking in
+  `docs-steps`. The `docs-*` gallery is at `/__zordon-tests__/ui`.
 - **Budget.** The initial bundle grew from 405.7 kB to 444.7 kB. The budget was re-measured and raised
   with a rationale in `docs/testing/bundle-size-budgets.md`.
 
 **Adding a component reference page**
 
-1. Add the page to `site-catalog.ts` (path, title, description, `tableOfContents`) and a loader to `app.routes.ts`.
-2. Set `path` on its entry in `content/component-catalogue.ts` (this links the card and side nav).
-3. Put the page's copy, API rows and snippets in `content/<component>.content.ts`, mirroring the library source.
-4. Compose the page from `app/ui` only: `docs-page-header` + `docs-meta-grid`, `docs-playground`,
-   `docs-section` + `docs-example`, `docs-api-table`, `docs-feature-grid`. A page that needs its own
-   CSS is missing a component, so add or extend one in `app/ui` instead.
-5. Run `npm run test:docs:ssr`, which includes the design-system check.
+1. Add the page to `site-catalog.ts` with `defineComponentPage` (id, label, description, maturity,
+   previous/next and its example sub-sections; the shared outline is added for you), keep the
+   previous/next chain intact, and add a loader to `app.routes.ts`. The catalogue card and side
+   navigation link to it automatically.
+2. Put the page's copy, API rows and snippets in `content/<component>.content.ts`, mirroring the library source.
+3. Compose the page from `app/ui` only: `docs-page-header` + `docs-meta-grid`, `docs-playground`,
+   `docs-section` + `docs-example`, `docs-api-table`, `docs-feature-grid`, with `.docs-stack` and
+   `.docs-cluster` for layout. Small, page-local example styling (a demo surface, a status line) is
+   fine in the page's `styles`; anything reused belongs in `app/ui`.
+4. If the component emits daisyUI classes the global stylesheet does not compile, compile them for
+   that page only: a stylesheet in `pages/styles/<name>.daisy.css`
+   (`@import 'tailwindcss/utilities' source(none)`, `@plugin 'daisyui' { themes: false; include: … }`
+   and an `@source inline(…)` list) loaded by a template-less, unencapsulated component rendered at
+   the top of the page. This keeps them out of the initial bundle. Keep each stylesheet under the
+   component-style budget; split a large rule (such as the generic `menu`, shared in
+   `menu-base.daisy.css`) into its own file.
+5. Add the route to the e2e route lists and the accessibility loop, then run `npm run test:docs:ssr`,
+   which includes the design-system check.
 
 ## Content corrections
 

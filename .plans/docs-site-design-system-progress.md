@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-23 (Dropdown and Kbd reference pages added)
+- **Updated:** 2026-09-24 (Swap, Carousel, Collapse, Megamenu, Menu and Calendar reference pages added)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -24,6 +24,12 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Button   | Verified | Original template page                                                                                                                                       |
 | Dropdown | Verified | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e |
 | Kbd      | Verified | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                              |
+| Swap     | Verified | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                       |
+| Carousel | Verified | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                |
+| Collapse | Verified | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                        |
+| Megamenu | Verified | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe   |
+| Menu     | Verified | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks   |
+| Calendar | Verified | Playground (mode/week start/readOnly/disabled); bounds, range, popup, Forms, day template; SSR today, range/popup/Forms e2e, open-popup axe check            |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -32,17 +38,39 @@ page. Compiling daisyUI's `menu` class for Dropdown adds about 8.5 kB of CSS; th
 445 KiB, under the 450 KiB warning. The existing visual baselines are unaffected (checked against a
 pre-change render); the new pages are not yet in the visual suite.
 
-## Validation run (2026-09-23)
+**Preview pages round (2026-09-24).** Six more pages from the same recipe. Changes along the way:
+
+- `defineComponentPage` in `site-catalog.ts` builds each reference page's standard outline, which
+  removed the repeated TOC skeletons and kept the initial bundle under the warning (449.2 KB). A unit
+  test checks every reference page's outline and the previous/next chain.
+- daisyUI classes that only reference pages use are compiled per page (`pages/styles/*.daisy.css`,
+  loaded by a template-less unencapsulated component). The generic `menu` rule moved out of the
+  global stylesheet into the shared `menu-base.daisy.css` (Dropdown, Megamenu, Menu). The Menu test
+  fixture now compiles it in its own `menu-base-fixture.css`, which keeps its baseline identical.
+- `.docs-stack` was specified but never implemented; it is now a primitive.
+- `docs-section` and `docs-step` no longer leave their `id` on the host, which duplicated the heading's id.
+- The design-system guard lets content modules show `--zd-*` overrides in consumer code samples.
+- Carousel slide labels sit on a surface chip: some themes' `secondary-content` on `secondary` is
+  only 3:1, which axe flagged.
+- The Calendar page centres the popup dialog itself: Tailwind's preflight removes the dialog's auto
+  margin and `calendar.css` does not restore it. **Library follow-up:** add `margin: auto` to the
+  `dialog` rule in `projects/components/calendar/src/calendar.css`.
+- **Library docs follow-up:** `docs/components/menu.md` says the generic `menu` rule is unnecessary,
+  but it sets item spacing: without it the Menu fixture's baseline changes.
+- The Swap visual test is flaky before and after this change (3 of 4 runs failed at HEAD on Linux).
+
+## Validation run (2026-09-24)
 
 | Check                                         | Result                                                                                                  |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `npm run lint:docs`                           | Pass                                                                                                    |
-| `npm run test:docs`                           | 7 files / 34 tests pass                                                                                 |
+| `npm run test:docs`                           | 7 files / 40 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 24 / 24 pass                                                                                            |
-| `npm run check:docs:links`                    | Pass (7 sitemap routes, 14 documents)                                                                   |
-| `npm run check:docs:performance`              | Pass at 444.7 kB initial (budget re-measured; see `docs/testing/bundle-size-budgets.md`)                |
-| `npm run check:docs:design-system`            | Pass (67 files)                                                                                         |
+| Docs Playwright (`playwright.docs.config.ts`) | 33 / 33 pass                                                                                            |
+| Visual suite vs. pre-change render            | 83 / 84 match; Swap is flaky at HEAD too                                                                |
+| `npm run check:docs:links`                    | Pass (15 sitemap routes, 22 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 449.2 kB initial (budget re-measured; see `docs/testing/bundle-size-budgets.md`)                |
+| `npm run check:docs:design-system`            | Pass (89 files)                                                                                         |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

@@ -8,6 +8,16 @@ const pageLoaders = {
   'button': () => import('./pages/button.component').then(module => module.ButtonPageComponent),
   'dropdown': () =>
     import('./pages/dropdown.component').then(module => module.DropdownPageComponent),
+  'swap': () => import('./pages/swap.component').then(module => module.SwapPageComponent),
+  'carousel': () =>
+    import('./pages/carousel.component').then(module => module.CarouselPageComponent),
+  'collapse': () =>
+    import('./pages/collapse.component').then(module => module.CollapsePageComponent),
+  'megamenu': () =>
+    import('./pages/megamenu.component').then(module => module.MegamenuPageComponent),
+  'menu': () => import('./pages/menu.component').then(module => module.MenuPageComponent),
+  'calendar': () =>
+    import('./pages/calendar.component').then(module => module.CalendarPageComponent),
   'kbd': () => import('./pages/kbd.component').then(module => module.KbdPageComponent),
   'components': () =>
     import('./pages/components.component').then(module => module.ComponentsPageComponent),

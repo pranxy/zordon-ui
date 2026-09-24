@@ -8,6 +8,12 @@ const routeMatrix = [
   { path: '/components/button', heading: 'Button', status: 200 },
   { path: '/components/dropdown', heading: 'Dropdown', status: 200 },
   { path: '/components/kbd', heading: 'Kbd', status: 200 },
+  { path: '/components/swap', heading: 'Swap', status: 200 },
+  { path: '/components/carousel', heading: 'Carousel', status: 200 },
+  { path: '/components/collapse', heading: 'Collapse', status: 200 },
+  { path: '/components/megamenu', heading: 'Megamenu', status: 200 },
+  { path: '/components/menu', heading: 'Menu', status: 200 },
+  { path: '/components/calendar', heading: 'Calendar', status: 200 },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',

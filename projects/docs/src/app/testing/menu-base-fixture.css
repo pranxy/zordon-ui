@@ -1,0 +1,8 @@
+/* daisyUI's generic menu rule. The site no longer compiles it globally, so the fixture does, in its
+   own stylesheet to stay within the per-stylesheet budget. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: menu;
+}
+@source inline('menu');

@@ -9,6 +9,8 @@ import { fileURLToPath } from 'node:url';
  * - site tokens never define `--zd-*` (reserved for the library's public API) or `--color-*`.
  *
  * Test fixtures under app/testing are exempt: they exercise library components, not the site.
+ * Content modules (app/content/*.content.ts) may show `--zd-*` overrides inside consumer code
+ * samples, so the token-definition rule does not apply to them; the other rules still do.
  */
 
 const COLOR_LITERAL = /#[0-9a-f]{3,8}\b|\b(?:rgb|rgba|hsl|hsla|oklch|oklab)\(/gi;
@@ -31,6 +33,7 @@ async function listFiles(directory) {
 export function designSystemViolations(path, contents) {
   const violations = [];
   const isTokens = path.endsWith('styles/tokens.css');
+  const isContent = /(?:^|\/)app\/content\/[\w-]+\.content\.ts$/.test(path);
   const lines = contents.split('\n');
 
   lines.forEach((line, index) => {
@@ -47,7 +50,7 @@ export function designSystemViolations(path, contents) {
       }
     }
 
-    for (const match of line.matchAll(TOKEN_DEFINITION)) {
+    for (const match of isContent ? [] : line.matchAll(TOKEN_DEFINITION)) {
       violations.push(`${where} defines ${match[1]}; site tokens must use --docs-*`);
     }
   });

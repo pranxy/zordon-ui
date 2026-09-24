@@ -21,7 +21,7 @@ export class DocsStepsComponent {}
 @Component({
   selector: 'docs-step',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { role: 'listitem' },
+  host: { 'role': 'listitem', '[attr.id]': 'null' },
   template: `
     <span class="marker" aria-hidden="true"></span>
     <div class="content">

@@ -1,0 +1,32 @@
+/* Panel content renders in the CDK overlay container, outside the page's encapsulation. */
+.docs-megamenu-group {
+  display: grid;
+  align-content: start;
+  gap: var(--docs-space-2);
+}
+
+.docs-megamenu-group h2 {
+  margin: 0;
+  color: var(--docs-muted-text);
+  font-family: var(--docs-font-mono);
+  font-size: 0.75rem;
+  font-weight: var(--docs-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.docs-megamenu-group a {
+  color: var(--docs-text);
+  font-size: var(--docs-text-sm);
+  text-decoration: none;
+}
+
+.docs-megamenu-group a:hover,
+.docs-megamenu-group a:focus-visible {
+  color: var(--docs-accent-strong);
+  text-decoration: underline;
+}
+
+.docs-megamenu-group a[aria-current='page'] {
+  font-weight: var(--docs-weight-bold);
+}
