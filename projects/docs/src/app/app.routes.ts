@@ -81,8 +81,8 @@ export const routes: Routes = [
   {
     path: '__zordon-tests__/menu',
     loadComponent: () =>
-      import('./testing/menu-test-fixture.component').then(
-        module => module.MenuTestFixtureComponent,
+      import('./testing/menu-docs-fixture.component').then(
+        module => module.MenuDocsFixtureComponent,
       ),
   },
   {

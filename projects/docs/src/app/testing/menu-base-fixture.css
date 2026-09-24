@@ -1,5 +1,6 @@
-/* daisyUI's generic menu rule. The site no longer compiles it globally, so the fixture does, in its
-   own stylesheet to stay within the per-stylesheet budget. */
+/* daisyUI's generic menu rule for the docs app's Menu fixture route (menu-docs-fixture.component.ts).
+   The docs site no longer compiles it globally. It is kept out of the shared fixture because the
+   SSR example also loads that fixture, has no daisyUI styles and allows at most 8 kB per stylesheet. */
 @import 'tailwindcss/utilities' source(none);
 @plugin 'daisyui' {
   themes: false;
