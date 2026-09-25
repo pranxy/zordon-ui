@@ -23,6 +23,18 @@ const publicRoutes = [
     body: /theme preference scope/i,
   },
   { path: '/components/swap', heading: 'Swap', body: /native checkbox or toggle button/i },
+  { path: '/components/accordion', heading: 'Accordion', body: /Grouped expandable sections/i },
+  { path: '/components/avatar', heading: 'Avatar', body: /presence dot on your own markup/i },
+  { path: '/components/aura', heading: 'Aura', body: /decorative moving light/i },
+  { path: '/components/badge', heading: 'Badge', body: /compact label, count or marker/i },
+  { path: '/components/card', heading: 'Card', body: /card container and its body/i },
+  {
+    path: '/components/chat-bubble',
+    heading: 'Chat Bubble',
+    body: /message layout on your own list items/i,
+  },
+  { path: '/components/countdown', heading: 'Countdown', body: /rolling-digit animation/i },
+  { path: '/components/diff', heading: 'Diff', body: /draggable divider/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
   { path: '/components/breadcrumbs', heading: 'Breadcrumbs', body: /ending at the current page/i },
@@ -848,4 +860,25 @@ test('an unknown route remains a server-rendered, recoverable noindex 404', asyn
   } finally {
     await context.close();
   }
+});
+
+test('Accordion and Countdown keep their state in sync', async ({ page }) => {
+  await page.goto('/components/accordion');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const profile = page.locator('#settings-profile-trigger');
+  await expect(profile).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('button', { name: 'Collapse all' }).click();
+  await expect(profile).toHaveAttribute('aria-expanded', 'false');
+  await expect(page.getByText('Profile closed', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Expand all' }).click();
+  await expect(page.locator('#settings-privacy-trigger')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByText('Profile open', { exact: true })).toBeVisible();
+
+  await page.goto('/components/countdown');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const change = page.getByRole('group', { name: 'Change the value' });
+  const value = page.locator('.countdown').first().locator('span');
+  await expect(value).toHaveAttribute('aria-label', '42');
+  await change.getByRole('button', { name: '+10' }).click();
+  await expect(value).toHaveAttribute('aria-label', '52');
 });

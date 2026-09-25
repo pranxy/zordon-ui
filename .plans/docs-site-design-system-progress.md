@@ -30,6 +30,14 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Swap             | Verified                | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                              |
 | Carousel         | Verified                | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                       |
 | Collapse         | Verified                | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                               |
+| Accordion        | Verified (Planned page) | Playground (indicator/oneAtATime); controlled state with expandAll/collapseAll, lazy content with preserveContent; aria-expanded and axe checks                     |
+| Avatar           | Verified (Planned page) | Playground (presence/placeholder); group, presence with visible text; axe checks                                                                                    |
+| Aura             | Verified (Planned page) | Playground (variant/size); variants, around a card; axe checks                                                                                                      |
+| Badge            | Verified (Planned page) | Playground (color/variant/size); colors, counts in a link and a button; axe checks                                                                                  |
+| Card             | Verified (Planned page) | Playground (variant/size/side); whole-card link, image behind; axe checks                                                                                           |
+| Chat Bubble      | Verified (Planned page) | Playground (placement/color); conversation list with avatar, header and footer; axe checks                                                                          |
+| Countdown        | Verified (Planned page) | Playground (digits); timer with start/pause/reset cleared on destroy; value and axe checks                                                                          |
+| Diff             | Verified (Planned page) | Live example (no inputs); text comparison with a caption; axe checks                                                                                                |
 | Breadcrumbs      | Verified (Planned page) | Playground (overflow/separator); router trail, short labels, icons; current-page, disclosure open/Escape and axe checks                                             |
 | Dock             | Verified (Planned page) | Playground (size/labels, static); destinations with badge and disabled item, activeId; aria-current and axe checks                                                  |
 | Link             | Verified (Planned page) | Playground (color/hover/zdDisabled); Router current page, unavailable href link, external link; disabled guard and axe checks                                       |
@@ -161,6 +169,14 @@ before this round); docs visual suite identical to the previous render.
   stop RouterLink. A fix needs a decision: stop propagation in a capture listener (contradicting
   the "listeners preserved" promise), or document Router links as unsupported with zdDisabled.
 
+**Data display round A (2026-09-25).** Eight Planned pages: Accordion, Avatar, Aura, Badge, Card,
+Chat Bubble, Countdown and Diff. Accordion reuses the Collapse stylesheet; Diff has no inputs, so its
+playground slot holds a live example. daisyUI sizes each Diff item's child to the whole container,
+so the page must not set their width (the customization section says so). Initial bundle
+408.0 → 410.3 kB; docs e2e 45/45 including a new Accordion/Countdown behaviour test. No library or fixture files
+changed, so the component visual suite is not affected; the docs-site visual suite still waits for
+Windows baselines (T07).
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -168,11 +184,11 @@ before this round); docs visual suite identical to the previous render.
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 44 / 44 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 45 / 45 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (46 sitemap routes, 56 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 408.0 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (179 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (54 sitemap routes, 64 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 410.3 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (202 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

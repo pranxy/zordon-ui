@@ -1,0 +1,7 @@
+/* daisyUI classes Avatar emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: avatar;
+}
+@source inline('avatar avatar-group avatar-offline avatar-online avatar-placeholder');

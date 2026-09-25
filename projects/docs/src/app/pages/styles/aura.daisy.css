@@ -1,0 +1,7 @@
+/* daisyUI classes Aura emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: aura;
+}
+@source inline('aura aura-dual aura-rainbow aura-holo aura-gold aura-silver aura-glow aura-xs aura-sm aura-md aura-lg aura-xl');

@@ -1,0 +1,7 @@
+/* daisyUI classes Diff emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: diff;
+}
+@source inline('diff diff-item-1 diff-item-2 diff-resizer');

@@ -260,6 +260,88 @@ export const carouselPage = defineComponentPage({
   ],
 });
 
+export const accordionPage = defineComponentPage({
+  id: 'accordion',
+  label: 'Accordion',
+  description:
+    'Accordion groups expandable sections with native headings, arrow-key movement and optional lazy panels.',
+  maturity: 'planned',
+  examples: [
+    ['controlled', 'Controlled state'],
+    ['lazy', 'Lazy content'],
+  ],
+});
+
+export const avatarPage = defineComponentPage({
+  id: 'avatar',
+  label: 'Avatar',
+  description: 'Avatar shows an image or placeholder in daisyUI shapes, with groups and presence.',
+  maturity: 'planned',
+  examples: [
+    ['group', 'Group'],
+    ['presence', 'Presence'],
+  ],
+});
+
+export const auraPage = defineComponentPage({
+  id: 'aura',
+  label: 'Aura',
+  description:
+    'Aura adds a decorative glow around an element, and stays still under reduced motion.',
+  maturity: 'planned',
+  examples: [
+    ['variants', 'Variants'],
+    ['card', 'Around a card'],
+  ],
+});
+
+export const badgePage = defineComponentPage({
+  id: 'badge',
+  label: 'Badge',
+  description: 'Badge is an inline status label in every daisyUI color, size and style.',
+  maturity: 'planned',
+  examples: [
+    ['colors', 'Colors'],
+    ['in-context', 'In links and buttons'],
+  ],
+});
+
+export const cardPage = defineComponentPage({
+  id: 'card',
+  label: 'Card',
+  description:
+    'Card is a surface with body, title, actions and image slots, in stacked or side layouts.',
+  maturity: 'planned',
+  examples: [
+    ['link-card', 'Link card'],
+    ['image-full', 'Image behind'],
+  ],
+});
+
+export const chatBubblePage = defineComponentPage({
+  id: 'chat-bubble',
+  label: 'Chat Bubble',
+  description: 'Chat Bubble lays out a conversation message with author side, avatar and footer.',
+  maturity: 'planned',
+  examples: [['conversation', 'Conversation']],
+});
+
+export const countdownPage = defineComponentPage({
+  id: 'countdown',
+  label: 'Countdown',
+  description: 'Countdown animates numeric digits and keeps an accessible text value.',
+  maturity: 'planned',
+  examples: [['timer', 'Timer']],
+});
+
+export const diffPage = defineComponentPage({
+  id: 'diff',
+  label: 'Diff',
+  description: 'Diff compares two items side by side with a resizable divider.',
+  maturity: 'planned',
+  examples: [['text', 'Text comparison']],
+});
+
 export const collapsePage = defineComponentPage({
   id: 'collapse',
   label: 'Collapse',
@@ -692,8 +774,16 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   modalPage,
   swapPage,
   themeControllerPage,
+  accordionPage,
+  avatarPage,
+  auraPage,
+  badgePage,
+  cardPage,
   carouselPage,
+  chatBubblePage,
   collapsePage,
+  countdownPage,
+  diffPage,
   kbdPage,
   breadcrumbsPage,
   dockPage,

@@ -15,6 +15,17 @@ const pageLoaders = {
       module => module.ThemeControllerPageComponent,
     ),
   'swap': () => import('./pages/swap.component').then(module => module.SwapPageComponent),
+  'accordion': () =>
+    import('./pages/accordion.component').then(module => module.AccordionPageComponent),
+  'avatar': () => import('./pages/avatar.component').then(module => module.AvatarPageComponent),
+  'aura': () => import('./pages/aura.component').then(module => module.AuraPageComponent),
+  'badge': () => import('./pages/badge.component').then(module => module.BadgePageComponent),
+  'card': () => import('./pages/card.component').then(module => module.CardPageComponent),
+  'chat-bubble': () =>
+    import('./pages/chat-bubble.component').then(module => module.ChatBubblePageComponent),
+  'countdown': () =>
+    import('./pages/countdown.component').then(module => module.CountdownPageComponent),
+  'diff': () => import('./pages/diff.component').then(module => module.DiffPageComponent),
   'carousel': () =>
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),
   'collapse': () =>

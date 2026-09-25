@@ -1,0 +1,7 @@
+/* daisyUI classes Card emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: card;
+}
+@source inline('card card-body card-title card-actions card-border card-dash card-side image-full card-xs card-sm card-md card-lg card-xl');
