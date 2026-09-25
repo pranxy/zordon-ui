@@ -1,0 +1,7 @@
+/* daisyUI Loading sizes plus the dots and ring glyphs (loading, loading-spinner and loading-xs are global). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: loading;
+}
+@source inline('loading-sm loading-md loading-lg loading-xl loading-dots loading-ring');

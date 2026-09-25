@@ -1,0 +1,7 @@
+/* daisyUI's Loading bars glyph (split out: its SVG mask is large). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: loading;
+}
+@source inline('loading-bars');

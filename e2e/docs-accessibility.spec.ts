@@ -25,7 +25,7 @@ test('component reference pages have no serious accessibility violations, includ
   runAxeScan,
 }) => {
   // One axe scan per reference page plus the open states.
-  test.setTimeout(240_000);
+  test.setTimeout(330_000);
   const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
     results.violations.filter(
       violation => violation.impact === 'critical' || violation.impact === 'serious',
@@ -40,6 +40,13 @@ test('component reference pages have no serious accessibility violations, includ
     '/components/kbd',
     '/components/megamenu',
     '/components/menu',
+    '/components/alert',
+    '/components/loading',
+    '/components/progress',
+    '/components/radial-progress',
+    '/components/skeleton',
+    '/components/toast',
+    '/components/tooltip',
     '/components/calendar',
     '/components/checkbox',
     '/components/radio',
@@ -85,6 +92,24 @@ test('component reference pages have no serious accessibility violations, includ
     await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
     await page.getByRole('button', { name: 'Departure date: Choose date' }).click();
     await expect(page.getByRole('dialog', { name: 'Departure date' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+
+  await test.step('visible Toast with an action', async () => {
+    await page.goto('/components/toast');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Delete invoice' }).click();
+    await expect(page.getByRole('button', { name: 'Undo' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+
+  await test.step('open interactive Tooltip', async () => {
+    await page.goto('/components/tooltip');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    const trigger = page.getByRole('button', { name: 'Draft settings' });
+    await expect(trigger).toHaveAttribute('data-zd-tooltip-ready', 'true');
+    await trigger.click();
+    await expect(page.getByRole('dialog', { name: 'Draft settings' })).toBeVisible();
     expect(material(await runAxeScan())).toEqual([]);
   });
 });

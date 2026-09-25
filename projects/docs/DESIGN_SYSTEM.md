@@ -266,7 +266,9 @@ library component.
    and an `@source inline(…)` list) loaded by a template-less, unencapsulated component rendered at
    the top of the page. This keeps them out of the initial bundle. Keep each stylesheet under the
    component-style budget; split a large rule (such as the generic `menu`, shared in
-   `menu-base.daisy.css`, or the generic `select`) into its own file.
+   `menu-base.daisy.css`, or the generic `select`) into its own file. daisyUI's Loading glyphs
+   carry SVG masks of 2.5–5.6 kB each, so Loading spreads its glyphs over three files. A component
+   that ships its own stylesheet (Tooltip) needs none.
 5. Add the route to the e2e route lists and the accessibility loop, then run `npm run test:docs:ssr`,
    which includes the design-system check.
 

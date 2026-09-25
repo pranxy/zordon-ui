@@ -1,0 +1,7 @@
+/* daisyUI's Loading ball and infinity glyphs. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: loading;
+}
+@source inline('loading-ball loading-infinity');

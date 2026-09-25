@@ -16,6 +16,16 @@ const pageLoaders = {
   'megamenu': () =>
     import('./pages/megamenu.component').then(module => module.MegamenuPageComponent),
   'menu': () => import('./pages/menu.component').then(module => module.MenuPageComponent),
+  'alert': () => import('./pages/alert.component').then(module => module.AlertPageComponent),
+  'loading': () => import('./pages/loading.component').then(module => module.LoadingPageComponent),
+  'progress': () =>
+    import('./pages/progress.component').then(module => module.ProgressPageComponent),
+  'radial-progress': () =>
+    import('./pages/radial-progress.component').then(module => module.RadialProgressPageComponent),
+  'skeleton': () =>
+    import('./pages/skeleton.component').then(module => module.SkeletonPageComponent),
+  'toast': () => import('./pages/toast.component').then(module => module.ToastPageComponent),
+  'tooltip': () => import('./pages/tooltip.component').then(module => module.TooltipPageComponent),
   'calendar': () =>
     import('./pages/calendar.component').then(module => module.CalendarPageComponent),
   'checkbox': () =>

@@ -263,6 +263,100 @@ export const menuPage = defineComponentPage({
   ],
 });
 
+export const alertPage = defineComponentPage({
+  id: 'alert',
+  label: 'Alert',
+  description:
+    'Alert shows an inline message with an icon, title, actions and details, and dismissal you accept.',
+  maturity: 'planned',
+  examples: [
+    ['colors', 'Colors and variants'],
+    ['dismissal', 'Dismissal'],
+    ['auto-dismiss', 'Auto-dismiss'],
+    ['actions', 'Actions and details'],
+  ],
+});
+
+export const loadingPage = defineComponentPage({
+  id: 'loading',
+  label: 'Loading',
+  description:
+    'Loading shows indeterminate work with daisyUI animations, a status message and an optional delay.',
+  maturity: 'planned',
+  examples: [
+    ['variants', 'Variants and sizes'],
+    ['delay', 'Delayed feedback'],
+    ['overlay', 'Overlay'],
+    ['custom', 'Custom artwork'],
+  ],
+});
+
+export const progressPage = defineComponentPage({
+  id: 'progress',
+  label: 'Progress',
+  description:
+    'Progress wraps a labelled native progress bar, with a buffer and value text for known or unknown totals.',
+  maturity: 'planned',
+  examples: [
+    ['upload', 'File upload'],
+    ['indeterminate', 'Unknown total'],
+    ['colors', 'Colors'],
+  ],
+});
+
+export const radialProgressPage = defineComponentPage({
+  id: 'radial-progress',
+  label: 'Radial Progress',
+  description:
+    'Radial Progress shows completion as a ring with center content and color thresholds.',
+  maturity: 'planned',
+  examples: [
+    ['thresholds', 'Thresholds'],
+    ['center-content', 'Center content'],
+    ['format', 'Custom text'],
+  ],
+});
+
+export const skeletonPage = defineComponentPage({
+  id: 'skeleton',
+  label: 'Skeleton',
+  description:
+    'Skeleton draws decorative placeholders while a region, marked busy, loads its content.',
+  maturity: 'planned',
+  examples: [
+    ['loading-region', 'Loading region'],
+    ['shapes', 'Shapes'],
+    ['presets', 'Presets'],
+  ],
+});
+
+export const toastPage = defineComponentPage({
+  id: 'toast',
+  label: 'Toast',
+  description:
+    'Toast queues short, non-blocking notifications from a service and announces them from a fixed outlet.',
+  maturity: 'planned',
+  examples: [
+    ['actions', 'Actions'],
+    ['track', 'Tracking work'],
+    ['custom-content', 'Custom content'],
+  ],
+});
+
+export const tooltipPage = defineComponentPage({
+  id: 'tooltip',
+  label: 'Tooltip',
+  description:
+    'Tooltip adds a description or interactive help panel to a control, with placement that flips to fit.',
+  maturity: 'planned',
+  examples: [
+    ['rich-content', 'Rich content'],
+    ['interactive', 'Interactive help'],
+    ['disabled-actions', 'Disabled actions'],
+    ['controlled', 'Controlled'],
+  ],
+});
+
 export const calendarPage = defineComponentPage({
   id: 'calendar',
   label: 'Calendar',
@@ -477,6 +571,13 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   kbdPage,
   megamenuPage,
   menuPage,
+  alertPage,
+  loadingPage,
+  progressPage,
+  radialProgressPage,
+  skeletonPage,
+  toastPage,
+  tooltipPage,
   calendarPage,
   checkboxPage,
   fieldsetPage,

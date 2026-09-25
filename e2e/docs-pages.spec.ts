@@ -25,6 +25,13 @@ const publicRoutes = [
   { path: '/components/text-input', heading: 'Text Input', body: /native input of any text type/i },
   { path: '/components/textarea', heading: 'Textarea', body: /native textarea/i },
   { path: '/components/toggle', heading: 'Toggle', body: /styled as a daisyUI switch/i },
+  { path: '/components/alert', heading: 'Alert', body: /dismissal is a request you accept/i },
+  { path: '/components/loading', heading: 'Loading', body: /indeterminate loading indicator/i },
+  { path: '/components/progress', heading: 'Progress', body: /labelled native progress bar/i },
+  { path: '/components/radial-progress', heading: 'Radial Progress', body: /ring that fills/i },
+  { path: '/components/skeleton', heading: 'Skeleton', body: /decorative placeholders/i },
+  { path: '/components/toast', heading: 'Toast', body: /non-blocking notifications/i },
+  { path: '/components/tooltip', heading: 'Tooltip', body: /interactive help panel/i },
   { path: '/components/fieldset', heading: 'Fieldset', body: /passes its disabled state/i },
   { path: '/components/file-input', heading: 'File Input', body: /native file input/i },
   { path: '/components/filter', heading: 'Filter', body: /daisyUI filter buttons/i },
@@ -549,6 +556,85 @@ test('Validator and OTP report validity and completion', async ({ page }) => {
   await page.getByRole('textbox', { name: 'Card PIN digit 1 of 4' }).focus();
   await page.keyboard.type('4321');
   await expect(page.getByText('Checking 4 digits…')).toBeVisible();
+});
+
+test('Alert, Loading and Skeleton report their state', async ({ page }) => {
+  await page.goto('/components/alert');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const saved = page.locator('zd-alert').filter({ hasText: 'Changes saved' });
+  await page.getByRole('button', { name: 'Dismiss saved message' }).click();
+  await expect(saved).toBeHidden();
+  await expect(page.getByText('Closed by: close-button')).toBeVisible();
+  await page.getByRole('button', { name: 'Show again' }).click();
+  await expect(saved).toBeVisible();
+  await page.getByRole('button', { name: 'Copy link' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Link copied' })).toBeVisible();
+
+  await page.goto('/components/loading');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const results = page.getByRole('region', { name: 'Results' });
+  await page.getByRole('button', { name: 'Run search' }).click();
+  await expect(results).toHaveAttribute('aria-busy', 'true');
+  await expect(page.getByRole('status').filter({ hasText: 'Searching' })).toHaveCount(1);
+  await expect(results).toHaveText('12 results');
+  await expect(results).toHaveAttribute('aria-busy', 'false');
+
+  await page.goto('/components/skeleton');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const profile = page.getByRole('region', { name: 'Profile' });
+  await expect(profile).toHaveAttribute('aria-busy', 'true');
+  await page.getByRole('button', { name: 'Loading' }).click();
+  await expect(profile).toHaveAttribute('aria-busy', 'false');
+  await expect(profile.getByRole('heading', { name: 'Ada Lovelace' })).toBeVisible();
+  await expect(page.getByText('Profile ready', { exact: true })).toBeVisible();
+});
+
+test('Progress and Radial Progress expose their values', async ({ page }) => {
+  await page.goto('/components/progress');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const upload = page.getByRole('progressbar', { name: 'Upload' }).nth(1);
+  const send = page.getByRole('button', { name: 'Send 50 MB' });
+  await expect(upload).toHaveAttribute('aria-valuetext', '0 of 200 MB');
+  for (let step = 0; step < 4; step++) await send.click();
+  await expect(upload).toHaveAttribute('aria-valuetext', '200 of 200 MB');
+  await expect(page.getByText('Upload complete', { exact: true })).toBeVisible();
+  await expect(send).toBeDisabled();
+
+  await page.goto('/components/radial-progress');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const battery = page.getByRole('progressbar', { name: 'Battery' });
+  await expect(battery).toHaveAttribute('aria-valuenow', '20');
+  await page.getByRole('button', { name: '+10%' }).click();
+  await expect(battery).toHaveAttribute('aria-valuenow', '30');
+  await expect(battery).toHaveAttribute('aria-valuetext', '30%');
+});
+
+test('Toast queues notifications and Tooltip describes its host', async ({ page }) => {
+  await page.goto('/components/toast');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const outlet = page.getByRole('region', { name: 'Example notifications' });
+  await page.getByRole('button', { name: 'Delete invoice' }).click();
+  const toast = (text: string) => outlet.locator('zd-alert').filter({ hasText: text });
+  await expect(toast('Invoice deleted')).toBeVisible();
+  await toast('Invoice deleted').getByRole('button', { name: 'Undo' }).click();
+  await expect(page.getByText('Invoice INV-042 restored')).toBeVisible();
+  await expect(toast('Invoice deleted')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Publish', exact: true }).click();
+  await expect(toast('Publishing')).toBeVisible();
+  await expect(toast('Published')).toBeVisible();
+
+  await page.goto('/components/tooltip');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const save = page.getByRole('button', { name: 'Save draft' });
+  await expect(save).toHaveAttribute('data-zd-tooltip-ready', 'true');
+  await save.focus();
+  const tip = page.getByRole('tooltip', { name: 'Saves a copy only you can see' });
+  await expect(tip).toBeVisible();
+  await expect(save).toHaveAccessibleDescription('Saves a copy only you can see');
+  await page.keyboard.press('Escape');
+  await expect(tip).toBeHidden();
+  await page.getByRole('button', { name: 'Show what’s new' }).click();
+  await expect(page.getByRole('tooltip', { name: 'New: export to PDF' })).toBeVisible();
 });
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {

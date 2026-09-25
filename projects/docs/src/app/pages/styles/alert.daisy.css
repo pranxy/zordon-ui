@@ -1,0 +1,7 @@
+/* daisyUI classes Alert emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: alert;
+}
+@source inline('alert alert-info alert-success alert-warning alert-error alert-soft alert-outline alert-dash alert-horizontal alert-vertical');
