@@ -23,7 +23,7 @@ export const componentSummaries: Readonly<Record<string, string>> = {
   'collapse': 'Single disclosure with native details or controlled state.',
   'countdown': 'Animated numeric countdown with accessible value text.',
   'diff': 'Side-by-side comparison of two items with a resizable divider.',
-  'hover-3d': 'Card that tilts toward the pointer, flat under reduced motion.',
+  'hover-3d': 'Card that tilts toward the pointer, built from CSS hover zones.',
   'hover-gallery': 'Image gallery that previews items on pointer hover.',
   'kbd': 'Keyboard key label in every daisyUI size.',
   'list': 'Vertical rows with media, content, and action columns.',

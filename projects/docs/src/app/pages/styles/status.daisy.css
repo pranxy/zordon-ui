@@ -1,0 +1,7 @@
+/* daisyUI classes Status emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: status;
+}
+@source inline('status status-neutral status-primary status-secondary status-accent status-info status-success status-warning status-error status-xs status-sm status-md status-lg status-xl');

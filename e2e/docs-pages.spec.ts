@@ -35,6 +35,22 @@ const publicRoutes = [
   },
   { path: '/components/countdown', heading: 'Countdown', body: /rolling-digit animation/i },
   { path: '/components/diff', heading: 'Diff', body: /draggable divider/i },
+  {
+    path: '/components/hover-3d',
+    heading: 'Hover 3D Card',
+    body: /tilt-toward-the-pointer effect/i,
+  },
+  {
+    path: '/components/hover-gallery',
+    heading: 'Hover Gallery',
+    body: /hover-to-preview image strip/i,
+  },
+  { path: '/components/list', heading: 'List', body: /row layout on a native list/i },
+  { path: '/components/stat', heading: 'Stat', body: /layout for key numbers/i },
+  { path: '/components/status', heading: 'Status', body: /small state dot/i },
+  { path: '/components/table', heading: 'Table', body: /table styling on a native table/i },
+  { path: '/components/text-rotate', heading: 'Text Rotate', body: /rotating words/i },
+  { path: '/components/timeline', heading: 'Timeline', body: /event layout on a native list/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
   { path: '/components/breadcrumbs', heading: 'Breadcrumbs', body: /ending at the current page/i },
@@ -881,4 +897,22 @@ test('Accordion and Countdown keep their state in sync', async ({ page }) => {
   await expect(value).toHaveAttribute('aria-label', '42');
   await change.getByRole('button', { name: '+10' }).click();
   await expect(value).toHaveAttribute('aria-label', '52');
+});
+
+test('Stat actions update the value and Table keeps native headers', async ({ page }) => {
+  await page.goto('/components/stat');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const balance = page.getByRole('region', { name: 'Account summary' });
+  await expect(balance.getByText('€1,280')).toBeVisible();
+  await balance.getByRole('button', { name: 'Add €100' }).click();
+  await expect(balance.getByText('€1,380')).toBeVisible();
+
+  await page.goto('/components/table');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const plans = page.getByRole('table', { name: 'Plan limits' });
+  await expect(plans.getByRole('rowheader', { name: 'Storage' })).toBeVisible();
+  await expect(plans.getByRole('columnheader', { name: 'Team' })).toBeVisible();
+  const scroller = page.getByRole('region', { name: 'Deployments, scrollable' });
+  await scroller.focus();
+  await expect(scroller).toBeFocused();
 });

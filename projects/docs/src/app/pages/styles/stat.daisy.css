@@ -1,0 +1,7 @@
+/* daisyUI classes Stat emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: stat;
+}
+@source inline('stats stats-horizontal stats-vertical stat stat-title stat-value stat-desc stat-figure stat-actions');

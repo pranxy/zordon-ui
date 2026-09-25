@@ -1,0 +1,7 @@
+/* daisyUI classes Timeline emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: timeline;
+}
+@source inline('timeline timeline-horizontal timeline-vertical timeline-compact timeline-start timeline-middle timeline-end timeline-box timeline-snap-icon');

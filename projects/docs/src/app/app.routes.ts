@@ -26,6 +26,18 @@ const pageLoaders = {
   'countdown': () =>
     import('./pages/countdown.component').then(module => module.CountdownPageComponent),
   'diff': () => import('./pages/diff.component').then(module => module.DiffPageComponent),
+  'hover-3d': () =>
+    import('./pages/hover-3d.component').then(module => module.Hover3dPageComponent),
+  'hover-gallery': () =>
+    import('./pages/hover-gallery.component').then(module => module.HoverGalleryPageComponent),
+  'list': () => import('./pages/list.component').then(module => module.ListPageComponent),
+  'stat': () => import('./pages/stat.component').then(module => module.StatPageComponent),
+  'status': () => import('./pages/status.component').then(module => module.StatusPageComponent),
+  'table': () => import('./pages/table.component').then(module => module.TablePageComponent),
+  'text-rotate': () =>
+    import('./pages/text-rotate.component').then(module => module.TextRotatePageComponent),
+  'timeline': () =>
+    import('./pages/timeline.component').then(module => module.TimelinePageComponent),
   'carousel': () =>
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),
   'collapse': () =>

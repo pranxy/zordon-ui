@@ -342,6 +342,73 @@ export const diffPage = defineComponentPage({
   examples: [['text', 'Text comparison']],
 });
 
+export const hover3dPage = defineComponentPage({
+  id: 'hover-3d',
+  label: 'Hover 3D Card',
+  description: 'Hover 3D Card tilts its content toward the pointer, built from CSS hover zones.',
+  maturity: 'planned',
+  examples: [['figure', 'Decorative figure']],
+});
+
+export const hoverGalleryPage = defineComponentPage({
+  id: 'hover-gallery',
+  label: 'Hover Gallery',
+  description: 'Hover Gallery previews a strip of images as the pointer moves across it.',
+  maturity: 'planned',
+  examples: [['caption', 'With a caption']],
+});
+
+export const listPage = defineComponentPage({
+  id: 'list',
+  label: 'List',
+  description: 'List lays out native list rows with media, a growing text column and actions.',
+  maturity: 'planned',
+  examples: [['grow', 'Growing column']],
+});
+
+export const statPage = defineComponentPage({
+  id: 'stat',
+  label: 'Stat',
+  description: 'Stat lays out key numbers with title, value, description, figure and actions.',
+  maturity: 'planned',
+  examples: [['actions', 'Actions']],
+});
+
+export const statusPage = defineComponentPage({
+  id: 'status',
+  label: 'Status',
+  description: 'Status is a small state dot in every theme color and size.',
+  maturity: 'planned',
+  examples: [
+    ['text', 'With text'],
+    ['pulse', 'Pulse'],
+  ],
+});
+
+export const tablePage = defineComponentPage({
+  id: 'table',
+  label: 'Table',
+  description: 'Table styles a native table with sizes, zebra rows and pinned headers or columns.',
+  maturity: 'planned',
+  examples: [['row-headers', 'Row headers']],
+});
+
+export const textRotatePage = defineComponentPage({
+  id: 'text-rotate',
+  label: 'Text Rotate',
+  description: 'Text Rotate cycles up to six words in place, pausing on hover.',
+  maturity: 'planned',
+  examples: [['sentence', 'In a sentence']],
+});
+
+export const timelinePage = defineComponentPage({
+  id: 'timeline',
+  label: 'Timeline',
+  description: 'Timeline lays out events on a native list, horizontally, vertically or compact.',
+  maturity: 'planned',
+  examples: [['snap', 'Order tracking']],
+});
+
 export const collapsePage = defineComponentPage({
   id: 'collapse',
   label: 'Collapse',
@@ -784,7 +851,15 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   collapsePage,
   countdownPage,
   diffPage,
+  hover3dPage,
+  hoverGalleryPage,
   kbdPage,
+  listPage,
+  statPage,
+  statusPage,
+  tablePage,
+  textRotatePage,
+  timelinePage,
   breadcrumbsPage,
   dockPage,
   linkPage,

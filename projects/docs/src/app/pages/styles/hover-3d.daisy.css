@@ -1,0 +1,7 @@
+/* daisyUI classes Hover 3D emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: hover3d;
+}
+@source inline('hover-3d');

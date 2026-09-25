@@ -38,6 +38,14 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Chat Bubble      | Verified (Planned page) | Playground (placement/color); conversation list with avatar, header and footer; axe checks                                                                          |
 | Countdown        | Verified (Planned page) | Playground (digits); timer with start/pause/reset cleared on destroy; value and axe checks                                                                          |
 | Diff             | Verified (Planned page) | Live example (no inputs); text comparison with a caption; axe checks                                                                                                |
+| Hover 3D Card    | Verified (Planned page) | Live example (no inputs) on a native link; decorative figure; axe checks                                                                                            |
+| Hover Gallery    | Verified (Planned page) | Live example (no inputs); captioned gallery; axe checks                                                                                                             |
+| List             | Verified (Planned page) | Playground (cover/wrapNote); growing column with named row actions; axe checks                                                                                      |
+| Stat             | Verified (Planned page) | Playground (orientation/figures, keyboard-scrollable row); actions with a formatted value; value-update and axe checks                                              |
+| Status           | Verified (Planned page) | Playground (color/size); dots beside text, reduced-motion pulse; axe checks                                                                                         |
+| Table            | Verified (Planned page) | Playground (size/zebra/pinRows/pinCols in a focusable scroller); row headers; header-role and axe checks                                                            |
+| Text Rotate      | Verified (Planned page) | Live example (no inputs) with a hidden full sentence; inline word with a shorter --duration; axe checks                                                             |
+| Timeline         | Verified (Planned page) | Playground (orientation/compact); order tracking with snap icons and time elements; axe checks                                                                      |
 | Breadcrumbs      | Verified (Planned page) | Playground (overflow/separator); router trail, short labels, icons; current-page, disclosure open/Escape and axe checks                                             |
 | Dock             | Verified (Planned page) | Playground (size/labels, static); destinations with badge and disabled item, activeId; aria-current and axe checks                                                  |
 | Link             | Verified (Planned page) | Playground (color/hover/zdDisabled); Router current page, unavailable href link, external link; disabled guard and axe checks                                       |
@@ -177,6 +185,16 @@ so the page must not set their width (the customization section says so). Initia
 changed, so the component visual suite is not affected; the docs-site visual suite still waits for
 Windows baselines (T07).
 
+**Data display round B (2026-09-25).** Eight more Planned pages: Hover 3D Card, Hover Gallery,
+List, Stat, Status, Table, Text Rotate and Timeline; every Data display component now has a page.
+Hover 3D, Hover Gallery and Text Rotate have no inputs, so their playground slot holds a live
+example. Findings: daisyUI's `stats` scrolls sideways when it doesn't fit, which axe flags unless the
+row is focusable (the page adds `tabindex="0"` and says so); Angular's `CurrencyPipe` on a lazy page
+pulled about 10 kB into the initial bundle, so the Stat example formats with `Intl.NumberFormat`.
+The Hover 3D summary no longer claims a reduced-motion fallback (daisyUI has none). Timeline's page
+CSS is 10.2 kB (over the 8 kB warning, under the error). Initial bundle 410.3 → 412.4 kB; docs e2e
+46/46 with a new Stat/Table behaviour test.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -184,11 +202,11 @@ Windows baselines (T07).
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 45 / 45 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 46 / 46 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (54 sitemap routes, 64 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 410.3 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (202 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (62 sitemap routes, 72 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 412.4 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (226 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations
