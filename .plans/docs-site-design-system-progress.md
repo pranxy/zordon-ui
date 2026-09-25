@@ -155,7 +155,7 @@ stylesheet; Pagination only adds daisyUI's join classes. Initial bundle 405.8 â†
 44/44 (the two docs-navigation tests are intermittently flaky in full runs and pass on rerun, as
 before this round); docs visual suite identical to the previous render.
 
-- **Library bug (Link + RouterLink):** `zdDisabled` only calls `preventDefault()`, which stops a
+- **Library bug (Link + RouterLink), logged as L01 in `.plans/library-follow-ups.md`:** `zdDisabled` only calls `preventDefault()`, which stops a
   native href but not RouterLink, so a disabled `<a zdLink routerLink>` still navigates. The docs
   claim otherwise (`docs/components/link.md`). The page uses an href example and says it doesn't
   stop RouterLink. A fix needs a decision: stop propagation in a capture listener (contradicting
