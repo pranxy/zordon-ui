@@ -1,0 +1,7 @@
+/* daisyUI classes Stack emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: stack;
+}
+@source inline('stack stack-top stack-bottom stack-start stack-end');

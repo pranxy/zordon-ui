@@ -146,7 +146,7 @@ export const navbarPlaygroundSnippet: PlaygroundTemplateSnippet = {
   <a zdNavbarStart routerLink="/">Acme</a>
   <a zdLink routerLink="/pricing">Pricing</a>
   <a zdLink routerLink="/docs">Docs</a>
-  <a zdNavbarEnd zdButton routerLink="/signin" size="sm">Sign in</a>
+  <a zdNavbarEnd zdButton href="/signin" routerLink="/signin" size="sm">Sign in</a>
 </zd-navbar>`,
 };
 

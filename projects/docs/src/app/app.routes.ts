@@ -38,6 +38,15 @@ const pageLoaders = {
     import('./pages/text-rotate.component').then(module => module.TextRotatePageComponent),
   'timeline': () =>
     import('./pages/timeline.component').then(module => module.TimelinePageComponent),
+  'divider': () => import('./pages/divider.component').then(module => module.DividerPageComponent),
+  'drawer': () => import('./pages/drawer.component').then(module => module.DrawerPageComponent),
+  'footer': () => import('./pages/footer.component').then(module => module.FooterPageComponent),
+  'hero': () => import('./pages/hero.component').then(module => module.HeroPageComponent),
+  'indicator': () =>
+    import('./pages/indicator.component').then(module => module.IndicatorPageComponent),
+  'join': () => import('./pages/join.component').then(module => module.JoinPageComponent),
+  'mask': () => import('./pages/mask.component').then(module => module.MaskPageComponent),
+  'stack': () => import('./pages/stack.component').then(module => module.StackPageComponent),
   'carousel': () =>
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),
   'collapse': () =>

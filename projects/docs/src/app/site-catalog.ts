@@ -409,6 +409,79 @@ export const timelinePage = defineComponentPage({
   examples: [['snap', 'Order tracking']],
 });
 
+export const dividerPage = defineComponentPage({
+  id: 'divider',
+  label: 'Divider',
+  description: 'Divider draws a separator on an hr or a labelled element, in any theme color.',
+  maturity: 'planned',
+  examples: [
+    ['thematic-break', 'Thematic break'],
+    ['responsive', 'Responsive direction'],
+  ],
+});
+
+export const drawerPage = defineComponentPage({
+  id: 'drawer',
+  label: 'Drawer',
+  description:
+    'Drawer is a side panel that is a modal on small screens and an inline sidebar on wide ones.',
+  maturity: 'planned',
+  examples: [['guarded', 'Guarded close']],
+});
+
+export const footerPage = defineComponentPage({
+  id: 'footer',
+  label: 'Footer',
+  description:
+    'Footer lays out link columns, a brand block or a centred line on your own footer element.',
+  maturity: 'planned',
+  examples: [['brand', 'Centered brand footer']],
+});
+
+export const heroPage = defineComponentPage({
+  id: 'hero',
+  label: 'Hero',
+  description:
+    'Hero is a large banner with centred content over an optional background and overlay.',
+  maturity: 'planned',
+  examples: [['side-by-side', 'Side by side']],
+});
+
+export const indicatorPage = defineComponentPage({
+  id: 'indicator',
+  label: 'Indicator',
+  description: 'Indicator places a badge, dot or label on a corner of another element.',
+  maturity: 'planned',
+  examples: [
+    ['count', 'Count on a button'],
+    ['presence', 'Presence dot'],
+  ],
+});
+
+export const joinPage = defineComponentPage({
+  id: 'join',
+  label: 'Join',
+  description: 'Join butts native controls together into one segmented group.',
+  maturity: 'planned',
+  examples: [['search', 'Field and button']],
+});
+
+export const maskPage = defineComponentPage({
+  id: 'mask',
+  label: 'Mask',
+  description: 'Mask clips any element to a daisyUI shape, including half shapes.',
+  maturity: 'planned',
+  examples: [['halves', 'Half masks']],
+});
+
+export const stackPage = defineComponentPage({
+  id: 'stack',
+  label: 'Stack',
+  description: 'Stack layers its children on top of each other with the rest peeking out.',
+  maturity: 'planned',
+  examples: [['notifications', 'Notification pile']],
+});
+
 export const collapsePage = defineComponentPage({
   id: 'collapse',
   label: 'Collapse',
@@ -891,6 +964,14 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   togglePage,
   validatorPage,
   otpPage,
+  dividerPage,
+  drawerPage,
+  footerPage,
+  heroPage,
+  indicatorPage,
+  joinPage,
+  maskPage,
+  stackPage,
 ] as const);
 
 export const typedVocabulariesPage = defineSitePage({
@@ -903,7 +984,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: 'otp',
+  previousId: 'stack',
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',

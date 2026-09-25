@@ -82,6 +82,14 @@ describe('component catalogue', () => {
       'toggle',
       'validator',
       'otp',
+      'divider',
+      'drawer',
+      'footer',
+      'hero',
+      'indicator',
+      'join',
+      'mask',
+      'stack',
     ]);
   });
 

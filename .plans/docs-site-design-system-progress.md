@@ -77,6 +77,14 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Label            | Verified (Planned page) | Playground (directive); association, floating label; label-focus and axe checks                                                                                     |
 | Validator        | Verified (Planned page) | Playground (type/required); native constraints, pattern and hint, Angular Forms via aria-invalid; hint and aria-invalid checks                                      |
 | OTP              | Verified (Planned page) | Playground (length); Reactive Forms, letters and digits, completion; typing/completion and axe checks                                                               |
+| Divider          | Verified (Planned page) | Playground (color/orientation/placement); thematic break on hr, responsive direction with md:divider-horizontal; axe checks                                         |
+| Drawer           | Verified (Planned page) | Playground (mode/side in a bounded frame); guarded close refusing an Escape request; refusal, focus-return and axe checks                                           |
+| Footer           | Verified (Planned page) | Playground (direction/center); centred brand footer; axe checks                                                                                                     |
+| Hero             | Verified (Planned page) | Live example (no inputs) with overlay; side-by-side content; axe checks                                                                                             |
+| Indicator        | Verified (Planned page) | Playground (horizontal/vertical placement); count in a button name, presence dot; axe checks                                                                        |
+| Join             | Verified (Planned page) | Playground (direction) with aria-pressed buttons; labelled search field and submit; native-submit and axe checks                                                    |
+| Mask             | Verified (Planned page) | Playground (shape/half); half-star rating with a text score; axe checks                                                                                             |
+| Stack            | Verified (Planned page) | Playground (vertical/horizontal alignment); notification pile; axe checks                                                                                           |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -195,6 +203,16 @@ The Hover 3D summary no longer claims a reduced-motion fallback (daisyUI has non
 CSS is 10.2 kB (over the 8 kB warning, under the error). Initial bundle 410.3 → 412.4 kB; docs e2e
 46/46 with a new Stat/Table behaviour test.
 
+**Layout round (2026-09-25).** Eight Planned pages; every Layout component now has a page. Drawer
+needs no daisyUI CSS (it ships its own). `md:` variants in page stylesheets need
+`@theme { --breakpoint-md: 48rem; }`, since the page files don't import Tailwind's theme (Divider,
+Footer). Join's shared stylesheet now also compiles `join-horizontal` and `join-vertical`. Two
+library findings, logged in `.plans/library-follow-ups.md`: an `hr` Divider shows its own border
+above daisyUI's line (L09; the page resets it), and Button's `a[href][zdButton]` selector misses
+anchors that only have `routerLink` (L10; the Navbar page's example lacked the static `href` and is
+fixed). Phone and Window Mockup have no library entry point, so they stay catalogue-only. Initial
+bundle 412.4 → 414.5 kB; docs e2e 47/47 with a new Drawer/Join behaviour test.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -202,11 +220,11 @@ CSS is 10.2 kB (over the 8 kB warning, under the error). Initial bundle 410.3 �
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 46 / 46 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 47 / 47 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (62 sitemap routes, 72 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 412.4 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (226 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (70 sitemap routes, 80 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 414.5 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (248 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

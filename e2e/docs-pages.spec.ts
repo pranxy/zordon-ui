@@ -51,6 +51,18 @@ const publicRoutes = [
   { path: '/components/table', heading: 'Table', body: /table styling on a native table/i },
   { path: '/components/text-rotate', heading: 'Text Rotate', body: /rotating words/i },
   { path: '/components/timeline', heading: 'Timeline', body: /event layout on a native list/i },
+  { path: '/components/divider', heading: 'Divider', body: /separator line on your own element/i },
+  { path: '/components/drawer', heading: 'Drawer', body: /side panel beside your content/i },
+  {
+    path: '/components/footer',
+    heading: 'Footer',
+    body: /footer grid on your own footer element/i,
+  },
+  { path: '/components/hero', heading: 'Hero', body: /large banner layout/i },
+  { path: '/components/indicator', heading: 'Indicator', body: /corner placement/i },
+  { path: '/components/join', heading: 'Join', body: /segmented group/i },
+  { path: '/components/mask', heading: 'Mask', body: /shape masks/i },
+  { path: '/components/stack', heading: 'Stack', body: /layered pile/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
   { path: '/components/breadcrumbs', heading: 'Breadcrumbs', body: /ending at the current page/i },
@@ -915,4 +927,27 @@ test('Stat actions update the value and Table keeps native headers', async ({ pa
   const scroller = page.getByRole('region', { name: 'Deployments, scrollable' });
   await scroller.focus();
   await expect(scroller).toBeFocused();
+});
+
+test('Drawer close requests can be refused and Join keeps native submit', async ({ page }) => {
+  await page.goto('/components/drawer');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const edit = page.getByRole('button', { name: 'Edit profile' });
+  await edit.click();
+  const drawer = page.getByRole('dialog', { name: 'Edit profile' });
+  await expect(drawer).toBeVisible();
+  await drawer.getByRole('textbox', { name: 'Name' }).fill('Ada King');
+  await page.keyboard.press('Escape');
+  await expect(page.getByText('Last request: escape')).toBeVisible();
+  await expect(drawer.getByText('You have unsaved changes.')).toBeVisible();
+  await drawer.getByRole('button', { name: 'Discard changes' }).click();
+  await expect(drawer).toHaveCount(0);
+  await expect(edit).toBeFocused();
+
+  await page.goto('/components/join');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const search = page.getByRole('search');
+  await search.getByRole('searchbox', { name: 'Search components' }).fill('drawer');
+  await search.getByRole('searchbox', { name: 'Search components' }).press('Enter');
+  await expect(page.getByText('Searched for “drawer”')).toBeVisible();
 });

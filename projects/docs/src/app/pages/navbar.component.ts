@@ -61,7 +61,9 @@ class NavbarDaisyStylesComponent {}
               <a zdNavbarStart class="brand" routerLink="/">Acme</a>
               <a zdLink routerLink="/components">Pricing</a>
               <a zdLink routerLink="/docs/getting-started">Docs</a>
-              <a zdNavbarEnd zdButton size="sm" routerLink="/resources">Sign in</a>
+              <a zdNavbarEnd zdButton size="sm" href="/resources" routerLink="/resources"
+                >Sign in</a
+              >
             </zd-navbar>
           </div>
         </ng-template>

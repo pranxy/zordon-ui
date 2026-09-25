@@ -1,0 +1,11 @@
+/* daisyUI classes Divider emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+/* The md: variant needs its breakpoint; the full Tailwind theme isn't imported here. */
+@theme {
+  --breakpoint-md: 48rem;
+}
+@plugin 'daisyui' {
+  themes: false;
+  include: divider;
+}
+@source inline('divider-neutral divider-primary divider-secondary divider-accent divider-info divider-success divider-warning divider-error divider-vertical divider-horizontal divider-start divider-end md:divider-horizontal');

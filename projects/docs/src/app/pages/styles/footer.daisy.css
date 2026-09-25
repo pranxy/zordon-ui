@@ -1,0 +1,11 @@
+/* daisyUI classes Footer emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+/* The md: variant needs its breakpoint; the full Tailwind theme isn't imported here. */
+@theme {
+  --breakpoint-md: 48rem;
+}
+@plugin 'daisyui' {
+  themes: false;
+  include: footer;
+}
+@source inline('footer footer-horizontal footer-vertical footer-center footer-title md:footer-horizontal');
