@@ -1,0 +1,7 @@
+/* daisyUI classes only the browser fixture renders, kept out of the site's global stylesheet. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: divider, link;
+}
+@source inline('divider-vertical divider-horizontal divider-start divider-end divider-neutral divider-primary divider-secondary divider-accent divider-info divider-success divider-warning divider-error link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error text-base-content');

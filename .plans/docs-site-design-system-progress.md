@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-25 (Data input complete: Fieldset, File Input, Filter, Label, Validator, OTP)
+- **Updated:** 2026-09-25 (initial bundle reduced to 402.3 kB: zoneless docs app, fixture-only daisyUI classes moved out of the global stylesheet)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -102,6 +102,13 @@ optional for entry points without public types. Initial bundle: 453.6 kB. **Libr
 cells hard-code the `input` class instead of using `ZdClassNames`, so they ignore a configured
 daisyUI prefix.
 
+**Bundle reduction (2026-09-25).** Measuring showed page outlines are a tiny share of the
+per-page cost (27 characters on average), so the per-route outline idea was dropped. Instead, the
+docs app runs zoneless (-37.6 kB), and daisyUI classes only the browser test fixture uses moved from
+the global stylesheet into that fixture (-13.7 kB). Initial bundle 453.6 → 402.3 kB. Visual suite
+84/84 identical; browser 196/197 (known Menu flake), docs e2e 38/38. See
+docs/testing/bundle-size-budgets.md.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -112,7 +119,7 @@ daisyUI prefix.
 | Docs Playwright (`playwright.docs.config.ts`) | 38 / 38 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
 | `npm run check:docs:links`                    | Pass (29 sitemap routes, 36 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 453.6 kB initial (Angular build warns above 450,000 bytes)                                      |
+| `npm run check:docs:performance`              | Pass at 402.3 kB initial                                                                                |
 | `npm run check:docs:design-system`            | Pass (130 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 

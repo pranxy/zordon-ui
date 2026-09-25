@@ -11,6 +11,7 @@ import {
   OnDestroy,
   signal,
   ViewContainerRef,
+  ViewEncapsulation,
   viewChild,
 } from '@angular/core';
 import { ZdTheme } from '@pranxy/zordon-ui';
@@ -107,9 +108,27 @@ class PositionedOverlayPanelComponent {
 })
 class ScrollLockPanelComponent {}
 
+/**
+ * Loads the daisyUI classes only this fixture renders (Avatar, Badge, Card, Divider modifiers,
+ * Link), which the site's global stylesheet no longer compiles. Unencapsulated, so they cascade
+ * exactly as they did from the global stylesheet.
+ */
+@Component({
+  selector: 'docs-browser-fixture-daisy-styles',
+  template: '',
+  styleUrls: [
+    './browser-avatar-badge-fixture.css',
+    './browser-card-fixture.css',
+    './browser-divider-link-fixture.css',
+  ],
+  encapsulation: ViewEncapsulation.None,
+})
+class BrowserFixtureDaisyStylesComponent {}
+
 @Component({
   selector: 'docs-browser-test-fixture',
   imports: [
+    BrowserFixtureDaisyStylesComponent,
     CalendarGridProbeComponent,
     AsyncActionProbeComponent,
     CdkConnectedOverlay,
@@ -277,6 +296,7 @@ class ScrollLockPanelComponent {}
     }
   `,
   template: `
+    <docs-browser-fixture-daisy-styles />
     <article class="grid max-w-2xl gap-8">
       <header>
         <h1 class="text-3xl font-bold">Browser integration fixture</h1>
