@@ -63,6 +63,8 @@ const publicRoutes = [
   { path: '/components/join', heading: 'Join', body: /segmented group/i },
   { path: '/components/mask', heading: 'Mask', body: /shape masks/i },
   { path: '/components/stack', heading: 'Stack', body: /layered pile/i },
+  { path: '/components/browser-mockup', heading: 'Browser Mockup', body: /browser window frame/i },
+  { path: '/components/code-mockup', heading: 'Code Mockup', body: /terminal-style frame/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
   { path: '/components/breadcrumbs', heading: 'Breadcrumbs', body: /ending at the current page/i },

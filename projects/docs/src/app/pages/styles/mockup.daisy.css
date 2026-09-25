@@ -1,0 +1,7 @@
+/* daisyUI's mockup classes, for Browser and Code Mockup, compiled only for the pages that use them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: mockup;
+}
+@source inline('mockup-browser mockup-browser-toolbar mockup-code input');

@@ -47,6 +47,10 @@ const pageLoaders = {
   'join': () => import('./pages/join.component').then(module => module.JoinPageComponent),
   'mask': () => import('./pages/mask.component').then(module => module.MaskPageComponent),
   'stack': () => import('./pages/stack.component').then(module => module.StackPageComponent),
+  'browser-mockup': () =>
+    import('./pages/browser-mockup.component').then(module => module.BrowserMockupPageComponent),
+  'code-mockup': () =>
+    import('./pages/code-mockup.component').then(module => module.CodeMockupPageComponent),
   'carousel': () =>
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),
   'collapse': () =>

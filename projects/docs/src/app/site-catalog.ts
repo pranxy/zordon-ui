@@ -482,6 +482,22 @@ export const stackPage = defineComponentPage({
   examples: [['notifications', 'Notification pile']],
 });
 
+export const browserMockupPage = defineComponentPage({
+  id: 'browser-mockup',
+  label: 'Browser Mockup',
+  description: 'Browser Mockup frames your preview in a browser window with an address bar.',
+  maturity: 'planned',
+  examples: [['screenshot', 'Captioned screenshot']],
+});
+
+export const codeMockupPage = defineComponentPage({
+  id: 'code-mockup',
+  label: 'Code Mockup',
+  description: 'Code Mockup frames native code lines with prompts or line numbers.',
+  maturity: 'planned',
+  examples: [['output', 'Numbered output']],
+});
+
 export const collapsePage = defineComponentPage({
   id: 'collapse',
   label: 'Collapse',
@@ -972,6 +988,8 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   joinPage,
   maskPage,
   stackPage,
+  browserMockupPage,
+  codeMockupPage,
 ] as const);
 
 export const typedVocabulariesPage = defineSitePage({
@@ -984,7 +1002,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: 'stack',
+  previousId: 'code-mockup',
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',

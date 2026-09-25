@@ -85,6 +85,8 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Join             | Verified (Planned page) | Playground (direction) with aria-pressed buttons; labelled search field and submit; native-submit and axe checks                                                    |
 | Mask             | Verified (Planned page) | Playground (shape/half); half-star rating with a text score; axe checks                                                                                             |
 | Stack            | Verified (Planned page) | Playground (vertical/horizontal alignment); notification pile; axe checks                                                                                           |
+| Browser Mockup   | Verified (Planned page) | Live example (no inputs) with an address bar; captioned screenshot; axe checks                                                                                      |
+| Code Mockup      | Verified (Planned page) | Live example (no inputs) with a prompt prefix; numbered output with a highlighted line; axe checks                                                                  |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -213,6 +215,12 @@ anchors that only have `routerLink` (L10; the Navbar page's example lacked the s
 fixed). Phone and Window Mockup have no library entry point, so they stay catalogue-only. Initial
 bundle 412.4 → 414.5 kB; docs e2e 47/47 with a new Drawer/Join behaviour test.
 
+**Mockups round (2026-09-25).** Browser and Code Mockup pages share `mockup.daisy.css`. Phone and
+Window Mockup have no library entry point, so they stay catalogue-only: 66 of the 68 catalogue
+entries now have a reference page. Divider's side-by-side examples got taller boxes, since daisyUI's
+label gap leaves almost no line on a 4rem row. Initial bundle 414.5 → 415.1 kB; docs e2e 47/47 (the
+two docs-navigation tests and, once, the FAB/Modal test flaked in a full run and passed on rerun).
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -222,9 +230,9 @@ bundle 412.4 → 414.5 kB; docs e2e 47/47 with a new Drawer/Join behaviour test.
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
 | Docs Playwright (`playwright.docs.config.ts`) | 47 / 47 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (70 sitemap routes, 80 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 414.5 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (248 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (72 sitemap routes, 82 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 415.1 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (253 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

@@ -90,6 +90,8 @@ describe('component catalogue', () => {
       'join',
       'mask',
       'stack',
+      'browser-mockup',
+      'code-mockup',
     ]);
   });
 

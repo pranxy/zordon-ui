@@ -111,6 +111,11 @@ class DividerDaisyStylesComponent {}
       inline-size: min(32rem, 100%);
     }
 
+    /* Side by side, the label's gap takes 2rem, so give the lines room to show. */
+    .pair.side .option {
+      min-block-size: 8rem;
+    }
+
     .option {
       display: grid;
       flex: 1;
@@ -139,6 +144,10 @@ class DividerDaisyStylesComponent {}
       .pair.responsive {
         flex-direction: row;
         inline-size: min(32rem, 100%);
+      }
+
+      .pair.responsive .option {
+        min-block-size: 8rem;
       }
     }
   `,

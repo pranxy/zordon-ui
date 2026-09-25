@@ -36,6 +36,8 @@ const routeMatrix = [
   { path: '/components/join', heading: 'Join', status: 200 },
   { path: '/components/mask', heading: 'Mask', status: 200 },
   { path: '/components/stack', heading: 'Stack', status: 200 },
+  { path: '/components/browser-mockup', heading: 'Browser Mockup', status: 200 },
+  { path: '/components/code-mockup', heading: 'Code Mockup', status: 200 },
   { path: '/components/carousel', heading: 'Carousel', status: 200 },
   { path: '/components/collapse', heading: 'Collapse', status: 200 },
   { path: '/components/breadcrumbs', heading: 'Breadcrumbs', status: 200 },

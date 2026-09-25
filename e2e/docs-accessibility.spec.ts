@@ -62,6 +62,8 @@ test('component reference pages have no serious accessibility violations, includ
     '/components/join',
     '/components/mask',
     '/components/stack',
+    '/components/browser-mockup',
+    '/components/code-mockup',
     '/components/carousel',
     '/components/collapse',
     '/components/kbd',
