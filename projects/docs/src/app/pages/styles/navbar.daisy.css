@@ -1,0 +1,7 @@
+/* daisyUI classes Navbar emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: navbar;
+}
+@source inline('navbar navbar-start navbar-center navbar-end');

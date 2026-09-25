@@ -25,6 +25,13 @@ const publicRoutes = [
   { path: '/components/swap', heading: 'Swap', body: /native checkbox or toggle button/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
+  { path: '/components/breadcrumbs', heading: 'Breadcrumbs', body: /ending at the current page/i },
+  { path: '/components/dock', heading: 'Dock', body: /bottom navigation bar of native links/i },
+  { path: '/components/link', heading: 'Link', body: /underlined link style on a real anchor/i },
+  { path: '/components/navbar', heading: 'Navbar', body: /start, center and end regions/i },
+  { path: '/components/pagination', heading: 'Pagination', body: /keep the page in the URL/i },
+  { path: '/components/steps', heading: 'Steps', body: /named ordered list of process steps/i },
+  { path: '/components/tabs', heading: 'Tabs', body: /built on Angular Aria/i },
   { path: '/components/megamenu', heading: 'Megamenu', body: /multi-column surface/i },
   { path: '/components/menu', heading: 'Menu', body: /selectable Angular Aria tree/i },
   { path: '/components/calendar', heading: 'Calendar', body: /civil YYYY-MM-DD strings/i },
@@ -707,6 +714,93 @@ test('FAB, Modal and Theme Controller keep native focus and state', async ({ pag
     'data-theme',
     'dark',
   );
+});
+
+test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', async ({ page }) => {
+  await page.goto('/components/breadcrumbs');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const docsTrail = page.getByRole('navigation', { name: 'Documentation path' });
+  await expect(docsTrail.locator('[aria-current="page"]')).toContainText('Breadcrumbs');
+  const pagePath = page.getByRole('navigation', { name: 'Page path' });
+  await pagePath.locator('summary').click();
+  await expect(pagePath.getByRole('link', { name: 'Components' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(pagePath.getByRole('link', { name: 'Components' })).toBeHidden();
+
+  await page.goto('/components/dock');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const dock = page.getByRole('navigation', { name: 'Example destinations' });
+  await expect(dock.getByRole('link', { name: 'Dock' })).toHaveAttribute('aria-current', 'page');
+  await expect(dock.getByRole('link', { name: /3 unread messages/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Costs' }).click();
+  const sections = page.getByRole('navigation', { name: 'Report sections' });
+  await expect(sections.getByRole('link', { name: 'Costs' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+
+  await page.goto('/components/link');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const billing = page.getByRole('link', { name: 'Billing history' });
+  await expect(billing).toHaveAttribute('aria-disabled', 'true');
+  // Playwright won't click an aria-disabled element; Enter is the native activation.
+  await billing.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/components\/link$/);
+  await page.getByRole('checkbox', { name: 'Account paid' }).check();
+  await expect(billing).not.toHaveAttribute('aria-disabled', 'true');
+  await expect(
+    page.getByRole('navigation', { name: 'Example links' }).getByRole('link', { name: 'Link' }),
+  ).toHaveAttribute('aria-current', 'page');
+
+  await page.goto('/components/navbar');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const filters = page.getByRole('button', { name: 'Filters', exact: true });
+  await expect(filters).toHaveAttribute('aria-expanded', 'false');
+  await filters.click();
+  await expect(filters).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('region', { name: 'Filters' })).toBeVisible();
+});
+
+test('Pagination, Steps and Tabs accept requests through their inputs', async ({ page }) => {
+  await page.goto('/components/pagination');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const results = page.getByRole('navigation', { name: 'Result pages' });
+  await results.getByRole('button', { name: 'Page 6' }).click();
+  await expect(results.getByRole('button', { name: 'Page 6' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  await page.getByRole('combobox', { name: 'Items per page' }).first().selectOption('50');
+  await expect(page.getByText('Showing orders 1–50 of 1,284')).toBeVisible();
+  await page
+    .getByRole('navigation', { name: 'Catalog pages' })
+    .getByRole('link', { name: 'Page 2' })
+    .click();
+  await expect(page).toHaveURL(/[?&]page=2/);
+
+  await page.goto('/components/steps');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('button', { name: 'Continue' }).first().click();
+  await expect(page.getByRole('heading', { name: 'Delivery' })).toBeFocused();
+  await expect(
+    page.getByRole('list', { name: 'Checkout' }).locator('[aria-current="step"]'),
+  ).toContainText('Delivery');
+
+  await page.goto('/components/tabs');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const project = page.getByRole('tablist', { name: 'Project' });
+  await project.getByRole('tab', { name: 'Overview' }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(project.getByRole('tab', { name: 'Activity' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  );
+  await expect(page.getByText('12 commits and 3 reviews this week.')).toBeVisible();
+  await page.getByRole('button', { name: 'Close app.ts' }).click();
+  await expect(
+    page.getByRole('tablist', { name: 'Open files' }).getByRole('tab', { name: 'app.ts' }),
+  ).toHaveCount(0);
 });
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {

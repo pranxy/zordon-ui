@@ -25,7 +25,7 @@ test('component reference pages have no serious accessibility violations, includ
   runAxeScan,
 }) => {
   // One axe scan per reference page plus the open states.
-  test.setTimeout(390_000);
+  test.setTimeout(480_000);
   const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
     results.violations.filter(
       violation => violation.impact === 'critical' || violation.impact === 'serious',
@@ -41,6 +41,13 @@ test('component reference pages have no serious accessibility violations, includ
     '/components/carousel',
     '/components/collapse',
     '/components/kbd',
+    '/components/breadcrumbs',
+    '/components/dock',
+    '/components/link',
+    '/components/navbar',
+    '/components/pagination',
+    '/components/steps',
+    '/components/tabs',
     '/components/megamenu',
     '/components/menu',
     '/components/alert',

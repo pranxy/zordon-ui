@@ -19,6 +19,15 @@ const pageLoaders = {
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),
   'collapse': () =>
     import('./pages/collapse.component').then(module => module.CollapsePageComponent),
+  'breadcrumbs': () =>
+    import('./pages/breadcrumbs.component').then(module => module.BreadcrumbsPageComponent),
+  'dock': () => import('./pages/dock.component').then(module => module.DockPageComponent),
+  'link': () => import('./pages/link.component').then(module => module.LinkPageComponent),
+  'navbar': () => import('./pages/navbar.component').then(module => module.NavbarPageComponent),
+  'pagination': () =>
+    import('./pages/pagination.component').then(module => module.PaginationPageComponent),
+  'steps': () => import('./pages/steps.component').then(module => module.StepsPageComponent),
+  'tabs': () => import('./pages/tabs.component').then(module => module.TabsPageComponent),
   'megamenu': () =>
     import('./pages/megamenu.component').then(module => module.MegamenuPageComponent),
   'menu': () => import('./pages/menu.component').then(module => module.MenuPageComponent),

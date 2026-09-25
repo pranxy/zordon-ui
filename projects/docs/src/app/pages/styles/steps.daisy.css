@@ -1,0 +1,7 @@
+/* daisyUI step color modifiers (Steps packages its own geometry), compiled only for the page that uses them. */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: steps;
+}
+@source inline('step-neutral step-primary step-secondary step-accent step-info step-success step-warning step-error');

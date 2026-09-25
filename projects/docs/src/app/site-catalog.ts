@@ -301,6 +301,91 @@ export const menuPage = defineComponentPage({
   ],
 });
 
+export const breadcrumbsPage = defineComponentPage({
+  id: 'breadcrumbs',
+  label: 'Breadcrumbs',
+  description:
+    'Breadcrumbs shows the path to the current page as native links, collapsing long trails.',
+  maturity: 'planned',
+  examples: [
+    ['router', 'Router links'],
+    ['short-labels', 'Short labels'],
+    ['icons', 'Icons'],
+  ],
+});
+
+export const dockPage = defineComponentPage({
+  id: 'dock',
+  label: 'Dock',
+  description: 'Dock is a bottom navigation bar of native links with icons, labels and badges.',
+  maturity: 'planned',
+  examples: [
+    ['destinations', 'Destinations and badges'],
+    ['active-id', 'Choosing the current item'],
+  ],
+});
+
+export const linkPage = defineComponentPage({
+  id: 'link',
+  label: 'Link',
+  description: 'Link applies daisyUI link styling to a native anchor, with an unavailable state.',
+  maturity: 'planned',
+  examples: [
+    ['router', 'Router and current page'],
+    ['unavailable', 'Unavailable'],
+    ['external', 'External links'],
+  ],
+});
+
+export const navbarPage = defineComponentPage({
+  id: 'navbar',
+  label: 'Navbar',
+  description:
+    'Navbar lays out a named navigation bar with regions, responsive content and a panel toggle.',
+  maturity: 'planned',
+  examples: [
+    ['responsive', 'Responsive content'],
+    ['toggle', 'Toggle'],
+  ],
+});
+
+export const paginationPage = defineComponentPage({
+  id: 'pagination',
+  label: 'Pagination',
+  description:
+    'Pagination provides page controls as buttons or query-string links, with page sizes and unknown totals.',
+  maturity: 'planned',
+  examples: [
+    ['page-size', 'Page size'],
+    ['unknown-total', 'Unknown total'],
+    ['query', 'Query parameters'],
+  ],
+});
+
+export const stepsPage = defineComponentPage({
+  id: 'steps',
+  label: 'Steps',
+  description:
+    'Steps shows progress through a process, with optional step buttons for a wizard you control.',
+  maturity: 'planned',
+  examples: [
+    ['wizard', 'Wizard'],
+    ['states', 'States'],
+  ],
+});
+
+export const tabsPage = defineComponentPage({
+  id: 'tabs',
+  label: 'Tabs',
+  description:
+    'Tabs switches panels with Angular Aria keyboard support, plus closing, reordering and URL state.',
+  maturity: 'planned',
+  examples: [
+    ['templates', 'Panel templates'],
+    ['close-reorder', 'Close and reorder'],
+  ],
+});
+
 export const alertPage = defineComponentPage({
   id: 'alert',
   label: 'Alert',
@@ -610,8 +695,15 @@ export const componentReferencePages = linkComponentPages(componentsPage.id, 'ty
   carouselPage,
   collapsePage,
   kbdPage,
+  breadcrumbsPage,
+  dockPage,
+  linkPage,
   megamenuPage,
   menuPage,
+  navbarPage,
+  paginationPage,
+  stepsPage,
+  tabsPage,
   alertPage,
   loadingPage,
   progressPage,

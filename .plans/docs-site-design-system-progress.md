@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-25 (Actions pages: FAB, Modal, Theme Controller; every Actions component has a page; initial bundle 405.8 kB)
+- **Updated:** 2026-09-25 (Navigation pages: Breadcrumbs, Dock, Link, Navbar, Pagination, Steps, Tabs; initial bundle 408.0 kB)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -30,6 +30,13 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Swap             | Verified                | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                              |
 | Carousel         | Verified                | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                       |
 | Collapse         | Verified                | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                               |
+| Breadcrumbs      | Verified (Planned page) | Playground (overflow/separator); router trail, short labels, icons; current-page, disclosure open/Escape and axe checks                                             |
+| Dock             | Verified (Planned page) | Playground (size/labels, static); destinations with badge and disabled item, activeId; aria-current and axe checks                                                  |
+| Link             | Verified (Planned page) | Playground (color/hover/zdDisabled); Router current page, unavailable href link, external link; disabled guard and axe checks                                       |
+| Navbar           | Verified (Planned page) | Playground (transparent); responsive content with mobile toggle, controlled toggle panel; aria-expanded and axe checks                                              |
+| Pagination       | Verified (Planned page) | Playground (size/siblings/loading); page size with stateChange, unknown total, query links; request, size and URL checks                                            |
+| Steps            | Verified (Planned page) | Playground (orientation/color/interactive); linear wizard with heading focus, states; current-step and focus checks                                                 |
+| Tabs             | Verified (Planned page) | Playground (variant/size/activation); panel templates with preserveContent, close and reorder; arrow-key and close checks                                           |
 | Megamenu         | Verified                | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe          |
 | Menu             | Verified                | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks          |
 | Alert            | Verified (Planned page) | Playground (color/variant/direction/dismissible); colors and variants, controlled dismissal, auto-dismiss, actions and details; dismissal and axe checks            |
@@ -142,6 +149,18 @@ previews are host-target scopes, so they never change the site's own theme. Moda
 `modal-box` through a page stylesheet. Initial bundle 404.8 → 405.8 kB; docs e2e 42/42; the docs
 visual suite is identical to the previous render.
 
+**Navigation round (2026-09-25).** Seven Planned pages; every Navigation component now has a page.
+Steps' playground starts vertical because four horizontal steps need 32rem. Tabs needs no page
+stylesheet; Pagination only adds daisyUI's join classes. Initial bundle 405.8 → 408.0 kB; docs e2e
+44/44 (the two docs-navigation tests are intermittently flaky in full runs and pass on rerun, as
+before this round); docs visual suite identical to the previous render.
+
+- **Library bug (Link + RouterLink):** `zdDisabled` only calls `preventDefault()`, which stops a
+  native href but not RouterLink, so a disabled `<a zdLink routerLink>` still navigates. The docs
+  claim otherwise (`docs/components/link.md`). The page uses an href example and says it doesn't
+  stop RouterLink. A fix needs a decision: stop propagation in a capture listener (contradicting
+  the "listeners preserved" promise), or document Router links as unsupported with zdDisabled.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -149,11 +168,11 @@ visual suite is identical to the previous render.
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 42 / 42 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 44 / 44 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (39 sitemap routes, 46 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 405.8 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (159 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (46 sitemap routes, 56 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 408.0 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (179 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

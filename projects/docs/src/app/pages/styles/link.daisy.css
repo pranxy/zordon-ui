@@ -1,0 +1,7 @@
+/* daisyUI classes Link emits, compiled only for the page that uses them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: link;
+}
+@source inline('link link-hover link-neutral link-primary link-secondary link-accent link-info link-success link-warning link-error');
