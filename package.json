@@ -38,6 +38,7 @@
     "test:bundle-size": "npm run build:lib && npm run check:bundle-size",
     "test:tooling": "node --test tools/*.test.mjs",
     "check:native-attributes": "node tools/check-native-attribute-inputs.mjs",
+    "check:shared-host-inputs": "node tools/check-shared-host-inputs.mjs",
     "release:package-dry-run": "node tools/dry-run-publish.mjs",
     "release:dry-run": "npm run build:lib && npm run check:bundle-size && npm run check:api && node tools/dry-run-publish.mjs",
     "changeset": "changeset",

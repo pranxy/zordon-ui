@@ -18,36 +18,37 @@ export type ZdSwapEffect = 'fade' | 'rotate' | 'flip' | 'custom';
   host: {
     '[class]': 'classes()',
     'data-zd-swap': '',
-    '[attr.data-zd-swap-state]': 'indeterminate() ? "indeterminate" : active() ? "on" : "off"',
-    '[attr.data-zd-swap-effect]': 'effect()',
-    '[attr.aria-pressed]': 'isButton ? (indeterminate() ? "mixed" : active()) : null',
-    '[attr.aria-disabled]': 'isButton && readOnly() ? "true" : null',
+    '[attr.data-zd-swap-state]':
+      'swapIndeterminate() ? "indeterminate" : swapActive() ? "on" : "off"',
+    '[attr.data-zd-swap-effect]': 'swapEffect()',
+    '[attr.aria-pressed]': 'isButton ? (swapIndeterminate() ? "mixed" : swapActive()) : null',
+    '[attr.aria-disabled]': 'isButton && swapReadOnly() ? "true" : null',
     '(click)': 'activate()',
   },
 })
 export class ZdSwap {
-  readonly active = input(false, { transform: booleanAttribute });
-  readonly indeterminate = input(false, { transform: booleanAttribute });
-  readonly effect = input<ZdSwapEffect>('fade');
-  readonly readOnly = input(false, { transform: booleanAttribute });
-  /** Toggle-button request only. The consumer accepts by updating active. */
-  readonly activeChange = output<boolean>();
+  readonly swapActive = input(false, { transform: booleanAttribute });
+  readonly swapIndeterminate = input(false, { transform: booleanAttribute });
+  readonly swapEffect = input<ZdSwapEffect>('fade');
+  readonly swapReadOnly = input(false, { transform: booleanAttribute });
+  /** Toggle-button request only. The consumer accepts by updating swapActive. */
+  readonly swapActiveChange = output<boolean>();
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   protected readonly isButton = this.element.tagName === 'BUTTON';
   private readonly names = inject(ZdClassNames);
   protected readonly classes = computed(() =>
     [
       this.names.daisyUi('swap'),
-      this.active() && this.names.daisyUi('swap-active'),
-      (this.effect() === 'rotate' || this.effect() === 'flip') &&
-        this.names.daisyUi(`swap-${this.effect()}`),
+      this.swapActive() && this.names.daisyUi('swap-active'),
+      (this.swapEffect() === 'rotate' || this.swapEffect() === 'flip') &&
+        this.names.daisyUi(`swap-${this.swapEffect()}`),
     ]
       .filter(Boolean)
       .join(' '),
   );
   private readonly guard = afterRenderEffect(onCleanup => {
     const preventReadOnly = (event: MouseEvent) => {
-      if (this.readOnly()) {
+      if (this.swapReadOnly()) {
         event.preventDefault();
         event.stopImmediatePropagation();
       }
@@ -56,15 +57,15 @@ export class ZdSwap {
     onCleanup(() => this.element.removeEventListener('click', preventReadOnly, true));
   });
   protected activate(): void {
-    if (this.isButton && !this.readOnly() && !(this.element as HTMLButtonElement).disabled)
-      this.activeChange.emit(!this.active());
+    if (this.isButton && !this.swapReadOnly() && !(this.element as HTMLButtonElement).disabled)
+      this.swapActiveChange.emit(!this.swapActive());
   }
 }
 
 /** Keep checked, indeterminate, disabled, validation and Forms on the native input. */
 @Directive({
   selector: 'input[type="checkbox"][zdSwapInput]',
-  host: { '[attr.aria-readonly]': 'root.readOnly() ? "true" : null' },
+  host: { '[attr.aria-readonly]': 'root.swapReadOnly() ? "true" : null' },
 })
 export class ZdSwapInput {
   protected readonly root = inject(ZdSwap);

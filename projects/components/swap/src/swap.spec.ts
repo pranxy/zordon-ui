@@ -19,17 +19,17 @@ import {
       type="button"
       zdSwap
       class="consumer"
-      [active]="active()"
-      [indeterminate]="mixed()"
-      [effect]="effect()"
+      [swapActive]="active()"
+      [swapIndeterminate]="mixed()"
+      [swapEffect]="effect()"
       [disabled]="disabled()"
-      [readOnly]="readOnly()"
-      (activeChange)="requests.push($event)"
+      [swapReadOnly]="readOnly()"
+      (swapActiveChange)="requests.push($event)"
       aria-label="Mute"
     >
       <span zdSwapOn>On</span><span zdSwapOff>Off</span><span zdSwapIndeterminate>Mixed</span>
     </button>
-    <label zdSwap [readOnly]="readOnly()">
+    <label zdSwap [swapReadOnly]="readOnly()">
       <input
         type="checkbox"
         zdSwapInput
@@ -39,7 +39,7 @@ import {
       />
       <span zdSwapOn>Yes</span><span zdSwapOff>No</span><span zdSwapIndeterminate>Some</span>
     </label>
-    <div zdSwap [active]="active()" [indeterminate]="mixed()">
+    <div zdSwap [swapActive]="active()" [swapIndeterminate]="mixed()">
       <span zdSwapOn>Day</span><span zdSwapOff>Night</span>
     </div>
   `,

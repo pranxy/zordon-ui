@@ -107,7 +107,7 @@ test('packages the required Swap stylesheet and native declaration surface', asy
   assert.match(stylesheet, /forced-colors: active/);
   const report = await readWorkspaceFile('etc/api/zordon-ui-swap.api.md');
   assert.match(report, /export class ZdSwapInput/);
-  assert.match(report, /readonly activeChange/);
+  assert.match(report, /readonly swapActiveChange/);
   assert.doesNotMatch(report, /@angular\/(?:aria|cdk)/);
 });
 

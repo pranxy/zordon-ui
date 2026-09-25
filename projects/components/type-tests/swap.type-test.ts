@@ -3,7 +3,7 @@ const effect: ZdSwapEffect = 'flip';
 // @ts-expect-error unsupported effect
 const invalid: ZdSwapEffect = 'spin';
 declare const swap: ZdSwap;
-const value: boolean = swap.active();
+const value: boolean = swap.swapActive();
 // @ts-expect-error controlled input is not writable
-swap.active.set(true);
+swap.swapActive.set(true);
 void [effect, invalid, value];

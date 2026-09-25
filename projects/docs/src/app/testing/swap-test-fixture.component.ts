@@ -50,7 +50,7 @@ import {
     <section data-testid="swap-fixture" aria-label="Swap examples">
       <h1>Swap</h1>
       <div class="samples">
-        <label zdSwap effect="rotate" [readOnly]="readOnly()" data-testid="swap-checkbox">
+        <label zdSwap swapEffect="rotate" [swapReadOnly]="readOnly()" data-testid="swap-checkbox">
           <input
             type="checkbox"
             zdSwapInput
@@ -65,27 +65,33 @@ import {
         <button
           type="button"
           zdSwap
-          effect="flip"
-          [active]="muted()"
-          [readOnly]="readOnly()"
+          swapEffect="flip"
+          [swapActive]="muted()"
+          [swapReadOnly]="readOnly()"
           [disabled]="disabled()"
-          (activeChange)="muted.set($event)"
+          (swapActiveChange)="muted.set($event)"
           aria-label="Mute"
           data-testid="swap-toggle"
         >
           <span zdSwapOn>Muted</span><span zdSwapOff>Sound</span>
         </button>
-        <button type="button" zdSwap [active]="true" [disabled]="true" aria-label="Locked mode">
+        <button type="button" zdSwap [swapActive]="true" [disabled]="true" aria-label="Locked mode">
           <span zdSwapOn>Locked</span><span zdSwapOff>Open</span>
         </button>
-        <div zdSwap effect="custom" class="custom" [active]="manual()" data-testid="swap-manual">
+        <div
+          zdSwap
+          swapEffect="custom"
+          class="custom"
+          [swapActive]="manual()"
+          data-testid="swap-manual"
+        >
           <span zdSwapOn>Day</span><span zdSwapOff>Night</span>
         </div>
         <button
           type="button"
           zdSwap
           aria-label="Controlled veto"
-          (activeChange)="requests.set(requests() + 1)"
+          (swapActiveChange)="requests.set(requests() + 1)"
           data-testid="swap-veto"
         >
           <span zdSwapOn>On</span><span zdSwapOff>Off</span>

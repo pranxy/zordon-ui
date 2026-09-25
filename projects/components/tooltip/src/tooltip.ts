@@ -57,11 +57,11 @@ const TOOLTIP_OWNER = new InjectionToken<ZdTooltip>('Zordon Tooltip owner');
   host: {
     '[id]': 'owner.id',
     '[class]': 'classes()',
-    '[attr.role]': 'owner.interactive() ? "dialog" : "tooltip"',
-    '[attr.aria-label]': 'owner.interactive() ? owner.tooltipLabel() : null',
-    '[attr.tabindex]': 'owner.interactive() ? -1 : null',
-    '[style.--zd-tooltip-bg]': '"var(--color-" + owner.color() + ")"',
-    '[style.--zd-tooltip-fg]': '"var(--color-" + owner.color() + "-content)"',
+    '[attr.role]': 'owner.tooltipInteractive() ? "dialog" : "tooltip"',
+    '[attr.aria-label]': 'owner.tooltipInteractive() ? owner.tooltipLabel() : null',
+    '[attr.tabindex]': 'owner.tooltipInteractive() ? -1 : null',
+    '[style.--zd-tooltip-bg]': '"var(--color-" + owner.tooltipColor() + ")"',
+    '[style.--zd-tooltip-fg]': '"var(--color-" + owner.tooltipColor() + "-content)"',
   },
   template: `
     <div class="zd-tooltip-body">
@@ -71,7 +71,7 @@ const TOOLTIP_OWNER = new InjectionToken<ZdTooltip>('Zordon Tooltip owner');
         {{ owner.content() }}
       }
     </div>
-    @if (owner.arrow()) {
+    @if (owner.tooltipArrow()) {
       <span class="zd-tooltip-arrow" aria-hidden="true"></span>
     }
   `,
@@ -82,7 +82,8 @@ class ZdTooltipSurface {
   protected readonly classes = computed(() =>
     [
       this.names.daisyUi('tooltip-content'),
-      this.owner.color() !== 'neutral' && this.names.daisyUi(`tooltip-${this.owner.color()}`),
+      this.owner.tooltipColor() !== 'neutral' &&
+        this.names.daisyUi(`tooltip-${this.owner.tooltipColor()}`),
     ]
       .filter(Boolean)
       .join(' '),
@@ -100,25 +101,25 @@ class ZdTooltipSurface {
 })
 export class ZdTooltip {
   readonly content = input.required<string | TemplateRef<object>>({ alias: 'zdTooltip' });
-  readonly open = input<boolean | undefined>();
+  readonly tooltipOpen = input<boolean | undefined>();
   readonly tooltipDisabled = input(false, { transform: booleanAttribute });
-  readonly interactive = input(false, { transform: booleanAttribute });
+  readonly tooltipInteractive = input(false, { transform: booleanAttribute });
   readonly tooltipLabel = input('Help');
-  readonly trigger = input<ZdTooltipTrigger>('auto');
-  readonly side = input<ZdTooltipSide>('top');
-  readonly align = input<ZdTooltipAlign>('center');
-  readonly color = input<ZdTooltipColor>('neutral');
-  readonly gap = input(8, { transform: numberAttribute });
-  readonly arrow = input(true, { transform: booleanAttribute });
-  readonly autoFlip = input(true, { transform: booleanAttribute });
-  readonly showDelay = input(500, { transform: numberAttribute });
-  readonly hideDelay = input(100, { transform: numberAttribute });
-  readonly touch = input(true, { transform: booleanAttribute });
-  readonly longPressDelay = input(500, { transform: numberAttribute });
-  readonly touchHideDelay = input(1500, { transform: numberAttribute });
-  readonly panelClass = input('');
-  readonly openChange = output<boolean>();
-  readonly closed = output<ZdTooltipCloseReason>();
+  readonly tooltipTrigger = input<ZdTooltipTrigger>('auto');
+  readonly tooltipSide = input<ZdTooltipSide>('top');
+  readonly tooltipAlign = input<ZdTooltipAlign>('center');
+  readonly tooltipColor = input<ZdTooltipColor>('neutral');
+  readonly tooltipGap = input(8, { transform: numberAttribute });
+  readonly tooltipArrow = input(true, { transform: booleanAttribute });
+  readonly tooltipAutoFlip = input(true, { transform: booleanAttribute });
+  readonly tooltipShowDelay = input(500, { transform: numberAttribute });
+  readonly tooltipHideDelay = input(100, { transform: numberAttribute });
+  readonly tooltipTouch = input(true, { transform: booleanAttribute });
+  readonly tooltipLongPressDelay = input(500, { transform: numberAttribute });
+  readonly tooltipTouchHideDelay = input(1500, { transform: numberAttribute });
+  readonly tooltipPanelClass = input('');
+  readonly tooltipOpenChange = output<boolean>();
+  readonly tooltipClosed = output<ZdTooltipCloseReason>();
   readonly id = inject(ZdIdGenerator).next('tooltip');
   protected readonly ready = signal(false);
   private readonly visible = signal(false);
@@ -128,7 +129,7 @@ export class ZdTooltip {
     () =>
       !this.tooltipDisabled() &&
       (typeof this.content() !== 'string' || (this.content() as string).trim().length > 0) &&
-      (this.open() ?? this.local()),
+      (this.tooltipOpen() ?? this.local()),
   );
   private readonly origin = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly document = inject(DOCUMENT);
@@ -156,9 +157,9 @@ export class ZdTooltip {
     this.syncAria(true);
   });
   private readonly policy = afterRenderEffect(() => {
-    this.trigger();
+    this.tooltipTrigger();
     this.tooltipDisabled();
-    this.touch();
+    this.tooltipTouch();
     untracked(() => {
       this.cancelTimer();
       this.hovered = false;
@@ -169,7 +170,7 @@ export class ZdTooltip {
   private readonly render = afterRenderEffect(() => {
     const desired = this.desired();
     const positions = this.positions();
-    const mode = this.interactive();
+    const mode = this.tooltipInteractive();
     this.content();
     untracked(() => {
       if (this.handle && (!desired || this.mode !== mode)) this.dispose();
@@ -189,7 +190,7 @@ export class ZdTooltip {
     const enter = (event: PointerEvent) => {
       if (event.pointerType !== 'touch' && this.hoverEnabled()) {
         this.hovered = true;
-        this.schedule(() => this.request(true), this.showDelay(), 500);
+        this.schedule(() => this.request(true), this.tooltipShowDelay(), 500);
       }
     };
     const leave = () => {
@@ -200,7 +201,7 @@ export class ZdTooltip {
       if (
         !this.restoring &&
         !this.touching &&
-        (this.trigger() === 'auto' || this.trigger() === 'focus')
+        (this.tooltipTrigger() === 'auto' || this.tooltipTrigger() === 'focus')
       )
         this.request(true);
     };
@@ -209,7 +210,12 @@ export class ZdTooltip {
     };
     const down = (event: PointerEvent) => {
       this.consumedTouch = false;
-      if (event.pointerType !== 'touch' || !this.touch() || this.trigger() === 'manual') return;
+      if (
+        event.pointerType !== 'touch' ||
+        !this.tooltipTouch() ||
+        this.tooltipTrigger() === 'manual'
+      )
+        return;
       this.touching = true;
       this.touchStart = { x: event.clientX, y: event.clientY };
       this.schedule(
@@ -217,7 +223,7 @@ export class ZdTooltip {
           this.consumedTouch = true;
           this.request(true);
         },
-        this.longPressDelay(),
+        this.tooltipLongPressDelay(),
         500,
       );
     };
@@ -234,7 +240,7 @@ export class ZdTooltip {
       this.touching = false;
       this.cancelTimer();
       if (this.consumedTouch)
-        this.schedule(() => this.request(false, 'touch'), this.touchHideDelay(), 1500);
+        this.schedule(() => this.request(false, 'touch'), this.tooltipTouchHideDelay(), 1500);
     };
     const cancel = () => this.cancelTouch();
     const click = (event: MouseEvent) => {
@@ -242,7 +248,8 @@ export class ZdTooltip {
         this.consumedTouch = false;
         event.preventDefault();
         event.stopImmediatePropagation();
-      } else if (this.interactive() && this.trigger() !== 'manual') this.focusContent();
+      } else if (this.tooltipInteractive() && this.tooltipTrigger() !== 'manual')
+        this.focusContent();
     };
     const context = (event: MouseEvent) => {
       if (this.consumedTouch) event.preventDefault();
@@ -254,7 +261,7 @@ export class ZdTooltip {
       }
       if (
         event.key === 'F2' &&
-        this.interactive() &&
+        this.tooltipInteractive() &&
         !event.altKey &&
         !event.ctrlKey &&
         !event.metaKey &&
@@ -302,7 +309,7 @@ export class ZdTooltip {
   }
   /** Explicit keyboard/programmatic entry into interactive help. */
   focusContent(): void {
-    if (!this.interactive() || this.tooltipDisabled()) return;
+    if (!this.tooltipInteractive() || this.tooltipDisabled()) return;
     this.focusRequested = true;
     this.request(true);
     if (this.handle) {
@@ -316,11 +323,11 @@ export class ZdTooltip {
     if (next && this.tooltipDisabled()) return;
     this.closeReason = next ? undefined : reason;
     if (next === this.desired()) return;
-    if (this.open() === undefined) this.local.set(next);
-    this.openChange.emit(next);
+    if (this.tooltipOpen() === undefined) this.local.set(next);
+    this.tooltipOpenChange.emit(next);
   }
   private attach(): void {
-    this.mode = this.interactive();
+    this.mode = this.tooltipInteractive();
     const portalInjector = Injector.create({
       parent: this.injector,
       providers: [{ provide: TOOLTIP_OWNER, useValue: this }],
@@ -334,7 +341,7 @@ export class ZdTooltip {
       },
       placement: { kind: 'connected', origin: this.origin, positions: this.positions() },
       directionality: this.direction,
-      panelClass: this.panelClass().split(/\s+/).filter(Boolean),
+      panelClass: this.tooltipPanelClass().split(/\s+/).filter(Boolean),
       captureEscape: true,
       onPositionChange: position => this.positioned(position),
       canClose: reason => {
@@ -352,7 +359,7 @@ export class ZdTooltip {
     const focus = afterNextRender(
       () => {
         this.syncAria();
-        if (this.focusRequested && this.handle && this.interactive()) {
+        if (this.focusRequested && this.handle && this.tooltipInteractive()) {
           this.focusRequested = false;
           const surface = this.surface()!;
           (this.focusables(surface)[0] ?? surface).focus();
@@ -366,7 +373,7 @@ export class ZdTooltip {
     };
     const leave = () => {
       this.paneHovered = false;
-      if (this.trigger() !== 'manual') this.deferHide('hover');
+      if (this.tooltipTrigger() !== 'manual') this.deferHide('hover');
     };
     const blur = (event: FocusEvent) => {
       if (!this.contains(event.relatedTarget as Node | null)) this.deferHide('focus');
@@ -415,7 +422,7 @@ export class ZdTooltip {
       this.origin.focus();
       this.restoring = false;
     }
-    if (reason !== 'destroy') this.closed.emit(reason);
+    if (reason !== 'destroy') this.tooltipClosed.emit(reason);
     this.closeReason = undefined;
   }
   private cancelTouch(): void {
@@ -428,7 +435,7 @@ export class ZdTooltip {
     }
   }
   private hoverEnabled(): boolean {
-    return this.trigger() === 'auto' || this.trigger() === 'hover';
+    return this.tooltipTrigger() === 'auto' || this.tooltipTrigger() === 'hover';
   }
   private deferHide(reason: 'hover' | 'focus'): void {
     this.schedule(
@@ -436,7 +443,7 @@ export class ZdTooltip {
         if (!this.hovered && !this.paneHovered && !this.contains(this.document.activeElement))
           this.request(false, reason);
       },
-      this.hideDelay(),
+      this.tooltipHideDelay(),
       100,
     );
   }
@@ -474,7 +481,7 @@ export class ZdTooltip {
   private tab(event: KeyboardEvent): void {
     if (
       event.key !== 'Tab' ||
-      !this.interactive() ||
+      !this.tooltipInteractive() ||
       event.altKey ||
       event.ctrlKey ||
       event.metaKey ||
@@ -499,7 +506,7 @@ export class ZdTooltip {
     const descriptions = (this.origin.getAttribute('aria-describedby') ?? '')
       .split(/\s+/)
       .filter(value => value && value !== this.id);
-    if (!destroy && this.visible() && !this.interactive()) descriptions.push(this.id);
+    if (!destroy && this.visible() && !this.tooltipInteractive()) descriptions.push(this.id);
     if (descriptions.length) this.origin.setAttribute('aria-describedby', descriptions.join(' '));
     else this.origin.removeAttribute('aria-describedby');
     const attributes: Record<string, string | null> = {
@@ -510,7 +517,7 @@ export class ZdTooltip {
     for (const [name, value] of Object.entries(attributes)) {
       const current = this.origin.getAttribute(name);
       const owned = this.owned.get(name);
-      if (!destroy && this.interactive()) {
+      if (!destroy && this.tooltipInteractive()) {
         this.owned.set(name, {
           previous: !owned || current !== owned.last ? current : owned.previous,
           last: value,
@@ -548,9 +555,9 @@ export class ZdTooltip {
     );
   }
   private positions(): ZdOverlayConnectedPosition[] {
-    const side = this.side();
-    const align = this.align();
-    const gap = Number.isFinite(this.gap()) ? Math.max(0, this.gap()) : 0;
+    const side = this.tooltipSide();
+    const align = this.tooltipAlign();
+    const gap = Number.isFinite(this.tooltipGap()) ? Math.max(0, this.tooltipGap()) : 0;
     const position = (value: ZdTooltipSide): ZdOverlayConnectedPosition => {
       if (value === 'top' || value === 'bottom')
         return {
@@ -577,6 +584,6 @@ export class ZdTooltip {
       start: 'end',
       end: 'start',
     };
-    return this.autoFlip() ? [position(side), position(opposite[side])] : [position(side)];
+    return this.tooltipAutoFlip() ? [position(side), position(opposite[side])] : [position(side)];
   }
 }

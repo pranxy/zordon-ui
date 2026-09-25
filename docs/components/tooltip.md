@@ -18,33 +18,40 @@ Tooltip primitive; the existing CDK overlay bridge owns positioning and shared d
   <label>Draft name <input name="draftName" /></label>
   <button type="button">Apply</button>
 </ng-template>
-<button [zdTooltip]="settings" interactive tooltipLabel="Draft settings">Draft settings</button>
+<button [zdTooltip]="settings" tooltipInteractive tooltipLabel="Draft settings">
+  Draft settings
+</button>
 ```
 
 ## API
 
-| Input                               | Default        | Contract                                                                           |
-| ----------------------------------- | -------------- | ---------------------------------------------------------------------------------- |
-| `zdTooltip`                         | Required       | Plain text or `TemplateRef<object>`; blank text suppresses opening                 |
-| `open`                              | Unbound        | Bind a boolean for controlled state; otherwise local state owns visibility         |
-| `tooltipDisabled`                   | `false`        | Suppresses the overlay; does not change native host disabled state                 |
-| `interactive`                       | `false`        | Changes descriptive tooltip to a nonmodal dialog                                   |
-| `tooltipLabel`                      | `Help`         | Localized accessible name for the interactive dialog                               |
-| `trigger`                           | `auto`         | `auto`, `hover`, `focus`, `manual`                                                 |
-| `side`                              | `top`          | `top`, `bottom`, logical `start`, logical `end`                                    |
-| `align`                             | `center`       | `start`, `center`, `end`                                                           |
-| `color`                             | `neutral`      | `neutral`, `primary`, `secondary`, `accent`, `info`, `success`, `warning`, `error` |
-| `gap`                               | `8`            | Nonnegative pixel separation                                                       |
-| `arrow` / `autoFlip`                | `true`         | Arrow visibility / alternate-side collision fallback                               |
-| `showDelay` / `hideDelay`           | `500` / `100`  | Hover opening and departure grace, in milliseconds                                 |
-| `touch`                             | `true`         | Enable touch long press outside manual mode                                        |
-| `longPressDelay` / `touchHideDelay` | `500` / `1500` | Touch opening and post-release expiry, in milliseconds                             |
-| `panelClass`                        | Empty          | Consumer classes copied to the owned pane when opened                              |
+Every input and output except the `zdTooltip` content carries the `tooltip` prefix. Tooltip is
+layered onto hosts that other directives own (Button, Link, Badge, Dropdown triggers), and a plain
+`color` or `open` would bind to both.
 
-Boolean inputs except controlled `open` accept native boolean attributes. Negative delays clamp to
-zero; nonfinite numbers use defaults. `openChange` emits requested visibility. `closed` reports
-`escape`, `outside-pointer`, `focus`, `hover`, `touch`, `programmatic` or `navigation` after disposal;
-the reason type also includes `destroy`, but destruction does not emit. `id` identifies the surface;
+| Input                                             | Default        | Contract                                                                           |
+| ------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------- |
+| `zdTooltip`                                       | Required       | Plain text or `TemplateRef<object>`; blank text suppresses opening                 |
+| `tooltipOpen`                                     | Unbound        | Bind a boolean for controlled state; otherwise local state owns visibility         |
+| `tooltipDisabled`                                 | `false`        | Suppresses the overlay; does not change native host disabled state                 |
+| `tooltipInteractive`                              | `false`        | Changes descriptive tooltip to a nonmodal dialog                                   |
+| `tooltipLabel`                                    | `Help`         | Localized accessible name for the interactive dialog                               |
+| `tooltipTrigger`                                  | `auto`         | `auto`, `hover`, `focus`, `manual`                                                 |
+| `tooltipSide`                                     | `top`          | `top`, `bottom`, logical `start`, logical `end`                                    |
+| `tooltipAlign`                                    | `center`       | `start`, `center`, `end`                                                           |
+| `tooltipColor`                                    | `neutral`      | `neutral`, `primary`, `secondary`, `accent`, `info`, `success`, `warning`, `error` |
+| `tooltipGap`                                      | `8`            | Nonnegative pixel separation                                                       |
+| `tooltipArrow` / `tooltipAutoFlip`                | `true`         | Arrow visibility / alternate-side collision fallback                               |
+| `tooltipShowDelay` / `tooltipHideDelay`           | `500` / `100`  | Hover opening and departure grace, in milliseconds                                 |
+| `tooltipTouch`                                    | `true`         | Enable touch long press outside manual mode                                        |
+| `tooltipLongPressDelay` / `tooltipTouchHideDelay` | `500` / `1500` | Touch opening and post-release expiry, in milliseconds                             |
+| `tooltipPanelClass`                               | Empty          | Consumer classes copied to the owned pane when opened                              |
+
+Boolean inputs except controlled `tooltipOpen` accept native boolean attributes. Negative delays
+clamp to zero; nonfinite numbers use defaults. `tooltipOpenChange` emits requested visibility, so
+`[(tooltipOpen)]` works. `tooltipClosed` reports `escape`, `outside-pointer`, `focus`, `hover`,
+`touch`, `programmatic` or `navigation` after disposal; the reason type also includes `destroy`, but
+destruction does not emit. `id` identifies the surface;
 `expanded()` reports attached visibility. Export `#help="zdTooltip"` to call `show()`,
 `hide(reason?)` or `focusContent()`.
 
@@ -67,8 +74,8 @@ control, falling back to the surface. Native Tab moves among controls; Shift+Tab
 returns to the trigger, and Tab from the last moves beyond the trigger. Escape restores focus when
 it remains inside the dialog. Native button/link activation and Forms semantics remain consumer-owned.
 
-A controlled consumer must accept `openChange` to close. A rejected close continues shielding lower
-overlays. Changing `interactive` while open recreates the surface and emits a programmatic close for
+A controlled consumer must accept `tooltipOpenChange` to close. A rejected close continues shielding lower
+overlays. Changing `tooltipInteractive` while open recreates the surface and emits a programmatic close for
 the old surface. Manual mode disables automatic opening; explicit methods and controlled state still
 work, with Escape/outside dismissal and interactive focus departure.
 

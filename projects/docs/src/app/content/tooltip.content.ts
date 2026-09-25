@@ -29,7 +29,7 @@ export const tooltipReference: DocsReference = {
     'Hover the button, or tab to it: focus opens the tooltip at once, hover after a short delay. Escape closes it.',
   api: {
     description:
-      'A standalone directive on any focusable host. Boolean inputs other than open accept bare attributes; delays are milliseconds.',
+      'A standalone directive on any focusable host. Everything but the content is prefixed with tooltip, so it never binds to another directive on the same element, such as Button’s color. Boolean inputs other than tooltipOpen accept bare attributes; delays are milliseconds.',
     tables: [
       {
         id: 'inputs',
@@ -49,31 +49,31 @@ export const tooltipReference: DocsReference = {
             description: 'The content. Blank text never opens.',
           },
           {
-            name: 'side',
+            name: 'tooltipSide',
             type: 'ZdTooltipSide',
             default: "'top'",
             description: '`top`, `bottom`, or logical `start`/`end`.',
           },
           {
-            name: 'align',
+            name: 'tooltipAlign',
             type: 'ZdTooltipAlign',
             default: "'center'",
             description: '`start`, `center` or `end` along that side.',
           },
           {
-            name: 'color',
+            name: 'tooltipColor',
             type: 'ZdTooltipColor',
             default: "'neutral'",
             description: 'Background from a theme role, with its matching content color.',
           },
           {
-            name: 'trigger',
+            name: 'tooltipTrigger',
             type: 'ZdTooltipTrigger',
             default: "'auto'",
             description: '`auto` (hover and focus), `hover`, `focus` or `manual`.',
           },
           {
-            name: 'interactive',
+            name: 'tooltipInteractive',
             type: 'boolean',
             default: 'false',
             description: 'Turns the surface into a named, non-modal dialog for controls.',
@@ -85,10 +85,10 @@ export const tooltipReference: DocsReference = {
             description: 'Accessible name of the interactive dialog.',
           },
           {
-            name: 'open',
+            name: 'tooltipOpen',
             type: 'boolean | undefined',
             default: 'undefined',
-            description: 'Bind to control visibility yourself; accept openChange to close.',
+            description: 'Bind to control visibility yourself; accept tooltipOpenChange to close.',
           },
           {
             name: 'tooltipDisabled',
@@ -97,37 +97,37 @@ export const tooltipReference: DocsReference = {
             description: 'Stops it opening. The host’s own disabled state is untouched.',
           },
           {
-            name: 'arrow / autoFlip',
+            name: 'tooltipArrow / tooltipAutoFlip',
             type: 'boolean',
             default: 'true',
             description: 'Show the arrow; flip to the other side when there is no room.',
           },
           {
-            name: 'gap',
+            name: 'tooltipGap',
             type: 'number',
             default: '8',
             description: 'Pixels between host and surface.',
           },
           {
-            name: 'showDelay / hideDelay',
+            name: 'tooltipShowDelay / tooltipHideDelay',
             type: 'number',
             default: '500 / 100',
             description: 'Hover open delay, and grace time when the pointer leaves.',
           },
           {
-            name: 'touch',
+            name: 'tooltipTouch',
             type: 'boolean',
             default: 'true',
             description: 'Long press opens it on touch screens.',
           },
           {
-            name: 'longPressDelay / touchHideDelay',
+            name: 'tooltipLongPressDelay / tooltipTouchHideDelay',
             type: 'number',
             default: '500 / 1500',
             description: 'Press time to open, and how long it stays after release.',
           },
           {
-            name: 'panelClass',
+            name: 'tooltipPanelClass',
             type: 'string',
             default: "''",
             description: 'Classes for the overlay pane, read when it opens.',
@@ -145,12 +145,12 @@ export const tooltipReference: DocsReference = {
         ],
         rows: [
           {
-            name: 'openChange',
+            name: 'tooltipOpenChange',
             type: 'boolean',
             description: 'Requested visibility, for controlled use.',
           },
           {
-            name: 'closed',
+            name: 'tooltipClosed',
             type: 'ZdTooltipCloseReason',
             description: 'Why it closed: escape, outside-pointer, focus, hover, touch, …',
           },
@@ -196,7 +196,7 @@ export type ZdTooltipCloseReason =
         body: 'Content that people need must also be on the page, including without JavaScript.',
       },
       {
-        title: 'Controls need interactive',
+        title: 'Controls need tooltipInteractive',
         body: 'Interactive surfaces are named dialogs. F2 or activating the host moves focus in; Escape returns it.',
       },
       {
@@ -220,7 +220,7 @@ export type ZdTooltipCloseReason =
   },
   customization: {
     description:
-      'The surface reads your theme’s color variables. Add classes to its pane with panelClass; long content scrolls inside a viewport-sized box.',
+      'The surface reads your theme’s color variables. Add classes to its pane with tooltipPanelClass; long content scrolls inside a viewport-sized box.',
     code: {
       label: 'styles.css',
       language: 'css',
@@ -235,21 +235,21 @@ export type ZdTooltipCloseReason =
 export const tooltipPlaygroundControls: readonly PlaygroundControl[] = [
   {
     kind: 'choice',
-    key: 'side',
+    key: 'tooltipSide',
     options: choices(['top', 'bottom', 'start', 'end']),
     defaultValue: 'top',
     omit: ['top'],
   },
   {
     kind: 'choice',
-    key: 'align',
+    key: 'tooltipAlign',
     options: choices(['start', 'center', 'end']),
     defaultValue: 'center',
     omit: ['center'],
   },
   {
     kind: 'choice',
-    key: 'color',
+    key: 'tooltipColor',
     options: choices(themeColors),
     defaultValue: 'neutral',
     omit: ['neutral'],
@@ -272,7 +272,7 @@ export const interactiveCode = `<ng-template #settings>
   <label>Draft name <input name="draftName" /></label>
   <button type="button">Apply</button>
 </ng-template>
-<button type="button" [zdTooltip]="settings" interactive tooltipLabel="Draft settings">
+<button type="button" [zdTooltip]="settings" tooltipInteractive tooltipLabel="Draft settings">
   Draft settings
 </button>`;
 
@@ -289,8 +289,8 @@ export const controlledFiles = [
   {
     label: 'tour.html',
     language: 'html' as const,
-    code: `<button type="button" zdTooltip="New: export to PDF" trigger="manual"
-        side="bottom" color="primary" [open]="tour()" (openChange)="tour.set($event)">
+    code: `<button zdButton type="button" zdTooltip="New: export to PDF" tooltipTrigger="manual"
+        tooltipSide="bottom" tooltipColor="primary" [(tooltipOpen)]="tour">
   Export
 </button>
 <button type="button" (click)="tour.set(!tour())">Show what’s new</button>`,

@@ -10,58 +10,58 @@ import { TemplateRef } from '@angular/core';
 // @public (undocumented)
 export class ZdTooltip {
     // (undocumented)
-    readonly align: _angular_core.InputSignal<ZdTooltipAlign>;
-    // (undocumented)
-    readonly arrow: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
-    readonly autoFlip: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
-    readonly closed: _angular_core.OutputEmitterRef<ZdTooltipCloseReason>;
-    // (undocumented)
-    readonly color: _angular_core.InputSignal<ZdTooltipColor>;
-    // (undocumented)
     readonly content: _angular_core.InputSignal<string | TemplateRef<object>>;
     // (undocumented)
     readonly expanded: _angular_core.Signal<boolean>;
     focusContent(): void;
     // (undocumented)
-    readonly gap: _angular_core.InputSignalWithTransform<number, unknown>;
-    // (undocumented)
     hide(reason?: ZdTooltipCloseReason): void;
     // (undocumented)
-    readonly hideDelay: _angular_core.InputSignalWithTransform<number, unknown>;
-    // (undocumented)
     readonly id: string;
-    // (undocumented)
-    readonly interactive: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
-    readonly longPressDelay: _angular_core.InputSignalWithTransform<number, unknown>;
-    // (undocumented)
-    readonly open: _angular_core.InputSignal<boolean | undefined>;
-    // (undocumented)
-    readonly openChange: _angular_core.OutputEmitterRef<boolean>;
-    // (undocumented)
-    readonly panelClass: _angular_core.InputSignal<string>;
     // (undocumented)
     protected readonly ready: _angular_core.WritableSignal<boolean>;
     // (undocumented)
     show(): void;
     // (undocumented)
-    readonly showDelay: _angular_core.InputSignalWithTransform<number, unknown>;
+    readonly tooltipAlign: _angular_core.InputSignal<ZdTooltipAlign>;
     // (undocumented)
-    readonly side: _angular_core.InputSignal<ZdTooltipSide>;
+    readonly tooltipArrow: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
+    readonly tooltipAutoFlip: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
+    readonly tooltipClosed: _angular_core.OutputEmitterRef<ZdTooltipCloseReason>;
+    // (undocumented)
+    readonly tooltipColor: _angular_core.InputSignal<ZdTooltipColor>;
     // (undocumented)
     readonly tooltipDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
+    readonly tooltipGap: _angular_core.InputSignalWithTransform<number, unknown>;
+    // (undocumented)
+    readonly tooltipHideDelay: _angular_core.InputSignalWithTransform<number, unknown>;
+    // (undocumented)
+    readonly tooltipInteractive: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
     readonly tooltipLabel: _angular_core.InputSignal<string>;
     // (undocumented)
-    readonly touch: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly tooltipLongPressDelay: _angular_core.InputSignalWithTransform<number, unknown>;
     // (undocumented)
-    readonly touchHideDelay: _angular_core.InputSignalWithTransform<number, unknown>;
+    readonly tooltipOpen: _angular_core.InputSignal<boolean | undefined>;
     // (undocumented)
-    readonly trigger: _angular_core.InputSignal<ZdTooltipTrigger>;
+    readonly tooltipOpenChange: _angular_core.OutputEmitterRef<boolean>;
     // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdTooltip, "[zdTooltip]", ["zdTooltip"], { "content": { "alias": "zdTooltip"; "required": true; "isSignal": true; }; "open": { "alias": "open"; "required": false; "isSignal": true; }; "tooltipDisabled": { "alias": "tooltipDisabled"; "required": false; "isSignal": true; }; "interactive": { "alias": "interactive"; "required": false; "isSignal": true; }; "tooltipLabel": { "alias": "tooltipLabel"; "required": false; "isSignal": true; }; "trigger": { "alias": "trigger"; "required": false; "isSignal": true; }; "side": { "alias": "side"; "required": false; "isSignal": true; }; "align": { "alias": "align"; "required": false; "isSignal": true; }; "color": { "alias": "color"; "required": false; "isSignal": true; }; "gap": { "alias": "gap"; "required": false; "isSignal": true; }; "arrow": { "alias": "arrow"; "required": false; "isSignal": true; }; "autoFlip": { "alias": "autoFlip"; "required": false; "isSignal": true; }; "showDelay": { "alias": "showDelay"; "required": false; "isSignal": true; }; "hideDelay": { "alias": "hideDelay"; "required": false; "isSignal": true; }; "touch": { "alias": "touch"; "required": false; "isSignal": true; }; "longPressDelay": { "alias": "longPressDelay"; "required": false; "isSignal": true; }; "touchHideDelay": { "alias": "touchHideDelay"; "required": false; "isSignal": true; }; "panelClass": { "alias": "panelClass"; "required": false; "isSignal": true; }; }, { "openChange": "openChange"; "closed": "closed"; }, never, never, true, never>;
+    readonly tooltipPanelClass: _angular_core.InputSignal<string>;
+    // (undocumented)
+    readonly tooltipShowDelay: _angular_core.InputSignalWithTransform<number, unknown>;
+    // (undocumented)
+    readonly tooltipSide: _angular_core.InputSignal<ZdTooltipSide>;
+    // (undocumented)
+    readonly tooltipTouch: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
+    readonly tooltipTouchHideDelay: _angular_core.InputSignalWithTransform<number, unknown>;
+    // (undocumented)
+    readonly tooltipTrigger: _angular_core.InputSignal<ZdTooltipTrigger>;
+    // (undocumented)
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdTooltip, "[zdTooltip]", ["zdTooltip"], { "content": { "alias": "zdTooltip"; "required": true; "isSignal": true; }; "tooltipOpen": { "alias": "tooltipOpen"; "required": false; "isSignal": true; }; "tooltipDisabled": { "alias": "tooltipDisabled"; "required": false; "isSignal": true; }; "tooltipInteractive": { "alias": "tooltipInteractive"; "required": false; "isSignal": true; }; "tooltipLabel": { "alias": "tooltipLabel"; "required": false; "isSignal": true; }; "tooltipTrigger": { "alias": "tooltipTrigger"; "required": false; "isSignal": true; }; "tooltipSide": { "alias": "tooltipSide"; "required": false; "isSignal": true; }; "tooltipAlign": { "alias": "tooltipAlign"; "required": false; "isSignal": true; }; "tooltipColor": { "alias": "tooltipColor"; "required": false; "isSignal": true; }; "tooltipGap": { "alias": "tooltipGap"; "required": false; "isSignal": true; }; "tooltipArrow": { "alias": "tooltipArrow"; "required": false; "isSignal": true; }; "tooltipAutoFlip": { "alias": "tooltipAutoFlip"; "required": false; "isSignal": true; }; "tooltipShowDelay": { "alias": "tooltipShowDelay"; "required": false; "isSignal": true; }; "tooltipHideDelay": { "alias": "tooltipHideDelay"; "required": false; "isSignal": true; }; "tooltipTouch": { "alias": "tooltipTouch"; "required": false; "isSignal": true; }; "tooltipLongPressDelay": { "alias": "tooltipLongPressDelay"; "required": false; "isSignal": true; }; "tooltipTouchHideDelay": { "alias": "tooltipTouchHideDelay"; "required": false; "isSignal": true; }; "tooltipPanelClass": { "alias": "tooltipPanelClass"; "required": false; "isSignal": true; }; }, { "tooltipOpenChange": "tooltipOpenChange"; "tooltipClosed": "tooltipClosed"; }, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdTooltip, never>;
 }

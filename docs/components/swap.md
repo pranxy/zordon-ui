@@ -36,7 +36,7 @@ indication, state visibility, the indeterminate flip correction and reduced-moti
 ## Native checkbox and Forms
 
 ```html
-<label zdSwap effect="rotate" [readOnly]="locked()">
+<label zdSwap swapEffect="rotate" [swapReadOnly]="locked()">
   <input
     type="checkbox"
     zdSwapInput
@@ -56,8 +56,8 @@ Use one direct-child checkbox **before** the state parts. Checked state, `disabl
 name/value, native input/change/blur, touched/dirty state and validation remain on that input.
 Reactive Forms uses Angular's native checkbox value accessor. Template-driven forms can likewise
 use the native accessor; no additional CVA is installed. Native `checked` plus `change` bindings
-are also supported. Keep one owner for the checked value; do not bind Swap's `active` or
-`indeterminate` inputs in this mode. The checkbox's live properties own the visual state.
+are also supported. Keep one owner for the checked value; do not bind Swap's `swapActive` or
+`swapIndeterminate` inputs in this mode. The checkbox's live properties own the visual state.
 
 Indeterminate is a visual/native mixed state, independent of the boolean submitted value. Native
 activation clears it before changing checked state. Reset through the form/control when using Forms;
@@ -69,9 +69,9 @@ with an unmanaged checkbox, native form reset retains its normal default-checked
 <button
   type="button"
   zdSwap
-  effect="flip"
-  [active]="muted()"
-  (activeChange)="muted.set($event)"
+  swapEffect="flip"
+  [swapActive]="muted()"
+  (swapActiveChange)="muted.set($event)"
   [disabled]="unavailable()"
   aria-label="Mute"
 >
@@ -80,11 +80,11 @@ with an unmanaged checkbox, native form reset retains its normal default-checked
 </button>
 ```
 
-`activeChange` is a request, not an internal mutation. Ignore it to veto a change. The consumer must
-update `active` to accept. Native click, Enter and Space produce one request, with no custom keyboard
+`swapActiveChange` is a request, not an internal mutation. Ignore it to veto a change. The consumer
+must update `swapActive` to accept. Native click, Enter and Space produce one request, with no custom keyboard
 emulation. Set `type="button"` when activation must not submit a surrounding form. A native disabled
-button keeps its platform behavior. `indeterminate` sets `aria-pressed="mixed"` and shows the third
-part; accepting a mixed-state request also requires the consumer to clear `indeterminate`.
+button keeps its platform behavior. `swapIndeterminate` sets `aria-pressed="mixed"` and shows the third
+part; accepting a mixed-state request also requires the consumer to clear `swapIndeterminate`.
 
 Use a stable accessible name such as “Mute” for both states. The directive owns `aria-pressed`;
 consumers own labels and descriptions. Read-only buttons remain focusable and expose `aria-disabled`.
@@ -92,7 +92,13 @@ consumers own labels and descriptions. Read-only buttons remain focusable and ex
 ## Manual presentation
 
 ```html
-<div zdSwap [active]="isDay()" [indeterminate]="unknown()" effect="custom" class="my-transition">
+<div
+  zdSwap
+  [swapActive]="isDay()"
+  [swapIndeterminate]="unknown()"
+  swapEffect="custom"
+  class="my-transition"
+>
   <span zdSwapOn>Day</span>
   <span zdSwapOff>Night</span>
   <span zdSwapIndeterminate>Unknown</span>
@@ -101,18 +107,21 @@ consumers own labels and descriptions. Read-only buttons remain focusable and ex
 
 `div` and `span` roots add no role, focus stop or activation. Use a separate semantic control or text
 to communicate meaningful state. Manual Swap parts remain decorative. Do not add `aria-label` to a
-generic root without a suitable semantic role. `activeChange` only emits from a button root.
+generic root without a suitable semantic role. `swapActiveChange` only emits from a button root.
 
 ## API
+
+Swap's inputs and output carry the `swap` prefix so they never bind to another directive on the
+same element, such as `<button zdButton zdSwap>`, where Button has its own `active` input.
 
 | Part/input/output                                                | Contract                                                                                                                        |
 | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `label[zdSwap]`, `button[zdSwap]`, `div[zdSwap]`, `span[zdSwap]` | Native host; no wrapper DOM                                                                                                     |
-| `active: boolean = false`                                        | Controlled button/manual state; emits `swap-active`                                                                             |
-| `indeterminate: boolean = false`                                 | Third button/manual state, takes precedence over active                                                                         |
-| `effect: ZdSwapEffect = 'fade'`                                  | `fade`, `rotate`, `flip`, `custom`                                                                                              |
-| `readOnly: boolean = false`                                      | Browser capture guard rejects native click activation, including keyboard-generated clicks; programmatic updates remain allowed |
-| `activeChange: boolean`                                          | Button-only request containing the inverse of current active                                                                    |
+| `swapActive: boolean = false`                                    | Controlled button/manual state; emits `swap-active`                                                                             |
+| `swapIndeterminate: boolean = false`                             | Third button/manual state, takes precedence over swapActive                                                                     |
+| `swapEffect: ZdSwapEffect = 'fade'`                              | `fade`, `rotate`, `flip`, `custom`                                                                                              |
+| `swapReadOnly: boolean = false`                                  | Browser capture guard rejects native click activation, including keyboard-generated clicks; programmatic updates remain allowed |
+| `swapActiveChange: boolean`                                      | Button-only request containing the inverse of swapActive                                                                        |
 | `input[type="checkbox"][zdSwapInput]`                            | Adds the root's read-only ARIA state; retains native checkbox behavior                                                          |
 | `[zdSwapOn]`, `[zdSwapOff]`, `[zdSwapIndeterminate]`             | Direct-child decorative states; respective daisyUI class, `aria-hidden` and `inert`                                             |
 

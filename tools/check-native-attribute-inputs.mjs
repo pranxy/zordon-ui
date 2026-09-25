@@ -156,6 +156,8 @@ export function declarations(fileName, source) {
 
     let selector = '';
     const inputs = [];
+    const outputs = [];
+    const component = decorator.expression.expression.getText(file) === 'Component';
     for (const property of metadata.properties) {
       if (!ts.isPropertyAssignment(property)) continue;
       const key = property.name.getText(file);
@@ -182,12 +184,15 @@ export function declarations(fileName, source) {
     for (const member of node.members) {
       if (!ts.isPropertyDeclaration(member) || !member.initializer) continue;
       const initializer = member.initializer.getText(file);
-      if (!/^(input|model)(\.required)?\s*[<(]/.test(initializer)) continue;
       const alias = /alias:\s*['"]([^'"]+)['"]/.exec(initializer)?.[1];
-      inputs.push(alias ?? member.name.getText(file));
+      const name = alias ?? member.name.getText(file);
+      if (/^output\s*[<(]/.test(initializer)) outputs.push(name);
+      if (!/^(input|model)(\.required)?\s*[<(]/.test(initializer)) continue;
+      inputs.push(name);
+      if (initializer.startsWith('model')) outputs.push(`${name}Change`);
     }
 
-    if (selector) found.push({ className: node.name.text, selector, inputs });
+    if (selector) found.push({ className: node.name.text, selector, inputs, outputs, component });
   });
   return found;
 }
@@ -215,7 +220,7 @@ export function nativeAttributeCollisions(fileName, source, mirrored = mirroredI
   return problems;
 }
 
-async function sourceFiles(directory) {
+export async function sourceFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {

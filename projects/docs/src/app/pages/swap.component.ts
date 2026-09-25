@@ -117,8 +117,8 @@ type SkyState = 'day' | 'night' | 'unknown';
             <label
               zdSwap
               class="icon"
-              [effect]="effect(values)"
-              [readOnly]="values['readOnly'] === true"
+              [swapEffect]="effect(values)"
+              [swapReadOnly]="values['swapReadOnly'] === true"
             >
               <input type="checkbox" zdSwapInput aria-label="Dark mode" />
               <span zdSwapOn>☾</span>
@@ -136,7 +136,7 @@ type SkyState = 'day' | 'night' | 'unknown';
           description="The checkbox keeps its checked state, name, value and validation. Reactive and template-driven Forms use Angular's native checkbox accessor."
         >
           <docs-example label="notifications.html" [code]="checkboxCode">
-            <label zdSwap effect="rotate" class="pill">
+            <label zdSwap swapEffect="rotate" class="pill">
               <input
                 type="checkbox"
                 zdSwapInput
@@ -156,17 +156,17 @@ type SkyState = 'day' | 'night' | 'unknown';
           id="toggle-button"
           level="3"
           heading="Toggle button"
-          description="On a button, activeChange is a request: update active to accept it. The button reports aria-pressed."
+          description="On a button, swapActiveChange is a request: update swapActive to accept it. The button reports aria-pressed."
         >
           <docs-example label="mute" [files]="toggleFiles">
             <button
               type="button"
               zdSwap
-              effect="flip"
+              swapEffect="flip"
               class="pill"
               aria-label="Mute"
-              [active]="muted()"
-              (activeChange)="muted.set($event)"
+              [swapActive]="muted()"
+              (swapActiveChange)="muted.set($event)"
             >
               <span zdSwapOn>Muted</span>
               <span zdSwapOff>Sound on</span>
@@ -185,8 +185,8 @@ type SkyState = 'day' | 'night' | 'unknown';
               <div
                 zdSwap
                 class="pill"
-                [active]="sky() === 'day'"
-                [indeterminate]="sky() === 'unknown'"
+                [swapActive]="sky() === 'day'"
+                [swapIndeterminate]="sky() === 'unknown'"
               >
                 <span zdSwapOn>Day</span>
                 <span zdSwapOff>Night</span>
@@ -220,7 +220,7 @@ type SkyState = 'day' | 'night' | 'unknown';
         >
           <docs-example label="effects.html" [code]="effectsCode">
             @for (item of effects; track item) {
-              <label zdSwap class="icon" [effect]="item">
+              <label zdSwap class="icon" [swapEffect]="item">
                 <input type="checkbox" zdSwapInput [attr.aria-label]="item + ' effect'" />
                 <span zdSwapOn>☾</span>
                 <span zdSwapOff>☀</span>
@@ -327,6 +327,6 @@ export class SwapPageComponent {
   protected readonly sky = signal<SkyState>('unknown');
 
   protected effect(values: PlaygroundValues): ZdSwapEffect {
-    return values['effect'] as ZdSwapEffect;
+    return values['swapEffect'] as ZdSwapEffect;
   }
 }

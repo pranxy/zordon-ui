@@ -124,9 +124,12 @@ docs/testing/bundle-size-budgets.md.
   on the light theme (1.6–1.9:1). The page uses the base text colour for them and shows that rule
   under Customization.
 - Loading's glyphs are split over three stylesheets (SVG masks); Tooltip needs no page stylesheet.
-- **Library follow-up (input collision):** Tooltip and Button both have a `color` input, so
-  `<button zdButton [zdTooltip] color="…">` colours both. The page uses plain `.btn` hosts where it
-  sets a tooltip colour. Consider `tooltipColor`, like `tooltipLabel`/`tooltipDisabled`.
+- **Resolved (input collision):** Tooltip and Button both had `color`, so
+  `<button zdButton zdTooltip color="…">` coloured both; Swap and Button both had `active`. Layered
+  directives now prefix their inputs and outputs (`tooltipColor`, `tooltipOpen`, `swapActive`…),
+  and `tools/check-shared-host-inputs.mjs` (in `npm run test:tooling`) checks every layered
+  directive against the directives that can share its element. The Tooltip page uses `zdButton`
+  hosts again.
 - Initial bundle 402.3 → 404.8 kB. Docs e2e 41/41; visual docs-site suite identical to the
   pre-change render (no baseline updates needed).
 

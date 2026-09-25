@@ -57,6 +57,11 @@ specification.
       when no better name exists, prefix with `zd` (`zdDisabled`, `zdSize`). Inputs that
       deliberately mirror the native attribute are listed with a reason in
       `tools/check-native-attribute-inputs.mjs`, which `npm run test:tooling` enforces.
+- [ ] A directive layered onto an element another directive owns (Tooltip on a button, Swap on a
+      styled button, Theme controls, triggers and items) prefixes its inputs and outputs with its
+      own name (`tooltipColor`, `tooltipOpen`/`tooltipOpenChange`, `swapActive`), so a binding never
+      reaches both directives. List the directive in `tools/check-shared-host-inputs.mjs`, which
+      `npm run test:tooling` enforces against every directive that can share the element.
 - [ ] Projected content, template context types, child registration, and declarative/programmatic
       parity are documented.
 - [ ] Named parts follow the component-specific selector, declaration, cardinality, ordering,

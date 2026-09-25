@@ -11,20 +11,20 @@ export class ZdSwap {
     // (undocumented)
     protected activate(): void;
     // (undocumented)
-    readonly active: i0.InputSignalWithTransform<boolean, unknown>;
-    readonly activeChange: i0.OutputEmitterRef<boolean>;
-    // (undocumented)
     protected readonly classes: i0.Signal<string>;
-    // (undocumented)
-    readonly effect: i0.InputSignal<ZdSwapEffect>;
-    // (undocumented)
-    readonly indeterminate: i0.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
     protected readonly isButton: boolean;
     // (undocumented)
-    readonly readOnly: i0.InputSignalWithTransform<boolean, unknown>;
+    readonly swapActive: i0.InputSignalWithTransform<boolean, unknown>;
+    readonly swapActiveChange: i0.OutputEmitterRef<boolean>;
     // (undocumented)
-    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdSwap, "label[zdSwap],button[zdSwap],div[zdSwap],span[zdSwap]", never, { "active": { "alias": "active"; "required": false; "isSignal": true; }; "indeterminate": { "alias": "indeterminate"; "required": false; "isSignal": true; }; "effect": { "alias": "effect"; "required": false; "isSignal": true; }; "readOnly": { "alias": "readOnly"; "required": false; "isSignal": true; }; }, { "activeChange": "activeChange"; }, never, never, true, never>;
+    readonly swapEffect: i0.InputSignal<ZdSwapEffect>;
+    // (undocumented)
+    readonly swapIndeterminate: i0.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
+    readonly swapReadOnly: i0.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdSwap, "label[zdSwap],button[zdSwap],div[zdSwap],span[zdSwap]", never, { "swapActive": { "alias": "swapActive"; "required": false; "isSignal": true; }; "swapIndeterminate": { "alias": "swapIndeterminate"; "required": false; "isSignal": true; }; "swapEffect": { "alias": "swapEffect"; "required": false; "isSignal": true; }; "swapReadOnly": { "alias": "swapReadOnly"; "required": false; "isSignal": true; }; }, { "swapActiveChange": "swapActiveChange"; }, never, never, true, never>;
     // (undocumented)
     static ɵfac: i0.ɵɵFactoryDeclaration<ZdSwap, never>;
 }

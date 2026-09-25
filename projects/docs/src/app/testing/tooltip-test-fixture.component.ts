@@ -89,26 +89,37 @@ import {
           zdTooltip="Saves your current draft."
           #plain="zdTooltip"
           aria-describedby="tooltip-existing"
-          [side]="side()"
-          [align]="align()"
-          [showDelay]="0"
+          [tooltipSide]="side()"
+          [tooltipAlign]="align()"
+          [tooltipShowDelay]="0"
           data-testid="tooltip-plain"
         >
           Save draft
         </button>
-        <button type="button" [zdTooltip]="rich" [showDelay]="50" [hideDelay]="80" trigger="hover">
+        <button
+          type="button"
+          [zdTooltip]="rich"
+          [tooltipShowDelay]="50"
+          [tooltipHideDelay]="80"
+          tooltipTrigger="hover"
+        >
           Hover help
         </button>
-        <button type="button" zdTooltip="Focus keeps this hint open." trigger="focus" side="end">
+        <button
+          type="button"
+          zdTooltip="Focus keeps this hint open."
+          tooltipTrigger="focus"
+          tooltipSide="end"
+        >
           Focus help
         </button>
         <button
           type="button"
           [zdTooltip]="form"
-          interactive
+          tooltipInteractive
           tooltipLabel="Draft settings"
-          color="primary"
-          [showDelay]="0"
+          tooltipColor="primary"
+          [tooltipShowDelay]="0"
           data-testid="tooltip-dialog"
         >
           Draft settings
@@ -116,8 +127,8 @@ import {
         <button
           type="button"
           zdTooltip="Long-press help."
-          [longPressDelay]="80"
-          [touchHideDelay]="100"
+          [tooltipLongPressDelay]="80"
+          [tooltipTouchHideDelay]="100"
           (click)="activations.update(increment)"
           data-testid="tooltip-touch"
         >
@@ -128,7 +139,7 @@ import {
           tabindex="0"
           aria-label="Unavailable deletion"
           zdTooltip="You need edit access to delete this draft."
-          [showDelay]="0"
+          [tooltipShowDelay]="0"
           ><button type="button" disabled>Delete draft</button></span
         >
       </div>
@@ -150,9 +161,9 @@ import {
                 zdDropdownItem
                 value="edit"
                 [zdTooltip]="form"
-                interactive
+                tooltipInteractive
                 tooltipLabel="Menu help"
-                [showDelay]="0"
+                [tooltipShowDelay]="0"
                 data-testid="tooltip-menu-item"
               >
                 Edit settings
@@ -167,9 +178,9 @@ import {
         <button
           type="button"
           zdTooltip="Consumer-controlled help."
-          trigger="manual"
-          [open]="locked()"
-          (openChange)="requests.update(increment)"
+          tooltipTrigger="manual"
+          [tooltipOpen]="locked()"
+          (tooltipOpenChange)="requests.update(increment)"
           #lockedTip="zdTooltip"
           data-testid="tooltip-controlled"
         >
@@ -183,9 +194,9 @@ import {
           <button
             type="button"
             [zdTooltip]="color + ' hint'"
-            [color]="color"
-            trigger="manual"
-            [open]="palette()"
+            [tooltipColor]="color"
+            tooltipTrigger="manual"
+            [tooltipOpen]="palette()"
           >
             {{ color }}
           </button>
@@ -195,9 +206,9 @@ import {
         type="button"
         class="edge"
         zdTooltip="A longer hint near the viewport edge."
-        [showDelay]="0"
-        side="top"
-        align="end"
+        [tooltipShowDelay]="0"
+        tooltipSide="top"
+        tooltipAlign="end"
         data-testid="tooltip-edge"
       >
         Edge help

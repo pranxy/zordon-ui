@@ -41,12 +41,12 @@ export const swapEffects = ['fade', 'rotate', 'flip'] as const;
 export const swapPlaygroundControls: readonly PlaygroundControl[] = [
   {
     kind: 'choice',
-    key: 'effect',
+    key: 'swapEffect',
     options: swapEffects.map(value => ({ value, label: value })),
     defaultValue: 'rotate',
     omit: ['fade'],
   },
-  { kind: 'boolean', key: 'readOnly', defaultValue: false },
+  { kind: 'boolean', key: 'swapReadOnly', defaultValue: false },
 ];
 
 export const swapPlaygroundSnippet: PlaygroundTemplateSnippet = {
@@ -57,7 +57,7 @@ export const swapPlaygroundSnippet: PlaygroundTemplateSnippet = {
 </label>`,
 };
 
-export const checkboxCode = `<label zdSwap effect="rotate">
+export const checkboxCode = `<label zdSwap swapEffect="rotate">
   <input type="checkbox" zdSwapInput [formControl]="notifications" aria-label="Notifications" />
   <span zdSwapOn>On</span>
   <span zdSwapOff>Off</span>
@@ -67,8 +67,8 @@ export const toggleFiles = [
   {
     label: 'mute.html',
     language: 'html' as const,
-    code: `<button type="button" zdSwap effect="flip" aria-label="Mute"
-        [active]="muted()" (activeChange)="muted.set($event)">
+    code: `<button type="button" zdSwap swapEffect="flip" aria-label="Mute"
+        [swapActive]="muted()" (swapActiveChange)="muted.set($event)">
   <span zdSwapOn>Muted</span>
   <span zdSwapOff>Sound on</span>
 </button>`,
@@ -77,7 +77,7 @@ export const toggleFiles = [
 ];
 
 export const indeterminateCode = `<!-- Manual presentation: shows state, adds no role or focus -->
-<div zdSwap [active]="isDay()" [indeterminate]="unknown()">
+<div zdSwap [swapActive]="isDay()" [swapIndeterminate]="unknown()">
   <span zdSwapOn>Day</span>
   <span zdSwapOff>Night</span>
   <span zdSwapIndeterminate>Unknown</span>
@@ -85,9 +85,9 @@ export const indeterminateCode = `<!-- Manual presentation: shows state, adds no
 <p>Sky: {{ unknown() ? 'unknown' : isDay() ? 'day' : 'night' }}</p>`;
 
 export const effectsCode = `<label zdSwap>…</label>                 <!-- fade (default) -->
-<label zdSwap effect="rotate">…</label>
-<label zdSwap effect="flip">…</label>
-<label zdSwap effect="custom" class="my-transition">…</label>`;
+<label zdSwap swapEffect="rotate">…</label>
+<label zdSwap swapEffect="flip">…</label>
+<label zdSwap swapEffect="custom" class="my-transition">…</label>`;
 
 const partColumns: readonly DocsTableColumn[] = [
   { key: 'name', label: 'Directive', kind: 'name' },
@@ -128,35 +128,37 @@ export const swapInputs = {
   columns: inputColumns,
   rows: [
     {
-      name: 'active',
+      name: 'swapActive',
       type: 'boolean',
       default: 'false',
       description:
         'Button and manual roots. Adds `swap-active`. With a checkbox, the input owns state.',
     },
     {
-      name: 'indeterminate',
+      name: 'swapIndeterminate',
       type: 'boolean',
       default: 'false',
-      description: 'Third state; wins over `active`. On a button it sets `aria-pressed="mixed"`.',
+      description:
+        'Third state; wins over `swapActive`. On a button it sets `aria-pressed="mixed"`.',
     },
     {
-      name: 'effect',
+      name: 'swapEffect',
       type: 'ZdSwapEffect',
       default: "'fade'",
       description: '`fade`, `rotate`, `flip`, or `custom` for your own transition.',
     },
     {
-      name: 'readOnly',
+      name: 'swapReadOnly',
       type: 'boolean',
       default: 'false',
       description: 'Blocks user activation but stays focusable, with `aria-disabled`.',
     },
     {
-      name: 'activeChange',
+      name: 'swapActiveChange',
       type: 'boolean',
       default: '—',
-      description: 'Button roots only. A request: update `active` to accept, ignore it to veto.',
+      description:
+        'Button roots only. A request: update `swapActive` to accept, ignore it to veto.',
     },
   ] satisfies readonly DocsTableRow[],
 };
@@ -182,7 +184,7 @@ export const swapAccessibilityNotes: readonly DocsFeature[] = [
   },
 ];
 
-export const swapCustomCode = `/* effect="custom": style the parts through their stable data attribute */
+export const swapCustomCode = `/* swapEffect="custom": style the parts through their stable data attribute */
 .my-transition [data-zd-swap-part] {
   transition: opacity 200ms, scale 200ms;
 }`;

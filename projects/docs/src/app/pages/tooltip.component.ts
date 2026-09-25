@@ -47,14 +47,13 @@ import {
         [snippet]="snippet"
       >
         <ng-template docsPlaygroundPreview let-values>
-          <!-- A plain daisyUI button: zdButton would also read the tooltip's color input. -->
           <button
+            zdButton
             type="button"
-            class="btn"
             zdTooltip="Saves a copy only you can see"
-            [side]="sideOf(values)"
-            [align]="alignOf(values)"
-            [color]="colorOf(values)"
+            [tooltipSide]="sideOf(values)"
+            [tooltipAlign]="alignOf(values)"
+            [tooltipColor]="colorOf(values)"
           >
             Save draft
           </button>
@@ -87,7 +86,7 @@ import {
         id="interactive"
         level="3"
         heading="Interactive help"
-        description="interactive turns the surface into a named, non-modal dialog. Activate the button or press F2 to move focus in; Escape brings it back."
+        description="tooltipInteractive turns the surface into a named, non-modal dialog. Activate the button or press F2 to move focus in; Escape brings it back."
       >
         <docs-example label="settings.html" [code]="interactiveCode">
           <ng-template #settings>
@@ -103,7 +102,7 @@ import {
             zdButton
             type="button"
             variant="outline"
-            interactive
+            tooltipInteractive
             tooltipLabel="Draft settings"
             [zdTooltip]="settings"
           >
@@ -135,19 +134,18 @@ import {
         id="controlled"
         level="3"
         heading="Controlled"
-        description="With a manual trigger, only your state opens it. Escape and outside clicks still ask to close through openChange."
+        description="With a manual trigger, only your state opens it. Escape and outside clicks still ask to close through tooltipOpenChange. The button’s own color input is untouched."
       >
         <docs-example label="tour" [files]="controlledFiles">
           <div class="docs-cluster">
             <button
+              zdButton
               type="button"
-              class="btn"
               zdTooltip="New: export to PDF"
-              trigger="manual"
-              side="bottom"
-              color="primary"
-              [open]="tour()"
-              (openChange)="tour.set($event)"
+              tooltipTrigger="manual"
+              tooltipSide="bottom"
+              tooltipColor="primary"
+              [(tooltipOpen)]="tour"
             >
               Export
             </button>
@@ -198,14 +196,14 @@ export class TooltipPageComponent {
   protected readonly tour = signal(false);
 
   protected sideOf(values: PlaygroundValues): ZdTooltipSide {
-    return values['side'] as ZdTooltipSide;
+    return values['tooltipSide'] as ZdTooltipSide;
   }
 
   protected alignOf(values: PlaygroundValues): ZdTooltipAlign {
-    return values['align'] as ZdTooltipAlign;
+    return values['tooltipAlign'] as ZdTooltipAlign;
   }
 
   protected colorOf(values: PlaygroundValues): ZdTooltipColor {
-    return values['color'] as ZdTooltipColor;
+    return values['tooltipColor'] as ZdTooltipColor;
   }
 }
