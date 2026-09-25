@@ -11,6 +11,17 @@ const publicRoutes = [
   { path: '/components/button', heading: 'Button', body: /native action element/i },
   { path: '/components/dropdown', heading: 'Dropdown', body: /anchored panel/i },
   { path: '/components/kbd', heading: 'Kbd', body: /keys and shortcuts/i },
+  {
+    path: '/components/fab',
+    heading: 'FAB / Speed Dial',
+    body: /discloses a small group of native actions/i,
+  },
+  { path: '/components/modal', heading: 'Modal', body: /typed results, close guards/i },
+  {
+    path: '/components/theme-controller',
+    heading: 'Theme Controller',
+    body: /theme preference scope/i,
+  },
   { path: '/components/swap', heading: 'Swap', body: /native checkbox or toggle button/i },
   { path: '/components/carousel', heading: 'Carousel', body: /scroll-snap layout/i },
   { path: '/components/collapse', heading: 'Collapse', body: /native disclosures/i },
@@ -635,6 +646,67 @@ test('Toast queues notifications and Tooltip describes its host', async ({ page 
   await expect(tip).toBeHidden();
   await page.getByRole('button', { name: 'Show what’s new' }).click();
   await expect(page.getByRole('tooltip', { name: 'New: export to PDF' })).toBeVisible();
+});
+
+test('FAB, Modal and Theme Controller keep native focus and state', async ({ page }) => {
+  await page.goto('/components/fab');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  // The speed-dial trigger; its name changes to the close label while open.
+  const create = page.locator('.zd-fab-trigger').nth(1);
+  await expect(create).toHaveAccessibleName('Create');
+  await create.click();
+  await expect(create).toHaveAccessibleName('Close create actions');
+  await expect(create).toHaveAttribute('aria-expanded', 'true');
+  await page.getByRole('button', { name: 'Template' }).click();
+  await expect(page.getByText('Chose: Template')).toBeVisible();
+  await expect(create).toHaveAttribute('aria-expanded', 'false');
+  await expect(create).toBeFocused();
+  await page.getByRole('button', { name: 'New note' }).click();
+  await expect(page.getByText('Notes: 1')).toBeVisible();
+
+  await page.goto('/components/modal');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const rename = page.getByRole('button', { name: 'Rename', exact: true }).nth(1);
+  await rename.click();
+  const dialog = page.getByRole('dialog', { name: 'Rename file' });
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('textbox', { name: 'Name' }).fill('summary.pdf');
+  await dialog.getByRole('button', { name: 'Save' }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByText('File: summary.pdf')).toBeVisible();
+  await expect(rename).toBeFocused();
+
+  await page.getByRole('button', { name: 'Delete project' }).click();
+  const confirm = page.getByRole('dialog', { name: 'Delete project' });
+  await confirm.getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(confirm.getByText('The project could not be deleted. Try again.')).toBeVisible();
+  await confirm.getByRole('button', { name: 'Delete', exact: true }).click();
+  await expect(confirm).toBeHidden();
+  await expect(page.getByText('Website redesign: deleted')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Edit notes' }).click();
+  const notes = page.getByRole('dialog', { name: 'Edit notes' });
+  await notes.getByRole('textbox', { name: 'Notes' }).fill('Changed');
+  await page.keyboard.press('Escape');
+  await expect(notes).toBeVisible();
+  await notes.getByRole('button', { name: 'Save' }).click();
+  await expect(notes).toBeHidden();
+
+  await page.goto('/components/theme-controller');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const scope = page.getByRole('region', { name: 'Playground theme scope' });
+  await expect(scope).toHaveAttribute('data-theme', 'light');
+  await scope.getByRole('radio', { name: 'Dark' }).check();
+  await expect(scope).toHaveAttribute('data-theme', 'dark');
+  await expect(scope.getByText('Using dark')).toBeVisible();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  const inner = page.getByRole('complementary', { name: 'Inner theme scope' });
+  await expect(inner).toHaveAttribute('data-theme', 'dark');
+  await page.getByRole('checkbox', { name: 'Dark outer' }).check();
+  await expect(page.getByRole('region', { name: 'Outer theme scope' })).toHaveAttribute(
+    'data-theme',
+    'dark',
+  );
 });
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {

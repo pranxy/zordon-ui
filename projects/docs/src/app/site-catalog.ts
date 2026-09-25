@@ -183,6 +183,44 @@ export const dropdownPage = defineComponentPage({
   ],
 });
 
+export const fabPage = defineComponentPage({
+  id: 'fab',
+  label: 'FAB / Speed Dial',
+  description:
+    'FAB is a floating action button that runs one action or discloses a small group of native actions.',
+  maturity: 'planned',
+  examples: [
+    ['speed-dial', 'Speed dial'],
+    ['flower', 'Flower'],
+    ['single', 'Single action'],
+  ],
+});
+
+export const modalPage = defineComponentPage({
+  id: 'modal',
+  label: 'Modal',
+  description:
+    'Modal opens a dialog from a template or a service, with typed results, close guards and confirmation.',
+  maturity: 'planned',
+  examples: [
+    ['form', 'Form with a result'],
+    ['confirm', 'Confirmation'],
+    ['guard', 'Close guard'],
+  ],
+});
+
+export const themeControllerPage = defineComponentPage({
+  id: 'theme-controller',
+  label: 'Theme Controller',
+  description:
+    'Theme Controller scopes a theme preference to native checkboxes, radios, selects and buttons.',
+  maturity: 'planned',
+  examples: [
+    ['persistence', 'Remembered preference'],
+    ['nested', 'Nested scopes'],
+  ],
+});
+
 export const kbdPage = defineComponentPage({
   id: 'kbd',
   label: 'Kbd',
@@ -565,7 +603,10 @@ export const otpPage = defineComponentPage({
 export const componentReferencePages = linkComponentPages(componentsPage.id, 'typed-vocabularies', [
   buttonPage,
   dropdownPage,
+  fabPage,
+  modalPage,
   swapPage,
+  themeControllerPage,
   carouselPage,
   collapsePage,
   kbdPage,

@@ -28,7 +28,10 @@ describe('component catalogue', () => {
     expect(linked).toEqual([
       'button',
       'dropdown',
+      'fab',
+      'modal',
       'swap',
+      'theme-controller',
       'carousel',
       'collapse',
       'kbd',

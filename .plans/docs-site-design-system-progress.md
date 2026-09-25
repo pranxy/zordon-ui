@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-25 (Feedback pages: Alert, Loading, Progress, Radial Progress, Skeleton, Toast, Tooltip; initial bundle 404.8 kB)
+- **Updated:** 2026-09-25 (Actions pages: FAB, Modal, Theme Controller; every Actions component has a page; initial bundle 405.8 kB)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -19,38 +19,41 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
 ## Component reference pages
 
-| Page            | Status                  | Evidence                                                                                                                                                     |
-| --------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Button          | Verified                | Original template page                                                                                                                                       |
-| Dropdown        | Verified                | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e |
-| Kbd             | Verified                | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                              |
-| Swap            | Verified                | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                       |
-| Carousel        | Verified                | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                |
-| Collapse        | Verified                | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                        |
-| Megamenu        | Verified                | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe   |
-| Menu            | Verified                | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks   |
-| Alert           | Verified (Planned page) | Playground (color/variant/direction/dismissible); colors and variants, controlled dismissal, auto-dismiss, actions and details; dismissal and axe checks     |
-| Loading         | Verified (Planned page) | Playground (variant/size/color/showLabel); variants and sizes, delayed feedback with aria-busy, overlay, custom artwork; delay/busy and axe checks           |
-| Progress        | Verified (Planned page) | Playground ([value]/color/[showLabel]); upload with buffer and formatter, unknown total, colors; value-text/completion and axe checks                        |
-| Radial Progress | Verified (Planned page) | Playground ([value]/color/size); thresholds, center content, custom text; aria-valuenow/valuetext and axe checks                                             |
-| Skeleton        | Verified (Planned page) | Playground (preset/shape/animation); loading region with zdSkeletonRegion, shapes, presets; aria-busy/content swap and axe checks                            |
-| Toast           | Verified (Planned page) | Page-scoped service and outlet; playground (color/position); actions with Undo, track(), custom template; queue/action/track and visible-toast axe           |
-| Tooltip         | Verified (Planned page) | Playground (side/align/color); rich content, interactive help, disabled-action wrapper, controlled; focus/Escape/describedby and open-dialog axe             |
-| Calendar        | Verified                | Playground (mode/week start/readOnly/disabled); bounds, range, popup, Forms, day template; SSR today, range/popup/Forms e2e, open-popup axe check            |
-| Checkbox        | Verified (Planned page) | Playground (color/size/disabled); colors, sizes, mixed state, Reactive Forms; indeterminate, terms validity and axe checks in e2e                            |
-| Radio           | Verified (Planned page) | Playground; radio group with Reactive Forms, colors, sizes; selection and axe checks in e2e                                                                  |
-| Range           | Verified (Planned page) | Playground (incl. vertical); value with output and aria-valuetext, ticks, colors, sizes, vertical; keyboard and axe checks                                   |
-| Rating          | Verified (Planned page) | Playground (size/disabled); star rating with Forms and clear, half stars, sizes; selection/keyboard/clear and axe checks                                     |
-| Select          | Verified (Planned page) | Playground (color/size/ghost/disabled); optgroups with Forms, multiple, colors, sizes; selection and axe checks                                              |
-| Text Input      | Verified (Planned page) | Playground (color/size/ghost/disabled); validation, input types, colors, sizes; aria-invalid flow and axe checks                                             |
-| Textarea        | Verified (Planned page) | Playground; character count, colors, sizes; count and axe checks                                                                                             |
-| Toggle          | Verified (Planned page) | Playground; settings list with FormGroup, colors, sizes; state and axe checks                                                                                |
-| Fieldset        | Verified (Planned page) | Playground (native disabled); grouping, disabling a group, nested groups; disabled-propagation and axe checks                                                |
-| File Input      | Verified (Planned page) | Playground (color/size/variant/disabled); reading the selection, colors, sizes; file selection and axe checks                                                |
-| Filter          | Verified (Planned page) | Playground (color/size/variant); single choice with reset and Forms, variants, sizes; selection/reset and axe checks                                         |
-| Label           | Verified (Planned page) | Playground (directive); association, floating label; label-focus and axe checks                                                                              |
-| Validator       | Verified (Planned page) | Playground (type/required); native constraints, pattern and hint, Angular Forms via aria-invalid; hint and aria-invalid checks                               |
-| OTP             | Verified (Planned page) | Playground (length); Reactive Forms, letters and digits, completion; typing/completion and axe checks                                                        |
+| Page             | Status                  | Evidence                                                                                                                                                            |
+| ---------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Button           | Verified                | Original template page                                                                                                                                              |
+| Dropdown         | Verified                | Playground (side/align/trigger/disabled), action, nested, content and controlled examples; SSR, keyboard, playground-snippet and open-menu axe checks in e2e        |
+| Kbd              | Verified                | Playground (size), size/in-text/combination examples; SSR and axe checks in e2e                                                                                     |
+| FAB / Speed Dial | Verified (Planned page) | Playground (arrangement/corner/disabled, inline stage); speed dial with keepOpen, flower with tooltips, single action; focus-return and open-group axe checks       |
+| Modal            | Verified (Planned page) | Playground (size/placement/closeOnBackdrop); form with a typed result, confirm() with a failing then retried action, close guard; dialog and open-dialog axe checks |
+| Theme Controller | Verified (Planned page) | Playground (toggle/radios/select/buttons in a host scope); remembered preference with themeChange, nested scopes; scoped data-theme checks                          |
+| Swap             | Verified                | Playground (effect/readOnly); checkbox with Forms, toggle button, indeterminate, effects; toggle and axe checks in e2e                                              |
+| Carousel         | Verified                | Playground (align/orientation); previous/next controls, partial items, vertical; scroll and axe checks in e2e                                                       |
+| Collapse         | Verified                | Playground (indicator); native details, indicators, forced state, group; SSR open state, toggle and axe checks in e2e                                               |
+| Megamenu         | Verified                | Playground (columns/width/trigger); site navigation, full width on hover, command bar; SSR closed state, open/Escape, command-bar keyboard, open-panel axe          |
+| Menu             | Verified                | Playground (size/orientation); navigation with groups, horizontal, selectable tree, badges and shortcuts; SSR, group toggle, tree selection and axe checks          |
+| Alert            | Verified (Planned page) | Playground (color/variant/direction/dismissible); colors and variants, controlled dismissal, auto-dismiss, actions and details; dismissal and axe checks            |
+| Loading          | Verified (Planned page) | Playground (variant/size/color/showLabel); variants and sizes, delayed feedback with aria-busy, overlay, custom artwork; delay/busy and axe checks                  |
+| Progress         | Verified (Planned page) | Playground ([value]/color/[showLabel]); upload with buffer and formatter, unknown total, colors; value-text/completion and axe checks                               |
+| Radial Progress  | Verified (Planned page) | Playground ([value]/color/size); thresholds, center content, custom text; aria-valuenow/valuetext and axe checks                                                    |
+| Skeleton         | Verified (Planned page) | Playground (preset/shape/animation); loading region with zdSkeletonRegion, shapes, presets; aria-busy/content swap and axe checks                                   |
+| Toast            | Verified (Planned page) | Page-scoped service and outlet; playground (color/position); actions with Undo, track(), custom template; queue/action/track and visible-toast axe                  |
+| Tooltip          | Verified (Planned page) | Playground (side/align/color); rich content, interactive help, disabled-action wrapper, controlled; focus/Escape/describedby and open-dialog axe                    |
+| Calendar         | Verified                | Playground (mode/week start/readOnly/disabled); bounds, range, popup, Forms, day template; SSR today, range/popup/Forms e2e, open-popup axe check                   |
+| Checkbox         | Verified (Planned page) | Playground (color/size/disabled); colors, sizes, mixed state, Reactive Forms; indeterminate, terms validity and axe checks in e2e                                   |
+| Radio            | Verified (Planned page) | Playground; radio group with Reactive Forms, colors, sizes; selection and axe checks in e2e                                                                         |
+| Range            | Verified (Planned page) | Playground (incl. vertical); value with output and aria-valuetext, ticks, colors, sizes, vertical; keyboard and axe checks                                          |
+| Rating           | Verified (Planned page) | Playground (size/disabled); star rating with Forms and clear, half stars, sizes; selection/keyboard/clear and axe checks                                            |
+| Select           | Verified (Planned page) | Playground (color/size/ghost/disabled); optgroups with Forms, multiple, colors, sizes; selection and axe checks                                                     |
+| Text Input       | Verified (Planned page) | Playground (color/size/ghost/disabled); validation, input types, colors, sizes; aria-invalid flow and axe checks                                                    |
+| Textarea         | Verified (Planned page) | Playground; character count, colors, sizes; count and axe checks                                                                                                    |
+| Toggle           | Verified (Planned page) | Playground; settings list with FormGroup, colors, sizes; state and axe checks                                                                                       |
+| Fieldset         | Verified (Planned page) | Playground (native disabled); grouping, disabling a group, nested groups; disabled-propagation and axe checks                                                       |
+| File Input       | Verified (Planned page) | Playground (color/size/variant/disabled); reading the selection, colors, sizes; file selection and axe checks                                                       |
+| Filter           | Verified (Planned page) | Playground (color/size/variant); single choice with reset and Forms, variants, sizes; selection/reset and axe checks                                                |
+| Label            | Verified (Planned page) | Playground (directive); association, floating label; label-focus and axe checks                                                                                     |
+| Validator        | Verified (Planned page) | Playground (type/required); native constraints, pattern and hint, Angular Forms via aria-invalid; hint and aria-invalid checks                                      |
+| OTP              | Verified (Planned page) | Playground (length); Reactive Forms, letters and digits, completion; typing/completion and axe checks                                                               |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -133,6 +136,12 @@ docs/testing/bundle-size-budgets.md.
 - Initial bundle 402.3 → 404.8 kB. Docs e2e 41/41; visual docs-site suite identical to the
   pre-change render (no baseline updates needed).
 
+**Actions round (2026-09-25).** FAB, Modal and Theme Controller pages; every Actions component now
+has a page. FAB examples use `inline` inside a stage so they don't cover the page. Theme Controller
+previews are host-target scopes, so they never change the site's own theme. Modal reuses daisyUI's
+`modal-box` through a page stylesheet. Initial bundle 404.8 → 405.8 kB; docs e2e 42/42; the docs
+visual suite is identical to the previous render.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -140,11 +149,11 @@ docs/testing/bundle-size-budgets.md.
 | `npm run lint:docs`                           | Pass                                                                                                    |
 | `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 41 / 41 pass                                                                                            |
+| Docs Playwright (`playwright.docs.config.ts`) | 42 / 42 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
-| `npm run check:docs:links`                    | Pass (36 sitemap routes, 43 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 404.8 kB initial                                                                                |
-| `npm run check:docs:design-system`            | Pass (152 files)                                                                                        |
+| `npm run check:docs:links`                    | Pass (39 sitemap routes, 46 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 405.8 kB initial                                                                                |
+| `npm run check:docs:design-system`            | Pass (159 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

@@ -8,6 +8,12 @@ const pageLoaders = {
   'button': () => import('./pages/button.component').then(module => module.ButtonPageComponent),
   'dropdown': () =>
     import('./pages/dropdown.component').then(module => module.DropdownPageComponent),
+  'fab': () => import('./pages/fab.component').then(module => module.FabPageComponent),
+  'modal': () => import('./pages/modal.component').then(module => module.ModalPageComponent),
+  'theme-controller': () =>
+    import('./pages/theme-controller.component').then(
+      module => module.ThemeControllerPageComponent,
+    ),
   'swap': () => import('./pages/swap.component').then(module => module.SwapPageComponent),
   'carousel': () =>
     import('./pages/carousel.component').then(module => module.CarouselPageComponent),

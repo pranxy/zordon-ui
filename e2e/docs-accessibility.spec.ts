@@ -25,7 +25,7 @@ test('component reference pages have no serious accessibility violations, includ
   runAxeScan,
 }) => {
   // One axe scan per reference page plus the open states.
-  test.setTimeout(330_000);
+  test.setTimeout(390_000);
   const material = (results: Awaited<ReturnType<typeof runAxeScan>>) =>
     results.violations.filter(
       violation => violation.impact === 'critical' || violation.impact === 'serious',
@@ -34,6 +34,9 @@ test('component reference pages have no serious accessibility violations, includ
   for (const path of [
     '/components/button',
     '/components/dropdown',
+    '/components/fab',
+    '/components/modal',
+    '/components/theme-controller',
     '/components/swap',
     '/components/carousel',
     '/components/collapse',
@@ -110,6 +113,20 @@ test('component reference pages have no serious accessibility violations, includ
     await expect(trigger).toHaveAttribute('data-zd-tooltip-ready', 'true');
     await trigger.click();
     await expect(page.getByRole('dialog', { name: 'Draft settings' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+  });
+
+  await test.step('open FAB actions and Modal dialog', async () => {
+    await page.goto('/components/fab');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Create', exact: true }).nth(1).click();
+    await expect(page.getByRole('button', { name: 'Template' })).toBeVisible();
+    expect(material(await runAxeScan())).toEqual([]);
+
+    await page.goto('/components/modal');
+    await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+    await page.getByRole('button', { name: 'Rename', exact: true }).nth(1).click();
+    await expect(page.getByRole('dialog', { name: 'Rename file' })).toBeVisible();
     expect(material(await runAxeScan())).toEqual([]);
   });
 });

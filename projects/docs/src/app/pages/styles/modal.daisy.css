@@ -1,0 +1,7 @@
+/* daisyUI's modal-box, compiled only for the page that uses it (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: modal;
+}
+@source inline('modal-box');
