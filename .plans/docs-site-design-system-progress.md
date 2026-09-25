@@ -3,7 +3,7 @@
 - **Plan:** `.plans/docs-site-design-system.md`
 - **Spec:** `projects/docs/DESIGN_SYSTEM.md` (see "As built")
 - **Status:** In progress
-- **Updated:** 2026-09-24 (Data input pages: Checkbox, Radio, Range, Rating, Select, Text Input, Textarea, Toggle)
+- **Updated:** 2026-09-25 (Data input complete: Fieldset, File Input, Filter, Label, Validator, OTP)
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
@@ -38,6 +38,12 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Text Input | Verified (Planned page) | Playground (color/size/ghost/disabled); validation, input types, colors, sizes; aria-invalid flow and axe checks                                             |
 | Textarea   | Verified (Planned page) | Playground; character count, colors, sizes; count and axe checks                                                                                             |
 | Toggle     | Verified (Planned page) | Playground; settings list with FormGroup, colors, sizes; state and axe checks                                                                                |
+| Fieldset   | Verified (Planned page) | Playground (native disabled); grouping, disabling a group, nested groups; disabled-propagation and axe checks                                                |
+| File Input | Verified (Planned page) | Playground (color/size/variant/disabled); reading the selection, colors, sizes; file selection and axe checks                                                |
+| Filter     | Verified (Planned page) | Playground (color/size/variant); single choice with reset and Forms, variants, sizes; selection/reset and axe checks                                         |
+| Label      | Verified (Planned page) | Playground (directive); association, floating label; label-focus and axe checks                                                                              |
+| Validator  | Verified (Planned page) | Playground (type/required); native constraints, pattern and hint, Angular Forms via aria-invalid; hint and aria-invalid checks                               |
+| OTP        | Verified (Planned page) | Playground (length); Reactive Forms, letters and digits, completion; typing/completion and axe checks                                                        |
 
 Built with the "add a component page" recipe and no new site components. Two reusable additions: the
 playground accepts a multi-line snippet (`render`), and `.docs-popover` styles consumer-owned overlay
@@ -89,18 +95,25 @@ implementation contract rather than a Stable claim.
   the site policy's 450 KiB. Each page adds about 0.4 kB to the eager page catalogue (mostly its
   outline); see the proposal to load outlines per route before the next batches.
 
-## Validation run (2026-09-24)
+**Data input completed (2026-09-25).** Six more Planned pages; every Data input component now has
+a page. Previous/next links are derived from the catalogue order (`componentReferencePages`), with
+a unit test that the order matches the catalogue. `docs-reference-page` makes the Types section
+optional for entry points without public types. Initial bundle: 453.6 kB. **Library note:** OTP's
+cells hard-code the `input` class instead of using `ZdClassNames`, so they ignore a configured
+daisyUI prefix.
+
+## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `npm run lint:docs`                           | Pass                                                                                                    |
-| `npm run test:docs`                           | 7 files / 40 tests pass                                                                                 |
+| `npm run test:docs`                           | 7 files / 41 tests pass                                                                                 |
 | `npm run build:docs`                          | Pass; warnings: preview sketch styles 9.5 kB (> 8 kB warning, < 12 kB error), existing collapse fixture |
-| Docs Playwright (`playwright.docs.config.ts`) | 36 / 36 pass                                                                                            |
-| Visual suite vs. pre-change render            | 83 / 84 match; Swap is flaky at HEAD too                                                                |
-| `npm run check:docs:links`                    | Pass (23 sitemap routes, 30 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 452.7 kB initial (Angular build warns above 450,000 bytes; see the Data input notes)            |
-| `npm run check:docs:design-system`            | Pass (116 files)                                                                                        |
+| Docs Playwright (`playwright.docs.config.ts`) | 38 / 38 pass                                                                                            |
+| Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
+| `npm run check:docs:links`                    | Pass (29 sitemap routes, 36 documents)                                                                  |
+| `npm run check:docs:performance`              | Pass at 453.6 kB initial (Angular build warns above 450,000 bytes)                                      |
+| `npm run check:docs:design-system`            | Pass (130 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations

@@ -29,6 +29,15 @@ const pageLoaders = {
   'textarea': () =>
     import('./pages/textarea.component').then(module => module.TextareaPageComponent),
   'toggle': () => import('./pages/toggle.component').then(module => module.TogglePageComponent),
+  'fieldset': () =>
+    import('./pages/fieldset.component').then(module => module.FieldsetPageComponent),
+  'file-input': () =>
+    import('./pages/file-input.component').then(module => module.FileInputPageComponent),
+  'filter': () => import('./pages/filter.component').then(module => module.FilterPageComponent),
+  'label': () => import('./pages/label.component').then(module => module.LabelPageComponent),
+  'validator': () =>
+    import('./pages/validator.component').then(module => module.ValidatorPageComponent),
+  'otp': () => import('./pages/otp.component').then(module => module.OtpPageComponent),
   'kbd': () => import('./pages/kbd.component').then(module => module.KbdPageComponent),
   'components': () =>
     import('./pages/components.component').then(module => module.ComponentsPageComponent),

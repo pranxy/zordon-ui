@@ -22,6 +22,12 @@ const routeMatrix = [
   { path: '/components/text-input', heading: 'Text Input', status: 200 },
   { path: '/components/textarea', heading: 'Textarea', status: 200 },
   { path: '/components/toggle', heading: 'Toggle', status: 200 },
+  { path: '/components/fieldset', heading: 'Fieldset', status: 200 },
+  { path: '/components/file-input', heading: 'File Input', status: 200 },
+  { path: '/components/filter', heading: 'Filter', status: 200 },
+  { path: '/components/label', heading: 'Label', status: 200 },
+  { path: '/components/validator', heading: 'Validator', status: 200 },
+  { path: '/components/otp', heading: 'OTP', status: 200 },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',

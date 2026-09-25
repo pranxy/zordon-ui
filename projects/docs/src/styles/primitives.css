@@ -189,7 +189,7 @@
   font-weight: var(--docs-weight-semibold);
 }
 
-.docs-field > :is(small, p) {
+.docs-field > :is(small, p):not(.validator-hint) {
   margin: 0;
   color: var(--docs-muted-text);
   font-weight: normal;

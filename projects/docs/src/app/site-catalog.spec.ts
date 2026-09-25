@@ -1,4 +1,6 @@
+import { catalogueEntries } from './content/component-catalogue';
 import {
+  componentReferencePages,
   componentsPage,
   gettingStartedPage,
   homePage,
@@ -104,5 +106,10 @@ describe('documentation site catalogue', () => {
         expect(next.previousId, next.id).toBe(page.id);
       }
     }
+  });
+
+  it('orders component reference pages like the catalogue', () => {
+    const referenced = catalogueEntries.filter(entry => entry.path).map(entry => entry.id);
+    expect(componentReferencePages.map(page => page.id)).toEqual(referenced);
   });
 });

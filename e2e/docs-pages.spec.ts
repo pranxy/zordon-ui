@@ -25,6 +25,12 @@ const publicRoutes = [
   { path: '/components/text-input', heading: 'Text Input', body: /native input of any text type/i },
   { path: '/components/textarea', heading: 'Textarea', body: /native textarea/i },
   { path: '/components/toggle', heading: 'Toggle', body: /styled as a daisyUI switch/i },
+  { path: '/components/fieldset', heading: 'Fieldset', body: /passes its disabled state/i },
+  { path: '/components/file-input', heading: 'File Input', body: /native file input/i },
+  { path: '/components/filter', heading: 'Filter', body: /daisyUI filter buttons/i },
+  { path: '/components/label', heading: 'Label', body: /floating label/i },
+  { path: '/components/validator', heading: 'Validator', body: /validity colors/i },
+  { path: '/components/otp', heading: 'OTP', body: /one-time codes/i },
   {
     path: '/foundations/typed-vocabularies',
     heading: 'Typed foundation vocabularies',
@@ -487,6 +493,62 @@ test('Range and Rating stay native radio and slider controls', async ({ page }) 
   await expect(page.getByText('Rating: 4 of 5')).toBeVisible();
   await delivery.getByRole('radio', { name: 'No rating' }).check();
   await expect(page.getByText('Rating: 0 of 5')).toBeVisible();
+});
+
+test('Fieldset, Filter, Label and File Input keep native behaviour', async ({ page }) => {
+  await page.goto('/components/fieldset');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const street = page.getByRole('textbox', { name: 'Street' }).last();
+  await expect(street).toBeDisabled();
+  await page.getByRole('checkbox', { name: 'Same as shipping address' }).uncheck();
+  await expect(street).toBeEnabled();
+  await expect(page.getByRole('combobox', { name: 'Country' })).toBeEnabled();
+
+  await page.goto('/components/filter');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('radio', { name: 'Closed' }).check();
+  await expect(page.getByText('Showing: Closed')).toBeVisible();
+  await page.getByRole('radio', { name: 'All statuses' }).check();
+  await expect(page.getByText('Showing: all')).toBeVisible();
+
+  await page.goto('/components/label');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('label[for="company"]').click();
+  await expect(page.getByRole('textbox', { name: 'Company' })).toBeFocused();
+
+  await page.goto('/components/file-input');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('#attachments').setInputFiles([
+    { name: 'invoice.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4') },
+    { name: 'photo.png', mimeType: 'image/png', buffer: Buffer.from('png') },
+  ]);
+  await expect(page.getByText('invoice.pdf, photo.png')).toBeVisible();
+});
+
+test('Validator and OTP report validity and completion', async ({ page }) => {
+  await page.goto('/components/validator');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  const email = page.getByRole('textbox', { name: 'Work email' });
+  const hint = page.locator('#work-email-hint');
+  await expect(hint).toBeHidden();
+  await email.fill('ada');
+  await email.blur();
+  await expect(hint).toBeVisible();
+  const invite = page.getByRole('textbox', { name: 'Invite code' });
+  await invite.fill('abc');
+  await invite.blur();
+  await expect(invite).toHaveAttribute('aria-invalid', 'true');
+  await invite.fill('ABCD1234');
+  await expect(invite).toHaveAttribute('aria-invalid', 'false');
+
+  await page.goto('/components/otp');
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.getByRole('textbox', { name: 'Verification code digit 1 of 6' }).nth(1).focus();
+  await page.keyboard.type('123456');
+  await expect(page.getByText('Value: "123456" · complete')).toBeVisible();
+  await page.getByRole('textbox', { name: 'Card PIN digit 1 of 4' }).focus();
+  await page.keyboard.type('4321');
+  await expect(page.getByText('Checking 4 digits…')).toBeVisible();
 });
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {

@@ -39,8 +39,6 @@ function defineComponentPage<const Id extends string>(page: {
   readonly label: string;
   readonly description: string;
   readonly maturity: DocsMaturity;
-  readonly previousId: string;
-  readonly nextId: string;
   readonly examples: readonly (readonly [id: string, label: string])[];
 }): DocsSitePage & { readonly id: Id } {
   const entry = (id: string, label: string, level?: 2): DocsTableOfContentsItem =>
@@ -55,8 +53,6 @@ function defineComponentPage<const Id extends string>(page: {
     maturity: page.maturity,
     breadcrumbLabel: page.label,
     parentId: 'components',
-    previousId: page.previousId,
-    nextId: page.nextId,
     sourceUrl: `https://github.com/pranxy/zordon-ui/blob/master/docs/components/${page.id}.md`,
     tableOfContents: [
       entry('page-title', 'Overview'),
@@ -70,6 +66,22 @@ function defineComponentPage<const Id extends string>(page: {
       entry('ssr', 'SSR'),
     ],
   };
+}
+
+type LinkedPages<T extends readonly DocsSitePage[]> = {
+  readonly [K in keyof T]: T[K] & { readonly previousId: string; readonly nextId: string };
+};
+
+function linkComponentPages<const T extends readonly DocsSitePage[]>(
+  before: string,
+  after: string,
+  pages: T,
+): LinkedPages<T> {
+  return pages.map((page, index) => ({
+    ...page,
+    previousId: pages[index - 1]?.id ?? before,
+    nextId: pages[index + 1]?.id ?? after,
+  })) as unknown as LinkedPages<T>;
 }
 
 export const homePage = defineSitePage({
@@ -148,8 +160,6 @@ export const buttonPage = defineComponentPage({
   label: 'Button',
   description: 'Button applies daisyUI appearance to a native action element.',
   maturity: 'planned',
-  previousId: componentsPage.id,
-  nextId: 'dropdown',
   examples: [
     ['color', 'Color'],
     ['variant', 'Variant'],
@@ -165,8 +175,6 @@ export const dropdownPage = defineComponentPage({
   description:
     'Dropdown opens an anchored menu or content panel from a native button, with keyboard support and dismissal policies.',
   maturity: 'preview',
-  previousId: buttonPage.id,
-  nextId: 'swap',
   examples: [
     ['action-menu', 'Action menu'],
     ['nested-menus', 'Nested menus'],
@@ -180,8 +188,6 @@ export const kbdPage = defineComponentPage({
   label: 'Kbd',
   description: 'Kbd applies daisyUI keycap styling to a native kbd element for keys and shortcuts.',
   maturity: 'preview',
-  previousId: 'collapse',
-  nextId: 'megamenu',
   examples: [
     ['size', 'Size'],
     ['in-text', 'In running text'],
@@ -195,8 +201,6 @@ export const swapPage = defineComponentPage({
   description:
     'Swap shows on, off and indeterminate states around a native checkbox or toggle button.',
   maturity: 'preview',
-  previousId: 'dropdown',
-  nextId: 'carousel',
   examples: [
     ['checkbox', 'Checkbox'],
     ['toggle-button', 'Toggle button'],
@@ -211,8 +215,6 @@ export const carouselPage = defineComponentPage({
   description:
     'Carousel applies daisyUI scroll-snap layout to a native scroll container and its items.',
   maturity: 'preview',
-  previousId: 'swap',
-  nextId: 'collapse',
   examples: [
     ['controls', 'Previous and next'],
     ['peek', 'Partial items'],
@@ -226,8 +228,6 @@ export const collapsePage = defineComponentPage({
   description:
     'Collapse styles a native disclosure with daisyUI title, content and indicator classes.',
   maturity: 'preview',
-  previousId: 'carousel',
-  nextId: 'kbd',
   examples: [
     ['details', 'Native details'],
     ['indicators', 'Indicators'],
@@ -242,8 +242,6 @@ export const megamenuPage = defineComponentPage({
   description:
     'Megamenu opens a responsive multi-column navigation panel, or an application command bar, from native buttons.',
   maturity: 'preview',
-  previousId: 'kbd',
-  nextId: 'menu',
   examples: [
     ['site-navigation', 'Site navigation'],
     ['full-width', 'Full width on hover'],
@@ -257,8 +255,6 @@ export const menuPage = defineComponentPage({
   description:
     'Menu renders native navigation lists with groups, or a selectable tree built on Angular Aria.',
   maturity: 'preview',
-  previousId: 'megamenu',
-  nextId: 'calendar',
   examples: [
     ['navigation', 'Navigation'],
     ['horizontal', 'Horizontal'],
@@ -273,8 +269,6 @@ export const calendarPage = defineComponentPage({
   description:
     'Calendar provides inline or popup date selection with single, multiple and range modes.',
   maturity: 'preview',
-  previousId: 'menu',
-  nextId: 'checkbox',
   examples: [
     ['bounds', 'Bounds and unavailable days'],
     ['range', 'Range'],
@@ -290,8 +284,6 @@ export const checkboxPage = defineComponentPage({
   description:
     'Checkbox adds daisyUI styling to a native checkbox, keeping its state, keyboard and Forms behaviour.',
   maturity: 'planned',
-  previousId: 'calendar',
-  nextId: 'radio',
   examples: [
     ['colors', 'Colors'],
     ['sizes', 'Sizes'],
@@ -306,8 +298,6 @@ export const radioPage = defineComponentPage({
   description:
     'Radio adds daisyUI styling to native radio inputs, which keep their grouping, arrow keys and Forms behaviour.',
   maturity: 'planned',
-  previousId: 'checkbox',
-  nextId: 'range',
   examples: [
     ['group', 'Radio group'],
     ['colors', 'Colors'],
@@ -321,8 +311,6 @@ export const rangePage = defineComponentPage({
   description:
     'Range adds daisyUI styling to a native range input, including sizes, colors and a vertical layout.',
   maturity: 'planned',
-  previousId: 'radio',
-  nextId: 'rating',
   examples: [
     ['value', 'Showing the value'],
     ['ticks', 'Steps and ticks'],
@@ -338,8 +326,6 @@ export const ratingPage = defineComponentPage({
   description:
     'Rating lays out a native radio group as daisyUI stars, with sizes, half stars and a clear option.',
   maturity: 'planned',
-  previousId: 'range',
-  nextId: 'select',
   examples: [
     ['stars', 'Star rating'],
     ['half', 'Half stars'],
@@ -353,8 +339,6 @@ export const selectPage = defineComponentPage({
   description:
     'Select adds daisyUI styling to a native select, which keeps its options, keyboard and Forms behaviour.',
   maturity: 'planned',
-  previousId: 'rating',
-  nextId: 'text-input',
   examples: [
     ['forms', 'Groups and Forms'],
     ['multiple', 'Multiple selection'],
@@ -369,8 +353,6 @@ export const textInputPage = defineComponentPage({
   description:
     'Text Input adds daisyUI styling to a native input of any text type, with colors, sizes and a ghost style.',
   maturity: 'planned',
-  previousId: 'select',
-  nextId: 'textarea',
   examples: [
     ['validation', 'Validation'],
     ['types', 'Input types'],
@@ -385,8 +367,6 @@ export const textareaPage = defineComponentPage({
   description:
     'Textarea adds daisyUI styling to a native textarea, with colors, sizes and a ghost style.',
   maturity: 'planned',
-  previousId: 'text-input',
-  nextId: 'toggle',
   examples: [
     ['character-count', 'Character count'],
     ['colors', 'Colors'],
@@ -400,14 +380,119 @@ export const togglePage = defineComponentPage({
   description:
     'Toggle styles a native checkbox as a daisyUI switch, keeping its checked state and Forms behaviour.',
   maturity: 'planned',
-  previousId: 'textarea',
-  nextId: 'typed-vocabularies',
   examples: [
     ['settings', 'Settings list'],
     ['colors', 'Colors'],
     ['sizes', 'Sizes'],
   ],
 });
+
+export const fieldsetPage = defineComponentPage({
+  id: 'fieldset',
+  label: 'Fieldset',
+  description:
+    'Fieldset styles a native fieldset, legend and labels, which keep their grouping and disabled propagation.',
+  maturity: 'planned',
+  examples: [
+    ['grouping', 'Grouping fields'],
+    ['disabled', 'Disabling a group'],
+    ['nested', 'Nested groups'],
+  ],
+});
+
+export const fileInputPage = defineComponentPage({
+  id: 'file-input',
+  label: 'File Input',
+  description:
+    'File Input adds daisyUI styling to a native file input, which keeps its picker, accept and multiple behaviour.',
+  maturity: 'planned',
+  examples: [
+    ['selection', 'Reading the selection'],
+    ['colors', 'Colors'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const filterPage = defineComponentPage({
+  id: 'filter',
+  label: 'Filter',
+  description:
+    'Filter lays out native radio or checkbox inputs as daisyUI filter buttons, with a native reset.',
+  maturity: 'planned',
+  examples: [
+    ['single-choice', 'Single choice with reset'],
+    ['variants', 'Variants'],
+    ['sizes', 'Sizes'],
+  ],
+});
+
+export const labelPage = defineComponentPage({
+  id: 'label',
+  label: 'Label',
+  description:
+    'Label styles a native label, including daisyUI’s floating label, without changing its association.',
+  maturity: 'planned',
+  examples: [
+    ['association', 'Associating a control'],
+    ['floating', 'Floating label'],
+  ],
+});
+
+export const validatorPage = defineComponentPage({
+  id: 'validator',
+  label: 'Validator',
+  description:
+    'Validator shows native constraint validity on inputs, selects and textareas, with a hint that appears on error.',
+  maturity: 'planned',
+  examples: [
+    ['constraints', 'Native constraints'],
+    ['pattern', 'Pattern and hint'],
+    ['forms', 'Angular Forms'],
+  ],
+});
+
+export const otpPage = defineComponentPage({
+  id: 'otp',
+  label: 'OTP',
+  description:
+    'OTP renders a row of single-character inputs for one-time codes, with paste distribution and Angular Forms support.',
+  maturity: 'planned',
+  examples: [
+    ['forms', 'Reactive Forms'],
+    ['alphanumeric', 'Letters and digits'],
+    ['completed', 'Completion'],
+  ],
+});
+
+/**
+ * Component reference pages in catalogue order (content/component-catalogue.ts). Previous and next
+ * links are derived from this order, from the catalogue page through to the first foundation page.
+ */
+export const componentReferencePages = linkComponentPages(componentsPage.id, 'typed-vocabularies', [
+  buttonPage,
+  dropdownPage,
+  swapPage,
+  carouselPage,
+  collapsePage,
+  kbdPage,
+  megamenuPage,
+  menuPage,
+  calendarPage,
+  checkboxPage,
+  fieldsetPage,
+  fileInputPage,
+  filterPage,
+  labelPage,
+  radioPage,
+  rangePage,
+  ratingPage,
+  selectPage,
+  textInputPage,
+  textareaPage,
+  togglePage,
+  validatorPage,
+  otpPage,
+] as const);
 
 export const typedVocabulariesPage = defineSitePage({
   id: 'typed-vocabularies',
@@ -419,7 +504,7 @@ export const typedVocabulariesPage = defineSitePage({
   navigationLabel: 'Foundations',
   navigationOrder: 30,
   parentId: homePage.id,
-  previousId: 'toggle',
+  previousId: 'otp',
   nextId: 'styling-and-theming',
   sourceUrl:
     'https://github.com/pranxy/zordon-ui/blob/master/docs/foundations/typed-vocabularies.md',
@@ -487,23 +572,7 @@ export const sitePages = [
   homePage,
   gettingStartedPage,
   componentsPage,
-  buttonPage,
-  dropdownPage,
-  swapPage,
-  carouselPage,
-  collapsePage,
-  kbdPage,
-  megamenuPage,
-  menuPage,
-  calendarPage,
-  checkboxPage,
-  radioPage,
-  rangePage,
-  ratingPage,
-  selectPage,
-  textInputPage,
-  textareaPage,
-  togglePage,
+  ...componentReferencePages,
   typedVocabulariesPage,
   stylingAndThemingPage,
   resourcesPage,

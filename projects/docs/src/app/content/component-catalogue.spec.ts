@@ -36,6 +36,10 @@ describe('component catalogue', () => {
       'menu',
       'calendar',
       'checkbox',
+      'fieldset',
+      'file-input',
+      'filter',
+      'label',
       'radio',
       'range',
       'rating',
@@ -43,6 +47,8 @@ describe('component catalogue', () => {
       'text-input',
       'textarea',
       'toggle',
+      'validator',
+      'otp',
     ]);
   });
 

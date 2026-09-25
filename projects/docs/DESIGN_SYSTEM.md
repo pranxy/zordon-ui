@@ -242,10 +242,11 @@ library component.
 
 **Adding a component reference page**
 
-1. Add the page to `site-catalog.ts` with `defineComponentPage` (id, label, description, maturity,
-   previous/next and its example sub-sections; the shared outline is added for you), keep the
-   previous/next chain intact, and add a loader to `app.routes.ts`. The catalogue card and side
-   navigation link to it automatically.
+1. Add the page to `site-catalog.ts` with `defineComponentPage` (id, label, description, maturity
+   and its example sub-sections; the shared outline is added for you), list it in
+   `componentReferencePages` in catalogue order, and add a loader to `app.routes.ts`. Previous and
+   next links are derived from that order, and the catalogue card and side navigation link to the
+   page automatically.
 2. Put the page's copy, API rows and snippets in `content/<component>.content.ts`, mirroring the
    library source. Describe everything except the playground and examples as one `DocsReference`
    object. Native form controls share their vocabulary (colors, sizes, playground controls, API

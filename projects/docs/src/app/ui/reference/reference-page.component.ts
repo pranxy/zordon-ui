@@ -48,8 +48,9 @@ export interface DocsReference {
   readonly api: {
     readonly description: string;
     readonly tables: readonly DocsReferenceTable[];
-    readonly typesLabel: string;
-    readonly typesCode: string;
+    /** Omit both when the entry point exports no public types. */
+    readonly typesLabel?: string;
+    readonly typesCode?: string;
   };
   readonly accessibility: {
     readonly description: string;
@@ -139,13 +140,15 @@ const maturityLabels: Record<DocsMaturity, string> = {
             />
           </docs-section>
         }
-        <docs-section id="types" level="3" heading="Types">
-          <docs-code-block
-            [label]="page.api.typesLabel"
-            language="ts"
-            [code]="page.api.typesCode"
-          />
-        </docs-section>
+        @if (page.api.typesCode; as typesCode) {
+          <docs-section id="types" level="3" heading="Types">
+            <docs-code-block
+              [label]="page.api.typesLabel ?? 'Types'"
+              language="ts"
+              [code]="typesCode"
+            />
+          </docs-section>
+        }
       </docs-section>
 
       <docs-section

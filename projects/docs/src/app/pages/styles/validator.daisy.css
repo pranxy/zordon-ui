@@ -1,0 +1,7 @@
+/* daisyUI classes Validator emits, compiled only for the pages that use them (see DESIGN_SYSTEM.md). */
+@import 'tailwindcss/utilities' source(none);
+@plugin 'daisyui' {
+  themes: false;
+  include: validator;
+}
+@source inline('validator validator-hint');
