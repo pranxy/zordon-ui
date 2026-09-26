@@ -535,7 +535,7 @@ Initial release note</textarea>
             zdButton
             href="#button-link-target"
             data-testid="button-disabled-link"
-            [zdDisabled]="buttonLinkDisabled()"
+            [disabled]="buttonLinkDisabled()"
             (click)="buttonLinkClicks.update(clicks => clicks + 1)"
           >
             Unavailable settings
@@ -586,7 +586,7 @@ Initial release note</textarea>
           zdLink
           data-testid="link-disabled"
           href="#link-target"
-          [zdDisabled]="linkDisabled()"
+          [disabled]="linkDisabled()"
           (click)="linkClicks.update(clicks => clicks + 1)"
         >
           Unavailable link details

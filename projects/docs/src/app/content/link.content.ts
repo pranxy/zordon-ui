@@ -55,11 +55,11 @@ export const linkReference: DocsReference = {
             description: 'Adds `link-hover`: underline only while a pointer hovers.',
           },
           {
-            name: 'zdDisabled',
+            name: 'disabled',
             type: 'boolean',
             default: 'false',
             description:
-              'Sets `aria-disabled` and blocks native href navigation; the link stays focusable. It does not stop RouterLink.',
+              'Sets `aria-disabled` and stops native and Router navigation, and your own click handlers, while true. The link stays focusable.',
           },
         ],
       },
@@ -112,7 +112,7 @@ export const appConfig = {
 export const linkPlaygroundControls: readonly PlaygroundControl[] = [
   colorControl,
   { kind: 'boolean', key: 'hover', defaultValue: false },
-  { kind: 'boolean', key: 'zdDisabled', defaultValue: false },
+  { kind: 'boolean', key: 'disabled', defaultValue: false },
 ];
 
 export const linkPlaygroundSnippet: PlaygroundElementSnippet = {
@@ -129,7 +129,7 @@ export const disabledFiles = [
   {
     label: 'billing.html',
     language: 'html' as const,
-    code: `<a zdLink href="/components/modal" [zdDisabled]="!paid()">Billing history</a>`,
+    code: `<a zdLink routerLink="/components/modal" [disabled]="!paid()">Billing history</a>`,
   },
   {
     label: 'billing.ts',

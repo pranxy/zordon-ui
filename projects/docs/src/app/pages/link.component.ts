@@ -57,7 +57,7 @@ class LinkDaisyStylesComponent {}
             routerLink="/components"
             [color]="colorOf(values)"
             [hover]="flagOf(values, 'hover')"
-            [zdDisabled]="flagOf(values, 'zdDisabled')"
+            [disabled]="flagOf(values, 'disabled')"
           >
             Browse the components
           </a>
@@ -89,11 +89,11 @@ class LinkDaisyStylesComponent {}
         id="unavailable"
         level="3"
         heading="Unavailable"
-        description="Anchors have no disabled attribute. zdDisabled keeps the link focusable and discoverable, announces it as disabled, and blocks the native href navigation."
+        description="Anchors have no disabled attribute. disabled keeps the link focusable and discoverable, announces it as disabled, and stops both native and Router navigation."
       >
         <docs-example label="billing" [files]="disabledFiles">
           <div class="docs-cluster">
-            <a zdLink href="/components/modal" [zdDisabled]="!paid()">Billing history</a>
+            <a zdLink routerLink="/components/modal" [disabled]="!paid()">Billing history</a>
             <label class="docs-choice">
               <input type="checkbox" [checked]="paid()" (change)="paid.set(!paid())" />
               Account paid

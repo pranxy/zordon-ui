@@ -173,7 +173,7 @@ test('Button reference exposes its planned contract in server-rendered HTML', as
       'active',
       'pressed',
       'loading',
-      'zdDisabled',
+      'disabled',
     ]);
 
     for (const section of ['Playground', 'Examples', 'Accessibility', 'Customization', 'SSR']) {
@@ -794,6 +794,10 @@ test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', asyn
   await expect(
     page.getByRole('navigation', { name: 'Example links' }).getByRole('link', { name: 'Link' }),
   ).toHaveAttribute('aria-current', 'page');
+  // Enabled again, the same routerLink navigates.
+  await billing.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/components\/modal$/);
 
   await page.goto('/components/navbar');
   await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });

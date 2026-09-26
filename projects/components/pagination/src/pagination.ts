@@ -58,7 +58,6 @@ const labels: ZdPaginationLabels = {
             <span class="zd-ellipsis" aria-hidden="true">…</span>
           } @else if (routing()) {
             <a
-              href=""
               zdButton
               zdJoinItem
               [size]="size()"
@@ -67,7 +66,7 @@ const labels: ZdPaginationLabels = {
               [queryParams]="queryValues(control.page, currentPageSize())"
               queryParamsHandling="merge"
               [preserveFragment]="true"
-              [zdDisabled]="control.disabled"
+              [disabled]="control.disabled"
               [attr.tabindex]="control.disabled ? -1 : null"
               role="link"
               [attr.aria-label]="control.label"

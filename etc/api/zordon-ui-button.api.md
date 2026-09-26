@@ -12,6 +12,7 @@ export function withButtonDefaults(defaults: ZdButtonDefaults): ZdFeature;
 
 // @public (undocumented)
 export class ZdButton {
+    constructor();
     // (undocumented)
     readonly active: _angular_core.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
@@ -21,6 +22,8 @@ export class ZdButton {
     // (undocumented)
     readonly color: _angular_core.InputSignalWithTransform<ZdColor | undefined, ZdColor | undefined>;
     // (undocumented)
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    // (undocumented)
     protected guardActivation(event: Event): void;
     // (undocumented)
     protected readonly hostClasses: _angular_core.Signal<string>;
@@ -28,6 +31,7 @@ export class ZdButton {
     readonly layout: _angular_core.InputSignalWithTransform<ZdButtonLayout | undefined, ZdButtonLayout | undefined>;
     // (undocumented)
     readonly loading: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    protected readonly nativeDisabled: _angular_core.Signal<"" | null>;
     // (undocumented)
     readonly pressed: _angular_core.InputSignal<boolean | null | undefined>;
     // (undocumented)
@@ -35,9 +39,7 @@ export class ZdButton {
     // (undocumented)
     readonly variant: _angular_core.InputSignalWithTransform<ZdButtonVariant | undefined, ZdButtonVariant | undefined>;
     // (undocumented)
-    readonly zdDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdButton, "button[zdButton], a[href][zdButton], input[type=\"button\"][zdButton], input[type=\"submit\"][zdButton], input[type=\"reset\"][zdButton]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "layout": { "alias": "layout"; "required": false; "isSignal": true; }; "active": { "alias": "active"; "required": false; "isSignal": true; }; "pressed": { "alias": "pressed"; "required": false; "isSignal": true; }; "loading": { "alias": "loading"; "required": false; "isSignal": true; }; "zdDisabled": { "alias": "zdDisabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdButton, "button[zdButton], a[zdButton], input[type=\"button\"][zdButton], input[type=\"submit\"][zdButton], input[type=\"reset\"][zdButton]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "variant": { "alias": "variant"; "required": false; "isSignal": true; }; "size": { "alias": "size"; "required": false; "isSignal": true; }; "layout": { "alias": "layout"; "required": false; "isSignal": true; }; "active": { "alias": "active"; "required": false; "isSignal": true; }; "pressed": { "alias": "pressed"; "required": false; "isSignal": true; }; "loading": { "alias": "loading"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdButton, never>;
 }

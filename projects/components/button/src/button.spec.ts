@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed, type TestModuleMetadata } from '@angular/core/testing';
+import { provideRouter, Router, RouterLink } from '@angular/router';
 
 import { provideZordonUi } from '@pranxy/zordon-ui';
 
@@ -39,7 +40,7 @@ class TestButtonHost {
 @Component({
   imports: [ZdButton],
   template: `
-    <a zdButton href="/settings" tabindex="2" [zdDisabled]="disabled()" [loading]="loading()">
+    <a zdButton href="/settings" tabindex="2" [disabled]="disabled()" [loading]="loading()">
       Settings
     </a>
   `,
@@ -57,9 +58,19 @@ class TestNativeDisabledButton {}
 
 @Component({
   imports: [ZdButton],
-  template: `<button zdButton [zdDisabled]="true">Save</button>`,
+  template: `<button zdButton [disabled]="disabled()">Save</button>`,
 })
-class TestInvalidDisabledButton {}
+class TestBoundDisabledButton {
+  readonly disabled = signal(true);
+}
+
+@Component({
+  imports: [ZdButton, RouterLink],
+  template: `<a zdButton routerLink="/next" [disabled]="disabled()">Next</a>`,
+})
+class TestRouterButtonLink {
+  readonly disabled = signal(false);
+}
 
 function createButtonFixture(
   providers: NonNullable<TestModuleMetadata['providers']> = [],
@@ -162,27 +173,27 @@ describe('ZdButton', () => {
     expect(button.hasAttribute('aria-disabled')).toBe(false);
   });
 
-  it('guards a disabled link without removing its href, tabindex, or event propagation', async () => {
+  it('guards a disabled link without removing its href or tabindex', async () => {
     await TestBed.configureTestingModule({ imports: [TestLinkHost] }).compileComponents();
     const fixture = TestBed.createComponent(TestLinkHost);
     fixture.detectChanges();
     const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
-    let observedDefaultPrevented = false;
-    link.addEventListener('click', (event) => {
-      observedDefaultPrevented = event.defaultPrevented;
+    let consumerEvents = 0;
+    link.addEventListener('click', () => {
+      consumerEvents += 1;
     });
 
     fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
     const event = new MouseEvent('click', { bubbles: true, cancelable: true });
-    const accepted = link.dispatchEvent(event);
 
-    expect(accepted).toBe(false);
-    expect(observedDefaultPrevented).toBe(true);
+    expect(link.dispatchEvent(event)).toBe(false);
+    expect(consumerEvents).toBe(0);
     expect(link.getAttribute('href')).toBe('/settings');
     expect(link.getAttribute('tabindex')).toBe('2');
     expect(link.getAttribute('aria-disabled')).toBe('true');
     expect(link.classList.contains('btn-disabled')).toBe(true);
+    expect(link.hasAttribute('disabled')).toBe(false);
   });
 
   it('uses loading as a focusable presentation guard without suppressing consumer listeners', () => {
@@ -213,11 +224,55 @@ describe('ZdButton', () => {
     expect(event.defaultPrevented).toBe(false);
   });
 
-  it('rejects link-only disabled state on a native button', async () => {
-    await TestBed.configureTestingModule({ imports: [TestInvalidDisabledButton] }).compileComponents();
-    const fixture = TestBed.createComponent(TestInvalidDisabledButton);
+  it('binds disabled to the native attribute on a button', async () => {
+    await TestBed.configureTestingModule({ imports: [TestBoundDisabledButton] }).compileComponents();
+    const fixture = TestBed.createComponent(TestBoundDisabledButton);
+    fixture.detectChanges();
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
 
-    expect(() => fixture.detectChanges()).toThrowError(/zdDisabled is supported only/);
+    expect(button.disabled).toBe(true);
+    expect(button.hasAttribute('aria-disabled')).toBe(false);
+    expect(button.classList.contains('btn-disabled')).toBe(false);
+
+    fixture.componentInstance.disabled.set(false);
+    fixture.detectChanges();
+
+    expect(button.disabled).toBe(false);
+  });
+
+  it('matches a RouterLink anchor and stops Router navigation while disabled', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestRouterButtonLink],
+      providers: [provideRouter([])],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(TestRouterButtonLink);
+    fixture.detectChanges();
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    const router = TestBed.inject(Router);
+    const navigate = vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
+    let consumerEvents = 0;
+    link.addEventListener('click', () => {
+      consumerEvents += 1;
+    });
+
+    expect(link.classList.contains('btn')).toBe(true);
+
+    fixture.componentInstance.disabled.set(true);
+    fixture.detectChanges();
+    const blocked = new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 });
+
+    expect(link.dispatchEvent(blocked)).toBe(false);
+    expect(navigate).not.toHaveBeenCalled();
+    expect(consumerEvents).toBe(0);
+    expect(link.getAttribute('aria-disabled')).toBe('true');
+    expect(link.hasAttribute('disabled')).toBe(false);
+
+    fixture.componentInstance.disabled.set(false);
+    fixture.detectChanges();
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(consumerEvents).toBe(1);
   });
 
   it('uses complete configured prefix tokens', () => {

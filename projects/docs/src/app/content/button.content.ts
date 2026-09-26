@@ -11,7 +11,7 @@ import type { PlaygroundControl } from '../ui/reference/playground.component';
  */
 
 export const buttonFacts: readonly DocsMetaItem[] = [
-  { label: 'Selector', value: 'button[zdButton], a[href][zdButton], input[zdButton]', mono: true },
+  { label: 'Selector', value: 'button[zdButton], a[zdButton], input[zdButton]', mono: true },
   { label: 'daisyUI class', value: 'btn', mono: true },
   { label: 'Entry point', value: '@pranxy/zordon-ui/button', mono: true },
   {
@@ -130,7 +130,7 @@ protected async save(): Promise<void> {
 ];
 
 export const linksCode = `<a zdButton color="primary" href="/components">Open catalogue</a>
-<a zdButton color="primary" href="/resources" [zdDisabled]="!canUpgrade()">Upgrade plan</a>`;
+<a zdButton color="primary" routerLink="/resources" [disabled]="!canUpgrade()">Upgrade plan</a>`;
 
 export const inputColumns: readonly DocsTableColumn[] = [
   { key: 'name', label: 'Input', kind: 'name' },
@@ -186,11 +186,11 @@ export const inputRows: readonly DocsTableRow[] = [
       'Pending presentation. Guards activation and sets `aria-disabled` while staying focusable.',
   },
   {
-    name: 'zdDisabled',
+    name: 'disabled',
     type: 'boolean',
     default: 'false',
     description:
-      'For linked `<a>` hosts: guards activation and reflects `aria-disabled`. On `<button>` use the native `disabled`.',
+      'The native `disabled` attribute on buttons and inputs. On `<a>`: sets `aria-disabled` and stops native and Router navigation.',
   },
 ];
 
@@ -235,7 +235,7 @@ export const keyboardRows: readonly DocsTableRow[] = [
   {
     key: 'Tab',
     button: 'Focusable unless `disabled`',
-    anchor: 'Focusable; guarded when `zdDisabled`',
+    anchor: 'Focusable; guarded when `disabled`',
   },
 ];
 

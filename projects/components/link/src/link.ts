@@ -1,4 +1,12 @@
-import { booleanAttribute, computed, Directive, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  computed,
+  DestroyRef,
+  Directive,
+  ElementRef,
+  inject,
+  input,
+} from '@angular/core';
 
 import { ZdClassNames, type ZdColor } from '@pranxy/zordon-ui';
 
@@ -9,7 +17,6 @@ import { coerceLinkHover, resolveLinkColor, ZD_LINK_DEFAULTS } from './link-defa
   host: {
     '[class]': 'hostClasses()',
     '[attr.aria-disabled]': 'ariaDisabled()',
-    '(click)': 'guardNavigation($event)',
   },
 })
 export class ZdLink {
@@ -19,7 +26,7 @@ export class ZdLink {
   readonly hover = input<boolean | undefined, boolean | '' | undefined>(undefined, {
     transform: coerceLinkHover,
   });
-  readonly zdDisabled = input(false, { transform: booleanAttribute });
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   private readonly classNames = inject(ZdClassNames);
   private readonly defaults = inject(ZD_LINK_DEFAULTS);
@@ -34,10 +41,12 @@ export class ZdLink {
     );
   });
 
-  protected readonly ariaDisabled = computed(() => (this.zdDisabled() ? 'true' : null));
+  protected readonly ariaDisabled = computed(() => (this.disabled() ? 'true' : null));
 
-  protected guardNavigation(event: Event): void {
-    if (this.zdDisabled()) event.preventDefault();
+  constructor() {
+    guardUnavailableActivation(inject(ElementRef<HTMLAnchorElement>).nativeElement, () =>
+      this.disabled(),
+    );
   }
 
   private effectiveColor(): ZdColor | undefined {
@@ -52,4 +61,24 @@ export class ZdLink {
 
 function joinLinkClasses(...tokens: readonly (string | false | undefined)[]): string {
   return tokens.filter((token): token is string => typeof token === 'string').join(' ');
+}
+
+/**
+ * Stops activation of an unavailable anchor before anything else sees it. Capture listeners on the
+ * target run before its bubbling ones, so RouterLink and consumer click handlers never receive the
+ * event and neither native nor Router navigation happens.
+ */
+function guardUnavailableActivation(host: HTMLElement, unavailable: () => boolean): void {
+  const guard = (event: Event): void => {
+    if (!unavailable()) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  };
+  const options = { capture: true };
+  host.addEventListener('click', guard, options);
+  host.addEventListener('auxclick', guard, options);
+  inject(DestroyRef).onDestroy(() => {
+    host.removeEventListener('click', guard, options);
+    host.removeEventListener('auxclick', guard, options);
+  });
 }

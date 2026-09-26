@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed, type TestModuleMetadata } from '@angular/core/testing';
+import { provideRouter, Router, RouterLink } from '@angular/router';
 
 import { provideZordonUi } from '@pranxy/zordon-ui';
 
@@ -18,7 +19,7 @@ import { ZdLink } from './link';
       [class.consumer-dynamic]="consumerClass()"
       [color]="color()"
       [hover]="hover()"
-      [zdDisabled]="disabled()"
+      [disabled]="disabled()"
     >
       Settings
     </a>
@@ -36,6 +37,14 @@ class TestLinkHost {
   template: '<a zdLink hover href="/plans">Plans</a>',
 })
 class TestBooleanAttributeLink {}
+
+@Component({
+  imports: [ZdLink, RouterLink],
+  template: '<a zdLink routerLink="/billing" [disabled]="disabled()">Billing</a>',
+})
+class TestRouterLink {
+  readonly disabled = signal(true);
+}
 
 function createLinkFixture(
   providers: NonNullable<TestModuleMetadata['providers']> = [],
@@ -102,24 +111,45 @@ describe('ZdLink', () => {
     expect(link.classList.contains('link-primary')).toBe(false);
   });
 
-  it('guards an unavailable link without removing navigation semantics or event propagation', () => {
+  it('guards an unavailable link before consumer listeners, keeping its navigation semantics', () => {
     const fixture = createLinkFixture();
     const link = linkOf(fixture);
-    let observedDefaultPrevented = false;
-    link.addEventListener('click', event => {
-      observedDefaultPrevented = event.defaultPrevented;
+    let consumerEvents = 0;
+    link.addEventListener('click', () => {
+      consumerEvents += 1;
     });
 
     fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const click = new MouseEvent('click', { bubbles: true, cancelable: true });
+    const middleClick = new MouseEvent('auxclick', { bubbles: true, cancelable: true, button: 1 });
 
-    expect(link.dispatchEvent(event)).toBe(false);
-    expect(observedDefaultPrevented).toBe(true);
+    expect(link.dispatchEvent(click)).toBe(false);
+    expect(link.dispatchEvent(middleClick)).toBe(false);
+    expect(consumerEvents).toBe(0);
     expect(link.getAttribute('href')).toBe('/settings');
     expect(link.getAttribute('tabindex')).toBe('2');
     expect(link.getAttribute('aria-current')).toBe('page');
     expect(link.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  it('stops RouterLink navigation while disabled and restores it when enabled', async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestRouterLink],
+      providers: [provideRouter([])],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(TestRouterLink);
+    fixture.detectChanges();
+    const link = fixture.nativeElement.querySelector('a') as HTMLAnchorElement;
+    const navigate = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    expect(navigate).not.toHaveBeenCalled();
+
+    fixture.componentInstance.disabled.set(false);
+    fixture.detectChanges();
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    expect(navigate).toHaveBeenCalledTimes(1);
   });
 
   it('does not prevent enabled native link navigation', () => {

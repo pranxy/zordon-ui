@@ -7,8 +7,8 @@ import ts from 'typescript';
  * Library inputs must not reuse the name of a global HTML attribute, or of an attribute that is
  * native to the element their selector targets. A reused name silently takes the attribute over:
  * `style="color: red"` stops compiling under strict templates, and `size="4"` on a select no
- * longer sets its visible rows. Rename descriptively, or prefix with `zd` (as `zdDisabled` and
- * `zdSize` do) when no better name exists.
+ * longer sets its visible rows. Rename descriptively, prefix with `zd` (as `zdSize` does) when no
+ * better name exists, or list a deliberate mirror of the native attribute below.
  *
  * See docs/contributing/api-review.md.
  */
@@ -114,6 +114,7 @@ export const mirroredInputs = new Map([
   ['ZdDropdownItem.value', 'the item value, as for a native button'],
   ['ZdDropdownItem.disabled', 'Angular Aria disables the item'],
   ['ZdNavbarToggle.disabled', 'bound back to the native disabled property'],
+  ['ZdButton.disabled', 'bound back to the native disabled attribute; links get aria-disabled'],
 ]);
 
 /** Host elements, and the input type where the selector names one, for each selector part. */

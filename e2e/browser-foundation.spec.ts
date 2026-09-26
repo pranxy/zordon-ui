@@ -62,7 +62,7 @@ test('moves focus in deterministic keyboard order', async ({ page }) => {
   expect(await second.evaluate(element => element.matches(':focus-visible'))).toBe(true);
 });
 
-test('keeps native Button hosts semantic while guarding only loading and disabled-link activation', async ({
+test('keeps native Button hosts semantic while guarding loading and disabled-link activation', async ({
   page,
 }) => {
   const pressed = page.getByTestId('button-pressed');
@@ -86,7 +86,8 @@ test('keeps native Button hosts semantic while guarding only loading and disable
   await expect(disabledLink).toHaveAttribute('aria-disabled', 'true');
   await disabledLink.focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 1');
+  // The disabled guard stops the click before consumer handlers too.
+  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 0');
   await expect(page).not.toHaveURL(/#button-link-target$/);
 
   await loadingToggle.click();
@@ -144,7 +145,8 @@ test('keeps native Link navigation, Router current-route state, and unavailable 
   await disabledLink.focus();
   await page.keyboard.press('Enter');
   await expect(disabledLink).toBeFocused();
-  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 1');
+  // The disabled guard stops the click before consumer handlers too.
+  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 0');
   await expect(page).not.toHaveURL(/#link-target$/);
 
   await toggle.click();

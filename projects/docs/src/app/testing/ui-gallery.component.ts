@@ -74,7 +74,7 @@ const tableColumns: readonly DocsTableColumn[] = [
 const tableRows: readonly DocsTableRow[] = [
   { name: 'color', type: 'ZdColor', key: 'Enter', description: 'Prose with `inline code`.' },
   {
-    name: 'zdDisabled',
+    name: 'disabled',
     type: 'boolean',
     key: 'Tab',
     description: 'A row with a note under the name.',

@@ -21,20 +21,19 @@ export interface ZdFeature {
 
 // @public (undocumented)
 export class ZdLink {
+    constructor();
     // (undocumented)
     protected readonly ariaDisabled: _angular_core.Signal<"true" | null>;
     // (undocumented)
     readonly color: _angular_core.InputSignalWithTransform<ZdColor | undefined, ZdColor | undefined>;
     // (undocumented)
-    protected guardNavigation(event: Event): void;
+    readonly disabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
     protected readonly hostClasses: _angular_core.Signal<string>;
     // (undocumented)
     readonly hover: _angular_core.InputSignalWithTransform<boolean | undefined, boolean | "" | undefined>;
     // (undocumented)
-    readonly zdDisabled: _angular_core.InputSignalWithTransform<boolean, unknown>;
-    // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdLink, "a[zdLink]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "hover": { "alias": "hover"; "required": false; "isSignal": true; }; "zdDisabled": { "alias": "zdDisabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdLink, "a[zdLink]", never, { "color": { "alias": "color"; "required": false; "isSignal": true; }; "hover": { "alias": "hover"; "required": false; "isSignal": true; }; "disabled": { "alias": "disabled"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
     static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdLink, never>;
 }

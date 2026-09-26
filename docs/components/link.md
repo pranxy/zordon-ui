@@ -54,15 +54,15 @@ configured spelling (for example, `tw:d-link-primary`), as described in the
 
 ## Planned public API
 
-| Input        | Type                   | Default | Contract                                                                           |
-| ------------ | ---------------------- | ------- | ---------------------------------------------------------------------------------- |
-| `color`      | `ZdColor \| undefined` | none    | Adds one semantic `link-*` color modifier.                                         |
-| `hover`      | `boolean \| undefined` | `false` | Adds `link-hover`; it changes only the visual underline behavior.                  |
-| `zdDisabled` | `boolean \| undefined` | `false` | Controlled unavailable state; it guards the directive-accepted navigation default. |
+| Input      | Type                   | Default | Contract                                                             |
+| ---------- | ---------------------- | ------- | -------------------------------------------------------------------- |
+| `color`    | `ZdColor \| undefined` | none    | Adds one semantic `link-*` color modifier.                           |
+| `hover`    | `boolean \| undefined` | `false` | Adds `link-hover`; it changes only the visual underline behavior.    |
+| `disabled` | `boolean \| undefined` | `false` | Controlled unavailable state; it stops native and Router navigation. |
 
 `color` and `hover` are the only candidates for a future `withLinkDefaults(...)` feature. They are
 appearance modifiers, so their effective precedence will be intrinsic default < application default
-< explicit local input. `zdDisabled` is local controlled state and is never globally defaulted.
+< explicit local input. `disabled` is local controlled state and is never globally defaulted.
 
 Configure application defaults through the root provider when the application has a shared Link
 appearance:
@@ -92,12 +92,15 @@ Current-route semantics belong to Angular Router, not Link. Pair the directives 
 `ZdLink` never writes `aria-current`, an active class, or a route state. Native links outside the
 Router can use consumer-supplied `aria-current` where their navigation context requires it.
 
-An anchor has no native `disabled` state. While `zdDisabled` is true, Link will preserve its `href`,
-Router directive, native role, and consumer `tabindex`; add `aria-disabled="true"`; and prevent the
-directive-accepted click/keyboard navigation default without stopping propagation. It does not add
-a non-existent daisyUI disabled class, suppress consumer click listeners, remove the link from Tab
-order, or make direct programmatic navigation impossible. The consumer owns a workflow that must
-hide or remove unavailable navigation from the focus order.
+An anchor has no native `disabled` state, so Link's `disabled` input is not a native attribute.
+While it is true, Link preserves the `href`, Router directive, native role and consumer `tabindex`,
+adds `aria-disabled="true"`, and stops click and middle-click activation in a capture-phase listener
+on the host. That listener runs before any bubbling listener on the same element, so neither the
+browser, `RouterLink` nor consumer `(click)` handlers receive the event: native and Router
+navigation are both blocked, and consumer click listeners do not run while disabled. It does not add
+a non-existent daisyUI disabled class, remove the link from Tab order, or prevent direct
+programmatic navigation. The consumer owns a workflow that must hide or remove unavailable
+navigation from the focus order.
 
 ## Accessibility and content
 
@@ -131,7 +134,7 @@ forced-colors review.
 ```html
 <a zdLink href="https://example.com" color="primary">Read the guide</a>
 <a zdLink href="/pricing" hover>Compare plans</a>
-<a zdLink href="/billing" [zdDisabled]="billingUnavailable()">Billing</a>
+<a zdLink routerLink="/billing" [disabled]="billingUnavailable()">Billing</a>
 ```
 
 ```html

@@ -75,16 +75,16 @@ Each defaultable intrinsic value is `undefined`, which means the unmodified docu
 `btn` appearance. An application default or an explicit local input adds a modifier; neither
 silently invents a color, variant, size, or layout.
 
-| Input        | Type                           | Default / precedence    | Meaning and limits                                                                      |
-| ------------ | ------------------------------ | ----------------------- | --------------------------------------------------------------------------------------- |
-| `color`      | `ZdColor \| undefined`         | intrinsic → app → local | Emits one semantic `btn-*` color when set.                                              |
-| `variant`    | `ZdButtonVariant \| undefined` | intrinsic → app → local | Emits one appearance modifier. Omitted uses ordinary daisyUI Button appearance.         |
-| `size`       | `ZdSize \| undefined`          | intrinsic → app → local | Emits `btn-xs` through `btn-xl`; no responsive parser.                                  |
-| `layout`     | `ZdButtonLayout \| undefined`  | intrinsic → app → local | Emits exactly one wide/block/square/circle modifier.                                    |
-| `active`     | `boolean \| undefined`         | local only              | Visual `btn-active` only; it is not a toggle state.                                     |
-| `pressed`    | `boolean \| null \| undefined` | local only              | Boolean sets exact `aria-pressed`; nullish removes it. No self-toggle or change output. |
-| `loading`    | `boolean \| undefined`         | local only              | Controlled pending presentation and host activation guard.                              |
-| `zdDisabled` | `boolean \| undefined`         | local only              | Link-only unavailable-state and activation guard.                                       |
+| Input      | Type                           | Default / precedence    | Meaning and limits                                                                        |
+| ---------- | ------------------------------ | ----------------------- | ----------------------------------------------------------------------------------------- |
+| `color`    | `ZdColor \| undefined`         | intrinsic → app → local | Emits one semantic `btn-*` color when set.                                                |
+| `variant`  | `ZdButtonVariant \| undefined` | intrinsic → app → local | Emits one appearance modifier. Omitted uses ordinary daisyUI Button appearance.           |
+| `size`     | `ZdSize \| undefined`          | intrinsic → app → local | Emits `btn-xs` through `btn-xl`; no responsive parser.                                    |
+| `layout`   | `ZdButtonLayout \| undefined`  | intrinsic → app → local | Emits exactly one wide/block/square/circle modifier.                                      |
+| `active`   | `boolean \| undefined`         | local only              | Visual `btn-active` only; it is not a toggle state.                                       |
+| `pressed`  | `boolean \| null \| undefined` | local only              | Boolean sets exact `aria-pressed`; nullish removes it. No self-toggle or change output.   |
+| `loading`  | `boolean \| undefined`         | local only              | Controlled pending presentation and host activation guard.                                |
+| `disabled` | `boolean \| undefined`         | local only              | Native `disabled` on buttons and inputs; unavailable state and activation guard on links. |
 
 The first implementation will introduce `withButtonDefaults(...)`, passed to
 `provideZordonUi(...)`, under the [component-defaults contract](../foundations/component-defaults.md).
@@ -97,15 +97,20 @@ template, icon, or arbitrary daisyUI token.
 
 ### Native disabled state
 
-Button declares no `disabled` input and never writes the native `disabled` property. On `<button>`
-and supported `<input>` hosts, native static/bound `[disabled]` remains authoritative for keyboard,
-pointer, focus, validation, and form semantics. daisyUI recognizes native disabled state, so no
-extra class is needed.
+Button's `disabled` input deliberately mirrors the native attribute. On `<button>` and supported
+`<input>` hosts it is written back as the native `disabled` attribute, so static `disabled` and
+bound `[disabled]` keep their native keyboard, pointer, focus, validation and form semantics.
+daisyUI recognizes native disabled state, so no extra class is needed.
 
-Anchors have no native disabled state. `zdDisabled` is only valid on `<a href zdButton>` and adds
-`btn-disabled`, `aria-disabled="true"`, and a directive activation guard while true. It does not
-remove `href`, rewrite consumer `tabindex`, or change link semantics. The link remains focusable by
-default; a workflow that must remove it from navigation owns that focus policy.
+Anchors have no native disabled state. On `<a zdButton>`, `disabled` adds `btn-disabled` and
+`aria-disabled="true"`, and stops click and middle-click activation in a capture-phase listener on
+the host, before `RouterLink` or consumer `(click)` handlers see the event, so native and Router
+navigation are both blocked. It does not remove `href`, rewrite consumer `tabindex`, or change link
+semantics. The link remains focusable by default; a workflow that must remove it from navigation
+owns that focus policy.
+
+The selector matches any `a[zdButton]`, including anchors whose `href` comes from `RouterLink`.
+An anchor without a destination is not a link; use a `<button>` for in-page actions.
 
 ## States and interaction
 
@@ -113,7 +118,7 @@ default; a workflow that must remove it from navigation owns that focus policy.
 | --------------- | ---------------------------- | ------------------------------------ | ----------------------------------------------- | -------------------------------------- |
 | Enabled         | Native host / consumer       | Native pointer and keyboard behavior | Native role and name                            | Normal native behavior                 |
 | Native disabled | Native button/input or Forms | None                                 | Native disabled semantics                       | Consumer removes native disabled state |
-| Link disabled   | Consumer via `zdDisabled`    | No directive-accepted activation     | `aria-disabled`, daisyUI disabled presentation  | Consumer clears `zdDisabled`           |
+| Link disabled   | Consumer via `disabled`      | No activation or navigation          | `aria-disabled`, daisyUI disabled presentation  | Consumer clears `disabled`             |
 | Loading         | Consumer via `loading`       | No directive-accepted activation     | `aria-disabled`; stable accessible name/content | Consumer clears `loading`              |
 | Active          | Consumer via `active`        | Normal native behavior               | Visual only                                     | Consumer clears `active`               |
 | Pressed         | Consumer via `pressed`       | Normal native behavior               | Exact controlled `aria-pressed` when boolean    | Consumer updates/nulls input           |
@@ -130,13 +135,13 @@ submitter, and an application handler can bypass one Button's click guard. The f
 must apply its own synchronous duplicate guard and server-side idempotency policy, per the
 [async-actions contract](../foundations/async-actions.md).
 
-| Interaction                           | Result                                  | Focus rule | Disabled / loading rule                                                             |
-| ------------------------------------- | --------------------------------------- | ---------- | ----------------------------------------------------------------------------------- |
-| Tab / Shift+Tab                       | Native order                            | Native     | Native disabled controls are skipped; `zdDisabled` link stays focusable by default. |
-| Enter / Space on button/input         | Native activation                       | Native     | Native disabled blocks it; loading guards accepted activation.                      |
-| Enter on link                         | Native navigation                       | Native     | `zdDisabled`/loading guards navigation activation.                                  |
-| Pointer / touch                       | Native click follows normal propagation | Native     | Native disabled blocks it; link guard prevents its activation only.                 |
-| Programmatic `.click()` / form submit | Native platform behavior                | Native     | Not a Button loading/disabled-link duplicate-prevention mechanism.                  |
+| Interaction                           | Result                                  | Focus rule | Disabled / loading rule                                                           |
+| ------------------------------------- | --------------------------------------- | ---------- | --------------------------------------------------------------------------------- |
+| Tab / Shift+Tab                       | Native order                            | Native     | Native disabled controls are skipped; a disabled link stays focusable by default. |
+| Enter / Space on button/input         | Native activation                       | Native     | Native disabled blocks it; loading guards accepted activation.                    |
+| Enter on link                         | Native navigation                       | Native     | `disabled` stops native and Router navigation; loading guards it.                 |
+| Pointer / touch                       | Native click follows normal propagation | Native     | Native disabled blocks it; link guard prevents its activation only.               |
+| Programmatic `.click()` / form submit | Native platform behavior                | Native     | Not a Button loading/disabled-link duplicate-prevention mechanism.                |
 
 Button preserves consumer `(click)` listeners and native submit/reset behavior. It never prevents
 default on an enabled host. A guarded link prevents navigation without stopping propagation.
@@ -158,8 +163,8 @@ default on an enabled host. A guarded link prevents navigation without stopping 
 
 Button is not a field, ControlValueAccessor, or validator. It preserves native submit/reset buttons
 and consumer `name`/`value` serialization. A native disabled submitter follows platform behavior.
-`loading` and `zdDisabled` do not replace Angular Forms disabled state, validity, validation
-pending, or the form submit guard.
+`loading` and a link's `disabled` do not replace Angular Forms disabled state, validity,
+validation pending, or the form submit guard.
 
 ## Styling, themes, and customization
 

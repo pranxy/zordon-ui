@@ -259,7 +259,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             zdButton
             href="#hydrated-button-target"
             data-testid="button-disabled-link"
-            [zdDisabled]="buttonLinkDisabled()"
+            [disabled]="buttonLinkDisabled()"
             (click)="buttonLinkClicks.update(clicks => clicks + 1)"
           >
             Unavailable hydrated settings
@@ -287,7 +287,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
             zdLink
             data-testid="link-disabled"
             href="#hydrated-link-target"
-            [zdDisabled]="linkDisabled()"
+            [disabled]="linkDisabled()"
             (click)="linkClicks.update(clicks => clicks + 1)"
           >
             Unavailable hydrated account details

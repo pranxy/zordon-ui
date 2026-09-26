@@ -1168,7 +1168,8 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await expect(buttonDisabledLink).toHaveAttribute('aria-disabled', 'true');
   await buttonDisabledLink.focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 1');
+  // The disabled guard stops the click before consumer handlers too.
+  await expect(page.getByTestId('button-link-clicks')).toHaveText('Link clicks: 0');
   await expect(page).not.toHaveURL(/#hydrated-button-target$/);
 
   await buttonSubmit.click();
@@ -1184,7 +1185,8 @@ test('hydrates without errors and preserves generated relationships', async ({ p
   await disabledLink.focus();
   await page.keyboard.press('Enter');
   await expect(disabledLink).toBeFocused();
-  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 1');
+  // The disabled guard stops the click before consumer handlers too.
+  await expect(page.getByTestId('link-clicks')).toHaveText('Link clicks: 0');
   await expect(page).not.toHaveURL(/#hydrated-link-target$/);
   await page.getByTestId('link-toggle').click();
   await expect(disabledLink).not.toHaveAttribute('aria-disabled');

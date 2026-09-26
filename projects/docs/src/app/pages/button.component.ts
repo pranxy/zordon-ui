@@ -191,11 +191,11 @@ type SaveState = 'idle' | 'saving' | 'saved';
           id="links"
           level="3"
           heading="Links that look like buttons"
-          description="Navigation stays an anchor. Anchors have no native disabled state, so zdDisabled guards activation and sets aria-disabled instead."
+          description="Navigation stays an anchor, with href or routerLink. Anchors have no native disabled state, so disabled sets aria-disabled and stops navigation instead."
         >
           <docs-example label="links.html" [code]="linksCode">
             <a zdButton color="primary" href="/components">Open catalogue</a>
-            <a zdButton color="primary" href="/resources" [zdDisabled]="true">Upgrade plan</a>
+            <a zdButton color="primary" href="/resources" [disabled]="true">Upgrade plan</a>
           </docs-example>
         </docs-section>
       </docs-section>

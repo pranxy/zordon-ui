@@ -10,7 +10,7 @@ void ZdLink;
 // @ts-expect-error Link color intentionally accepts only semantic daisyUI colors.
 const invalidColor: ZdLinkDefaults = { color: 'brand' };
 // @ts-expect-error Link defaults reject unavailable-state behavior.
-const invalidDefaults: ZdLinkDefaults = { zdDisabled: true };
+const invalidDefaults: ZdLinkDefaults = { disabled: true };
 
 void invalidColor;
 void invalidDefaults;

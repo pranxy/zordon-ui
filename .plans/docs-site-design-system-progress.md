@@ -48,7 +48,7 @@ Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 | Timeline         | Verified (Planned page) | Playground (orientation/compact); order tracking with snap icons and time elements; axe checks                                                                      |
 | Breadcrumbs      | Verified (Planned page) | Playground (overflow/separator); router trail, short labels, icons; current-page, disclosure open/Escape and axe checks                                             |
 | Dock             | Verified (Planned page) | Playground (size/labels, static); destinations with badge and disabled item, activeId; aria-current and axe checks                                                  |
-| Link             | Verified (Planned page) | Playground (color/hover/zdDisabled); Router current page, unavailable href link, external link; disabled guard and axe checks                                       |
+| Link             | Verified (Planned page) | Playground (color/hover/disabled); Router current page, unavailable href link, external link; disabled guard and axe checks                                         |
 | Navbar           | Verified (Planned page) | Playground (transparent); responsive content with mobile toggle, controlled toggle panel; aria-expanded and axe checks                                              |
 | Pagination       | Verified (Planned page) | Playground (size/siblings/loading); page size with stateChange, unknown total, query links; request, size and URL checks                                            |
 | Steps            | Verified (Planned page) | Playground (orientation/color/interactive); linear wizard with heading focus, states; current-step and focus checks                                                 |
@@ -181,11 +181,8 @@ stylesheet; Pagination only adds daisyUI's join classes. Initial bundle 405.8 �
 44/44 (the two docs-navigation tests are intermittently flaky in full runs and pass on rerun, as
 before this round); docs visual suite identical to the previous render.
 
-- **Library bug (Link + RouterLink), logged as L01 in `.plans/library-follow-ups.md`:** `zdDisabled` only calls `preventDefault()`, which stops a
-  native href but not RouterLink, so a disabled `<a zdLink routerLink>` still navigates. The docs
-  claim otherwise (`docs/components/link.md`). The page uses an href example and says it doesn't
-  stop RouterLink. A fix needs a decision: stop propagation in a capture listener (contradicting
-  the "listeners preserved" promise), or document Router links as unsupported with zdDisabled.
+- **Library bug (Link + RouterLink), L01 — fixed in the follow-ups round:** the disabled guard only
+  called `preventDefault()`, which RouterLink ignores, so a disabled router link still navigated.
 
 **Data display round A (2026-09-25).** Eight Planned pages: Accordion, Avatar, Aura, Badge, Card,
 Chat Bubble, Countdown and Diff. Accordion reuses the Collapse stylesheet; Diff has no inputs, so its
@@ -221,6 +218,11 @@ entries now have a reference page. Divider's side-by-side examples got taller bo
 label gap leaves almost no line on a 4rem row. Initial bundle 414.5 → 415.1 kB; docs e2e 47/47 (the
 two docs-navigation tests and, once, the FAB/Modal test flaked in a full run and passed on rerun).
 
+**Library follow-ups round (2026-09-26).** L01 and L10 fixed, as decided: Link's and Button's
+`zdDisabled` is now `disabled` (a deliberate native mirror on Button's button and input hosts), a
+capture-phase listener stops a disabled link's click before RouterLink and consumer handlers, and
+Button matches `a[zdButton]`. The Link and Button pages, fixtures and SSR example use the new input.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -239,7 +241,7 @@ two docs-navigation tests and, once, the FAB/Modal test flaked in a full run and
 
 | Item | Decision                                                                                                                                      | Status                   |
 | ---- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| D01  | Codebase wins over mockup copy (package name, provider, `variant`/`layout`/`zdDisabled`, maturity)                                            | Accepted                 |
+| D01  | Codebase wins over mockup copy (package name, provider, `variant`/`layout`/`disabled`, maturity)                                              | Accepted                 |
 | D02  | Button `loading` documented as `aria-disabled` (the mockup said `aria-busy`, which the directive does not set)                                | Accepted                 |
 | D03  | Initial-bundle budget raised to 450/470 kB after re-measurement                                                                               | Needs owner confirmation |
 | D04  | Tabs/Accordion/Table/Filter/Breadcrumbs/Modal/Badge/Theme Controller left native for now                                                      | Revisit                  |

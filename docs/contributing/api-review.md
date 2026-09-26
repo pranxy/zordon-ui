@@ -54,8 +54,8 @@ specification.
 - [ ] No input, model, or alias reuses a global HTML attribute name (`style`, `title`, `hidden`,
       `id`…) or an attribute native to the host element (`size` on text inputs and `select`,
       `value`, `disabled`, `open` on `details`…). Rename descriptively (treatments are `variant`);
-      when no better name exists, prefix with `zd` (`zdDisabled`, `zdSize`). Inputs that
-      deliberately mirror the native attribute are listed with a reason in
+      when no better name exists, prefix with `zd` (`zdSize`). Inputs that deliberately mirror the
+      native attribute (Button's `disabled`, set natively on buttons) are listed with a reason in
       `tools/check-native-attribute-inputs.mjs`, which `npm run test:tooling` enforces.
 - [ ] A directive layered onto an element another directive owns (Tooltip on a button, Swap on a
       styled button, Theme controls, triggers and items) prefixes its inputs and outputs with its
