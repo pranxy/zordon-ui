@@ -108,16 +108,19 @@ application-owned text-only status region. Do not announce the same message twic
 Close buttons have visible keyboard focus and a 44px minimum target. Projected controls retain
 their own labels, focus indicators and disabled behavior. The component adds no animation. RTL,
 forced-color interaction and responsive layout are browser-tested. Axe evidence covers the neutral
-interactive fixture, not every semantic theme/style contrast combination. Consumer themes must
-validate contrast, especially colored text in soft/outline/dash styles. Manual screen-reader,
-contrast, zoom/reflow and device review remain pending.
+interactive fixture, not every semantic theme/style contrast combination. daisyUI colours
+soft/outline/dash text with the status colour, which falls below 4.5:1 on light themes, so Alert
+sets those variants' text to `--color-base-content` (the host carries `data-zd-alert-variant`) and
+keeps the status colour in the tint and border. Consumer themes still validate the remaining
+combinations. Manual screen-reader, contrast, zoom/reflow and device review remain pending.
 
 ## Styling and SSR
 
 Compile daisyUI candidates for alert, alert-info/success/warning/error, alert-soft/outline/dash and
 alert-horizontal/vertical in the consuming stylesheet. Class generation honors `ZdClassNames`
 prefix configuration. The component's small embedded stylesheet handles layout, empty regions,
-hidden state, wrapping and the native close button; it adds no package CSS import requirement.
+hidden state, wrapping, readable variant text and the native close button; it adds no package CSS
+import requirement.
 Themes remain consumer-owned and follow normal data-theme inheritance.
 
 Server HTML includes message, native details, controls and live semantics. Hydration preserves

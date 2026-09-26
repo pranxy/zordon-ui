@@ -6,7 +6,7 @@ import {
 } from '@pranxy/zordon-ui/divider';
 
 import {
-  breakFiles,
+  breakCode,
   dividerPlaygroundControls,
   dividerPlaygroundSnippet,
   dividerReference,
@@ -72,9 +72,9 @@ class DividerDaisyStylesComponent {}
         id="thematic-break"
         level="3"
         heading="Thematic break"
-        description="An empty hr keeps its native separator meaning between two topics. Reset its own border so only daisyUI’s line shows."
+        description="An empty hr keeps its native separator meaning between two topics. Divider removes the hr’s own border, so only daisyUI’s line shows."
       >
-        <docs-example label="billing" [files]="breakFiles">
+        <docs-example label="billing.html" [code]="breakCode">
           <div class="prose">
             <p>Billing contact: Ada Lovelace, ada&#64;example.com.</p>
             <hr zdDivider />
@@ -136,10 +136,6 @@ class DividerDaisyStylesComponent {}
       margin: 0;
     }
 
-    .prose hr {
-      border: 0;
-    }
-
     @media (min-width: 48rem) {
       .pair.responsive {
         flex-direction: row;
@@ -156,7 +152,7 @@ export class DividerPageComponent {
   protected readonly reference = dividerReference;
   protected readonly controls = dividerPlaygroundControls;
   protected readonly snippet = dividerPlaygroundSnippet;
-  protected readonly breakFiles = breakFiles;
+  protected readonly breakCode = breakCode;
   protected readonly responsiveCode = responsiveCode;
   protected readonly colorOf = colorOf;
 

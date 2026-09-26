@@ -127,6 +127,13 @@ describe('ZdDivider', () => {
     expect(divider.getAttribute('aria-label')).toBe('Section break');
     expect(divider.hasAttribute('role')).toBe(false);
     expect(divider.hasAttribute('tabindex')).toBe(false);
+    expect(divider.style.borderWidth).toBe('0px');
+  });
+
+  it('leaves the border of a non-hr host alone', () => {
+    const fixture = createDividerFixture();
+
+    expect(dividerOf(fixture).style.borderWidth).toBe('');
   });
 
   it('uses complete configured prefix tokens', () => {

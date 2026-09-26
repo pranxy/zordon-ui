@@ -62,6 +62,8 @@ button[aria-current='date'] {
   text-align: center;
 }
 dialog {
+  /* Preflight resets margins; the auto margin is what centres a modal dialog. */
+  margin: auto;
   color: inherit;
   background: var(--color-base-100);
   border: 1px solid var(--color-base-300);

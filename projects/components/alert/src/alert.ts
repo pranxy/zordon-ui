@@ -35,6 +35,7 @@ export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';
       '!open() || announcement() === "off" ? null : announcement() === "polite" ? "status" : "alert"',
     '[attr.aria-atomic]': 'open() && announcement() !== "off" ? "true" : null',
     '[attr.data-zd-alert-direction]': 'direction()',
+    '[attr.data-zd-alert-variant]': 'variant() ?? null',
     '(pointerenter)': 'hovered.set(true)',
     '(pointerleave)': 'hovered.set(false)',
     '(focusin)': 'focused.set(true)',
@@ -49,6 +50,13 @@ export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';
     }
     :host([hidden]) {
       display: none;
+    }
+    /*
+     * daisyUI colours soft, outline and dash text with the status colour, which falls below 4.5:1
+     * on light themes. Keep the status colour on the border and tint, and the text readable.
+     */
+    :host([data-zd-alert-variant]) {
+      color: var(--color-base-content);
     }
     :host([data-zd-alert-direction='vertical']),
     :host([data-zd-alert-direction='responsive']) {

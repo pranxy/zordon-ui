@@ -45,6 +45,7 @@ describe('Alert', () => {
     const element = fixture.nativeElement as HTMLElement;
     expect(element.className).toBe('d-alert');
     expect(element.hasAttribute('role')).toBe(false);
+    expect(element.hasAttribute('data-zd-alert-variant')).toBe(false);
     fixture.componentRef.setInput('color', 'warning');
     fixture.componentRef.setInput('variant', 'soft');
     fixture.componentRef.setInput('direction', 'vertical');
@@ -53,6 +54,7 @@ describe('Alert', () => {
     expect(Array.from(element.classList).sort()).toEqual(
       ['d-alert', 'd-alert-warning', 'd-alert-soft', 'd-alert-vertical'].sort(),
     );
+    expect(element.getAttribute('data-zd-alert-variant')).toBe('soft');
     expect(element.getAttribute('role')).toBe('status');
     expect(element.getAttribute('aria-atomic')).toBe('true');
     fixture.componentRef.setInput('announcement', 'assertive');

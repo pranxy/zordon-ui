@@ -11,6 +11,7 @@ import { ControlValueAccessor } from '@angular/forms';
 export class ZdOtp implements ControlValueAccessor {
     // (undocumented)
     readonly ariaLabel: _angular_core.InputSignal<string>;
+    protected readonly cellClass: string;
     // (undocumented)
     readonly completed: _angular_core.OutputEmitterRef<string>;
     // (undocumented)

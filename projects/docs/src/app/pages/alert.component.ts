@@ -186,11 +186,6 @@ class AlertDaisyStylesComponent {}
     </docs-reference-page>
   `,
   styles: `
-    /* The contrast fix shown under Customization (alertContrastCss). */
-    zd-alert:is(.alert-soft, .alert-outline, .alert-dash) {
-      color: var(--color-base-content);
-    }
-
     .wide {
       inline-size: 100%;
     }

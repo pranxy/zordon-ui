@@ -27,6 +27,9 @@ the surrounding heading, group semantics, text meaning, and any `aria-hidden` de
 <div zdDivider aria-hidden="true"></div>
 ```
 
+On an `hr` host, Divider sets an inline `border-width: 0`: the element's own border would
+otherwise show beside daisyUI's pseudo-element line. Other hosts keep their borders.
+
 `ZdDivider` never adds `role="separator"`, `aria-orientation`, `aria-hidden`, generated IDs, focus,
 or event handlers. It cannot infer whether consumer text is meaningful, and it does not turn a
 visual line into a navigation, disclosure, or landmark boundary.

@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
+import { ZdClassNames } from '@pranxy/zordon-ui';
+
 function otpAccessor(): ZdOtp {
   return inject(ZdOtp);
 }
@@ -33,7 +35,7 @@ function otpAccessor(): ZdOtp {
     @for (digit of displayedSlots(); track $index; let index = $index) {
       <input
         #cell
-        class="input zd-otp-cell"
+        [class]="cellClass"
         type="text"
         maxlength="1"
         [attr.inputmode]="inputMode()"
@@ -67,6 +69,8 @@ export class ZdOtp implements ControlValueAccessor {
   readonly valueChange = output<string>();
   readonly completed = output<string>();
 
+  /** daisyUI's input class, prefixed as configured, plus the cell's own sizing class. */
+  protected readonly cellClass = `${inject(ZdClassNames).daisyUi('input')} zd-otp-cell`;
   protected readonly disabled = signal(false);
   protected readonly slots = signal<string[]>(this.emptySlots());
   protected readonly displayedSlots = computed(() => {

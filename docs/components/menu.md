@@ -134,8 +134,9 @@ shortcuts or announce nonexistent bindings. Badge updates are not live announcem
 Classes honor the configured daisyUI prefix. The packaged component CSS owns structural list layout,
 wrapping, disclosure, focus/current/selection states and motion/forced-color fallbacks. Include the
 daisyUI size modifiers and title/active styles for the theme's visual sizing. The fixture compiles
-`menu-xs menu-sm menu-md menu-lg menu-xl menu-title menu-active`; compiling the large generic
-`menu` and orientation rules is unnecessary for the component-owned layout. It uses unencapsulated
+`menu-xs menu-sm menu-md menu-lg menu-xl menu-title menu-active` plus the generic `menu` rule, which
+sets daisyUI's item spacing and padding; without it the rows lose that spacing, so include it (the
+orientation rules remain unnecessary for the component-owned layout). It uses unencapsulated
 daisyUI modifier CSS and explicitly scoped fixture styles, keeping the existing CSS budgets intact.
 
 Custom themes/icons and long shortcut/badge strings need contrast/reflow review. Tested row heights

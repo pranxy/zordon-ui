@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -53,26 +53,9 @@ export function describeCalendarValue(value: ZdCalendarValue): string {
   return `${range.start} → ${range.end ?? '…'}`;
 }
 
-/**
- * Tailwind's preflight resets every margin, which removes the auto margin that centres a modal
- * dialog. Calendar's stylesheet does not restore it, so this page does, only while it is in use.
- */
-@Component({
-  selector: 'docs-calendar-dialog-styles',
-  template: '',
-  styles: `
-    zd-calendar dialog {
-      margin: auto;
-    }
-  `,
-  encapsulation: ViewEncapsulation.None,
-})
-class CalendarDialogStylesComponent {}
-
 @Component({
   selector: 'docs-calendar-page',
   imports: [
-    CalendarDialogStylesComponent,
     DocsApiTableComponent,
     DocsCalloutComponent,
     DocsCodeBlockComponent,
@@ -88,7 +71,6 @@ class CalendarDialogStylesComponent {}
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <docs-calendar-dialog-styles />
     <article class="docs-prose" aria-labelledby="page-title">
       <docs-page-header
         eyebrow="Data input"

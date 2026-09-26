@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import test from 'node:test';
 import { apiReports, assertApiReportsMatch } from './check-api-report.mjs';
@@ -298,4 +298,15 @@ test('rejects API report drift even when API Extractor reports it as a warning',
     () => assertApiReportsMatch('reviewed', 'changed'),
     /Public API report differs from the reviewed baseline/,
   );
+});
+
+test('writes every API report with LF line endings on every platform', async () => {
+  const configs = (await readdir(resolve(workspaceRoot, 'tools'))).filter(name =>
+    /^api-extractor(-[a-z0-9-]+)?\.json$/.test(name),
+  );
+  assert.ok(configs.length > 1);
+  for (const name of configs) {
+    const config = JSON.parse(await readWorkspaceFile(`tools/${name}`));
+    assert.equal(config.newlineKind, 'lf', name);
+  }
 });

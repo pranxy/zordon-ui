@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { provideZordonUi } from '@pranxy/zordon-ui';
+
 import { ZdOtp } from './otp';
 
 @Component({
@@ -92,5 +94,19 @@ describe('ZdOtp', () => {
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelectorAll('input')).toHaveLength(8);
     expect(fixture.nativeElement.querySelectorAll('input')[7].value).toBe('');
+  });
+
+  it('uses the configured daisyUI prefix for the cell class', () => {
+    TestBed.configureTestingModule({
+      imports: [Host],
+      providers: [provideZordonUi({ classPrefixes: { daisyUi: 'd-' } })],
+    });
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const cell = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(cell.classList.contains('d-input')).toBe(true);
+    expect(cell.classList.contains('zd-otp-cell')).toBe(true);
+    expect(cell.classList.contains('input')).toBe(false);
   });
 });

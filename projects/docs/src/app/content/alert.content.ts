@@ -10,9 +10,10 @@ import { controlFacts, plannedNotice, tailwindSource } from './form-controls.con
  * docs/components/alert.md — update them together.
  */
 
-/** Keeps the tint and border of the lighter variants but uses readable text. */
-export const alertContrastCss = `zd-alert:is(.alert-soft, .alert-outline, .alert-dash) {
-  color: var(--color-base-content);
+/** Brings back daisyUI's status-coloured text on the lighter variants, for themes where it passes. */
+export const alertStatusTextCss = `/* Only where the status colour passes 4.5:1 on your surface */
+zd-alert.brand-alert[data-zd-alert-variant] {
+  color: var(--alert-color);
 }`;
 
 export const alertColors = ['info', 'success', 'warning', 'error'] as const;
@@ -184,11 +185,11 @@ export type ZdAlertDismissReason = 'close-button' | 'timeout' | 'api';`,
   },
   customization: {
     description:
-      'Your classes and styles stay on the host. daisyUI colors soft, outline and dash text with the status color, which can fail contrast on light themes; check yours, and fall back to the base text color if needed. This page does.',
+      'Your classes and styles stay on the host. daisyUI colours soft, outline and dash text with the status colour, which fails contrast on light themes, so Alert keeps the tint and border but uses the base text colour. Restore the status text only where your theme passes.',
     code: {
       label: 'styles.css',
       language: 'css',
-      code: alertContrastCss,
+      code: alertStatusTextCss,
     },
   },
   ssr: 'The server renders the message, details, actions and role. Timers start only in the browser, after the first render, and native details open without JavaScript.',

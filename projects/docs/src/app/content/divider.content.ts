@@ -131,23 +131,9 @@ export const dividerPlaygroundSnippet: PlaygroundTemplateSnippet = {
 <section>Continue with a passkey</section>`,
 };
 
-export const breakFiles = [
-  {
-    label: 'billing.html',
-    language: 'html' as const,
-    code: `<p>Billing contact: Ada Lovelace, ada@example.com.</p>
+export const breakCode = `<p>Billing contact: Ada Lovelace, ada@example.com.</p>
 <hr zdDivider />
-<p>Invoices are sent on the first working day of the month.</p>`,
-  },
-  {
-    label: 'styles.css',
-    language: 'css' as const,
-    code: `/* An hr brings its own border; daisyUI draws the line itself */
-hr.divider {
-  border: 0;
-}`,
-  },
-];
+<p>Invoices are sent on the first working day of the month.</p>`;
 
 export const responsiveCode = `<div class="options">
   <section class="option">Delivery · 2 days</section>

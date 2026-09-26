@@ -223,6 +223,14 @@ two docs-navigation tests and, once, the FAB/Modal test flaked in a full run and
 capture-phase listener stops a disabled link's click before RouterLink and consumer handlers, and
 Button matches `a[zdButton]`. The Link and Button pages, fixtures and SSR example use the new input.
 
+**Remaining follow-ups (2026-09-26).** L02–L09 fixed in the library: OTP honours the class prefix,
+Calendar's popup dialog restores `margin: auto`, Menu's docs keep the generic `menu` rule, the Theme
+Controller spec restores `matchMedia`, every API Extractor config writes LF (with a tooling test),
+the legacy Button/Badge files are deleted, Alert's lighter variants use base text colour, and an
+`hr` Divider drops its own border. The Calendar, Alert and Divider pages no longer need their
+workarounds. Alert, Calendar and Divider fixtures render differently, so their Windows visual
+baselines need regenerating.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |

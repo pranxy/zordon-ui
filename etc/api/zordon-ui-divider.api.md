@@ -20,6 +20,8 @@ export class ZdDivider {
     // (undocumented)
     protected readonly hostClasses: _angular_core.Signal<string>;
     // (undocumented)
+    protected readonly isRule: boolean;
+    // (undocumented)
     readonly orientation: _angular_core.InputSignalWithTransform<ZdDividerOrientation | undefined, ZdDividerOrientation | undefined>;
     // (undocumented)
     readonly placement: _angular_core.InputSignalWithTransform<ZdDividerPlacement | undefined, ZdDividerPlacement | undefined>;

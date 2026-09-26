@@ -1,4 +1,4 @@
-import { computed, Directive, inject, input } from '@angular/core';
+import { computed, Directive, ElementRef, inject, input } from '@angular/core';
 
 import { ZdClassNames, type ZdColor } from '@pranxy/zordon-ui';
 
@@ -15,6 +15,8 @@ import {
   selector: '[zdDivider]',
   host: {
     '[class]': 'hostClasses()',
+    // An hr draws its own border; daisyUI draws the line with pseudo-elements, so drop the border.
+    '[style.border-width]': 'isRule ? "0" : null',
   },
 })
 export class ZdDivider {
@@ -32,6 +34,8 @@ export class ZdDivider {
 
   private readonly classNames = inject(ZdClassNames);
   private readonly defaults = inject(ZD_DIVIDER_DEFAULTS);
+  protected readonly isRule =
+    inject(ElementRef<HTMLElement>).nativeElement.tagName.toLowerCase() === 'hr';
 
   protected readonly hostClasses = computed(() => {
     const color = this.effectiveColor();

@@ -1,6 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "projectFolder": "../projects/components",
+  "newlineKind": "lf",
   "mainEntryPointFilePath": "<projectFolder>/../../dist/components/types/pranxy-zordon-ui-filter.d.ts",
   "compiler": { "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor-filter.json" },
   "apiReport": {

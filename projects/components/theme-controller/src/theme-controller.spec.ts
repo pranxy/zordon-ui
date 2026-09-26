@@ -64,8 +64,11 @@ function storageEvent(
 }
 
 describe('Theme Controller scopes and controls', () => {
+  // jsdom has no matchMedia; put back whatever was there so the stub can't leak into other specs.
+  let matchMediaDescriptor: PropertyDescriptor | undefined;
   beforeEach(() => {
     localStorage.clear();
+    matchMediaDescriptor = Object.getOwnPropertyDescriptor(window, 'matchMedia');
     if (!window.matchMedia)
       Object.defineProperty(window, 'matchMedia', {
         configurable: true,
@@ -77,6 +80,8 @@ describe('Theme Controller scopes and controls', () => {
   afterEach(() => {
     TestBed.resetTestingModule();
     vi.restoreAllMocks();
+    if (matchMediaDescriptor) Object.defineProperty(window, 'matchMedia', matchMediaDescriptor);
+    else delete (window as { matchMedia?: unknown }).matchMedia;
     document.documentElement.removeAttribute('data-theme');
   });
 
