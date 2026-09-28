@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ZdBreadcrumbs, type ZdBreadcrumbItem } from '@pranxy/zordon-ui/breadcrumbs';
 
 export interface DocsBreadcrumb {
   readonly label: string;
@@ -8,53 +8,31 @@ export interface DocsBreadcrumb {
   readonly queryParams?: Readonly<Record<string, string>>;
 }
 
+/** The site trail, rendered by Zordon's own Breadcrumbs. */
 @Component({
   selector: 'docs-breadcrumbs',
-  imports: [RouterLink],
+  imports: [ZdBreadcrumbs],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <nav aria-label="Breadcrumb">
-      <ol>
-        @for (item of items(); track $index; let last = $last) {
-          <li>
-            @if (last || !item.path) {
-              <span [attr.aria-current]="last ? 'page' : null">{{ item.label }}</span>
-            } @else {
-              <a [routerLink]="item.path" [queryParams]="item.queryParams">{{ item.label }}</a>
-            }
-          </li>
-        }
-      </ol>
-    </nav>
-  `,
+  template: `<zd-breadcrumbs label="Breadcrumb" separator="/" [items]="trail()" />`,
   styles: `
-    nav {
-      padding-block: 1.25rem;
+    :host {
+      display: block;
+      padding-block: 0.5rem;
       border-block-end: 1px solid var(--docs-border);
       color: var(--docs-muted-text);
       font-size: var(--docs-text-sm);
-    }
-
-    ol {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    li + li::before {
-      content: '/';
-      margin-inline-end: 0.5rem;
-      color: var(--docs-border-strong);
-    }
-
-    [aria-current='page'] {
-      color: var(--docs-text);
     }
   `,
 })
 export class DocsBreadcrumbsComponent {
   readonly items = input.required<readonly DocsBreadcrumb[]>();
+
+  protected readonly trail = computed<readonly ZdBreadcrumbItem[]>(() =>
+    this.items().map((item, index) => ({
+      id: `${index}-${item.path ?? 'current'}`,
+      label: item.label,
+      routerLink: item.path,
+      queryParams: item.queryParams,
+    })),
+  );
 }

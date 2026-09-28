@@ -33,7 +33,7 @@ async function openDocsPage(
   await page.addStyleTag({ content: PINNED_FONTS });
   // The search dialog is deferred until the hydrated app is idle, so its presence means every
   // post-hydration enhancement (copy buttons, saved preferences) has already rendered.
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
   await applyZordonDocumentEnvironment(page, { theme, direction: 'ltr' });
   await page.evaluate(() => document.fonts.ready);

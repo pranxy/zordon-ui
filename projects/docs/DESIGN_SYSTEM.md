@@ -221,12 +221,13 @@ library component.
 
 **Deviations from the proposal, and why**
 
-- **Dogfooding.** The shell uses only `ZdButton`, `ZdKbd` and `ZdIdGenerator`. Reference pages also
-  render the component they document (Dropdown, Swap, Carousel, Collapse, Megamenu, Menu, Calendar)
-  in their examples, never in the shell. Tabs, Accordion, Table,
-  Filter, Breadcrumbs, Modal, Badge and the Theme Controller were left native: their daisyUI visuals
-  differ from the mockups (for example the dark code-frame tabs), or they add initial-bundle weight to
-  the shell. Revisit each one once its visuals can be matched with supported hooks.
+- **Dogfooding.** The shell uses `ZdButton`, `ZdKbd`, `ZdIdGenerator` and `ZdBreadcrumbs` (the site
+  trail); search is a `ZdModal` (in the deferred search chunk) and the Getting started FAQ uses
+  `ZdCollapse` on native `details`. Reference pages also render the component they document in
+  their examples. Tabs, Table, Filter, Badge and the Theme Controller stay native: their daisyUI
+  visuals differ from the mockups (for example the dark code-frame tabs and the pill chips), or they
+  would add initial-bundle weight to the shell. Revisit each one once its visuals can be matched with
+  supported hooks.
 - **Table of contents.** It stays in the page catalogue (`tableOfContents`, now with `level`)
   instead of a runtime registry. A registry updates the shell after the page renders, which breaks
   SSR/hydration ordering. The e2e suite checks that TOC links resolve.

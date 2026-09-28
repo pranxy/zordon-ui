@@ -1,13 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  computed,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ZdModal, type ZdModalOptions } from '@pranxy/zordon-ui/modal';
 
 export interface DocsSearchEntry {
   readonly id: string;
@@ -16,71 +9,82 @@ export interface DocsSearchEntry {
   readonly path: string;
 }
 
-/** Modal quick-find over the static page catalogue. Restores focus to the invoker on dismissal. */
+/**
+ * Modal quick-find over the static page catalogue, rendered by Zordon's own Modal: it traps focus,
+ * closes on Escape or the backdrop, and returns focus to whatever opened it.
+ */
 @Component({
   selector: 'docs-search-dialog',
-  imports: [RouterLink],
+  imports: [RouterLink, ZdModal],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <dialog
-      #dialog
-      aria-label="Search documentation"
-      (cancel)="cancel($event)"
-      (close)="query.set('')"
+    <ng-template
+      zdModal
+      [open]="isOpen()"
+      [options]="options"
+      (openChange)="isOpen.set($event)"
+      (closed)="query.set('')"
     >
-      <div class="heading">
-        <div>
+      <div class="search">
+        <div class="heading">
           <p class="docs-eyebrow docs-eyebrow--accent">Quick find</p>
           <h2>Search documentation</h2>
         </div>
-        <form method="dialog">
-          <button type="submit" class="secondary" aria-label="Close search">Close</button>
-        </form>
+        <div class="field">
+          <label for="docs-search">Search documentation</label>
+          <input
+            id="docs-search"
+            type="search"
+            autocomplete="off"
+            [value]="query()"
+            (input)="query.set($any($event.target).value)"
+          />
+        </div>
+        <nav aria-label="Search results">
+          @for (entry of results(); track entry.id) {
+            <a [routerLink]="entry.path" (click)="isOpen.set(false)">
+              <strong>{{ entry.label }}</strong>
+              <span>{{ entry.description }}</span>
+            </a>
+          } @empty {
+            <p class="docs-muted">No documentation pages match that search.</p>
+          }
+        </nav>
+        <!-- Last in the DOM so the search field gets first focus; placed top-right by the grid. -->
+        <button
+          type="button"
+          class="secondary close"
+          aria-label="Close search"
+          (click)="isOpen.set(false)"
+        >
+          Close
+        </button>
       </div>
-      <label for="docs-search">Search documentation</label>
-      <input
-        id="docs-search"
-        type="search"
-        autocomplete="off"
-        autofocus
-        [value]="query()"
-        (input)="query.set($any($event.target).value)"
-        (keydown.escape)="cancel($event)"
-      />
-      <nav aria-label="Search results">
-        @for (entry of results(); track entry.id) {
-          <a [routerLink]="entry.path" (click)="close()">
-            <strong>{{ entry.label }}</strong>
-            <span>{{ entry.description }}</span>
-          </a>
-        } @empty {
-          <p class="docs-muted">No documentation pages match that search.</p>
-        }
-      </nav>
-    </dialog>
+    </ng-template>
   `,
   styles: `
-    dialog {
-      inline-size: min(calc(100% - 2rem), 42rem);
-      max-block-size: min(42rem, calc(100dvh - 2rem));
-      padding: 1.25rem;
-      border: 1px solid var(--docs-border);
-      border-radius: 1rem;
-      background: var(--docs-surface);
-      color: var(--docs-text);
-      box-shadow: var(--docs-shadow);
+    .search {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0 1rem;
     }
 
-    dialog::backdrop {
-      background: var(--docs-backdrop);
+    .heading,
+    .field,
+    nav {
+      grid-column: 1 / -1;
     }
 
     .heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      gap: 1rem;
+      grid-column: 1;
+      grid-row: 1;
       margin-block-end: 1rem;
+    }
+
+    .close {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: start;
     }
 
     h2 {
@@ -96,6 +100,7 @@ export interface DocsSearchEntry {
     }
 
     input {
+      box-sizing: border-box;
       inline-size: 100%;
       min-block-size: 3rem;
       margin-block-end: 1rem;
@@ -143,9 +148,8 @@ export interface DocsSearchEntry {
 export class DocsSearchDialogComponent {
   readonly entries = input.required<readonly DocsSearchEntry[]>();
 
-  private readonly dialog = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');
-  private invoker: HTMLElement | null = null;
-
+  protected readonly options: ZdModalOptions = { label: 'Search documentation', size: 'lg' };
+  protected readonly isOpen = signal(false);
   protected readonly query = signal('');
   protected readonly results = computed(() => {
     const needle = this.query().trim().toLocaleLowerCase();
@@ -157,20 +161,10 @@ export class DocsSearchDialogComponent {
     );
   });
 
+  /** The invoker gets focus back from Modal, which remembers the element focused on opening. */
   open(invoker: EventTarget | null): void {
+    if (invoker instanceof HTMLElement) invoker.focus();
     this.query.set('');
-    this.invoker = invoker instanceof HTMLElement ? invoker : null;
-    const dialog = this.dialog().nativeElement;
-    if (!dialog.open) dialog.showModal();
-  }
-
-  protected close(): void {
-    this.dialog().nativeElement.close();
-  }
-
-  protected cancel(event: Event): void {
-    event.preventDefault();
-    this.close();
-    this.invoker?.focus();
+    this.isOpen.set(true);
   }
 }

@@ -353,7 +353,7 @@ test('Dropdown and Kbd references expose their contracts in server-rendered HTML
 
 test('Dropdown menu opens by keyboard, selects, and restores focus', async ({ page }) => {
   await page.goto('/components/dropdown');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
 
   const trigger = page.getByRole('button', { name: 'Actions ▾' });
   await trigger.focus();
@@ -373,7 +373,7 @@ test('Dropdown menu opens by keyboard, selects, and restores focus', async ({ pa
 
 test('Dropdown playground snippet follows placement inputs', async ({ page }) => {
   await page.goto('/components/dropdown');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
 
   const controls = page.getByRole('form', { name: 'Dropdown controls' });
   await controls.getByRole('group', { name: 'side' }).getByRole('radio', { name: 'top' }).check();
@@ -426,20 +426,20 @@ test('Preview references render their native state on the server', async ({ brow
 
 test('Swap, Collapse and Carousel examples respond to the platform controls', async ({ page }) => {
   await page.goto('/components/swap');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const mute = page.getByRole('button', { name: 'Mute', exact: true });
   await expect(mute).toHaveAttribute('aria-pressed', 'false');
   await mute.click();
   await expect(mute).toHaveAttribute('aria-pressed', 'true');
 
   await page.goto('/components/collapse');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const refund = page.locator('details', { hasText: 'When is my refund issued?' });
   await refund.locator('summary').click();
   await expect(refund).toHaveAttribute('open', '');
 
   await page.goto('/components/carousel');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const track = page.getByRole('region', { name: 'Theme colours with controls' });
   const before = await track.evaluate(element => element.scrollLeft);
   await page.getByRole('button', { name: 'Next' }).click();
@@ -448,7 +448,7 @@ test('Swap, Collapse and Carousel examples respond to the platform controls', as
 
 test('Menu groups and the selectable tree update their models', async ({ page }) => {
   await page.goto('/components/menu');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
 
   const group = page
     .getByRole('navigation', { name: 'Example navigation' })
@@ -467,7 +467,7 @@ test('Menu groups and the selectable tree update their models', async ({ page })
 
 test('Megamenu opens a panel of real links and a keyboard command bar', async ({ page }) => {
   await page.goto('/components/megamenu');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
 
   const trigger = page.getByRole('button', { name: 'Components ▾' }).first();
   await trigger.click();
@@ -493,7 +493,7 @@ test('Checkbox, Radio and Toggle examples bind native state through Angular Form
   page,
 }) => {
   await page.goto('/components/checkbox');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const all = page.getByRole('checkbox', { name: 'All toppings' });
   expect(await all.evaluate(input => (input as HTMLInputElement).indeterminate)).toBe(true);
   await all.check();
@@ -503,19 +503,19 @@ test('Checkbox, Radio and Toggle examples bind native state through Angular Form
   await expect(page.locator('#terms-help')).toContainText('Valid');
 
   await page.goto('/components/radio');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('radio', { name: 'Team' }).check();
   await expect(page.getByText('Plan: team')).toBeVisible();
 
   await page.goto('/components/toggle');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('checkbox', { name: 'Weekly digest' }).check();
   await expect(page.getByText('On: Email notifications, Weekly digest')).toBeVisible();
 });
 
 test('text controls report validation, counts and selections', async ({ page }) => {
   await page.goto('/components/text-input');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const email = page.getByRole('textbox', { name: 'Work email' });
   await email.fill('ada');
   await email.blur();
@@ -525,12 +525,12 @@ test('text controls report validation, counts and selections', async ({ page }) 
   await expect(email).not.toHaveAttribute('aria-invalid', 'true');
 
   await page.goto('/components/textarea');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('textbox', { name: 'Summary' }).fill('Hello');
   await expect(page.locator('#summary-count')).toHaveText('5 of 140 characters');
 
   await page.goto('/components/select');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('combobox', { name: 'Region' }).selectOption('us-east');
   await expect(page.getByText('Region: us-east')).toBeVisible();
   expect(
@@ -544,7 +544,7 @@ test('text controls report validation, counts and selections', async ({ page }) 
 
 test('Range and Rating stay native radio and slider controls', async ({ page }) => {
   await page.goto('/components/range');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const volume = page.getByRole('slider', { name: 'Volume' });
   await volume.focus();
   await page.keyboard.press('ArrowRight');
@@ -552,7 +552,7 @@ test('Range and Rating stay native radio and slider controls', async ({ page }) 
   await expect(volume).toHaveAttribute('aria-valuetext', '41 percent');
 
   await page.goto('/components/rating');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const delivery = page.getByRole('group', { name: 'How was your delivery?' });
   await delivery.getByRole('radio', { name: '5 stars' }).check();
   await expect(page.getByText('Rating: 5 of 5')).toBeVisible();
@@ -564,7 +564,7 @@ test('Range and Rating stay native radio and slider controls', async ({ page }) 
 
 test('Fieldset, Filter, Label and File Input keep native behaviour', async ({ page }) => {
   await page.goto('/components/fieldset');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const street = page.getByRole('textbox', { name: 'Street' }).last();
   await expect(street).toBeDisabled();
   await page.getByRole('checkbox', { name: 'Same as shipping address' }).uncheck();
@@ -572,19 +572,19 @@ test('Fieldset, Filter, Label and File Input keep native behaviour', async ({ pa
   await expect(page.getByRole('combobox', { name: 'Country' })).toBeEnabled();
 
   await page.goto('/components/filter');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('radio', { name: 'Closed' }).check();
   await expect(page.getByText('Showing: Closed')).toBeVisible();
   await page.getByRole('radio', { name: 'All statuses' }).check();
   await expect(page.getByText('Showing: all')).toBeVisible();
 
   await page.goto('/components/label');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.locator('label[for="company"]').click();
   await expect(page.getByRole('textbox', { name: 'Company' })).toBeFocused();
 
   await page.goto('/components/file-input');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.locator('#attachments').setInputFiles([
     { name: 'invoice.pdf', mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4') },
     { name: 'photo.png', mimeType: 'image/png', buffer: Buffer.from('png') },
@@ -594,7 +594,7 @@ test('Fieldset, Filter, Label and File Input keep native behaviour', async ({ pa
 
 test('Validator and OTP report validity and completion', async ({ page }) => {
   await page.goto('/components/validator');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const email = page.getByRole('textbox', { name: 'Work email' });
   const hint = page.locator('#work-email-hint');
   await expect(hint).toBeHidden();
@@ -609,7 +609,7 @@ test('Validator and OTP report validity and completion', async ({ page }) => {
   await expect(invite).toHaveAttribute('aria-invalid', 'false');
 
   await page.goto('/components/otp');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('textbox', { name: 'Verification code digit 1 of 6' }).nth(1).focus();
   await page.keyboard.type('123456');
   await expect(page.getByText('Value: "123456" · complete')).toBeVisible();
@@ -620,7 +620,7 @@ test('Validator and OTP report validity and completion', async ({ page }) => {
 
 test('Alert, Loading and Skeleton report their state', async ({ page }) => {
   await page.goto('/components/alert');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const saved = page.locator('zd-alert').filter({ hasText: 'Changes saved' });
   await page.getByRole('button', { name: 'Dismiss saved message' }).click();
   await expect(saved).toBeHidden();
@@ -631,7 +631,7 @@ test('Alert, Loading and Skeleton report their state', async ({ page }) => {
   await expect(page.getByRole('status').filter({ hasText: 'Link copied' })).toBeVisible();
 
   await page.goto('/components/loading');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const results = page.getByRole('region', { name: 'Results' });
   await page.getByRole('button', { name: 'Run search' }).click();
   await expect(results).toHaveAttribute('aria-busy', 'true');
@@ -640,7 +640,7 @@ test('Alert, Loading and Skeleton report their state', async ({ page }) => {
   await expect(results).toHaveAttribute('aria-busy', 'false');
 
   await page.goto('/components/skeleton');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const profile = page.getByRole('region', { name: 'Profile' });
   await expect(profile).toHaveAttribute('aria-busy', 'true');
   await page.getByRole('button', { name: 'Loading' }).click();
@@ -651,7 +651,7 @@ test('Alert, Loading and Skeleton report their state', async ({ page }) => {
 
 test('Progress and Radial Progress expose their values', async ({ page }) => {
   await page.goto('/components/progress');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const upload = page.getByRole('progressbar', { name: 'Upload' }).nth(1);
   const send = page.getByRole('button', { name: 'Send 50 MB' });
   await expect(upload).toHaveAttribute('aria-valuetext', '0 of 200 MB');
@@ -661,7 +661,7 @@ test('Progress and Radial Progress expose their values', async ({ page }) => {
   await expect(send).toBeDisabled();
 
   await page.goto('/components/radial-progress');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const battery = page.getByRole('progressbar', { name: 'Battery' });
   await expect(battery).toHaveAttribute('aria-valuenow', '20');
   await page.getByRole('button', { name: '+10%' }).click();
@@ -671,7 +671,7 @@ test('Progress and Radial Progress expose their values', async ({ page }) => {
 
 test('Toast queues notifications and Tooltip describes its host', async ({ page }) => {
   await page.goto('/components/toast');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const outlet = page.getByRole('region', { name: 'Example notifications' });
   await page.getByRole('button', { name: 'Delete invoice' }).click();
   const toast = (text: string) => outlet.locator('zd-alert').filter({ hasText: text });
@@ -684,7 +684,7 @@ test('Toast queues notifications and Tooltip describes its host', async ({ page 
   await expect(toast('Published')).toBeVisible();
 
   await page.goto('/components/tooltip');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const save = page.getByRole('button', { name: 'Save draft' });
   await expect(save).toHaveAttribute('data-zd-tooltip-ready', 'true');
   await save.focus();
@@ -699,7 +699,7 @@ test('Toast queues notifications and Tooltip describes its host', async ({ page 
 
 test('FAB, Modal and Theme Controller keep native focus and state', async ({ page }) => {
   await page.goto('/components/fab');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   // The speed-dial trigger; its name changes to the close label while open.
   const create = page.locator('.zd-fab-trigger').nth(1);
   await expect(create).toHaveAccessibleName('Create');
@@ -714,7 +714,7 @@ test('FAB, Modal and Theme Controller keep native focus and state', async ({ pag
   await expect(page.getByText('Notes: 1')).toBeVisible();
 
   await page.goto('/components/modal');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const rename = page.getByRole('button', { name: 'Rename', exact: true }).nth(1);
   await rename.click();
   const dialog = page.getByRole('dialog', { name: 'Rename file' });
@@ -742,7 +742,7 @@ test('FAB, Modal and Theme Controller keep native focus and state', async ({ pag
   await expect(notes).toBeHidden();
 
   await page.goto('/components/theme-controller');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const scope = page.getByRole('region', { name: 'Playground theme scope' });
   await expect(scope).toHaveAttribute('data-theme', 'light');
   await scope.getByRole('radio', { name: 'Dark' }).check();
@@ -760,7 +760,7 @@ test('FAB, Modal and Theme Controller keep native focus and state', async ({ pag
 
 test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', async ({ page }) => {
   await page.goto('/components/breadcrumbs');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const docsTrail = page.getByRole('navigation', { name: 'Documentation path' });
   await expect(docsTrail.locator('[aria-current="page"]')).toContainText('Breadcrumbs');
   const pagePath = page.getByRole('navigation', { name: 'Page path' });
@@ -770,7 +770,7 @@ test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', asyn
   await expect(pagePath.getByRole('link', { name: 'Components' })).toBeHidden();
 
   await page.goto('/components/dock');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const dock = page.getByRole('navigation', { name: 'Example destinations' });
   await expect(dock.getByRole('link', { name: 'Dock' })).toHaveAttribute('aria-current', 'page');
   await expect(dock.getByRole('link', { name: /3 unread messages/ })).toBeVisible();
@@ -782,7 +782,7 @@ test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', asyn
   );
 
   await page.goto('/components/link');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const billing = page.getByRole('link', { name: 'Billing history' });
   await expect(billing).toHaveAttribute('aria-disabled', 'true');
   // Playwright won't click an aria-disabled element; Enter is the native activation.
@@ -800,7 +800,7 @@ test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', asyn
   await expect(page).toHaveURL(/\/components\/modal$/);
 
   await page.goto('/components/navbar');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const filters = page.getByRole('button', { name: 'Filters', exact: true });
   await expect(filters).toHaveAttribute('aria-expanded', 'false');
   await filters.click();
@@ -810,7 +810,7 @@ test('Breadcrumbs, Dock, Link and Navbar keep native navigation semantics', asyn
 
 test('Pagination, Steps and Tabs accept requests through their inputs', async ({ page }) => {
   await page.goto('/components/pagination');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const results = page.getByRole('navigation', { name: 'Result pages' });
   await results.getByRole('button', { name: 'Page 6' }).click();
   await expect(results.getByRole('button', { name: 'Page 6' })).toHaveAttribute(
@@ -826,7 +826,7 @@ test('Pagination, Steps and Tabs accept requests through their inputs', async ({
   await expect(page).toHaveURL(/[?&]page=2/);
 
   await page.goto('/components/steps');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   await page.getByRole('button', { name: 'Continue' }).first().click();
   await expect(page.getByRole('heading', { name: 'Delivery' })).toBeFocused();
   await expect(
@@ -834,7 +834,7 @@ test('Pagination, Steps and Tabs accept requests through their inputs', async ({
   ).toContainText('Delivery');
 
   await page.goto('/components/tabs');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const project = page.getByRole('tablist', { name: 'Project' });
   await project.getByRole('tab', { name: 'Overview' }).focus();
   await page.keyboard.press('ArrowRight');
@@ -851,7 +851,7 @@ test('Pagination, Steps and Tabs accept requests through their inputs', async ({
 
 test('Calendar selects ranges, popup dates and form values', async ({ page }) => {
   await page.goto('/components/calendar');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
 
   const stay = page.getByRole('grid', { name: 'Stay' });
   await stay.getByRole('button', { name: /September 10/ }).click();
@@ -898,7 +898,7 @@ test('an unknown route remains a server-rendered, recoverable noindex 404', asyn
 
 test('Accordion and Countdown keep their state in sync', async ({ page }) => {
   await page.goto('/components/accordion');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const profile = page.locator('#settings-profile-trigger');
   await expect(profile).toHaveAttribute('aria-expanded', 'true');
   await page.getByRole('button', { name: 'Collapse all' }).click();
@@ -909,7 +909,7 @@ test('Accordion and Countdown keep their state in sync', async ({ page }) => {
   await expect(page.getByText('Profile open', { exact: true })).toBeVisible();
 
   await page.goto('/components/countdown');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const change = page.getByRole('group', { name: 'Change the value' });
   const value = page.locator('.countdown').first().locator('span');
   await expect(value).toHaveAttribute('aria-label', '42');
@@ -919,14 +919,14 @@ test('Accordion and Countdown keep their state in sync', async ({ page }) => {
 
 test('Stat actions update the value and Table keeps native headers', async ({ page }) => {
   await page.goto('/components/stat');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const balance = page.getByRole('region', { name: 'Account summary' });
   await expect(balance.getByText('€1,280')).toBeVisible();
   await balance.getByRole('button', { name: 'Add €100' }).click();
   await expect(balance.getByText('€1,380')).toBeVisible();
 
   await page.goto('/components/table');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const plans = page.getByRole('table', { name: 'Plan limits' });
   await expect(plans.getByRole('rowheader', { name: 'Storage' })).toBeVisible();
   await expect(plans.getByRole('columnheader', { name: 'Team' })).toBeVisible();
@@ -937,7 +937,7 @@ test('Stat actions update the value and Table keeps native headers', async ({ pa
 
 test('Drawer close requests can be refused and Join keeps native submit', async ({ page }) => {
   await page.goto('/components/drawer');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const edit = page.getByRole('button', { name: 'Edit profile' });
   await edit.click();
   const drawer = page.getByRole('dialog', { name: 'Edit profile' });
@@ -951,7 +951,7 @@ test('Drawer close requests can be refused and Join keeps native submit', async 
   await expect(edit).toBeFocused();
 
   await page.goto('/components/join');
-  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
   const search = page.getByRole('search');
   await search.getByRole('searchbox', { name: 'Search components' }).fill('drawer');
   await search.getByRole('searchbox', { name: 'Search components' }).press('Enter');

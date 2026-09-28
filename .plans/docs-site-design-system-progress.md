@@ -247,6 +247,14 @@ view; Aura, Text Rotate and Countdown are left out because they animate. Stable 
 comparison runs on Linux; those Linux images were deleted per D07. Phone and Window Mockup stay
 deferred (product decision of 2026-09-06, confirmed).
 
+**Dogfooding round (2026-09-28).** D04 revisited with the owner: the site trail is now
+`ZdBreadcrumbs` (link underlines and 44px targets come from the library; +9.7 kB initial, now
+425.5 kB), search is a `ZdModal` in the deferred chunk (no initial cost; focus trap, Escape,
+backdrop and focus return from the library), and the Getting started FAQ is `ZdCollapse` with the
+plus indicator. e2e now waits for `docs-search-dialog` rather than its inner `dialog` as the "idle"
+signal, since the modal's dialog only exists while open. Docs e2e 47/47, library browser 197/197.
+The gallery (FAQ) and the three above-the-fold page baselines change and need regenerating.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |
@@ -257,18 +265,18 @@ deferred (product decision of 2026-09-06, confirmed).
 | Docs Playwright (`playwright.docs.config.ts`) | 47 / 47 pass                                                                                            |
 | Visual suite vs. pre-change render            | 84 / 84 match                                                                                           |
 | `npm run check:docs:links`                    | Pass (72 sitemap routes, 82 documents)                                                                  |
-| `npm run check:docs:performance`              | Pass at 415.1 kB initial                                                                                |
+| `npm run check:docs:performance`              | Pass at 425.5 kB initial                                                                                |
 | `npm run check:docs:design-system`            | Pass (253 files)                                                                                        |
 | `npm run typecheck:browser`, `lint:browser`   | Pass                                                                                                    |
 
 ## Decisions / deviations
 
-| Item | Decision                                                                                                                                      | Status                   |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| D01  | Codebase wins over mockup copy (package name, provider, `variant`/`layout`/`disabled`, maturity)                                              | Accepted                 |
-| D02  | Button `loading` documented as `aria-disabled` (the mockup said `aria-busy`, which the directive does not set)                                | Accepted                 |
-| D03  | Initial-bundle budget raised to 450/470 kB after re-measurement                                                                               | Needs owner confirmation |
-| D04  | Tabs/Accordion/Table/Filter/Breadcrumbs/Modal/Badge/Theme Controller left native for now                                                      | Revisit                  |
-| D05  | TOC stays catalogue data (a runtime registry breaks SSR ordering)                                                                             | Accepted                 |
-| D07  | Visual baselines are generated on Windows (repo policy); Linux-generated images were used only to check the tests are stable and were deleted | Accepted                 |
-| D06  | Palette 2a + logo 2f until the Components Board decision                                                                                      | Open                     |
+| Item | Decision                                                                                                                                              | Status                   |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| D01  | Codebase wins over mockup copy (package name, provider, `variant`/`layout`/`disabled`, maturity)                                                      | Accepted                 |
+| D02  | Button `loading` documented as `aria-disabled` (the mockup said `aria-busy`, which the directive does not set)                                        | Accepted                 |
+| D03  | Initial-bundle budget raised to 450/470 kB after re-measurement                                                                                       | Needs owner confirmation |
+| D04  | Shell dogfooding revisited (2026-09-28): Breadcrumbs, Modal (search) and Collapse (FAQ) adopted; Tabs/Table/Filter/Badge/Theme Controller stay native | Accepted                 |
+| D05  | TOC stays catalogue data (a runtime registry breaks SSR ordering)                                                                                     | Accepted                 |
+| D07  | Visual baselines are generated on Windows (repo policy); Linux-generated images were used only to check the tests are stable and were deleted         | Accepted                 |
+| D06  | Palette 2a + logo 2f until the Components Board decision                                                                                              | Open                     |

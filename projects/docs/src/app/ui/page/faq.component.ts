@@ -1,22 +1,33 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, input } from '@angular/core';
+import { ZdCollapse, ZdCollapseContent, ZdCollapseTitle } from '@pranxy/zordon-ui/collapse';
 
 export interface DocsFaqItem {
   readonly question: string;
   readonly answer: string;
 }
 
-/** Stack of native disclosures (works without JavaScript). */
+/** Loads daisyUI's collapse classes, shared with the Collapse and Accordion pages. */
+@Component({
+  selector: 'docs-faq-daisy-styles',
+  template: '',
+  styleUrl: '../../pages/styles/collapse.daisy.css',
+  encapsulation: ViewEncapsulation.None,
+})
+class DocsFaqDaisyStylesComponent {}
+
+/** Stack of native disclosures styled by Zordon's Collapse (works without JavaScript). */
 @Component({
   selector: 'docs-faq',
+  imports: [DocsFaqDaisyStylesComponent, ZdCollapse, ZdCollapseContent, ZdCollapseTitle],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <docs-faq-daisy-styles />
     @for (item of items(); track item.question) {
-      <details>
-        <summary>
-          {{ item.question }}
-          <span class="icon" aria-hidden="true"></span>
-        </summary>
-        <p>{{ item.answer }}</p>
+      <details zdCollapse indicator="plus">
+        <summary zdCollapseTitle>{{ item.question }}</summary>
+        <div zdCollapseContent>
+          <p>{{ item.answer }}</p>
+        </div>
       </details>
     }
   `,
@@ -28,17 +39,15 @@ export interface DocsFaqItem {
       border-radius: var(--docs-radius-lg);
     }
 
+    details {
+      border-radius: 0;
+    }
+
     details + details {
       border-block-start: 1px solid var(--docs-border);
     }
 
     summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.875rem 1rem;
-      cursor: pointer;
       font-weight: var(--docs-weight-heading);
     }
 
@@ -46,18 +55,8 @@ export interface DocsFaqItem {
       background: var(--docs-surface-raised);
     }
 
-    .icon::before {
-      content: '+';
-      font-family: var(--docs-font-mono);
-    }
-
-    details[open] .icon::before {
-      content: '−';
-    }
-
     p {
       margin: 0;
-      padding: 0 1rem 1rem;
       color: var(--docs-muted-text);
       font-size: var(--docs-text-body);
       line-height: 1.6;
