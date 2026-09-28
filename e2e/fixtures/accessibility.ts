@@ -6,6 +6,13 @@ const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 type AxeScanResult = Awaited<ReturnType<AxeBuilder['analyze']>>;
 
 interface AccessibilityFixtures {
+  /**
+   * Wait after `page.goto` and `page.reload` until the app marks `<html data-hydrated>` (docs
+   * site and SSR example), so keyboard and pointer input isn't lost to a server-rendered page.
+   * Turn it off with `test.use({ waitForHydration: false })` for a page that never hydrates.
+   */
+  waitForHydration: boolean;
+  hydratedNavigation: void;
   nativeLinkTab: boolean;
   runAxeScan: (
     scope?: string,
@@ -14,6 +21,28 @@ interface AccessibilityFixtures {
 }
 
 const test = base.extend<AccessibilityFixtures>({
+  waitForHydration: [true, { option: true }],
+  hydratedNavigation: [
+    async ({ page, waitForHydration }, use) => {
+      if (waitForHydration) {
+        const hydrated = () => page.locator('html[data-hydrated]').waitFor({ state: 'attached' });
+        const goto = page.goto.bind(page);
+        const reload = page.reload.bind(page);
+        page.goto = async (url, options) => {
+          const response = await goto(url, options);
+          await hydrated();
+          return response;
+        };
+        page.reload = async options => {
+          const response = await reload(options);
+          await hydrated();
+          return response;
+        };
+      }
+      await use();
+    },
+    { auto: true },
+  ],
   nativeLinkTab: async ({ context }, use, testInfo) => {
     const probe = await context.newPage();
     let includesLinks: boolean;

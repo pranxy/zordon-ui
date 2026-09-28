@@ -1,10 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   Component,
   afterNextRender,
   computed,
+  effect,
   inject,
+  signal,
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -115,7 +118,7 @@ import { DocsUtilityBarComponent } from './ui/shell/utility-bar.component';
     </div>
 
     <docs-footer />
-    @defer (on idle) {
+    @defer (on idle; when searchRequested()) {
       <docs-search-dialog #search [entries]="searchEntries" />
     }
   `,
@@ -184,6 +187,7 @@ import { DocsUtilityBarComponent } from './ui/shell/utility-bar.component';
 })
 export class DocsAppComponent {
   private readonly document = inject(DOCUMENT);
+  private readonly appRef = inject(ApplicationRef);
   private readonly metadata = inject(DocsMetadataService);
   private readonly router = inject(Router);
   private enhanced = false;
@@ -197,6 +201,9 @@ export class DocsAppComponent {
 
   /** Loaded after the page is idle; it is never needed for server rendering. */
   private readonly search = viewChild<DocsSearchDialogComponent>('search');
+  /** Set by a search request that arrives before the dialog has loaded; loads it at once. */
+  protected readonly searchRequested = signal(false);
+  private pendingSearchInvoker: EventTarget | null | undefined;
   protected readonly primaryNav = primaryNavItems();
   protected readonly mobileNav = mobileNavItems();
   protected readonly searchEntries = searchEntries();
@@ -209,7 +216,22 @@ export class DocsAppComponent {
 
   constructor() {
     this.metadata.initialize();
-    afterNextRender(() => (this.enhanced = true));
+    afterNextRender(() => {
+      this.enhanced = true;
+      // Once the lazy route has loaded and rendered too, mark the page as interactive:
+      // end-to-end tests wait for this before sending input.
+      void this.appRef
+        .whenStable()
+        .then(() => this.document.documentElement.setAttribute('data-hydrated', ''));
+    });
+    // Open a search requested while the dialog was still loading, as soon as it arrives.
+    effect(() => {
+      const search = this.search();
+      if (!search || this.pendingSearchInvoker === undefined) return;
+      const invoker = this.pendingSearchInvoker;
+      this.pendingSearchInvoker = undefined;
+      search.open(invoker);
+    });
   }
 
   /** "/" opens search from anywhere except text fields. */
@@ -223,7 +245,13 @@ export class DocsAppComponent {
   }
 
   protected openSearch(invoker: EventTarget | null): void {
-    this.search()?.open(invoker);
+    const search = this.search();
+    if (search) {
+      search.open(invoker);
+      return;
+    }
+    this.pendingSearchInvoker = invoker;
+    this.searchRequested.set(true);
   }
 }
 

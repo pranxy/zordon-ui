@@ -231,6 +231,15 @@ the legacy Button/Badge files are deleted, Alert's lighter variants use base tex
 workarounds. Alert, Calendar and Divider fixtures render differently, so their Windows visual
 baselines need regenerating.
 
+**Flaky tests round (2026-09-28).** The intermittent failures had real causes. Search requested
+before its deferred dialog loaded was dropped: it now loads the dialog at once and opens it.
+Chrome's request for a missing `/favicon.ico` logged a 404 that failed error-free-page checks: both
+apps now declare an inline icon. Library e2e tests sent keyboard input before the lazy route had
+hydrated: both apps now mark `<html data-hydrated>` once stable, and the shared e2e fixture waits
+for it after `goto` and `reload`. The SSR example's Hover Gallery used placehold.co images, so the
+hydration test needed internet; they are inline SVGs now. Navigation specs 90/90 over 15 repeats,
+Accordion and Menu 32/32 over 8, library browser 197/197, docs 47/47, SSR 28/28 twice.
+
 ## Validation run (2026-09-25)
 
 | Check                                         | Result                                                                                                  |

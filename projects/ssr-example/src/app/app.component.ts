@@ -380,15 +380,15 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
           <figure zdHoverGallery data-testid="hover-gallery-example">
             <img
               alt="Blue product angle"
-              src="https://placehold.co/480x320/2563eb/ffffff?text=Blue"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 320'%3E%3Crect width='480' height='320' fill='%232563eb'/%3E%3Ctext x='240' y='172' font-size='48' text-anchor='middle' fill='%23fff'%3EBlue%3C/text%3E%3C/svg%3E"
             />
             <img
               alt="Purple product angle"
-              src="https://placehold.co/480x320/7c3aed/ffffff?text=Purple"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 320'%3E%3Crect width='480' height='320' fill='%237c3aed'/%3E%3Ctext x='240' y='172' font-size='48' text-anchor='middle' fill='%23fff'%3EPurple%3C/text%3E%3C/svg%3E"
             />
             <img
               alt="Green product angle"
-              src="https://placehold.co/480x320/059669/ffffff?text=Green"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 480 320'%3E%3Crect width='480' height='320' fill='%23059669'/%3E%3Ctext x='240' y='172' font-size='48' text-anchor='middle' fill='%23fff'%3EGreen%3C/text%3E%3C/svg%3E"
             />
           </figure>
         </section>
