@@ -7,15 +7,15 @@
 
 Status: `Pending` | `In progress` | `Blocked` | `Verified` | `Descoped`
 
-| ID  | Requirement                                    | Status      | Evidence / notes                                                                                                                                                                                                                   |
-| --- | ---------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T01 | Tokens, fonts and primitives                   | Verified    | `styles/tokens.css`, `styles/primitives.css`; fonts not bundled (performance policy forbids font files)                                                                                                                            |
-| T02 | Highlighter, code block, tabs, copy            | Verified    | `ui/code/*`; `highlight.spec.ts` (round-trip, classification, determinism); SSR hydration e2e green                                                                                                                                |
-| T03 | Shell and navigation components                | Verified    | `ui/shell/*`, `navigation.ts` + `navigation.spec.ts`; navigation/a11y/SSR e2e green; search dialog deferred on idle                                                                                                                |
-| T04 | Page scaffolding and reference building blocks | Verified    | `ui/page/*`, `ui/reference/*`; `/__zordon-tests__/ui` gallery renders every component and variant (reviewed in light/dark at 1440 and 390)                                                                                         |
-| T05 | Playground and catalogue                       | Verified    | `docs-playground` (schema-driven, real `ZdButton`), 68-entry catalogue with URL category filter; `component-catalogue.spec.ts`, playground e2e                                                                                     |
-| T06 | Migrate Get started, Components, Button        | Verified    | All three pages plus Home, Resources, Styling, Typed vocabularies and 404 are composed from `app/ui`; content corrections applied; manual side-by-side review in light/dark at 1440/390                                            |
-| T07 | Guardrails and handover                        | In progress | Design-system check + CI step; `e2e/visual-docs-site.spec.ts` (gallery × 3, pages × 6, playground, catalogue) stable across repeated runs. **Windows baselines not yet generated**; CI's visual job fails until they are committed |
+| ID  | Requirement                                    | Status      | Evidence / notes                                                                                                                                                                                                                                                                                                                                          |
+| --- | ---------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T01 | Tokens, fonts and primitives                   | Verified    | `styles/tokens.css`, `styles/primitives.css`; fonts not bundled (performance policy forbids font files)                                                                                                                                                                                                                                                   |
+| T02 | Highlighter, code block, tabs, copy            | Verified    | `ui/code/*`; `highlight.spec.ts` (round-trip, classification, determinism); SSR hydration e2e green                                                                                                                                                                                                                                                       |
+| T03 | Shell and navigation components                | Verified    | `ui/shell/*`, `navigation.ts` + `navigation.spec.ts`; navigation/a11y/SSR e2e green; search dialog deferred on idle                                                                                                                                                                                                                                       |
+| T04 | Page scaffolding and reference building blocks | Verified    | `ui/page/*`, `ui/reference/*`; `/__zordon-tests__/ui` gallery renders every component and variant (reviewed in light/dark at 1440 and 390)                                                                                                                                                                                                                |
+| T05 | Playground and catalogue                       | Verified    | `docs-playground` (schema-driven, real `ZdButton`), 68-entry catalogue with URL category filter; `component-catalogue.spec.ts`, playground e2e                                                                                                                                                                                                            |
+| T06 | Migrate Get started, Components, Button        | Verified    | All three pages plus Home, Resources, Styling, Typed vocabularies and 404 are composed from `app/ui`; content corrections applied; manual side-by-side review in light/dark at 1440/390                                                                                                                                                                   |
+| T07 | Guardrails and handover                        | In progress | Design-system check + CI step; `e2e/visual-docs-site.spec.ts` covers the gallery × 3, pages × 6, the Button playground, the catalogue and (new) one reference playground per category × 2 themes. Windows baselines exist for all but the 14 new reference shots; generate them with `npm run test:visual:update -- -g "component reference playgrounds"` |
 
 ## Component reference pages
 
@@ -239,6 +239,13 @@ hydrated: both apps now mark `<html data-hydrated>` once stable, and the shared 
 for it after `goto` and `reload`. The SSR example's Hover Gallery used placehold.co images, so the
 hydration test needed internet; they are inline SVGs now. Navigation specs 90/90 over 15 repeats,
 Accordion and Menu 32/32 over 8, library browser 197/197, docs 47/47, SSR 28/28 twice.
+
+**Reference page visuals (2026-09-28).** `visual-docs-site.spec.ts` now captures one reference
+playground per catalogue category (Modal, Card, Tabs, Alert, Select, Stack, Code Mockup) in light
+and dark desktop. Mobile is left out because the sticky header overlaps an element scrolled into
+view; Aura, Text Rotate and Countdown are left out because they animate. Stable across two
+comparison runs on Linux; those Linux images were deleted per D07. Phone and Window Mockup stay
+deferred (product decision of 2026-09-06, confirmed).
 
 ## Validation run (2026-09-25)
 

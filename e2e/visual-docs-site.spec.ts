@@ -3,7 +3,6 @@ import { expect, test, type Page } from '@playwright/test';
 import {
   applyZordonDocumentEnvironment,
   prepareZordonTestEnvironment,
-  waitForZordonHydration,
   ZORDON_TEST_MEDIA_PROFILES,
   type ZdTestViewport,
 } from './fixtures/environment';
@@ -34,7 +33,7 @@ async function openDocsPage(
   await page.addStyleTag({ content: PINNED_FONTS });
   // The search dialog is deferred until the hydrated app is idle, so its presence means every
   // post-hydration enhancement (copy buttons, saved preferences) has already rendered.
-  await waitForZordonHydration(page);
+  await page.locator('docs-search-dialog dialog').waitFor({ state: 'attached' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
   await applyZordonDocumentEnvironment(page, { theme, direction: 'ltr' });
   await page.evaluate(() => document.fonts.ready);
@@ -88,6 +87,36 @@ test('Button playground reflects chosen inputs', async ({ page }) => {
   await expect(page.locator('docs-playground')).toHaveScreenshot(
     'docs-button-playground--light-desktop.png',
   );
+});
+
+/**
+ * One reference page per catalogue category: its playground (or live example) in both themes.
+ * They share the reference template, so these catch shared-UI regressions and page-scoped daisyUI
+ * stylesheets that stop loading. Pages with motion or a clock (Aura, Text Rotate, Countdown) are
+ * left out because they are not deterministic.
+ */
+test.describe('component reference playgrounds', () => {
+  const pages = [
+    ['actions', '/components/modal'],
+    ['data-display', '/components/card'],
+    ['navigation', '/components/tabs'],
+    ['feedback', '/components/alert'],
+    ['data-input', '/components/select'],
+    ['layout', '/components/stack'],
+    ['mockups', '/components/code-mockup'],
+  ] as const;
+
+  for (const [category, path] of pages) {
+    // Desktop only: on mobile the sticky header overlaps an element scrolled into view.
+    test(`${category} light and dark desktop`, async ({ page }) => {
+      const playground = page.locator('docs-reference-page [docsReferencePlayground]');
+      await openDocsPage(page, path, 'desktop', 'light');
+      await expect(playground).toHaveScreenshot(`docs-reference-${category}--light-desktop.png`);
+
+      await openDocsPage(page, path, 'desktop', 'dark');
+      await expect(playground).toHaveScreenshot(`docs-reference-${category}--dark-desktop.png`);
+    });
+  }
 });
 
 test('catalogue category filter in light desktop', async ({ page }) => {
