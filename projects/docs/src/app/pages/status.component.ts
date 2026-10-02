@@ -3,6 +3,7 @@ import { ZdStatus } from '@pranxy/zordon-ui/status';
 
 import { colorOf, sizeOf } from '../content/form-controls.content';
 import {
+  directiveFiles,
   pulseCode,
   statusPlaygroundControls,
   statusPlaygroundSnippet,
@@ -94,9 +95,27 @@ class StatusDaisyStylesComponent {}
           </p>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="directive"
+        level="3"
+        heading="Why a directive?"
+        description="Status styles an existing native element. It owns no internal template, state or behavior, so an attribute directive lets you keep control of the element, its label and its semantics."
+      >
+        <docs-example label="directive" [files]="directiveFiles">
+          <p class="line"><span zdStatus color="success" aria-hidden="true"></span>Online</p>
+          <span zdStatus color="success" role="img" aria-label="Online"></span>
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
+    .line {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+    }
+
     .line {
       display: flex;
       align-items: center;
@@ -136,6 +155,7 @@ class StatusDaisyStylesComponent {}
   `,
 })
 export class StatusPageComponent {
+  protected readonly directiveFiles = directiveFiles;
   protected readonly reference = statusReference;
   protected readonly controls = statusPlaygroundControls;
   protected readonly snippet = statusPlaygroundSnippet;

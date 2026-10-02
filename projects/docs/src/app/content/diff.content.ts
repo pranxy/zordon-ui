@@ -70,7 +70,7 @@ export const diffReference: DocsReference = {
       label: 'styles.css',
       language: 'css',
       code: `.comparison {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   inline-size: min(28rem, 100%);
 }`,
     },
@@ -79,10 +79,11 @@ export const diffReference: DocsReference = {
 };
 
 export const diffCode = `<figure zdDiff class="comparison" tabindex="0">
-  <div zdDiffItem1 tabindex="0"><div class="before" role="img" aria-label="Before: flat grey"></div></div>
-  <div zdDiffItem2><div class="after" role="img" aria-label="After: vivid gradient"></div></div>
+  <div zdDiffItem1 tabindex="0"><img src="images/showcase/lake-morning.webp" alt="Lake and mountains in cool morning light" width="768" height="512" loading="lazy" /></div>
+  <div zdDiffItem2><img src="images/showcase/lake-sunset.webp" alt="The same lake and mountains in warm sunset light" width="768" height="512" loading="lazy" /></div>
   <div zdDiffResizer></div>
-</figure>`;
+</figure>
+<p>Same lake, identical framing: cool morning light compared with warm sunset light.</p>`;
 
 export const textCode = `<figure>
   <div zdDiff class="comparison">

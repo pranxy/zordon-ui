@@ -6,10 +6,12 @@ import {
   Directive,
   TemplateRef,
   ViewEncapsulation,
+  afterRenderEffect,
   booleanAttribute,
   computed,
   contentChild,
   effect,
+  ElementRef,
   inject,
   input,
   signal,
@@ -161,7 +163,7 @@ export class ZdAccordionContent {
   hostDirectives: [{ directive: AccordionPanel, inputs: ['id'] }],
   host: {
     '[class]': 'classes',
-    '[hidden]': '!visible()',
+    '[hidden]': '!visible() && !presenting()',
     '(keydown)': '$event.stopPropagation()',
     '(pointerdown)': '$event.stopPropagation()',
     '(focusin)': '$event.stopPropagation()',
@@ -172,6 +174,11 @@ export class ZdAccordionContent {
     }
     :host {
       overflow-wrap: anywhere;
+      /* Keep the rendered grid track measurable throughout its exit. Aria owns inertness. */
+      min-height: 0;
+      overflow: clip;
+      content-visibility: visible;
+      visibility: visible;
     }
     @media (prefers-reduced-motion: reduce), (forced-colors: active) {
       :host {
@@ -181,7 +188,7 @@ export class ZdAccordionContent {
   `,
   template: `<ng-content />
     @if (content(); as content) {
-      @if (visible() || (preserveContent() && rendered())) {
+      @if (visible() || presenting() || (preserveContent() && rendered())) {
         <ng-container [ngTemplateOutlet]="content.template" />
       }
     }`,
@@ -193,10 +200,39 @@ export class ZdAccordionPanel {
   readonly preserveContent = input(false, { transform: booleanAttribute });
   protected readonly content = contentChild(ZdAccordionContent);
   protected readonly rendered = signal(false);
+  protected readonly presenting = signal(false);
   protected readonly classes = inject(ZdClassNames).daisyUi('collapse-content');
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly exit = afterRenderEffect(onCleanup => {
+    if (this.visible()) return;
+    const item = this.element.parentElement;
+    // Flush the grid's new closed layout before reading its actual CSS transition.
+    item?.getBoundingClientRect();
+    const transitions =
+      item
+        ?.getAnimations?.()
+        .filter(
+          animation => (animation as CSSTransition).transitionProperty === 'grid-template-rows',
+        ) ?? [];
+    if (!transitions.length) {
+      this.presenting.set(false);
+      return;
+    }
+    let cancelled = false;
+    onCleanup(() => {
+      cancelled = true;
+    });
+    // Cancellation (including a reduced-motion change) is also a completed visual exit.
+    void Promise.allSettled(transitions.map(animation => animation.finished)).then(() => {
+      if (!cancelled && !this.visible()) this.presenting.set(false);
+    });
+  });
   constructor() {
     effect(() => {
-      if (this.visible()) this.rendered.set(true);
+      if (this.visible()) {
+        this.rendered.set(true);
+        this.presenting.set(true);
+      }
     });
   }
 }

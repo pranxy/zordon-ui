@@ -25,7 +25,7 @@ and optional `ZdTooltip` separately for action styling and descriptive labels.
 This is a disclosure group, not an ARIA menu or toolbar. Native Tab order, button Enter/Space, links,
 disabled controls and action handlers remain browser/consumer-owned. Angular Aria is unnecessary
 for this pattern. Button supplies daisyUI styling. The installed daisyUI FAB CSS uses focus-driven
-visibility, which cannot honor controlled rejection or native hidden/inert state; FAB therefore owns
+visibility, which cannot honor controlled rejection or immediate inert state; FAB therefore owns
 its small scoped layout stylesheet instead of combining two visibility systems. No CDK portal,
 focus trap, backdrop or scroll lock is created by FAB itself.
 
@@ -101,8 +101,10 @@ Native disabled triggers cannot receive restoration focus. Changing to single mo
 suppresses expansion without rewriting the consumer's controlled value. Local state is retained
 across temporary mode/disabled changes.
 
-The action template is created eagerly and retained under native `hidden` and `inert` when closed,
-preserving Forms state and stable IDs. Do not place interactive Tooltip dialogs or independent
+The action template is created eagerly and retained when closed, preserving Forms state and stable
+IDs. Closing immediately applies native `inert` and `aria-hidden`; a short opacity/translation exit
+ends with CSS `visibility: hidden`. Reopening reverses the transition without timers or delayed state
+updates. Reduced-motion preferences hide/show immediately. Do not place interactive Tooltip dialogs or independent
 focusable portals inside this disclosure: their external focus boundary needs a separate composition
 policy. Descriptive Tooltip labels are supported and verified. Destruction cleans up the document
 pointer listener and Angular destroys embedded action directives, including their Tooltip portals.
@@ -110,7 +112,9 @@ pointer listener and Angular destroys embedded action directives, including thei
 ## Layout, themes and customization
 
 Logical corners mirror with inherited HTML direction. Each physical safe-area inset is added to the
-offset. Top corners expand downward; bottom corners expand upward. Vertical lists scroll within
+offset. Actions are positioned relative to the trigger's stable footprint in both fixed and inline
+mode; opening does not resize the footprint or push adjacent content. Reserve space for the actions
+when composing inline examples. Top corners expand downward; bottom corners expand upward. Vertical lists scroll within
 `min(70dvh, 32rem)`. Flower uses a quarter circle for one to four direct action elements; five or more
 fall back to vertical. Viewports narrower than 24rem or shorter than 30rem also use vertical layout.
 Use compact circular icon actions with accessible names and descriptive Tooltips in flower mode;
@@ -125,7 +129,7 @@ viewport collision detection for arbitrary content or custom offsets.
 
 Button theme tokens inherit light/dark scopes. Ensure Tailwind scans the Button candidates used by
 your templates, including `btn-circle`. FAB's own CSS is included in the component; no separate
-stylesheet import is required. Reduced-motion mode disables trigger transitions, and forced colors
+stylesheet import is required. Reduced-motion mode disables trigger and action transitions, and forced colors
 retain visible control borders/focus. Consumer animations remain consumer-owned.
 
 ## SSR, migration and review

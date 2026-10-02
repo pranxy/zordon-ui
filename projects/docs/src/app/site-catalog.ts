@@ -255,6 +255,7 @@ export const carouselPage = defineComponentPage({
   maturity: 'preview',
   examples: [
     ['controls', 'Previous and next'],
+    ['indicators', 'Indicator buttons'],
     ['peek', 'Partial items'],
     ['vertical', 'Vertical'],
   ],
@@ -279,6 +280,11 @@ export const avatarPage = defineComponentPage({
   maturity: 'planned',
   examples: [
     ['group', 'Group'],
+    ['custom-sizes', 'Custom sizes'],
+    ['rounded', 'Rounded'],
+    ['mask', 'With a mask'],
+    ['group-counter', 'Group with counter'],
+    ['ring', 'With a ring'],
     ['presence', 'Presence'],
   ],
 });
@@ -292,6 +298,7 @@ export const auraPage = defineComponentPage({
   examples: [
     ['variants', 'Variants'],
     ['card', 'Around a card'],
+    ['sizes', 'Sizes'],
   ],
 });
 
@@ -303,6 +310,7 @@ export const badgePage = defineComponentPage({
   examples: [
     ['colors', 'Colors'],
     ['in-context', 'In links and buttons'],
+    ['with-icon', 'With an icon'],
   ],
 });
 
@@ -315,6 +323,9 @@ export const cardPage = defineComponentPage({
   examples: [
     ['link-card', 'Link card'],
     ['image-full', 'Image behind'],
+    ['side-image', 'Image on the side'],
+    ['responsive', 'Responsive card'],
+    ['selectable', 'Selectable cards'],
   ],
 });
 
@@ -331,7 +342,12 @@ export const countdownPage = defineComponentPage({
   label: 'Countdown',
   description: 'Countdown animates numeric digits and keeps an accessible text value.',
   maturity: 'planned',
-  examples: [['timer', 'Timer']],
+  examples: [
+    ['timer', 'Timer'],
+    ['clock', 'Clock countdown'],
+    ['labels-below', 'Labels below'],
+    ['boxes', 'In boxes'],
+  ],
 });
 
 export const diffPage = defineComponentPage({
@@ -347,7 +363,10 @@ export const hover3dPage = defineComponentPage({
   label: 'Hover 3D Card',
   description: 'Hover 3D Card tilts its content toward the pointer, built from CSS hover zones.',
   maturity: 'planned',
-  examples: [['figure', 'Decorative figure']],
+  examples: [
+    ['figure', 'Decorative figure'],
+    ['image-gallery', 'Image gallery'],
+  ],
 });
 
 export const hoverGalleryPage = defineComponentPage({
@@ -363,7 +382,11 @@ export const listPage = defineComponentPage({
   label: 'List',
   description: 'List lays out native list rows with media, a growing text column and actions.',
   maturity: 'planned',
-  examples: [['grow', 'Growing column']],
+  examples: [
+    ['grow', 'Third column grows'],
+    ['second-column', 'Second column grows'],
+    ['third-column-wrap', 'Third column wraps'],
+  ],
 });
 
 export const statPage = defineComponentPage({
@@ -371,7 +394,14 @@ export const statPage = defineComponentPage({
   label: 'Stat',
   description: 'Stat lays out key numbers with title, value, description, figure and actions.',
   maturity: 'planned',
-  examples: [['actions', 'Actions']],
+  examples: [
+    ['actions', 'Actions'],
+    ['basic', 'Basic'],
+    ['figures', 'With figures'],
+    ['centered', 'Centered'],
+    ['vertical', 'Vertical'],
+    ['responsive', 'Responsive'],
+  ],
 });
 
 export const statusPage = defineComponentPage({
@@ -382,15 +412,20 @@ export const statusPage = defineComponentPage({
   examples: [
     ['text', 'With text'],
     ['pulse', 'Pulse'],
+    ['directive', 'Why a directive?'],
   ],
 });
 
 export const tablePage = defineComponentPage({
   id: 'table',
   label: 'Table',
-  description: 'Table styles a native table with sizes, zebra rows and pinned headers or columns.',
+  description: 'Native table styling, Angular Aria keyboard grids and CDK column templates.',
   maturity: 'planned',
-  examples: [['row-headers', 'Row headers']],
+  examples: [
+    ['row-headers', 'Row headers'],
+    ['interactive-grid', 'Keyboard grid'],
+    ['data-driven-table', 'Column templates'],
+  ],
 });
 
 export const textRotatePage = defineComponentPage({

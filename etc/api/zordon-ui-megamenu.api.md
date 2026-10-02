@@ -87,7 +87,7 @@ export class ZdDropdown {
     // (undocumented)
     readonly side: _angular_core.InputSignal<ZdDropdownSide>;
     // (undocumented)
-    readonly trigger: _angular_core.InputSignal<"focus" | "hover" | "click" | "manual">;
+    readonly trigger: _angular_core.InputSignal<"click" | "hover" | "focus" | "manual">;
     // @internal (undocumented)
     unregisterPanel(): void;
     // @internal (undocumented)

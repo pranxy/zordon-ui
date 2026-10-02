@@ -4,7 +4,9 @@
 
 ```ts
 
-import * as _angular_core from '@angular/core';
+import * as i0 from '@angular/core';
+import * as i1 from '@angular/aria/grid';
+import { Signal } from '@angular/core';
 
 // @public (undocumented)
 export function resolveTableSize(value: unknown): ZdTableSize | undefined;
@@ -12,19 +14,69 @@ export function resolveTableSize(value: unknown): ZdTableSize | undefined;
 // @public (undocumented)
 export class ZdTable {
     // (undocumented)
-    protected readonly hostClasses: _angular_core.Signal<string>;
+    protected readonly hostClasses: i0.Signal<string>;
     // (undocumented)
-    readonly pinCols: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly pinCols: i0.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
-    readonly pinRows: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly pinRows: i0.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
-    readonly size: _angular_core.InputSignalWithTransform<ZdTableSize | undefined, ZdTableSize | undefined>;
+    readonly size: i0.InputSignalWithTransform<ZdTableSize | undefined, ZdTableSize | undefined>;
     // (undocumented)
-    readonly zebra: _angular_core.InputSignalWithTransform<boolean, unknown>;
+    readonly zebra: i0.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
-    static ɵdir: _angular_core.ɵɵDirectiveDeclaration<ZdTable, "[zdTable]", never, { "size": { "alias": "size"; "required": false; "isSignal": true; }; "zebra": { "alias": "zebra"; "required": false; "isSignal": true; }; "pinRows": { "alias": "pinRows"; "required": false; "isSignal": true; }; "pinCols": { "alias": "pinCols"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdTable, "[zdTable]", never, { "size": { "alias": "size"; "required": false; "isSignal": true; }; "zebra": { "alias": "zebra"; "required": false; "isSignal": true; }; "pinRows": { "alias": "pinRows"; "required": false; "isSignal": true; }; "pinCols": { "alias": "pinCols"; "required": false; "isSignal": true; }; }, {}, never, never, true, never>;
     // (undocumented)
-    static ɵfac: _angular_core.ɵɵFactoryDeclaration<ZdTable, never>;
+    static ɵfac: i0.ɵɵFactoryDeclaration<ZdTable, never>;
+}
+
+// @public
+export class ZdTableCell {
+    readonly cellId: i0.InputSignal<string>;
+    // (undocumented)
+    protected readonly semanticColSpan: Signal<number>;
+    // (undocumented)
+    protected readonly semanticId: Signal<string>;
+    // (undocumented)
+    protected readonly semanticRole: Signal<'gridcell' | 'columnheader' | 'rowheader'>;
+    // (undocumented)
+    protected readonly semanticRowSpan: Signal<number>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdTableCell, "th[zdTableCell], td[zdTableCell]", ["zdTableCell"], { "cellId": { "alias": "cellId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.GridCell; inputs: { "id": "cellId"; "role": "cellRole"; "disabled": "cellDisabled"; "selected": "cellSelected"; "selectable": "cellSelectable"; "rowSpan": "cellRowSpan"; "colSpan": "cellColSpan"; "rowIndex": "cellRowIndex"; "colIndex": "cellColIndex"; "orientation": "cellOrientation"; "wrap": "cellWrap"; }; outputs: { "selectedChange": "cellSelectedChange"; }; }]>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ZdTableCell, never>;
+}
+
+// @public
+export class ZdTableCellWidget {
+    // (undocumented)
+    activate(): void;
+    // (undocumented)
+    readonly active: Signal<boolean>;
+    // (undocumented)
+    deactivate(): void;
+    // (undocumented)
+    readonly isActivated: Signal<boolean>;
+    readonly widgetId: i0.InputSignal<string>;
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdTableCellWidget, "[zdTableCellWidget]", ["zdTableCellWidget"], { "widgetId": { "alias": "widgetId"; "required": true; "isSignal": true; }; }, {}, never, never, true, [{ directive: typeof i1.GridCellWidget; inputs: { "id": "widgetId"; "widgetType": "widgetType"; "disabled": "widgetDisabled"; "focusTarget": "widgetFocusTarget"; }; outputs: { "activated": "widgetActivated"; "deactivated": "widgetDeactivated"; }; }]>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ZdTableCellWidget, never>;
+}
+
+// @public
+export class ZdTableGrid {
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdTableGrid, "table[zdTableGrid]", ["zdTableGrid"], {}, {}, never, never, true, [{ directive: typeof i1.Grid; inputs: { "disabled": "gridDisabled"; "softDisabled": "gridSoftDisabled"; "focusMode": "gridFocusMode"; "rowWrap": "gridRowWrap"; "colWrap": "gridColWrap"; "enableSelection": "gridEnableSelection"; "multi": "gridMulti"; "selectionMode": "gridSelectionMode"; "enableRangeSelection": "gridEnableRangeSelection"; }; outputs: {}; }]>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ZdTableGrid, never>;
+}
+
+// @public
+export class ZdTableRow {
+    // (undocumented)
+    static ɵdir: i0.ɵɵDirectiveDeclaration<ZdTableRow, "tr[zdTableRow]", ["zdTableRow"], {}, {}, never, never, true, [{ directive: typeof i1.GridRow; inputs: { "rowIndex": "tableRowIndex"; }; outputs: {}; }]>;
+    // (undocumented)
+    static ɵfac: i0.ɵɵFactoryDeclaration<ZdTableRow, never>;
 }
 
 // @public (undocumented)

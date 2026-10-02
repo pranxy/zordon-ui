@@ -53,6 +53,9 @@ import { ZdTooltip } from '@pranxy/zordon-ui/tooltip';
         <button type="button" (click)="controlled.set(!controlled())">Set controlled</button>
         <button type="button" (click)="disabled.set(!disabled())">Toggle disabled</button>
         <button type="button" (click)="fixed.set(!fixed())">Toggle fixed</button>
+        <button type="button" (click)="verticalFixed.set(!verticalFixed())">
+          Toggle vertical fixed
+        </button>
         <button type="button" (click)="corner.set('top-start')">Top start</button>
         <button type="button" (click)="corner.set('top-end')">Top end</button>
         <button type="button" (click)="corner.set('bottom-start')">Bottom start</button>
@@ -68,7 +71,8 @@ import { ZdTooltip } from '@pranxy/zordon-ui/tooltip';
           <zd-fab
             label="Create"
             closeLabel="Close create"
-            inline
+            [inline]="!verticalFixed()"
+            [corner]="corner()"
             [disabled]="disabled()"
             data-testid="fab-local"
           >
@@ -162,6 +166,7 @@ export class FabTestFixtureComponent {
   protected readonly controlled = signal(false);
   protected readonly disabled = signal(false);
   protected readonly fixed = signal(false);
+  protected readonly verticalFixed = signal(false);
   protected readonly corner = signal<ZdFabCorner>('bottom-end');
   protected readonly extra = signal(false);
   protected readonly present = signal(true);

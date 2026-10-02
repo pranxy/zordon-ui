@@ -120,6 +120,13 @@ const pageLoaders = {
 
 export const routes: Routes = [
   {
+    path: '__zordon-tests__/table',
+    loadComponent: () =>
+      import('./testing/table-test-fixture.component').then(
+        module => module.TableTestFixtureComponent,
+      ),
+  },
+  {
     path: '__zordon-tests__/drawer',
     loadComponent: () =>
       import('./testing/drawer-test-fixture.component').then(

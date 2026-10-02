@@ -2,6 +2,28 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { designSystemViolations } from './check-docs-design-system.mjs';
 
+test('applies token and content exceptions to Windows paths without allowing page literals', () => {
+  assert.deepEqual(
+    designSystemViolations(
+      'projects\\docs\\src\\styles\\tokens.css',
+      '--docs-code-bg: oklch(22% 0 0);',
+    ),
+    [],
+  );
+  assert.deepEqual(
+    designSystemViolations(
+      'projects\\docs\\src\\app\\content\\calendar.content.ts',
+      '--zd-calendar-day-size: 2.75rem;',
+    ),
+    [],
+  );
+  assert.equal(
+    designSystemViolations('projects\\docs\\src\\app\\pages\\calendar.component.ts', 'color: #fff;')
+      .length,
+    1,
+  );
+});
+
 test('rejects inline style attributes in component templates', () => {
   const violations = designSystemViolations('app/x.component.ts', '<i style="width: 2px"></i>');
   assert.equal(violations.length, 1);

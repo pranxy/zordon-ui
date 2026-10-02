@@ -45,10 +45,14 @@ describe('ZdFab', () => {
     const get = (s: string) => root.querySelector<HTMLElement>(s)!;
     const trigger = get('.zd-fab-trigger');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(get('.zd-fab-actions').hasAttribute('inert')).toBe(true);
+    expect(get('.zd-fab-actions').getAttribute('aria-hidden')).toBe('true');
     h.fab().hide();
     h.fab().show();
     await f.whenStable();
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(get('.zd-fab-actions').hasAttribute('inert')).toBe(false);
+    expect(get('.zd-fab-actions').hasAttribute('aria-hidden')).toBe(false);
     h.fab().show();
     for (const id of ['keep', 'disabled', 'soft', 'cancel', 'plain']) {
       get('#' + id).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
@@ -59,6 +63,8 @@ describe('ZdFab', () => {
     await f.whenStable();
     expect(h.fab().expanded()).toBe(false);
     expect(document.activeElement).toBe(trigger);
+    expect(get('.zd-fab-actions').hasAttribute('inert')).toBe(true);
+    expect(get('.zd-fab-actions').getAttribute('aria-hidden')).toBe('true');
     trigger.click();
     await f.whenStable();
     root.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
@@ -153,7 +159,7 @@ describe('ZdFab', () => {
     await f.whenStable();
     f.componentInstance.fab().show();
     await f.whenStable();
-    expect(f.nativeElement.querySelector('.zd-fab-actions').hidden).toBe(false);
+    expect(f.nativeElement.querySelector('.zd-fab-actions').hasAttribute('inert')).toBe(false);
     f.destroy();
   });
 });

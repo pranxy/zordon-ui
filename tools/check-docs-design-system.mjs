@@ -31,6 +31,7 @@ async function listFiles(directory) {
 
 /** Returns human-readable violations for one source file. */
 export function designSystemViolations(path, contents) {
+  path = path.replaceAll('\\', '/');
   const violations = [];
   const isTokens = path.endsWith('styles/tokens.css');
   const isContent = /(?:^|\/)app\/content\/[\w-]+\.content\.ts$/.test(path);
@@ -63,7 +64,7 @@ export async function checkDocsDesignSystem(root) {
   const files = (await listFiles(source)).filter(
     path =>
       ['.ts', '.css'].includes(extname(path)) &&
-      !path.includes('/app/testing/') &&
+      !path.replaceAll('\\', '/').includes('/app/testing/') &&
       !path.endsWith('.spec.ts'),
   );
   const violations = [];

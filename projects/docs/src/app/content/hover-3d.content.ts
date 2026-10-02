@@ -16,7 +16,8 @@ export const hover3dReference: DocsReference = {
   notice: plannedNotice,
   install: {
     description: 'Import the directive, and register the class it adds with Tailwind.',
-    importCode: `import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';`,
+    importCode: `import { RouterLink } from '@angular/router';
+import { ZdHover3d } from '@pranxy/zordon-ui/hover-3d';`,
     stylesCode: tailwindSource('hover-3d'),
   },
   playgroundDescription:
@@ -75,7 +76,9 @@ export const hover3dReference: DocsReference = {
     code: {
       label: 'styles.css',
       language: 'css',
-      code: `@media (prefers-reduced-motion: reduce) {
+      code: `.art { inline-size: min(18rem, 70vw); aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
   .hover-3d > :first-child {
     transform: none;
     scale: 1;
@@ -86,8 +89,8 @@ export const hover3dReference: DocsReference = {
   ssr: 'The directive only adds a class and the effect is CSS, so the server HTML already works.',
 };
 
-export const hover3dCode = `<a zdHover3d href="/components/card" class="tilt">
-  <div class="art" role="img" aria-label="Card reference"></div>
+export const hover3dCode = `<a zdHover3d routerLink="/components/card" class="tilt">
+  <img class="art" src="images/showcase/coast.webp" alt="Explore the coastal landscape card example" width="768" height="432" loading="lazy" />
   <div aria-hidden="true"></div>
   <div aria-hidden="true"></div>
   <div aria-hidden="true"></div>
@@ -107,3 +110,71 @@ export const figureCode = `<figure zdHover3d class="tilt">
   <div aria-hidden="true"></div>
   …
 </figure>`;
+
+export const imageGalleryFiles = [
+  {
+    label: 'image-gallery.html',
+    language: 'html' as const,
+    code: `<div class="tilt-gallery">
+  <figure zdHover3d class="tilt">
+    <img
+      src="images/showcase/coast.webp"
+      alt="Atlantic coast"
+      width="768"
+      height="432"
+      loading="lazy"
+    />
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+  </figure>
+  <figure zdHover3d class="tilt">
+    <img
+      src="images/showcase/lake-morning.webp"
+      alt="Mountain lake in the morning"
+      width="768"
+      height="512"
+      loading="lazy"
+    />
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+  </figure>
+  <figure zdHover3d class="tilt">
+    <img
+      src="images/showcase/lake-sunset.webp"
+      alt="Mountain lake at sunset"
+      width="768"
+      height="512"
+      loading="lazy"
+    />
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
+  </figure>
+</div>`,
+  },
+  {
+    label: 'image-gallery.css',
+    language: 'css' as const,
+    code: `.tilt-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr)); gap: 1.5rem; inline-size: 100%; }
+.tilt-gallery figure { margin: 0; }
+.tilt-gallery img { inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 1rem; }
+@media (prefers-reduced-motion: reduce) { .tilt-gallery [zdHover3d] > :first-child { transform: none; scale: 1; transition: none; } }`,
+  },
+];

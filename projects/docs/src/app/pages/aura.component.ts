@@ -4,6 +4,7 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCard, ZdCardBody, ZdCardTitle } from '@pranxy/zordon-ui/card';
 
 import {
+  sizesFiles,
   auraPlaygroundControls,
   auraPlaygroundSnippet,
   auraReference,
@@ -97,9 +98,65 @@ class AuraDaisyStylesComponent {}
           </div>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="sizes"
+        level="3"
+        heading="Sizes"
+        description="Size changes the thickness of the halo, not the child. Every tile below has identical dimensions."
+      >
+        <docs-example label="sizes" [files]="sizesFiles">
+          <div class="aura-sizes">
+            <figure>
+              <div zdAura size="xs" class="brand-light"><div class="size-tile">Halo</div></div>
+              <figcaption>xs</figcaption>
+            </figure>
+            <figure>
+              <div zdAura size="sm" class="brand-light"><div class="size-tile">Halo</div></div>
+              <figcaption>sm</figcaption>
+            </figure>
+            <figure>
+              <div zdAura size="md" class="brand-light"><div class="size-tile">Halo</div></div>
+              <figcaption>md</figcaption>
+            </figure>
+            <figure>
+              <div zdAura size="lg" class="brand-light"><div class="size-tile">Halo</div></div>
+              <figcaption>lg</figcaption>
+            </figure>
+            <figure>
+              <div zdAura size="xl" class="brand-light"><div class="size-tile">Halo</div></div>
+              <figcaption>xl</figcaption>
+            </figure>
+          </div>
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
+    .aura-sizes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      padding: 1rem;
+    }
+    .aura-sizes figure {
+      display: grid;
+      justify-items: center;
+      gap: 1rem;
+      margin: 0;
+    }
+    .size-tile {
+      display: grid;
+      place-items: center;
+      inline-size: 5rem;
+      block-size: 3rem;
+      border-radius: 0.75rem;
+      background: var(--color-base-100);
+      color: var(--color-base-content);
+    }
+    .brand-light {
+      color: var(--color-primary);
+    }
+
     .tile {
       padding: var(--docs-space-3) var(--docs-space-4);
       border-radius: var(--docs-radius-md);
@@ -107,10 +164,6 @@ class AuraDaisyStylesComponent {}
       color: var(--docs-text);
       font-family: var(--docs-font-mono);
       font-size: var(--docs-text-sm);
-    }
-
-    .brand-light {
-      color: var(--color-primary);
     }
 
     .plan {
@@ -126,6 +179,7 @@ class AuraDaisyStylesComponent {}
   `,
 })
 export class AuraPageComponent {
+  protected readonly sizesFiles = sizesFiles;
   protected readonly reference = auraReference;
   protected readonly controls = auraPlaygroundControls;
   protected readonly snippet = auraPlaygroundSnippet;

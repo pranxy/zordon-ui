@@ -11,6 +11,9 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdCountdown } from '@pranxy/zordon-ui/countdown';
 
 import {
+  boxesFiles,
+  labelsBelowFiles,
+  clockFiles,
   countdownPlaygroundControls,
   countdownPlaygroundSnippet,
   countdownReference,
@@ -83,7 +86,7 @@ class CountdownDaisyStylesComponent {}
       >
         <docs-example label="timer" [files]="timerFiles">
           <div class="docs-stack center">
-            <span zdCountdown class="big" role="timer" aria-label="Time left">
+            <span zdCountdown class="big" dir="ltr" role="timer" aria-label="Time left">
               <span
                 [style.--value]="minutes()"
                 [style.--digits]="2"
@@ -105,9 +108,150 @@ class CountdownDaisyStylesComponent {}
           </div>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="clock"
+        level="3"
+        heading="Clock countdown"
+        description="A deterministic hours, minutes and seconds layout. Connect these values to your own clock when needed."
+      >
+        <docs-example label="clock" [files]="clockFiles">
+          <div class="clock-countdown" dir="ltr" role="timer" aria-label="Time remaining">
+            <span zdCountdown
+              ><span [style.--value]="10" [style.--digits]="2" aria-label="10 hours">10</span></span
+            ><span aria-hidden="true">:</span
+            ><span zdCountdown
+              ><span [style.--value]="24" [style.--digits]="2" aria-label="24 minutes"
+                >24</span
+              ></span
+            ><span aria-hidden="true">:</span
+            ><span zdCountdown
+              ><span [style.--value]="36" [style.--digits]="2" aria-label="36 seconds"
+                >36</span
+              ></span
+            >
+          </div>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="labels-below"
+        level="3"
+        heading="Large text with labels under"
+        description="Static values keep this composition deterministic. The interactive timer retains its own start, pause and reset controls."
+      >
+        <docs-example label="labels-below" [files]="labelsBelowFiles">
+          <div class="label-countdown" role="group" aria-label="Time remaining">
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="15" [style.--digits]="2" aria-label="15 days"
+                  >15</span
+                ></span
+              ><span>days</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="10" [style.--digits]="2" aria-label="10 hours"
+                  >10</span
+                ></span
+              ><span>hours</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="24" [style.--digits]="2" aria-label="24 minutes"
+                  >24</span
+                ></span
+              ><span>minutes</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="36" [style.--digits]="2" aria-label="36 seconds"
+                  >36</span
+                ></span
+              ><span>seconds</span>
+            </div>
+          </div>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="boxes"
+        level="3"
+        heading="In boxes"
+        description="Static values keep this composition deterministic. The timer example retains its own start, pause and reset controls."
+      >
+        <docs-example label="boxes" [files]="boxesFiles">
+          <div class="boxed-countdown" role="group" aria-label="Time remaining">
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="15" [style.--digits]="2" aria-label="15 days"
+                  >15</span
+                ></span
+              ><span>days</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="10" [style.--digits]="2" aria-label="10 hours"
+                  >10</span
+                ></span
+              ><span>hours</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="24" [style.--digits]="2" aria-label="24 minutes"
+                  >24</span
+                ></span
+              ><span>minutes</span>
+            </div>
+            <div class="countdown-unit">
+              <span zdCountdown
+                ><span [style.--value]="36" [style.--digits]="2" aria-label="36 seconds"
+                  >36</span
+                ></span
+              ><span>seconds</span>
+            </div>
+          </div>
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
+    .boxed-countdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .boxed-countdown .countdown-unit {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      background: var(--color-neutral);
+      color: var(--color-neutral-content);
+    }
+    .boxed-countdown [zdCountdown] {
+      font: 3rem/1 monospace;
+    }
+
+    .label-countdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .label-countdown .countdown-unit {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+    }
+    .label-countdown [zdCountdown] {
+      font: 3rem/1 monospace;
+    }
+
+    .clock-countdown {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font: 3rem/1 monospace;
+    }
+
     .center {
       justify-items: center;
     }
@@ -120,6 +264,9 @@ class CountdownDaisyStylesComponent {}
   `,
 })
 export class CountdownPageComponent {
+  protected readonly clockFiles = clockFiles;
+  protected readonly labelsBelowFiles = labelsBelowFiles;
+  protected readonly boxesFiles = boxesFiles;
   protected readonly reference = countdownReference;
   protected readonly controls = countdownPlaygroundControls;
   protected readonly snippet = countdownPlaygroundSnippet;

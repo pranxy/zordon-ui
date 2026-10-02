@@ -1,7 +1,142 @@
 import { expect, test } from './fixtures/accessibility';
+import type { Locator } from '@playwright/test';
+
+async function sampleToggle(root: Locator) {
+  return root.evaluate(async element => {
+    const trigger = element.querySelector<HTMLButtonElement>('.zd-fab-trigger')!;
+    const panel = element.querySelector<HTMLElement>('.zd-fab-actions')!;
+    const opening = trigger.getAttribute('aria-expanded') !== 'true';
+    trigger.click();
+    const samples: { opacity: number; x: number; y: number }[] = [];
+    for (let frame = 0; frame < 120; frame++) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      const opacity = Number(getComputedStyle(panel).opacity);
+      const { x, y } = trigger.getBoundingClientRect();
+      samples.push({ opacity, x, y });
+      if (frame > 0 && opacity === (opening ? 1 : 0)) break;
+    }
+    return samples;
+  });
+}
 
 test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/__zordon-tests__/fab');
+});
+
+test('FAB keeps its trigger still while opening and closing long action labels', async ({
+  page,
+}) => {
+  const root = page.getByTestId('fab-local');
+  const trigger = root.locator('.zd-fab-trigger');
+  const panel = root.locator('.zd-fab-actions');
+  const before = await trigger.boundingBox();
+  const opening = await sampleToggle(root);
+  await expect(panel).toHaveCSS('opacity', '1');
+  const opened = await trigger.boundingBox();
+  expect(Math.abs(opened!.x - before!.x)).toBeLessThanOrEqual(1);
+  expect(Math.abs(opened!.y - before!.y)).toBeLessThanOrEqual(1);
+  const closing = await sampleToggle(root);
+  await expect(panel).toBeHidden();
+  const closed = await trigger.boundingBox();
+  expect(Math.abs(closed!.x - before!.x)).toBeLessThanOrEqual(1);
+  expect(Math.abs(closed!.y - before!.y)).toBeLessThanOrEqual(1);
+  for (const samples of [opening, closing]) {
+    expect(samples.some(sample => sample.opacity > 0 && sample.opacity < 1)).toBe(true);
+    for (const sample of samples) {
+      expect(Math.abs(sample.x - before!.x)).toBeLessThanOrEqual(1);
+      expect(Math.abs(sample.y - before!.y)).toBeLessThanOrEqual(1);
+    }
+  }
+});
+
+test('FAB reverses an exit without hiding reopened actions and makes closing actions inert immediately', async ({
+  page,
+}) => {
+  const root = page.getByTestId('fab-local');
+  const trigger = root.locator('.zd-fab-trigger');
+  const panel = root.locator('.zd-fab-actions');
+  await trigger.click();
+  await expect(panel).toHaveCSS('opacity', '1');
+  await root.getByRole('button', { name: 'Cancelled' }).focus();
+  const closing = await root.evaluate(async element => {
+    const trigger = element.querySelector<HTMLButtonElement>('.zd-fab-trigger')!;
+    const panel = element.querySelector<HTMLElement>('.zd-fab-actions')!;
+    trigger.click();
+    for (let frame = 0; frame < 120; frame++) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      const opacity = Number(getComputedStyle(panel).opacity);
+      if (opacity > 0 && opacity < 1) {
+        const action = panel.querySelector<HTMLElement>('button')!;
+        action.focus();
+        const result = {
+          inert: panel.inert,
+          hiddenFromAccessibility: panel.getAttribute('aria-hidden'),
+          focusRestored: document.activeElement === trigger,
+        };
+        trigger.click();
+        return result;
+      }
+    }
+    return null;
+  });
+  expect(closing).toEqual({ inert: true, hiddenFromAccessibility: 'true', focusRestored: true });
+  await expect(panel).toHaveCSS('opacity', '1');
+  await expect(panel).toBeVisible();
+  await root.getByRole('button', { name: 'Cancelled' }).focus();
+  await expect(root.getByRole('button', { name: 'Cancelled' })).toBeFocused();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await trigger.click();
+  await expect(panel).toBeHidden();
+  await expect(panel).toHaveCSS('transition-duration', '0s');
+  await trigger.click();
+  await expect(panel).toBeVisible();
+  await expect(panel).toHaveCSS('opacity', '1');
+});
+
+test('FAB vertical trigger stays anchored in every fixed corner and direction', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.getByRole('button', { name: 'Toggle vertical fixed' }).click();
+  const root = page.getByTestId('fab-local');
+  const trigger = root.locator('.zd-fab-trigger');
+  for (const direction of ['ltr', 'rtl']) {
+    if (direction === 'rtl') await page.getByRole('button', { name: 'Toggle direction' }).click();
+    for (const corner of ['Top start', 'Top end', 'Bottom start', 'Bottom end']) {
+      await page.getByRole('button', { name: corner, exact: true }).click();
+      await expect(root).toHaveAttribute('data-corner', corner.toLowerCase().replace(' ', '-'));
+      const before = await trigger.boundingBox();
+      await trigger.click();
+      const opened = await trigger.boundingBox();
+      expect(Math.abs(opened!.x - before!.x)).toBeLessThanOrEqual(1);
+      expect(Math.abs(opened!.y - before!.y)).toBeLessThanOrEqual(1);
+      const panel = await root.locator('.zd-fab-actions').boundingBox();
+      expect(panel!.x).toBeGreaterThanOrEqual(0);
+      expect(panel!.y).toBeGreaterThanOrEqual(0);
+      expect(panel!.x + panel!.width).toBeLessThanOrEqual(1280);
+      expect(panel!.y + panel!.height).toBeLessThanOrEqual(720);
+      await trigger.click();
+    }
+  }
+});
+
+test('FAB showcase speed dial keeps its trigger fixed while its text actions animate', async ({
+  page,
+}) => {
+  await page.goto('/components/fab');
+  const root = page.getByRole('region', { name: 'Speed dial', exact: true }).locator('zd-fab');
+  const trigger = root.getByRole('button', { name: 'Create', exact: true });
+  await trigger.scrollIntoViewIfNeeded();
+  const before = await trigger.boundingBox();
+  const samples = await sampleToggle(root);
+  expect(samples.some(sample => sample.opacity > 0 && sample.opacity < 1)).toBe(true);
+  for (const sample of samples) {
+    expect(Math.abs(sample.x - before!.x)).toBeLessThanOrEqual(1);
+    expect(Math.abs(sample.y - before!.y)).toBeLessThanOrEqual(1);
+  }
+  await root.getByRole('button', { name: 'Template', exact: true }).click();
+  await expect(root.locator('.zd-fab-actions')).toBeHidden();
 });
 
 test('FAB retains native disclosure, action cancellation, keyboard order and Tooltip Escape ownership', async ({
@@ -121,9 +256,22 @@ test('FAB flower geometry mirrors RTL, honors corners, falls back on small scree
     }
   }
   await page.getByRole('button', { name: 'Extra actions' }).click();
-  await expect(root.locator('.zd-fab-actions')).toHaveCSS('position', 'static');
+  await expect(root.locator('[data-zd-fab-action]')).toHaveCount(5);
+  const assertVertical = async () => {
+    const boxes = await root.locator('[data-zd-fab-action]').evaluateAll(elements =>
+      elements.map(element => {
+        const { x, y, height, width } = element.getBoundingClientRect();
+        return { x: x + width / 2, y, height };
+      }),
+    );
+    for (const [index, box] of boxes.entries()) {
+      expect(Math.abs(box.x - boxes[0].x)).toBeLessThanOrEqual(1);
+      if (index) expect(box.y).toBeGreaterThanOrEqual(boxes[index - 1].y + boxes[index - 1].height);
+    }
+  };
+  await assertVertical();
   await page.setViewportSize({ width: 360, height: 740 });
   await page.emulateMedia({ reducedMotion: 'reduce', forcedColors: 'active' });
   await expect(root.locator('.zd-fab-trigger')).toHaveCSS('transition-duration', '0s');
-  await expect(root.locator('.zd-fab-actions')).toHaveCSS('position', 'static');
+  await assertVertical();
 });

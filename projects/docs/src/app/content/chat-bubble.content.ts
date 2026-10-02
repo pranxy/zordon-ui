@@ -99,6 +99,11 @@ export type ZdChatPlacement = 'start' | 'end';`,
   customization: {
     description:
       'Avatars, media and long content are ordinary markup; compose Avatar in the image area.',
+    code: {
+      label: 'authors.css',
+      language: 'css',
+      code: `.author-image { inline-size: 2.5rem; border-radius: 999px; overflow: hidden; }`,
+    },
   },
   ssr: 'The directives only add classes, so the server renders the finished conversation.',
 };
@@ -127,11 +132,11 @@ export const chatPlaygroundSnippet: PlaygroundTemplateSnippet = {
 
 export const conversationCode = `<ol class="conversation" aria-label="Conversation with Ada">
   <li zdChat placement="start">
-    <div zdChatImage zdAvatar placeholder><div class="initials"><span>AL</span></div></div>
+    <div zdChatImage zdAvatar><div class="author-image"><img src="images/showcase/portrait-ada.webp" alt="" width="256" height="256" loading="lazy" /></div></div>
     <div zdChatHeader>Ada Lovelace <time datetime="2026-09-25T10:45">10:45</time></div>
     <div zdChatBubble>Is the release ready?</div>
   </li>
-  <li zdChat placement="end">
+  <li zdChat placement="end"><div zdChatImage zdAvatar><div class="author-image"><img src="images/showcase/portrait-kai.webp" alt="" width="256" height="256" loading="lazy" /></div></div>
     <div zdChatHeader>You <time datetime="2026-09-25T10:46">10:46</time></div>
     <div zdChatBubble color="primary">Yes, all checks passed.</div>
     <div zdChatFooter>Read</div>

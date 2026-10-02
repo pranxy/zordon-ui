@@ -94,7 +94,7 @@ export const accordionReference: DocsReference = {
       },
       {
         title: 'Closed means inert',
-        body: 'Closed panels are hidden and inert, including preserved lazy content.',
+        body: 'Closing panels become inert immediately and hide after their visual exit. Reduced motion hides them immediately; preserved lazy content remains mounted.',
       },
       {
         title: 'Soft disabled',

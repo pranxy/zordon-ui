@@ -133,3 +133,23 @@ export const inContextCode = `<a zdLink routerLink="/components">
 <button zdButton type="button">
   Filters <span zdBadge size="sm">2</span>
 </button>`;
+
+export const withIconFiles = [
+  {
+    label: 'with-icon.html',
+    language: 'html' as const,
+    code: `<span zdBadge color="success"
+  ><svg
+    aria-hidden="true"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path d="m5 12 4 4L19 6" /></svg
+  >Verified</span
+>`,
+  },
+];

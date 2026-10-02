@@ -1,5 +1,49 @@
 import { expect, test } from './fixtures/accessibility';
 
+test('Table renders headers and cells before hydration and hydrates Aria and CDK compositions', async ({
+  browser,
+  page,
+}) => {
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  let cellId: string | null = null;
+  try {
+    const server = await noJs.newPage();
+    await server.goto('/table');
+    const grid = server.getByRole('grid', { name: 'Interactive people' });
+    await expect(grid.getByRole('columnheader', { name: 'Name', exact: true })).toBeVisible();
+    await expect(grid.getByRole('rowheader', { name: 'Ada', exact: true })).toBeVisible();
+    const cell = grid
+      .locator('[zdTableCell]')
+      .filter({ has: server.getByRole('button', { name: 'Edit Ada', exact: true }) });
+    await expect(cell).toHaveAttribute('role', 'gridcell');
+    cellId = await cell.getAttribute('id');
+    expect(cellId).toBeTruthy();
+    await expect(
+      server.getByRole('table', { name: 'Data people' }).getByRole('button', { name: 'Open Ada' }),
+    ).toBeVisible();
+  } finally {
+    await noJs.close();
+  }
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/table');
+  const grid = page.getByRole('grid', { name: 'Interactive people' });
+  const cell = grid
+    .locator('[zdTableCell]')
+    .filter({ has: page.getByRole('button', { name: 'Edit Ada', exact: true }) });
+  await expect(cell).toHaveAttribute('id', cellId!);
+  await grid.getByRole('rowheader', { name: 'Ada', exact: true }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(grid.getByRole('button', { name: 'Edit Ada', exact: true })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status')).toHaveText('Editing Ada');
+  await page.getByRole('button', { name: 'Change data columns' }).click();
+  await expect(
+    page.getByRole('table', { name: 'Data people' }).getByRole('columnheader'),
+  ).toHaveText(['Action', 'Name', 'Notes']);
+  expect(errors).toEqual([]);
+});
+
 test('Drawer renders persistent content before hydration and hydrates modal Navbar navigation', async ({
   browser,
   page,

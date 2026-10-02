@@ -35,3 +35,7 @@ externally. Applications relying on bubbled panel events need internal/capture l
 nested groups in the same outer template are unsupported. No overlay, global URL listener or
 second keyboard runtime is introduced. Angular Aria remains a pinned developer-preview dependency;
 manual AT and compatibility checks stay open.
+
+## Visual timing amendment
+
+[ADR 0028](0028-accordion-exit-animation.md) replaces only the immediate visual hiding timing above. Semantic closing and inertness remain immediate; rendered content can remain through its exit transition.

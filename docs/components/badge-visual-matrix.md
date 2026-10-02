@@ -24,3 +24,9 @@
 This focused baseline is not a substitute for consumer-selected status semantics, icon/dot
 alternatives, contrast, forced-colors, or assistive-technology review. Snapshot updates require
 visual review under the repository visual-regression policy.
+
+## Showcase feedback evidence — 2026-09-29
+
+The existing matrix remains the component-wide contract. The focused documentation examples now have reviewed light desktop and dark RTL mobile baselines in `e2e/visual-docs-site.spec.ts` (`showcase-badge--*`). The previews group the requested static compositions; real interactions, motion, geometry and image decoding are covered separately. Card also samples low/high-radius and consumer themes; Diff captures its matched image comparison separately.
+
+See the [implementation evidence](../../adrs/work/component-showcase-feedback.md#execution-evidence-2026-09-29) for the selected boundaries, passing production accessibility/SSR checks, regression sensitivity and remaining browser/baseline limits. This does not close the matrix's outstanding manual gates or change component maturity.

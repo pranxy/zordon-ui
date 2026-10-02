@@ -17,6 +17,8 @@ import { declarations, mirroredInputs, sourceFiles } from './check-native-attrib
 
 /** Directives meant to be added to an element another directive owns. Key: class name. */
 export const layeredDirectives = new Map([
+  ['ZdTableGrid', 'adds interactive grid behavior to a styled native table'],
+  ['ZdTableCellWidget', 'adds grid interaction to styled buttons and form controls'],
   ['ZdTooltip', 'describes any control: buttons, links, badges, triggers'],
   ['ZdSwap', 'turns a styled button into an on/off toggle'],
   ['ZdIndicatorItem', 'places a badge or button in an indicator corner'],

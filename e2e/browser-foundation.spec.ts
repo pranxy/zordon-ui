@@ -784,6 +784,8 @@ test('keeps Aura decorative and removes its motion on a live reduced-motion chan
   await expect(rainbowAura.getByRole('button', { name: 'Start free trial' })).toBeVisible();
   await expect(glowAura).toHaveClass(/aura-glow/);
   await expect(glowAura).toHaveClass(/aura-xs/);
+  await expect(rainbowAura).toHaveCSS('padding-top', '2.5px');
+  await expect(glowAura).toHaveCSS('padding-top', '0px');
 
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await expect

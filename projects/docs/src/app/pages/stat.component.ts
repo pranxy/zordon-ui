@@ -19,6 +19,11 @@ import {
 
 import { flagOf } from '../content/form-controls.content';
 import {
+  responsiveFiles,
+  verticalFiles,
+  centeredFiles,
+  figuresFiles,
+  basicFiles,
   actionsFiles,
   statPlaygroundControls,
   statPlaygroundSnippet,
@@ -116,9 +121,157 @@ const euros = new Intl.NumberFormat('en', {
           </section>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="basic"
+        level="3"
+        heading="Basic stat"
+        description="A single metric with a title, value and comparison."
+      >
+        <docs-example label="basic" [files]="basicFiles">
+          <section zdStats class="summary" aria-label="Downloads">
+            <div zdStat>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Up 12% from last month</p>
+            </div>
+          </section>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="figures"
+        level="3"
+        heading="Icon and image figures"
+        description="A decorative icon supports the metric. The portrait is decorative because the person is named in text."
+      >
+        <docs-example label="figures" [files]="figuresFiles">
+          <section zdStats class="summary" tabindex="0" aria-label="Team activity">
+            <div zdStat>
+              <div zdStatFigure aria-hidden="true">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" />
+                </svg>
+              </div>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Up 12% this month</p>
+            </div>
+            <div zdStat>
+              <div zdStatFigure>
+                <img
+                  class="stat-portrait"
+                  src="images/showcase/portrait-ada.webp"
+                  alt=""
+                  width="256"
+                  height="256"
+                  loading="lazy"
+                />
+              </div>
+              <p zdStatTitle>Ada Lovelace</p>
+              <p zdStatValue>86%</p>
+              <p zdStatDesc>Tasks complete</p>
+            </div>
+          </section>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="centered"
+        level="3"
+        heading="Centered stats"
+        description="Center the text for compact summary metrics."
+      >
+        <docs-example label="centered" [files]="centeredFiles">
+          <section
+            zdStats
+            class="summary centered-stats"
+            tabindex="0"
+            aria-label="Centered monthly summary"
+          >
+            <div zdStat>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Up 12% from last month</p>
+            </div>
+            <div zdStat>
+              <p zdStatTitle>New users</p>
+              <p zdStatValue>4,200</p>
+              <p zdStatDesc>Down 3% from last month</p>
+            </div>
+          </section>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="vertical"
+        level="3"
+        heading="Vertical stats"
+        description="Stack related metrics in a narrow space."
+      >
+        <docs-example label="vertical" [files]="verticalFiles">
+          <section
+            zdStats
+            orientation="vertical"
+            class="summary"
+            aria-label="Vertical monthly summary"
+          >
+            <div zdStat>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Up 12% from last month</p>
+            </div>
+            <div zdStat>
+              <p zdStatTitle>New users</p>
+              <p zdStatValue>4,200</p>
+              <p zdStatDesc>Down 3% from last month</p>
+            </div>
+          </section>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="responsive"
+        level="3"
+        heading="Responsive stats"
+        description="Stack on small screens and arrange horizontally from the large breakpoint."
+      >
+        <docs-example label="responsive" [files]="responsiveFiles">
+          <section
+            zdStats
+            orientation="vertical"
+            class="summary lg:stats-horizontal"
+            aria-label="Responsive monthly summary"
+          >
+            <div zdStat>
+              <p zdStatTitle>Downloads</p>
+              <p zdStatValue>31K</p>
+              <p zdStatDesc>Up 12% from last month</p>
+            </div>
+            <div zdStat>
+              <p zdStatTitle>New users</p>
+              <p zdStatValue>4,200</p>
+              <p zdStatDesc>Down 3% from last month</p>
+            </div>
+          </section>
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
+    .centered-stats [zdStat] {
+      text-align: center;
+    }
+
+    .stat-portrait {
+      inline-size: 4rem;
+      block-size: 4rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
     .summary {
       max-inline-size: 100%;
       border: 1px solid var(--docs-border);
@@ -141,6 +294,11 @@ const euros = new Intl.NumberFormat('en', {
   `,
 })
 export class StatPageComponent {
+  protected readonly basicFiles = basicFiles;
+  protected readonly figuresFiles = figuresFiles;
+  protected readonly centeredFiles = centeredFiles;
+  protected readonly verticalFiles = verticalFiles;
+  protected readonly responsiveFiles = responsiveFiles;
   protected readonly reference = statReference;
   protected readonly controls = statPlaygroundControls;
   protected readonly snippet = statPlaygroundSnippet;

@@ -5,6 +5,7 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
 import { ZdLink } from '@pranxy/zordon-ui/link';
 
 import {
+  withIconFiles,
   badgeColors,
   badgePlaygroundControls,
   badgePlaygroundSnippet,
@@ -96,6 +97,28 @@ class BadgeDaisyStylesComponent {}
           <button zdButton type="button">Filters <span zdBadge size="sm">2</span></button>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="with-icon"
+        level="3"
+        heading="Badge with icon"
+        description="Keep the decorative icon hidden from assistive technology; the visible words name the badge."
+      >
+        <docs-example label="with-icon" [files]="withIconFiles">
+          <span zdBadge color="success"
+            ><svg
+              aria-hidden="true"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="m5 12 4 4L19 6" /></svg
+            >Verified</span
+          >
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
@@ -107,6 +130,7 @@ class BadgeDaisyStylesComponent {}
   `,
 })
 export class BadgePageComponent {
+  protected readonly withIconFiles = withIconFiles;
   protected readonly reference = badgeReference;
   protected readonly controls = badgePlaygroundControls;
   protected readonly snippet = badgePlaygroundSnippet;

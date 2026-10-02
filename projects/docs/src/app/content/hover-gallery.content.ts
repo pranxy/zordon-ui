@@ -83,17 +83,10 @@ export const hoverGalleryReference: DocsReference = {
 };
 
 export const galleryCode = `<figure zdHoverGallery class="product">
-  <img src="trainer-front.webp" alt="Blue trainer, front view" />
-  <img src="trainer-side.webp" alt="Blue trainer, side view" />
-  <img src="trainer-sole.webp" alt="Blue trainer, sole" />
-  <img src="trainer-back.webp" alt="Blue trainer, heel" />
+<img src="images/showcase/sneaker-side.webp" alt="Studio sneaker, side view" width="512" height="512" loading="lazy" />
+<img src="images/showcase/sneaker-angle.webp" alt="The same sneaker, angled view" width="512" height="512" loading="lazy" />
 </figure>`;
-
-export const captionCode = `<figure class="captioned">
-  <div zdHoverGallery class="product">
-    <img src="lake-dawn.webp" alt="The lake at dawn" />
-    <img src="lake-noon.webp" alt="The lake at noon" />
-    <img src="lake-dusk.webp" alt="The lake at dusk" />
-  </div>
-  <figcaption>One view, three times of day. Hover to compare.</figcaption>
-</figure>`;
+export const captionCode = `<figure class="captioned"><div zdHoverGallery class="product">
+<img src="images/showcase/lake-morning.webp" alt="Mountain lake in the morning" width="768" height="512" loading="lazy" />
+<img src="images/showcase/lake-sunset.webp" alt="The same lake at sunset" width="768" height="512" loading="lazy" />
+</div><figcaption>One view, morning and sunset. Hover to compare.</figcaption></figure>`;

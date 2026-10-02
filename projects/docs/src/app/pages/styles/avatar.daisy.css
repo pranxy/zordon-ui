@@ -2,6 +2,6 @@
 @import 'tailwindcss/utilities' source(none);
 @plugin 'daisyui' {
   themes: false;
-  include: avatar;
+  include: avatar, mask;
 }
-@source inline('avatar avatar-group avatar-offline avatar-online avatar-placeholder');
+@source inline('avatar avatar-group avatar-offline avatar-online avatar-placeholder mask mask-squircle mask-hexagon-2');

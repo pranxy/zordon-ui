@@ -80,13 +80,32 @@ class ChatBubbleDaisyStylesComponent {}
         <docs-example label="conversation.html" [code]="conversationCode">
           <ol class="conversation" aria-label="Conversation with Ada">
             <li zdChat placement="start">
-              <div zdChatImage zdAvatar placeholder>
-                <div class="initials"><span>AL</span></div>
+              <div zdChatImage zdAvatar>
+                <div class="author-image">
+                  <img
+                    src="images/showcase/portrait-ada.webp"
+                    alt=""
+                    width="256"
+                    height="256"
+                    loading="lazy"
+                  />
+                </div>
               </div>
               <div zdChatHeader>Ada Lovelace <time datetime="2026-09-25T10:45">10:45</time></div>
               <div zdChatBubble>Is the release ready?</div>
             </li>
             <li zdChat placement="end">
+              <div zdChatImage zdAvatar>
+                <div class="author-image">
+                  <img
+                    src="images/showcase/portrait-kai.webp"
+                    alt=""
+                    width="256"
+                    height="256"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
               <div zdChatHeader>You <time datetime="2026-09-25T10:46">10:46</time></div>
               <div zdChatBubble color="primary">Yes, all checks passed.</div>
               <div zdChatFooter>Read</div>
@@ -104,12 +123,10 @@ class ChatBubbleDaisyStylesComponent {}
       list-style: none;
     }
 
-    .initials {
+    .author-image {
       inline-size: 2.5rem;
       border-radius: 999px;
-      background: var(--docs-accent);
-      color: var(--docs-accent-text);
-      font-weight: var(--docs-weight-bold);
+      overflow: hidden;
     }
 
     time {

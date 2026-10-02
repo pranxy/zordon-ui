@@ -106,12 +106,12 @@ export const listPlaygroundSnippet: PlaygroundTemplateSnippet = {
       : '';
     return `<ul zdList aria-label="Recently played">
   <li zdListRow>
-    <span class="index">01</span>${cover ? '\n    <span class="cover" aria-hidden="true"></span>' : ''}
+    <span class="index">01</span>${cover ? '\n    <img class="cover" src="images/showcase/lake-morning.webp" alt="" width="768" height="512" loading="lazy" />' : ''}
     <div${cover ? ' zdListColGrow' : ''}>
       <div>Moonlit Drive</div>
       <div class="artist">Avery Chen</div>
     </div>${note}
-    <button type="button" aria-label="Play Moonlit Drive">▶</button>
+    <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
   </li>
 </ul>`;
   },
@@ -119,10 +119,79 @@ export const listPlaygroundSnippet: PlaygroundTemplateSnippet = {
 
 export const growCode = `<li zdListRow>
   <span class="index">01</span>
-  <span class="cover" aria-hidden="true"></span>
+  <img class="cover" src="images/showcase/lake-morning.webp" alt="" width="768" height="512" loading="lazy" />
   <div zdListColGrow>
     <div>Moonlit Drive</div>
     <div class="artist">Avery Chen</div>
   </div>
-  <button type="button" aria-label="Play Moonlit Drive">▶</button>
+  <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
 </li>`;
+
+export const secondColumnFiles = [
+  {
+    label: 'second-column.html',
+    language: 'html' as const,
+    code: `<ul zdList class="tracks" aria-label="Recently played, title grows">
+  <li zdListRow>
+    <img
+      class="cover"
+      src="images/showcase/lake-morning.webp"
+      alt=""
+      width="768"
+      height="512"
+      loading="lazy"
+    />
+    <div>
+      <div>Moonlit Drive</div>
+      <div>Avery Chen</div>
+    </div>
+    <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
+  </li>
+</ul>`,
+  },
+  {
+    label: 'second-column.css',
+    language: 'css' as const,
+    code: `.tracks { inline-size: min(26rem, 100%); border: 1px solid var(--color-base-300); border-radius: 1rem; }
+.cover { inline-size: 2.5rem; block-size: 2.5rem; object-fit: cover; border-radius: .5rem; }
+.note { grid-column: 1 / -1; margin: 0; }
+.play { inline-size: 2.25rem; block-size: 2.25rem; border: 1px solid var(--color-base-300); border-radius: 999px; background: transparent; color: inherit; cursor: pointer; }
+.play:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }`,
+  },
+];
+
+export const thirdColumnWrapFiles = [
+  {
+    label: 'third-column-wrap.html',
+    language: 'html' as const,
+    code: `<ul zdList class="tracks" aria-label="Tracks with notes">
+  <li zdListRow>
+    <img
+      class="cover"
+      src="images/showcase/lake-morning.webp"
+      alt=""
+      width="768"
+      height="512"
+      loading="lazy"
+    />
+    <div>
+      <div>Moonlit Drive</div>
+      <div>Avery Chen</div>
+    </div>
+    <p zdListColWrap class="note">
+      An atmospheric night drive. Saved for offline listening.
+    </p>
+    <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
+  </li>
+</ul>`,
+  },
+  {
+    label: 'third-column-wrap.css',
+    language: 'css' as const,
+    code: `.tracks { inline-size: min(26rem, 100%); border: 1px solid var(--color-base-300); border-radius: 1rem; }
+.cover { inline-size: 2.5rem; block-size: 2.5rem; object-fit: cover; border-radius: .5rem; }
+.note { grid-column: 1 / -1; margin: 0; }
+.play { inline-size: 2.25rem; block-size: 2.25rem; border: 1px solid var(--color-base-300); border-radius: 999px; background: transparent; color: inherit; cursor: pointer; }
+.play:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }`,
+  },
+];

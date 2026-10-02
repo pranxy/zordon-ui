@@ -22,7 +22,7 @@ import { ZdButton } from '@pranxy/zordon-ui/button';
 export type ZdFabArrangement = 'single' | 'vertical' | 'flower';
 export type ZdFabCorner = 'bottom-end' | 'bottom-start' | 'top-end' | 'top-start';
 
-/** The eagerly created, natively hidden disclosure content. */
+/** The eagerly created disclosure content, retained while closed. */
 @Directive({ selector: 'ng-template[zdFabActions]' })
 export class ZdFabActions {
   readonly template = inject<TemplateRef<object>>(TemplateRef);
@@ -76,7 +76,8 @@ export class ZdFabAction {
       [id]="panelId"
       role="group"
       [attr.aria-label]="label()"
-      [hidden]="!expanded()"
+      [attr.data-closed]="expanded() ? null : ''"
+      [attr.aria-hidden]="expanded() ? null : 'true'"
       [attr.inert]="expanded() ? null : ''"
     >
       <ng-container [ngTemplateOutlet]="actions()?.template ?? null" />

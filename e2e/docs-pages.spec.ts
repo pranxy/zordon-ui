@@ -1,5 +1,62 @@
 import { expect, test } from '@playwright/test';
 
+test('Table showcase supports Aria controls and CDK dynamic column templates', async ({ page }) => {
+  await page.goto('/components/table');
+  await expect(page.locator('html')).toHaveAttribute('data-hydrated');
+  const grid = page.getByRole('grid', { name: 'Service controls' });
+  await grid.getByRole('rowheader', { name: 'API', exact: true }).focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(grid.locator('#service-controls-status-api')).toBeFocused();
+  await grid.getByRole('checkbox', { name: 'Alerts for Web' }).focus();
+  await page.keyboard.press('Space');
+  await expect(grid.getByRole('checkbox', { name: 'Alerts for Web' })).toBeChecked();
+  await grid.getByRole('button', { name: 'Restart API' }).click();
+  await expect(
+    page.getByRole('status').filter({ hasText: 'Restart requested for API.' }),
+  ).toBeVisible();
+  await page.getByRole('checkbox', { name: 'Show status column' }).uncheck();
+  await expect(grid.getByRole('columnheader')).toHaveText(['Service', 'Alerts', 'Action']);
+  const data = page.getByRole('table', { name: 'Release ownership', exact: true });
+  await expect(data.getByRole('columnheader')).toHaveText(['Service', 'Owner', 'Action']);
+  await page.getByRole('button', { name: 'Reverse columns', exact: true }).click();
+  await expect(data.getByRole('columnheader')).toHaveText(['Action', 'Owner', 'Service']);
+  await page.getByRole('checkbox', { name: 'Show owner column' }).uncheck();
+  await expect(data.getByRole('columnheader')).toHaveText(['Action', 'Service']);
+  await data.getByRole('button', { name: 'Inspect Web' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Inspecting Web.' })).toBeVisible();
+});
+
+test('Modal notes guard retains typed changes for Cancel, Escape and backdrop, then saves', async ({
+  page,
+}) => {
+  await page.goto('/components/modal');
+  const opener = page.getByRole('button', { name: 'Edit notes', exact: true });
+  const dialog = page.getByRole('dialog', { name: 'Edit notes', exact: true });
+  await opener.click();
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(dialog).toHaveCount(0);
+  await opener.click();
+  const notes = dialog.getByRole('textbox', { name: 'Notes', exact: true });
+  await notes.pressSequentially(' Remember the proof copy.');
+  const draft = await notes.inputValue();
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(dialog).toBeVisible();
+  await expect(notes).toHaveValue(draft);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeVisible();
+  await expect(notes).toHaveValue(draft);
+  await page.mouse.click(5, 5);
+  await expect(dialog).toBeVisible();
+  await expect(notes).toHaveValue(draft);
+  await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+  await expect(dialog).toHaveCount(0);
+  await expect(opener).toBeFocused();
+  await opener.click();
+  await expect(notes).toHaveValue(draft);
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+});
+
 const publicRoutes = [
   { path: '/', heading: 'Zordon UI', body: /Angular component library/i },
   {
@@ -48,7 +105,7 @@ const publicRoutes = [
   { path: '/components/list', heading: 'List', body: /row layout on a native list/i },
   { path: '/components/stat', heading: 'Stat', body: /layout for key numbers/i },
   { path: '/components/status', heading: 'Status', body: /small state dot/i },
-  { path: '/components/table', heading: 'Table', body: /table styling on a native table/i },
+  { path: '/components/table', heading: 'Table', body: /Angular Aria keyboard navigation/i },
   { path: '/components/text-rotate', heading: 'Text Rotate', body: /rotating words/i },
   { path: '/components/timeline', heading: 'Timeline', body: /event layout on a native list/i },
   { path: '/components/divider', heading: 'Divider', body: /separator line on your own element/i },
@@ -440,7 +497,7 @@ test('Swap, Collapse and Carousel examples respond to the platform controls', as
 
   await page.goto('/components/carousel');
   await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
-  const track = page.getByRole('region', { name: 'Theme colours with controls' });
+  const track = page.getByRole('region', { name: 'Landscape gallery with controls' });
   const before = await track.evaluate(element => element.scrollLeft);
   await page.getByRole('button', { name: 'Next' }).click();
   await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBeGreaterThan(before);
@@ -743,7 +800,7 @@ test('FAB, Modal and Theme Controller keep native focus and state', async ({ pag
 
   await page.goto('/components/theme-controller');
   await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
-  const scope = page.getByRole('region', { name: 'Playground theme scope' });
+  const scope = page.getByRole('region', { name: 'Playground theme scope', exact: true });
   await expect(scope).toHaveAttribute('data-theme', 'light');
   await scope.getByRole('radio', { name: 'Dark' }).check();
   await expect(scope).toHaveAttribute('data-theme', 'dark');
@@ -957,3 +1014,346 @@ test('Drawer close requests can be refused and Join keeps native submit', async 
   await search.getByRole('searchbox', { name: 'Search components' }).press('Enter');
   await expect(page.getByText('Searched for “drawer”')).toBeVisible();
 });
+
+test('Avatar starts with an image and placeholder replaces it in both directions', async ({
+  page,
+}) => {
+  await page.goto('/components/avatar');
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
+  const playground = page.locator('docs-playground');
+  const photo = playground.getByRole('img', { name: 'Ada', exact: true });
+  const placeholder = playground.getByRole('checkbox', { name: 'placeholder', exact: true });
+  await expect(placeholder).not.toBeChecked();
+  await expect(photo).toBeVisible();
+  await expect
+    .poll(() => photo.evaluate((img: HTMLImageElement) => img.naturalWidth))
+    .toBeGreaterThan(0);
+  await placeholder.check();
+  await expect(photo).toHaveCount(0);
+  await expect(playground.locator('[zdAvatar]')).toHaveText('AL');
+  await expect(playground.locator('docs-code-block')).not.toContainText('<img');
+  await placeholder.uncheck();
+  await expect(photo).toBeVisible();
+  await expect(playground.locator('docs-code-block')).toContainText('<img');
+});
+
+test('Card changes from stacked to side-by-side and keeps native selection behavior', async ({
+  page,
+}) => {
+  await page.goto('/components/card');
+  await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
+  const responsive = page.locator('section[aria-labelledby="responsive"] article');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect
+    .poll(() =>
+      responsive.evaluate(card => {
+        const media = card.querySelector('figure')!.getBoundingClientRect();
+        const body = card.querySelector('[zdCardBody]')!.getBoundingClientRect();
+        return body.top >= media.bottom - 1 && Math.abs(media.left - body.left) <= 1;
+      }),
+    )
+    .toBe(true);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect
+    .poll(() =>
+      responsive.evaluate(card => {
+        const media = card.querySelector('figure')!.getBoundingClientRect();
+        const body = card.querySelector('[zdCardBody]')!.getBoundingClientRect();
+        return body.left >= media.right - 1 && Math.abs(media.top - body.top) <= 1;
+      }),
+    )
+    .toBe(true);
+  const selectable = page.locator('section[aria-labelledby="selectable"]');
+  const breakfast = selectable.getByRole('checkbox', { name: /^Breakfast/ });
+  const kayak = selectable.getByRole('checkbox', { name: /^Kayak hire/ });
+  await breakfast.focus();
+  await page.keyboard.press('Space');
+  await expect(breakfast).toBeChecked();
+  await kayak.check();
+  await expect(breakfast).toBeChecked();
+  await expect(kayak).toBeChecked();
+  await expect(selectable.getByRole('checkbox', { name: /^Sauna/ })).toBeDisabled();
+  const cabin = selectable.getByRole('radio', { name: /^Cabin/ });
+  const suite = selectable.getByRole('radio', { name: /^Suite/ });
+  await cabin.focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(suite).toBeChecked();
+  await expect(cabin).not.toBeChecked();
+  await page.keyboard.press('ArrowRight');
+  await expect(cabin).toBeChecked();
+  await expect(selectable.getByRole('radio', { name: /^Lodge/ })).toBeDisabled();
+});
+
+for (const direction of ['ltr', 'rtl'] as const) {
+  test(`Carousel aligns image controls and indicators precisely in ${direction}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: direction === 'rtl' ? 'reduce' : 'no-preference' });
+    await page.goto('/components/carousel');
+    await page.locator('docs-search-dialog').waitFor({ state: 'attached' });
+    await page
+      .locator('html')
+      .evaluate((element, dir) => element.setAttribute('dir', dir), direction);
+    const controlSection = page.locator('section[aria-labelledby="controls"]');
+    const track = page.getByRole('region', {
+      name: 'Landscape gallery with controls',
+      exact: true,
+    });
+    const indicators = page.getByRole('region', {
+      name: 'Landscape gallery with indicators',
+      exact: true,
+    });
+    const next = controlSection.getByRole('button', { name: 'Next', exact: true });
+    const previous = controlSection.getByRole('button', { name: 'Previous', exact: true });
+    await expect(previous).toBeDisabled();
+    const indicatorBefore = await indicators.evaluate(element => element.scrollLeft);
+    for (const index of [1, 2]) {
+      await next.click();
+      await expect
+        .poll(() =>
+          track.evaluate((element, target) => {
+            const bounds = element.getBoundingClientRect();
+            const style = getComputedStyle(element);
+            const image = element.children[target].getBoundingClientRect();
+            return style.direction === 'rtl'
+              ? Math.abs(image.right - (bounds.right - parseFloat(style.paddingRight)))
+              : Math.abs(image.left - (bounds.left + parseFloat(style.paddingLeft)));
+          }, index),
+        )
+        .toBeLessThanOrEqual(1);
+    }
+    await expect(next).toBeDisabled();
+    await expect
+      .poll(() => indicators.evaluate(element => element.scrollLeft))
+      .toBe(indicatorBefore);
+    await previous.click();
+    await expect(next).toBeEnabled();
+    await expect
+      .poll(() =>
+        track.evaluate(element => {
+          const bounds = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          const image = element.children[1].getBoundingClientRect();
+          return style.direction === 'rtl'
+            ? Math.abs(image.right - (bounds.right - parseFloat(style.paddingRight)))
+            : Math.abs(image.left - (bounds.left + parseFloat(style.paddingLeft)));
+        }),
+      )
+      .toBeLessThanOrEqual(1);
+    const controlsBefore = await track.evaluate(element => element.scrollLeft);
+    const choiceSection = page.locator('section[aria-labelledby="indicators"]');
+    await choiceSection
+      .getByRole('button', { name: 'Show Coast', exact: true })
+      .scrollIntoViewIfNeeded();
+    const documentBefore = await page.evaluate(() => window.scrollY);
+    await choiceSection.getByRole('button', { name: 'Show Coast', exact: true }).click();
+    await expect
+      .poll(() =>
+        indicators.evaluate(element => {
+          const bounds = element.getBoundingClientRect();
+          const style = getComputedStyle(element);
+          const image = element.children[2].getBoundingClientRect();
+          return style.direction === 'rtl'
+            ? Math.abs(image.right - (bounds.right - parseFloat(style.paddingRight)))
+            : Math.abs(image.left - (bounds.left + parseFloat(style.paddingLeft)));
+        }),
+      )
+      .toBeLessThanOrEqual(1);
+    await expect(
+      choiceSection.getByRole('button', { name: 'Show Coast', exact: true }),
+    ).toHaveAttribute('aria-current', 'true');
+    await expect.poll(() => track.evaluate(element => element.scrollLeft)).toBe(controlsBefore);
+    expect(await page.evaluate(() => window.scrollY)).toBe(documentBefore);
+    await choiceSection.getByRole('button', { name: 'Show Morning lake', exact: true }).click();
+    await expect
+      .poll(() => indicators.evaluate(element => Math.abs(element.scrollLeft)))
+      .toBeLessThanOrEqual(1);
+  });
+}
+
+test('Aura size changes the halo while its content stays the same size', async ({ page }) => {
+  await page.goto('/components/aura');
+  const sizes = page.locator('section[aria-labelledby="sizes"] [zdAura]');
+  await expect(sizes).toHaveCount(5);
+  const measurements = await sizes.evaluateAll(elements =>
+    elements.map(element => {
+      const child = element.firstElementChild!.getBoundingClientRect();
+      return {
+        padding: Number.parseFloat(getComputedStyle(element).paddingTop),
+        width: child.width,
+        height: child.height,
+      };
+    }),
+  );
+  expect(measurements.map(item => item.padding)).toEqual([0, 1, 2, 2.5, 4]);
+  expect(new Set(measurements.map(item => item.width)).size).toBe(1);
+  expect(new Set(measurements.map(item => item.height)).size).toBe(1);
+  const playground = page.locator('docs-playground');
+  const aura = playground.locator('[zdAura]');
+  const child = aura.getByRole('button', { name: 'Start free trial' });
+  const initial = await child.boundingBox();
+  for (const [size, padding] of [
+    ['xs', '0px'],
+    ['sm', '1px'],
+    ['md', '2px'],
+    ['lg', '2.5px'],
+    ['xl', '4px'],
+  ] as const) {
+    await playground
+      .getByRole('group', { name: 'size', exact: true })
+      .getByRole('radio', { name: size, exact: true })
+      .check();
+    await expect(aura).toHaveCSS('padding-top', padding);
+    const current = await child.boundingBox();
+    expect(current!.width).toBe(initial!.width);
+    expect(current!.height).toBe(initial!.height);
+  }
+});
+
+test('List dedicates spare width to the intended column and wraps the note below', async ({
+  page,
+}) => {
+  await page.goto('/components/list');
+  for (const [anchor, index] of [
+    ['second-column', 1],
+    ['grow', 2],
+  ] as const) {
+    const row = page.locator(`section[aria-labelledby="${anchor}"] [zdListRow]`).first();
+    const boxes = await row.locator(':scope > *').evaluateAll(elements =>
+      elements.map(element => {
+        const { x, y, width, height } = element.getBoundingClientRect();
+        return { x, y, width, height };
+      }),
+    );
+    expect(boxes[index].width).toBeGreaterThan(boxes[0].width);
+    expect(boxes[index].width).toBeGreaterThan(boxes.at(-1)!.width);
+  }
+  const wrapped = page.locator('section[aria-labelledby="third-column-wrap"] [zdListRow]');
+  const image = await wrapped.locator('img').boundingBox();
+  const note = await wrapped.locator('[zdListColWrap]').boundingBox();
+  expect(note!.y).toBeGreaterThanOrEqual(image!.y + image!.height);
+  expect(note!.width).toBeGreaterThan(image!.width * 3);
+});
+
+test('Stat changes from vertical to horizontal at the large breakpoint', async ({ page }) => {
+  await page.goto('/components/stat');
+  const items = page.locator('section[aria-labelledby="responsive"] [zdStat]');
+  await page.setViewportSize({ width: 600, height: 900 });
+  const firstSmall = await items.nth(0).boundingBox();
+  const secondSmall = await items.nth(1).boundingBox();
+  expect(secondSmall!.y).toBeGreaterThanOrEqual(firstSmall!.y + firstSmall!.height);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  const firstLarge = await items.nth(0).boundingBox();
+  const secondLarge = await items.nth(1).boundingBox();
+  expect(Math.abs(firstLarge!.y - secondLarge!.y)).toBeLessThanOrEqual(1);
+  expect(secondLarge!.x).toBeGreaterThanOrEqual(firstLarge!.x + firstLarge!.width);
+});
+
+test('Countdown exposes all static units and keeps its independent timer controls', async ({
+  page,
+}) => {
+  await page.goto('/components/countdown');
+  for (const anchor of ['labels-below', 'boxes']) {
+    const section = page.locator(`section[aria-labelledby="${anchor}"] .preview`);
+    for (const unit of ['days', 'hours', 'minutes', 'seconds'])
+      await expect(section.getByText(unit, { exact: true })).toBeVisible();
+    await expect(section.locator('[aria-label="15 days"]')).toHaveText('15');
+  }
+  const clock = page.locator('section[aria-labelledby="clock"]');
+  await expect(clock.locator('[aria-label="10 hours"]')).toHaveText('10');
+  await expect(clock.locator('[aria-label="24 minutes"]')).toHaveText('24');
+  await expect(clock.locator('[aria-label="36 seconds"]')).toHaveText('36');
+  await page.locator('html').evaluate(element => element.setAttribute('dir', 'rtl'));
+  const hoursBox = await clock.locator('[aria-label="10 hours"]').boundingBox();
+  const secondsBox = await clock.locator('[aria-label="36 seconds"]').boundingBox();
+  expect(hoursBox!.x).toBeLessThan(secondsBox!.x);
+  const timer = page.locator('section[aria-labelledby="timer"]');
+  await timer.getByRole('button', { name: 'Start', exact: true }).click();
+  await timer.getByRole('button', { name: 'Pause', exact: true }).click();
+  await timer.getByRole('button', { name: 'Reset', exact: true }).click();
+  await expect(timer.locator('[aria-label="1 minutes"]')).toHaveText('1');
+  await expect(timer.locator('[aria-label="30 seconds"]')).toHaveText('30');
+});
+
+test('Hover Gallery swaps the product photograph and restores its useful first view', async ({
+  page,
+}) => {
+  await page.goto('/components/hover-gallery');
+  const gallery = page.locator('figure[zdHoverGallery]').first();
+  const photos = gallery.locator('img');
+  await gallery.scrollIntoViewIfNeeded();
+  await page.mouse.move(0, 0);
+  await expect(photos.nth(0)).toHaveCSS('opacity', '1');
+  await expect(photos.nth(1)).toHaveCSS('opacity', '0');
+  await gallery.hover();
+  await expect(photos.nth(1)).toHaveCSS('opacity', '1');
+  await page.mouse.move(0, 0);
+  await expect(photos.nth(0)).toBeVisible();
+  await expect(photos.nth(1)).toHaveCSS('opacity', '0');
+});
+
+test('Diff keyboard focus reveals each generated image while retaining the text comparison', async ({
+  page,
+}) => {
+  await page.goto('/components/diff');
+  const comparison = page.locator('figure[zdDiff]');
+  const before = comparison.locator('[zdDiffItem1]');
+  const proportion = () =>
+    before.evaluate(
+      element =>
+        element.getBoundingClientRect().width /
+        element.parentElement!.getBoundingClientRect().width,
+    );
+  await comparison.focus();
+  await expect.poll(proportion).toBeGreaterThan(0.9);
+  await page.keyboard.press('Tab');
+  await expect(before).toBeFocused();
+  await expect.poll(proportion).toBeLessThan(0.1);
+  await expect(page.locator('section[aria-labelledby="text"] .preview')).toContainText(
+    'Our plans start at $12 per seat.',
+  );
+});
+
+const imageShowcasePages = [
+  'avatar',
+  'card',
+  'carousel',
+  'chat-bubble',
+  'diff',
+  'hover-3d',
+  'hover-gallery',
+  'list',
+  'stat',
+] as const;
+for (const slug of imageShowcasePages) {
+  test(`${slug} showcase serves local generated images without layout overflow`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/components/${slug}`);
+    const images = page.locator('main img[src*="images/showcase/"]');
+    expect(await images.count()).toBeGreaterThan(0);
+    for (const image of await images.all()) {
+      if (await image.isVisible()) {
+        await image.scrollIntoViewIfNeeded();
+        await expect
+          .poll(() =>
+            image.evaluate(element => {
+              const img = element as HTMLImageElement;
+              return img.complete && img.naturalWidth > 0;
+            }),
+          )
+          .toBe(true);
+      }
+      const src = await image.getAttribute('src');
+      expect(src).toMatch(/^images\/showcase\/[a-z-]+\.webp$/);
+      await expect(image).toHaveAttribute('width', /^\d+$/);
+      await expect(image).toHaveAttribute('height', /^\d+$/);
+      expect(await image.getAttribute('alt')).not.toBeNull();
+    }
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(1);
+  });
+}

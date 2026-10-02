@@ -68,6 +68,8 @@ export class ZdAccordionPanel {
     // (undocumented)
     protected readonly content: i0.Signal<ZdAccordionContent | undefined>;
     // (undocumented)
+    protected readonly presenting: i0.WritableSignal<boolean>;
+    // (undocumented)
     readonly preserveContent: i0.InputSignalWithTransform<boolean, unknown>;
     // (undocumented)
     protected readonly rendered: i0.WritableSignal<boolean>;

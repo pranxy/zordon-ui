@@ -2,7 +2,7 @@
 
 **Row:** DSP-17 Table  
 **Status:** Partial — automated package and render evidence verified; manual review remains  
-**Last updated:** 2026-09-04
+**Last updated:** 2026-09-29
 
 Template loaded from: `implement-plan/assets/progress-tracker-template.md`.
 
@@ -14,4 +14,6 @@ Template loaded from: `implement-plan/assets/progress-tracker-template.md`.
 | T04 | Add unit/type/package/API validation                            | Verified | Library build, unit/type tests, API report, and bundle budget  |
 | T05 | Add browser, SSR/hydration, axe, and visual evidence            | Verified | `e2e/`, Table dark RTL mobile baseline                         |
 | T06 | Update DSP-17 master-plan status                                | Verified | `DAISYUI_ANGULAR_BUILD_PLAN.md`                                |
-| T07 | Approve interactive Grid behavior separately                    | Pending  | —                                                              |
+| T07 | Approve interactive Grid behavior separately                    | Verified | ADR 0029; opt-in Aria wrappers and separate CDK renderer composition; real navigation, controls and hydration checks |
+
+The 2026-09-29 addition ships `ZdTableGrid`, `ZdTableRow`, `ZdTableCell` and `ZdTableCellWidget`, with required stable cell/widget IDs. CDK Table column templates remain a separate native-table mode because installed Aria 21.2.14 cannot discover CDK-declared cells. See [implementation review](../../adrs/work/table-implementation-review.md) and [T13 execution evidence](../../adrs/work/component-showcase-feedback.md). Maturity remains Planned: WebKit launch, manual assistive-technology checks and additional supported Angular lanes are outstanding.

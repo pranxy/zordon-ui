@@ -171,3 +171,142 @@ protected addFunds(): void {
 }`,
   },
 ];
+
+export const basicFiles = [
+  {
+    label: 'basic.html',
+    language: 'html' as const,
+    code: `<section zdStats class="summary" aria-label="Downloads">
+  <div zdStat>
+    <p zdStatTitle>Downloads</p>
+    <p zdStatValue>31K</p>
+    <p zdStatDesc>Up 12% from last month</p>
+  </div>
+</section>`,
+  },
+];
+
+export const figuresFiles = [
+  {
+    label: 'figures.html',
+    language: 'html' as const,
+    code: `<section zdStats class="summary" tabindex="0" aria-label="Team activity">
+  <div zdStat>
+    <div zdStatFigure aria-hidden="true">
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" />
+      </svg>
+    </div>
+    <p zdStatTitle>Downloads</p>
+    <p zdStatValue>31K</p>
+    <p zdStatDesc>Up 12% this month</p>
+  </div>
+  <div zdStat>
+    <div zdStatFigure>
+      <img
+        class="stat-portrait"
+        src="images/showcase/portrait-ada.webp"
+        alt=""
+        width="256"
+        height="256"
+        loading="lazy"
+      />
+    </div>
+    <p zdStatTitle>Ada Lovelace</p>
+    <p zdStatValue>86%</p>
+    <p zdStatDesc>Tasks complete</p>
+  </div>
+</section>`,
+  },
+  {
+    label: 'figures.css',
+    language: 'css' as const,
+    code: `.stat-portrait { inline-size: 4rem; block-size: 4rem; object-fit: cover; border-radius: 50%; }`,
+  },
+];
+
+export const centeredFiles = [
+  {
+    label: 'centered.html',
+    language: 'html' as const,
+    code: `<section zdStats class="summary centered-stats" tabindex="0" aria-label="Centered monthly summary">
+  <div zdStat>
+    <p zdStatTitle>Downloads</p>
+    <p zdStatValue>31K</p>
+    <p zdStatDesc>Up 12% from last month</p>
+  </div>
+  <div zdStat>
+    <p zdStatTitle>New users</p>
+    <p zdStatValue>4,200</p>
+    <p zdStatDesc>Down 3% from last month</p>
+  </div>
+</section>`,
+  },
+  {
+    label: 'centered.css',
+    language: 'css' as const,
+    code: `.centered-stats [zdStat] { text-align: center; }`,
+  },
+];
+
+export const verticalFiles = [
+  {
+    label: 'vertical.html',
+    language: 'html' as const,
+    code: `<section
+  zdStats
+  orientation="vertical"
+  class="summary"
+  aria-label="Vertical monthly summary"
+>
+  <div zdStat>
+    <p zdStatTitle>Downloads</p>
+    <p zdStatValue>31K</p>
+    <p zdStatDesc>Up 12% from last month</p>
+  </div>
+  <div zdStat>
+    <p zdStatTitle>New users</p>
+    <p zdStatValue>4,200</p>
+    <p zdStatDesc>Down 3% from last month</p>
+  </div>
+</section>`,
+  },
+];
+
+export const responsiveFiles = [
+  {
+    label: 'responsive.html',
+    language: 'html' as const,
+    code: `<section
+  zdStats
+  orientation="vertical"
+  class="summary lg:stats-horizontal"
+  aria-label="Responsive monthly summary"
+>
+  <div zdStat>
+    <p zdStatTitle>Downloads</p>
+    <p zdStatValue>31K</p>
+    <p zdStatDesc>Up 12% from last month</p>
+  </div>
+  <div zdStat>
+    <p zdStatTitle>New users</p>
+    <p zdStatValue>4,200</p>
+    <p zdStatDesc>Down 3% from last month</p>
+  </div>
+</section>`,
+  },
+  {
+    label: 'responsive.css',
+    language: 'css' as const,
+    code: `/* Add to the Tailwind stylesheet which loads daisyUI. */
+@theme { --breakpoint-lg: 64rem; }
+@source inline("lg:stats-horizontal");`,
+  },
+];

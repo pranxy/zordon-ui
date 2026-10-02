@@ -14,8 +14,7 @@ import { DocsExampleComponent, DocsReferencePageComponent, DocsSectionComponent 
 class HoverGalleryDaisyStylesComponent {}
 
 /**
- * Hover Gallery has no inputs, so the playground is a live example with its code. The pictures are
- * drawn with CSS gradients, standing in for your images.
+ * Hover Gallery has no inputs, so the playground is a live example with its code. The generated photographs are reused across the showcase.
  */
 @Component({
   selector: 'docs-hover-gallery-page',
@@ -33,9 +32,7 @@ class HoverGalleryDaisyStylesComponent {}
       <docs-example docsReferencePlayground label="product.html" [code]="galleryCode">
         <figure zdHoverGallery class="product">
           @for (view of views; track view.label) {
-            <div class="view" [class]="view.tone" role="img" [attr.aria-label]="view.label">
-              <span aria-hidden="true">{{ view.short }}</span>
-            </div>
+            <img [src]="view.src" [alt]="view.label" width="512" height="512" loading="lazy" />
           }
         </figure>
       </docs-example>
@@ -50,12 +47,10 @@ class HoverGalleryDaisyStylesComponent {}
           <figure class="captioned">
             <div zdHoverGallery class="product">
               @for (time of times; track time.label) {
-                <div class="view" [class]="time.tone" role="img" [attr.aria-label]="time.label">
-                  <span aria-hidden="true">{{ time.short }}</span>
-                </div>
+                <img [src]="time.src" [alt]="time.label" width="768" height="512" loading="lazy" />
               }
             </div>
-            <figcaption>One view, three times of day. Hover to compare.</figcaption>
+            <figcaption>One view, morning and sunset. Hover to compare.</figcaption>
           </figure>
         </docs-example>
       </docs-section>
@@ -69,29 +64,8 @@ class HoverGalleryDaisyStylesComponent {}
       border-radius: var(--docs-radius-lg);
     }
 
-    .view {
-      display: grid;
-      place-items: center;
-      font-size: var(--docs-text-h3);
-      font-weight: var(--docs-weight-bold);
-      color: var(--color-primary-content);
-    }
-
-    .primary {
-      background: linear-gradient(160deg, var(--color-primary), var(--color-secondary));
-    }
-
-    .info {
-      background: linear-gradient(160deg, var(--color-info), var(--color-primary));
-    }
-
-    .accent {
-      background: linear-gradient(160deg, var(--color-accent), var(--color-info));
-    }
-
-    .neutral {
-      background: linear-gradient(160deg, var(--color-neutral), var(--color-primary));
-      color: var(--color-neutral-content);
+    .product img {
+      object-fit: cover;
     }
 
     .captioned {
@@ -113,15 +87,12 @@ export class HoverGalleryPageComponent {
   protected readonly captionCode = captionCode;
 
   protected readonly views = [
-    { label: 'Blue trainer, front view', short: 'Front', tone: 'view primary' },
-    { label: 'Blue trainer, side view', short: 'Side', tone: 'view info' },
-    { label: 'Blue trainer, sole', short: 'Sole', tone: 'view accent' },
-    { label: 'Blue trainer, heel', short: 'Heel', tone: 'view neutral' },
+    { label: 'Studio sneaker, side view', src: 'images/showcase/sneaker-side.webp' },
+    { label: 'The same sneaker, angled view', src: 'images/showcase/sneaker-angle.webp' },
   ] as const;
 
   protected readonly times = [
-    { label: 'The lake at dawn', short: 'Dawn', tone: 'view accent' },
-    { label: 'The lake at noon', short: 'Noon', tone: 'view info' },
-    { label: 'The lake at dusk', short: 'Dusk', tone: 'view primary' },
+    { label: 'Mountain lake in the morning', src: 'images/showcase/lake-morning.webp' },
+    { label: 'The same lake at sunset', src: 'images/showcase/lake-sunset.webp' },
   ] as const;
 }

@@ -69,7 +69,8 @@ ordinary pointer or keyboard input. Actual assistive-technology activation remai
 
 Panels stop bubbling keydown, pointerdown and focusin events at their boundary so editing controls
 do not operate the outer group. Applications requiring those events should listen inside the
-panel or use capture listeners. Closed panels are hidden and inert, including preserved content.
+panel or use capture listeners. Closing panels become inert immediately, including preserved content,
+and are hidden after the visual exit finishes.
 
 Project content directly for eager creation and meaningful initial server HTML. For lazy content:
 
@@ -81,11 +82,13 @@ Project content directly for eager creation and meaningful initial server HTML. 
 </zd-accordion-panel>
 ```
 
-The template is created when visible. By default it is destroyed on close and recreated on reopen.
+The template is created when visible. By default it is destroyed after the close animation and recreated on reopen.
 Preservation retains its view and local state after first opening, while the closed panel remains
 hidden/inert; changing preservation to false while closed destroys that view. Use one lazy template
 per panel. Preserved child work continues until teardown; consumers own expensive background work.
-Hidden display is immediate; Zordon does not promise an exit animation for inaccessible content.
+The daisyUI grid transition keeps already-rendered content visible during closing without keeping it
+interactive. Reduced motion hides immediately. Reopening during exit retains the current view;
+completion from an interrupted close cannot remove it. No browser animation work runs during SSR.
 
 Nested grouped accordions must be declared in a **separate child component's template**, then
 project that component into the outer panel. This component boundary keeps nested triggers out of

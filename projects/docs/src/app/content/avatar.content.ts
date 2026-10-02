@@ -107,26 +107,121 @@ export const avatarPlaygroundControls: readonly PlaygroundControl[] = [
   {
     kind: 'choice',
     key: 'presence',
-    options: ['none', 'online', 'offline'].map(value => ({ value, label: value })),
+    options: ['none', 'online', 'offline'].map(value => ({
+      value,
+      label: value,
+    })),
     defaultValue: 'none',
     omit: ['none'],
   },
-  { kind: 'boolean', key: 'placeholder', defaultValue: true },
+  { kind: 'boolean', key: 'placeholder', defaultValue: false },
 ];
 
 export const avatarPlaygroundSnippet: PlaygroundTemplateSnippet = {
   render: attributes => `<div zdAvatar${attributes}>
-  <div class="initials"><span>AL</span></div>
-</div>`,
+  <div class="portrait rounded">${attributes.includes(' placeholder') ? '<span>AL</span>' : '<img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" />'}</div>
+</div>
+<!-- .portrait { width: 5rem; } .rounded { border-radius: 999px; } -->`,
 };
-
-export const groupCode = `<div zdAvatarGroup role="group" aria-label="Project team">
-  <div zdAvatar placeholder><div class="initials"><span>AL</span></div></div>
-  <div zdAvatar placeholder><div class="initials"><span>GH</span></div></div>
-  <div zdAvatar placeholder><div class="initials"><span>+4</span></div></div>
-</div>`;
 
 export const presenceCode = `<div class="person">
   <div zdAvatar placeholder presence="online"><div class="initials"><span>AL</span></div></div>
   <span>Ada Lovelace <span class="status">· online</span></span>
 </div>`;
+
+export const groupFiles = [
+  {
+    label: 'group.html',
+    language: 'html',
+    code: `<div zdAvatarGroup class="team" role="group" aria-label="Project team">
+  <div zdAvatar><div class="portrait"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>
+  <div zdAvatar><div class="portrait"><img src="images/showcase/portrait-kai.webp" width="256" height="256" alt="Kai" loading="lazy" /></div></div>
+</div>`,
+  },
+  {
+    label: 'group.css',
+    language: 'css',
+    code: `.portrait { inline-size: 3rem; }
+.team > * + * { margin-inline-start: -0.75rem; }`,
+  },
+] as const;
+
+export const sizesFiles = [
+  {
+    label: 'sizes.html',
+    language: 'html',
+    code: `<div zdAvatar><div class="small"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>
+<div zdAvatar><div class="medium"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>
+<div zdAvatar><div class="large"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>`,
+  },
+  {
+    label: 'sizes.css',
+    language: 'css',
+    code: `.small { inline-size: 2rem; }
+.medium { inline-size: 4rem; }
+.large { inline-size: 6rem; }
+.small, .medium, .large { border-radius: 999px; }`,
+  },
+] as const;
+
+export const roundedFiles = [
+  {
+    label: 'rounded.html',
+    language: 'html',
+    code: `<div zdAvatar><div class="soft"><img src="images/showcase/portrait-kai.webp" width="256" height="256" alt="Kai" loading="lazy" /></div></div>
+<div zdAvatar><div class="round"><img src="images/showcase/portrait-kai.webp" width="256" height="256" alt="Kai" loading="lazy" /></div></div>`,
+  },
+  {
+    label: 'rounded.css',
+    language: 'css',
+    code: `.soft, .round { inline-size: 5rem; }
+.soft { border-radius: 1rem; }
+.round { border-radius: 999px; }`,
+  },
+] as const;
+
+export const maskFiles = [
+  {
+    label: 'mask.html',
+    language: 'html',
+    code: `<!-- Import ZdMask from '@pranxy/zordon-ui/mask'; compile mask mask-squircle mask-hexagon-2. -->
+<div zdAvatar><div zdMask shape="squircle" class="portrait"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>
+<div zdAvatar><div zdMask shape="hexagon-2" class="portrait"><img src="images/showcase/portrait-kai.webp" width="256" height="256" alt="Kai" loading="lazy" /></div></div>`,
+  },
+  {
+    label: 'mask.css',
+    language: 'css',
+    code: '.portrait { inline-size: 5rem; }',
+  },
+] as const;
+
+export const counterFiles = [
+  {
+    label: 'counter.html',
+    language: 'html',
+    code: `<div zdAvatarGroup class="team" role="group" aria-label="Project team with four more members">
+  <div zdAvatar><div class="portrait"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>
+  <div zdAvatar><div class="portrait"><img src="images/showcase/portrait-kai.webp" width="256" height="256" alt="Kai" loading="lazy" /></div></div>
+  <div zdAvatar placeholder><div class="portrait"><span role="img" aria-label="4 more team members">+4</span></div></div>
+</div>`,
+  },
+  {
+    label: 'counter.css',
+    language: 'css',
+    code: `.portrait { inline-size: 3rem; background: var(--color-primary); color: var(--color-primary-content); }
+.team > * + * { margin-inline-start: -0.75rem; }`,
+  },
+] as const;
+
+export const ringFiles = [
+  {
+    label: 'ring.html',
+    language: 'html',
+    code: '<div zdAvatar><div class="ring"><img src="images/showcase/portrait-ada.webp" width="256" height="256" alt="Ada" loading="lazy" /></div></div>',
+  },
+  {
+    label: 'ring.css',
+    language: 'css',
+    code: '.ring { inline-size: 5rem; border-radius: 999px; outline: 2px solid var(--color-primary); outline-offset: 3px; }',
+  },
+] as const;

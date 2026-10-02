@@ -34,7 +34,10 @@ export const auraReference: DocsReference = {
 @import '@pranxy/zordon-ui/aura/aura-motion.css';
 
 ${tailwindSource(
-  modifierClasses('aura', { colors: false, extra: auraVariants.map(variant => `aura-${variant}`) }),
+  modifierClasses('aura', {
+    colors: false,
+    extra: auraVariants.map(variant => `aura-${variant}`),
+  }),
 )}`,
   },
   playgroundDescription:
@@ -143,3 +146,40 @@ export const cardCode = `<div zdAura size="lg" class="brand-light">
     </div>
   </article>
 </div>`;
+
+export const sizesFiles = [
+  {
+    label: 'sizes.html',
+    language: 'html' as const,
+    code: `<div class="aura-sizes">
+  <figure>
+    <div zdAura size="xs" class="brand-light"><div class="size-tile">Halo</div></div>
+    <figcaption>xs</figcaption>
+  </figure>
+  <figure>
+    <div zdAura size="sm" class="brand-light"><div class="size-tile">Halo</div></div>
+    <figcaption>sm</figcaption>
+  </figure>
+  <figure>
+    <div zdAura size="md" class="brand-light"><div class="size-tile">Halo</div></div>
+    <figcaption>md</figcaption>
+  </figure>
+  <figure>
+    <div zdAura size="lg" class="brand-light"><div class="size-tile">Halo</div></div>
+    <figcaption>lg</figcaption>
+  </figure>
+  <figure>
+    <div zdAura size="xl" class="brand-light"><div class="size-tile">Halo</div></div>
+    <figcaption>xl</figcaption>
+  </figure>
+</div>`,
+  },
+  {
+    label: 'sizes.css',
+    language: 'css' as const,
+    code: `.aura-sizes { display: flex; flex-wrap: wrap; gap: 2rem; padding: 1rem; }
+.aura-sizes figure { display: grid; justify-items: center; gap: 1rem; margin: 0; }
+.size-tile { display: grid; place-items: center; inline-size: 5rem; block-size: 3rem; border-radius: .75rem; background: var(--color-base-100); color: var(--color-base-content); }
+.brand-light { color: var(--color-primary); }`,
+  },
+];

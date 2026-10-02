@@ -125,3 +125,114 @@ test('catalogue category filter in light desktop', async ({ page }) => {
     'docs-catalogue-mockups--light-desktop.png',
   );
 });
+
+test.describe('reviewed showcase examples', () => {
+  const pages = [
+    ['Table', 'table'],
+    ['Avatar', 'avatar'],
+    ['Aura', 'aura'],
+    ['Badge', 'badge'],
+    ['Card', 'card'],
+    ['Carousel', 'carousel'],
+    ['Chat', 'chat-bubble'],
+    ['Countdown', 'countdown'],
+    ['Diff', 'diff'],
+    ['Hover 3D', 'hover-3d'],
+    ['Hover Gallery', 'hover-gallery'],
+    ['List', 'list'],
+    ['Stat', 'stat'],
+    ['Status', 'status'],
+  ] as const;
+
+  for (const [name, slug] of pages) {
+    test(`${name} showcase light desktop and dark RTL mobile`, async ({ page }) => {
+      for (const [viewport, theme, direction] of [
+        ['desktop', 'light', 'ltr'],
+        ['mobile', 'dark', 'rtl'],
+      ] as const) {
+        await openDocsPage(page, `/components/${slug}`, viewport, theme);
+        await applyZordonDocumentEnvironment(page, { theme, direction });
+        // Capture the visual examples, excluding their separately-tested copyable source.
+        await page.addStyleTag({
+          content: `
+          section[aria-labelledby="examples"] docs-code-block,
+          section[aria-labelledby="examples"] docs-code-tabs { display: none; }
+          /* Chromium can paint off-screen fixed chrome inside tall locator captures. */
+          .skip-link { visibility: hidden; }
+        `,
+        });
+        const examples = page.locator('section[aria-labelledby="examples"]');
+        // Load off-screen images for a deterministic capture of the complete examples section.
+        await examples.locator('img').evaluateAll(async elements => {
+          await Promise.all(
+            elements.map(async element => {
+              const image = element as HTMLImageElement;
+              image.loading = 'eager';
+              await image.decode();
+            }),
+          );
+        });
+        await expect(examples).toHaveScreenshot(
+          `showcase-${slug}--${theme}-${direction}-${viewport}.png`,
+        );
+        if (slug === 'diff') {
+          const comparison = page.locator('figure[zdDiff]');
+          await comparison.locator('img').evaluateAll(async elements => {
+            await Promise.all(elements.map(element => (element as HTMLImageElement).decode()));
+          });
+          await expect(comparison).toHaveScreenshot(
+            `showcase-diff-images--${theme}-${direction}-${viewport}.png`,
+          );
+        }
+      }
+    });
+  }
+});
+
+test('Table keyboard grid supports low-radius, high-radius and consumer themes', async ({
+  page,
+}) => {
+  await openDocsPage(page, '/components/table', 'desktop', 'light');
+  await page.addStyleTag({ path: 'node_modules/daisyui/theme/corporate.css' });
+  await page.addStyleTag({ path: 'node_modules/daisyui/theme/cupcake.css' });
+  await page.addStyleTag({
+    content:
+      '[data-theme="zordon-visual"] { --color-base-100: #f5f3ff; --color-base-200: #ede9fe; --color-base-300: #ddd6fe; --color-base-content: #2e1065; --color-primary: #6d28d9; --color-primary-content: #ffffff; --radius-box: 1.25rem; --radius-field: 0.75rem; }',
+  });
+  const grid = page.getByRole('grid', { name: 'Service controls' });
+  await grid.getByRole('rowheader', { name: 'API', exact: true }).focus();
+  await page.keyboard.press('ArrowRight');
+  for (const theme of ['corporate', 'cupcake', 'zordon-visual'] as const) {
+    await applyZordonDocumentEnvironment(page, { theme, direction: 'ltr' });
+    await expect(grid).toHaveScreenshot(`showcase-table-grid--${theme}.png`);
+  }
+});
+
+test('Card showcase responds to low-radius, high-radius and consumer themes', async ({ page }) => {
+  await openDocsPage(page, '/components/card', 'desktop', 'light');
+  await page.addStyleTag({ path: 'node_modules/daisyui/theme/corporate.css' });
+  await page.addStyleTag({ path: 'node_modules/daisyui/theme/cupcake.css' });
+  await page.addStyleTag({
+    content: `
+    [data-theme="zordon-visual"] {
+      --color-base-100: #f5f3ff; --color-base-200: #ede9fe; --color-base-300: #ddd6fe;
+      --color-base-content: #2e1065; --color-primary: #6d28d9;
+      --color-primary-content: #ffffff; --radius-box: 1.25rem; --radius-field: 0.75rem;
+    }
+  `,
+  });
+  const card = page.locator('section[aria-labelledby="side-image"] .preview');
+  await card.locator('img').evaluateAll(async elements => {
+    await Promise.all(
+      elements.map(async element => {
+        const image = element as HTMLImageElement;
+        image.loading = 'eager';
+        await image.decode();
+      }),
+    );
+  });
+  for (const theme of ['corporate', 'cupcake', 'zordon-visual'] as const) {
+    await applyZordonDocumentEnvironment(page, { theme, direction: 'ltr' });
+    await expect(card).toHaveScreenshot(`showcase-card--${theme}.png`);
+  }
+});

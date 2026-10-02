@@ -126,7 +126,7 @@ means the component specification must select that semantic mode explicitly.
 | DSP-14 | List             | Native list by default; Angular Aria Listbox only for selectable mode                                     |
 | DSP-15 | Stat             | Native data/output/text semantics and component-specific live updates                                     |
 | DSP-16 | Status           | Native status text/live-region policy; no Angular Aria family                                             |
-| DSP-17 | Table            | Native `<table>` by default; Angular Aria Grid only for interactive data-grid mode                        |
+| DSP-17 | Table            | Native `<table>` by default; opt-in `ZdTableGrid`/row/cell/widget wrappers compose Angular Aria Grid. CDK column templates use a separate native-table mode under ADR 0029. |
 | DSP-18 | Text Rotate      | Native text with reduced-motion and announcement policy                                                   |
 | DSP-19 | Timeline         | Native ordered/unordered list and time semantics                                                          |
 | NAV-01 | Breadcrumbs      | Native `<nav>`, ordered list and details overflow; see ADR 0019                                           |

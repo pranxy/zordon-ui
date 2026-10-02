@@ -33,15 +33,36 @@ zd-fab[data-inline] {
 }
 zd-fab > .zd-fab-actions {
   display: flex;
+  position: absolute;
+  inset-block-end: calc(100% + var(--zd-fab-gap));
+  inset-inline-end: 0;
+  inline-size: max-content;
+  max-inline-size: calc(100vw - 2 * var(--zd-fab-offset));
   flex-direction: column;
   align-items: center;
   gap: var(--zd-fab-gap);
   max-block-size: min(70dvh, 32rem);
   overflow: auto;
   padding: 0.25rem;
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
 }
-zd-fab > .zd-fab-actions[hidden] {
-  display: none !important;
+zd-fab[data-corner$='start'] > .zd-fab-actions {
+  inset-inline-end: auto;
+  inset-inline-start: 0;
+}
+zd-fab[data-corner^='top'] > .zd-fab-actions {
+  inset-block-end: auto;
+  inset-block-start: calc(100% + var(--zd-fab-gap));
+  --zd-fab-entry-offset: -0.5rem;
+}
+/* Keep the absolute panel rendered through exit. Inert and aria-hidden take effect
+   immediately; visibility hides it when the CSS transition finishes. */
+zd-fab > .zd-fab-actions[data-closed] {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(var(--zd-fab-entry-offset, 0.5rem));
 }
 zd-fab .zd-fab-trigger {
   border-radius: 50%;
@@ -61,6 +82,7 @@ zd-fab :focus-visible {
   zd-fab[data-arrangement='flower'] > .zd-fab-actions:not(:has(> :nth-child(5))) {
     position: absolute;
     inset: 0;
+    inline-size: auto;
     overflow: visible;
     pointer-events: none;
   }
@@ -98,6 +120,15 @@ zd-fab :focus-visible {
   }
 }
 @media (prefers-reduced-motion: no-preference) {
+  zd-fab > .zd-fab-actions {
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 0s;
+  }
+  zd-fab > .zd-fab-actions[data-closed] {
+    transition-delay: 0s, 0s, 180ms;
+  }
   zd-fab .zd-fab-trigger {
     transition: box-shadow 120ms ease;
   }

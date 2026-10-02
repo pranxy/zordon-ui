@@ -37,7 +37,8 @@ export const statusReference: DocsReference = {
   playgroundDescription:
     'The dot is decorative here, so the text beside it says the state. Color alone would not.',
   api: {
-    description: 'A standalone directive on any element, usually an empty span.',
+    description:
+      'An attribute directive styles your existing native element. It owns no internal template, state or behavior; labels and semantics remain yours.',
     tables: [
       {
         id: 'inputs',
@@ -129,3 +130,17 @@ export const pulseCode = `<span class="pulse" aria-hidden="true">
   <span zdStatus color="error"></span>
 </span>
 <span>Recording</span>`;
+
+export const directiveFiles = [
+  {
+    label: 'directive.html',
+    language: 'html' as const,
+    code: `<p class="line"><span zdStatus color="success" aria-hidden="true"></span>Online</p>
+<span zdStatus color="success" role="img" aria-label="Online"></span>`,
+  },
+  {
+    label: 'directive.css',
+    language: 'css' as const,
+    code: `.line { display: flex; align-items: center; gap: .5rem; margin: 0; }`,
+  },
+];

@@ -31,6 +31,8 @@ These records define the v1 architecture for `@pranxy/zordon-ui`. They are inten
 | [0025](0025-steps-native-progress-and-wizard-ownership.md) | Steps native progress and wizard ownership           | Accepted |
 | [0026](0026-tabs-aria-and-controlled-panels.md)            | Tabs Aria interaction and controlled panels          | Accepted |
 | [0027](0027-drawer-modal-composition.md)                   | Drawer with shared Modal lifetime                    | Accepted |
+| [0028](0028-accordion-exit-animation.md)                   | Accordion visual exit before hiding                  | Accepted |
+| [0029](0029-table-aria-and-cdk-composition.md)             | Native Table, Aria interaction and CDK rendering      | Accepted |
 
 ## Applied architecture maps
 

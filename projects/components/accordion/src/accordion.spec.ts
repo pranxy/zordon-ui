@@ -125,6 +125,59 @@ describe('Accordion', () => {
     await fixture.whenStable();
     expect(fixture.nativeElement.querySelector('button').disabled).toBe(true);
   });
+  it('retains an inert lazy view until exit completes and ignores obsolete completion after reopening', async () => {
+    const { fixture, host, element } = await setup();
+    host.first().expand();
+    await fixture.whenStable();
+    const panel = element.querySelector<HTMLElement>('#first-panel')!;
+    const item = panel.parentElement!;
+    const draft = panel.querySelector('input')!;
+    draft.value = 'Keep this draft';
+    // jsdom has no layout/CSS transitions. Control only the browser completion boundary;
+    // the browser suite separately proves intermediate geometry with the real stylesheet.
+    let complete!: () => void;
+    let completion!: Promise<void>;
+    item.getAnimations = () => [
+      {
+        transitionProperty: 'grid-template-rows',
+        finished: (completion = new Promise<void>(resolve => {
+          complete = resolve;
+        })),
+      } as unknown as Animation,
+    ];
+    host.first().collapse();
+    await fixture.whenStable();
+    expect(panel.hasAttribute('inert')).toBe(true);
+    expect(panel.hidden).toBe(false);
+    expect(panel.querySelector('input')).toBe(draft);
+    complete();
+    await Promise.allSettled([completion]);
+    await fixture.whenStable();
+    expect(panel.hidden).toBe(true);
+    expect(panel.querySelector('input')).toBeNull();
+
+    host.first().expand();
+    await fixture.whenStable();
+    const reopened = panel.querySelector('input')!;
+    reopened.value = 'Reopened draft';
+    host.first().collapse();
+    await fixture.whenStable();
+    host.first().expand();
+    await fixture.whenStable();
+    complete();
+    await Promise.allSettled([completion]);
+    await fixture.whenStable();
+    expect(panel.hidden).toBe(false);
+    expect(panel.hasAttribute('inert')).toBe(false);
+    expect(panel.querySelector('input')).toBe(reopened);
+    expect(reopened.value).toBe('Reopened draft');
+    host.first().collapse();
+    await fixture.whenStable();
+    expect(panel.querySelector('input')).toBe(reopened);
+    fixture.destroy();
+    complete();
+    await Promise.allSettled([completion]);
+  });
   it('preserves lazy views only after first opening and destroys them when preservation is removed', async () => {
     const { fixture, host, element } = await setup();
     host.preserve.set(true);

@@ -51,3 +51,15 @@ contrast, forced colors, zoom/reflow, RTL, assistive technology, and any future 
 ## Source
 
 - [daisyUI List documentation](https://daisyui.com/components/list/)
+
+## Showcase visual story matrix — 2026-09-29
+
+Scope: Second and third growing columns plus full-row note. Installed evidence: daisyUI 5.7.16 / Angular 21.2. Existing maturity and manual accessibility gates remain unchanged.
+
+| Boundary                      | Representative and rationale                                                                                                       | Evidence                                            | Review                                       |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | -------------------------------------------- |
+| Requested compositions        | One static preview section groups materially different layouts without every input permutation.                                    | `e2e/visual-docs-site.spec.ts`, `showcase-list--*`  | Reviewed                                     |
+| Theme, viewport and direction | Light desktop and dark RTL mobile reveal spacing, wrapping and contrast differences. Diff also captures the image pair separately. | Same visual suite                                   | Reviewed                                     |
+| Behavior, semantics and SSR   | Screenshots do not prove motion or interaction; browser geometry/state checks and production accessibility/SSR suites do.          | `e2e/docs-pages.spec.ts` and production docs suites | Scoped checks pass; integrated limits remain |
+
+[Implementation evidence and remaining limits](../../adrs/work/component-showcase-feedback.md#execution-evidence-2026-09-29).

@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/
 import { ZdList, ZdListColGrow, ZdListColWrap, ZdListRow } from '@pranxy/zordon-ui/list';
 
 import {
+  thirdColumnWrapFiles,
+  secondColumnFiles,
   growCode,
   listPlaygroundControls,
   listPlaygroundSnippet,
@@ -54,7 +56,14 @@ class ListDaisyStylesComponent {}
             <li zdListRow>
               <span class="index">01</span>
               @if (flagOf(values, 'cover')) {
-                <span class="cover" aria-hidden="true"></span>
+                <img
+                  class="cover"
+                  src="images/showcase/lake-morning.webp"
+                  alt=""
+                  width="768"
+                  height="512"
+                  loading="lazy"
+                />
                 <div zdListColGrow>
                   <div>Moonlit Drive</div>
                   <div class="artist">Avery Chen</div>
@@ -77,7 +86,7 @@ class ListDaisyStylesComponent {}
       <docs-section
         id="grow"
         level="3"
-        heading="Growing column"
+        heading="Third column grows"
         description="With a cover as the second child, zdListColGrow gives the spare width to the title instead."
       >
         <docs-example label="tracks.html" [code]="growCode">
@@ -85,7 +94,14 @@ class ListDaisyStylesComponent {}
             @for (track of tracks; track track.title; let i = $index) {
               <li zdListRow>
                 <span class="index">0{{ i + 1 }}</span>
-                <span class="cover" [class]="track.tone" aria-hidden="true"></span>
+                <img
+                  class="cover"
+                  [src]="track.src"
+                  alt=""
+                  width="768"
+                  [height]="track.height"
+                  loading="lazy"
+                />
                 <div zdListColGrow>
                   <div>{{ track.title }}</div>
                   <div class="artist">{{ track.artist }}</div>
@@ -98,6 +114,61 @@ class ListDaisyStylesComponent {}
           </ul>
         </docs-example>
       </docs-section>
+      <docs-section
+        id="second-column"
+        level="3"
+        heading="Second column grows — default"
+        description="Without an explicit growing column, the second child takes the spare width."
+      >
+        <docs-example label="second-column" [files]="secondColumnFiles">
+          <ul zdList class="tracks" aria-label="Recently played, title grows">
+            <li zdListRow>
+              <img
+                class="cover"
+                src="images/showcase/lake-morning.webp"
+                alt=""
+                width="768"
+                height="512"
+                loading="lazy"
+              />
+              <div>
+                <div>Moonlit Drive</div>
+                <div>Avery Chen</div>
+              </div>
+              <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
+            </li>
+          </ul>
+        </docs-example>
+      </docs-section>
+      <docs-section
+        id="third-column-wrap"
+        level="3"
+        heading="Third column wraps to the next row"
+        description="The third child spans the next grid row, leaving the cover, title and action together above."
+      >
+        <docs-example label="third-column-wrap" [files]="thirdColumnWrapFiles">
+          <ul zdList class="tracks" aria-label="Tracks with notes">
+            <li zdListRow>
+              <img
+                class="cover"
+                src="images/showcase/lake-morning.webp"
+                alt=""
+                width="768"
+                height="512"
+                loading="lazy"
+              />
+              <div>
+                <div>Moonlit Drive</div>
+                <div>Avery Chen</div>
+              </div>
+              <p zdListColWrap class="note">
+                An atmospheric night drive. Saved for offline listening.
+              </p>
+              <button type="button" class="play" aria-label="Play Moonlit Drive">▶</button>
+            </li>
+          </ul>
+        </docs-example>
+      </docs-section>
     </docs-reference-page>
   `,
   styles: `
@@ -107,7 +178,6 @@ class ListDaisyStylesComponent {}
       border-radius: var(--docs-radius-lg);
       background: var(--docs-surface);
     }
-
     .index {
       font-variant-numeric: tabular-nums;
       color: var(--docs-muted-text);
@@ -117,15 +187,7 @@ class ListDaisyStylesComponent {}
       inline-size: 2.5rem;
       block-size: 2.5rem;
       border-radius: var(--docs-radius-sm);
-      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    }
-
-    .cover.info {
-      background: linear-gradient(135deg, var(--color-info), var(--color-primary));
-    }
-
-    .cover.accent {
-      background: linear-gradient(135deg, var(--color-accent), var(--color-info));
+      object-fit: cover;
     }
 
     .artist,
@@ -135,6 +197,7 @@ class ListDaisyStylesComponent {}
     }
 
     .note {
+      grid-column: 1 / -1;
       margin: 0;
     }
 
@@ -155,6 +218,8 @@ class ListDaisyStylesComponent {}
   `,
 })
 export class ListPageComponent {
+  protected readonly secondColumnFiles = secondColumnFiles;
+  protected readonly thirdColumnWrapFiles = thirdColumnWrapFiles;
   protected readonly reference = listReference;
   protected readonly controls = listPlaygroundControls;
   protected readonly snippet = listPlaygroundSnippet;
@@ -162,8 +227,18 @@ export class ListPageComponent {
   protected readonly flagOf = flagOf;
 
   protected readonly tracks = [
-    { title: 'Moonlit Drive', artist: 'Avery Chen', tone: 'cover' },
-    { title: 'Paper Lanterns', artist: 'Noor Haddad', tone: 'cover info' },
-    { title: 'Low Tide', artist: 'Mateo Silva', tone: 'cover accent' },
+    {
+      title: 'Moonlit Drive',
+      artist: 'Avery Chen',
+      src: 'images/showcase/lake-morning.webp',
+      height: 512,
+    },
+    {
+      title: 'Paper Lanterns',
+      artist: 'Noor Haddad',
+      src: 'images/showcase/lake-sunset.webp',
+      height: 512,
+    },
+    { title: 'Low Tide', artist: 'Mateo Silva', src: 'images/showcase/coast.webp', height: 432 },
   ] as const;
 }
