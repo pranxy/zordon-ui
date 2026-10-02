@@ -106,6 +106,7 @@
             "tsConfig": "projects/docs/tsconfig.app.json",
             "inlineStyleLanguage": "css",
             "styles": ["projects/docs/src/styles.css"],
+            "assets": [{ "glob": "**/*", "input": "projects/docs/public", "output": "/" }],
             "outputMode": "server",
             "ssr": {
               "entry": "projects/docs/src/server.ts"
